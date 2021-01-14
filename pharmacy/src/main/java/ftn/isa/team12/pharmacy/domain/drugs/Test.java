@@ -4,7 +4,7 @@ import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;
-import ftn.isa.team12.pharmacy.domain.enums.IssuranceRegime;
+import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
 import ftn.isa.team12.pharmacy.domain.enums.TypeOfDrug;
 import ftn.isa.team12.pharmacy.domain.users.AccountInfo;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
@@ -14,7 +14,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.logging.Level;
-import java.util.*;
 import java.util.logging.Logger;
 
 public class Test {
@@ -44,7 +43,7 @@ public class Test {
         Manufacturer manufacturer = new Manufacturer();
         manufacturer.setName("Bayer");
 
-        DrugIngredient drugIngreditent = new DrugIngredient();
+        Ingredient drugIngreditent = new Ingredient();
         drugIngreditent.setName("Sastojak01");
 
         Drug drug = new Drug();
@@ -53,11 +52,7 @@ public class Test {
         drug.setTypeOfDrug(TypeOfDrug.herbalMedicine);
         drug.setFormOfDrug(FormOfDrug.pill);
         drug.setManufacturer(manufacturer);
-        drug.setIssuanceRegime(IssuranceRegime.withoutRecipe);
-
-        IngredientsInDrug ingredients = new IngredientsInDrug();
-        ingredients.setDrug(drug);
-        ingredients.setDrugIngredient(drugIngreditent);
+        drug.setIssuanceRegime(IssuanceRegime.withoutRecipe);
 
         AccountInfo accountInfo = new AccountInfo();
         accountInfo.setName("Aca");
@@ -83,9 +78,9 @@ public class Test {
         em.persist(location);
         em.persist(manufacturer);
         em.persist(drugIngreditent);
+        System.out.println("***************************************************************************************************************************");
+        System.out.println(drug);
         em.persist(drug);
-        ingredients.setDrug(drug);
-        em.persist(ingredients);
         em.persist(dermatologist);
         em.getTransaction().commit();
         em.close();

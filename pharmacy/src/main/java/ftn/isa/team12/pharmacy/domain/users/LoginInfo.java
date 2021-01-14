@@ -8,10 +8,10 @@ import java.util.*;
 @Embeddable
 public class LoginInfo implements Serializable {
 
-   @Column(name = "EMAIL", nullable = false, unique = true)
+   @Column(name = "email", nullable = false, unique = true)
    private String email;
 
-   @Column(name = "PASSWORD", nullable = false)
+   @Column(name = "password", nullable = false)
    private String password;
 
    public LoginInfo() { }

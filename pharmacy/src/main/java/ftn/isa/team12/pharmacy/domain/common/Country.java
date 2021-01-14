@@ -19,10 +19,10 @@ public class Country implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-   @Column(name = "COUNTRY_ID", nullable = false, unique = true)
+   @Column(name = "country_id", nullable = false, unique = true)
    public UUID countryId;
 
-   @Column(name = "NAME", nullable = false, unique = false)
+   @Column(name = "name", nullable = false, unique = false)
    public String name;
 
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "country")

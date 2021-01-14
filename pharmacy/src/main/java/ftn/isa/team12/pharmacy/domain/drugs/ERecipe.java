@@ -17,18 +17,18 @@ public class ERecipe implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-   @Column(name = "ERECIPE_ID", nullable = false, unique = true)
+   @Column(name = "erecipe_id", nullable = false, unique = true)
    private UUID eRecipeId;
 
-   @Column(name = "CODE", nullable = false, unique = true)
+   @Column(name = "code", nullable = false, unique = true)
    private String code;
 
    @Basic
    @Temporal(TemporalType.DATE)
-   @Column(name = "DATEOFISSUING", nullable = false)
+   @Column(name = "dateofissuing", nullable = false)
    private Date dateOfIssuing;
 
-   @JoinColumn(name = "PATIENT_ID", referencedColumnName = "PATIENT_ID", nullable = false)
+   @JoinColumn(name = "patient_id", referencedColumnName = "patient_id", nullable = false)
    private Patient patient;
 
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "eRecipe")

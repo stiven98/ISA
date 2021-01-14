@@ -13,14 +13,14 @@ public abstract class User implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-   @Column(name = "USER_ID", nullable = false, unique = true)
+   @Column(name = "user_id", nullable = false, unique = true)
    private UUID userId;
 
    @Embedded
    private LoginInfo loginInfo;
 
    @OneToOne
-   @JoinColumn(name = "LOCATION_ID", referencedColumnName = "LOCATION_ID", nullable = false, unique = false)
+   @JoinColumn(name = "location_id", referencedColumnName = "location_id", nullable = false, unique = false)
    private Location location;
 
    @Embedded

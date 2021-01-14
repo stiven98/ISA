@@ -11,12 +11,12 @@ public class Location {
    @Id
    @GeneratedValue(generator = "uuid2")
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-   @Column(name = "LOCATION_ID", nullable = false, unique = true)
+   @Column(name = "location_id", nullable = false, unique = true)
    private UUID locationId;
 
    @ManyToOne
-   @JoinColumns({@JoinColumn(name = "COUNTRY_ID", referencedColumnName = "COUNTRY_ID", nullable = false, unique = false),
-           @JoinColumn(name = "CITY_ID", referencedColumnName = "CITY_ID", nullable = false, unique = false)})
+   @JoinColumns({@JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false, unique = false),
+           @JoinColumn(name = "city_id", referencedColumnName = "city_id", nullable = false, unique = false)})
    private City city;
 
    @Embedded

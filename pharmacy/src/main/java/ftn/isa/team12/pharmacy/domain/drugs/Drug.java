@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.LAZY;
-
 @Entity
 @Table(name = "DRUGS")
 public class Drug implements Serializable {
@@ -18,32 +15,32 @@ public class Drug implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-   @Column(name = "DRUG_ID", nullable = false, unique = true)
+   @Column(name = "drug_id", nullable = false, unique = true)
    private UUID drugId;
 
-   @Column(name = "NAME", nullable = false, unique = true)
+   @Column(name = "name", nullable = false, unique = true)
    private String name;
 
-   @Column(name = "CODE", nullable = false, unique = true)
+   @Column(name = "code", nullable = false, unique = true)
    private String code;
 
-   @Column(name = "TYPEOFDRUG", nullable = false)
+   @Column(name = "typeofdrug", nullable = false)
    private TypeOfDrug typeOfDrug;
 
-   @Column(name = "FORMOFDRUG", nullable = false)
+   @Column(name = "formofdrug", nullable = false)
    private FormOfDrug formOfDrug;
 
-   @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "drug")
-   private Set<IngredientsInDrug> ingredients = new HashSet<IngredientsInDrug>();
+   @ManyToMany
+   private Set<Ingredient> ingredients = new HashSet<Ingredient>();
 
-   @Column(name = "ISSURANCEREGIME", nullable = false)
-   private IssuranceRegime IssuanceRegime;
+   @Column(name = "issuanceregime", nullable = false)
+   private IssuanceRegime issuanceRegime;
 
-   @Column(name = "NOTE")
+   @Column(name = "note")
    private String note;
 
    @ManyToOne
-   @JoinColumn(name = "MANUFACTURER_ID", referencedColumnName = "MANUFACTURER_ID", nullable = false )
+   @JoinColumn(name = "manufacturer_id", referencedColumnName = "manufacturer_id", nullable = false )
    private Manufacturer manufacturer;
 
    public UUID getDrugId() {
@@ -86,20 +83,20 @@ public class Drug implements Serializable {
       this.formOfDrug = formOfDrug;
    }
 
-   public Set<IngredientsInDrug> getIngredients() {
+   public Set<Ingredient> getIngredients() {
       return ingredients;
    }
 
-   public void setIngredients(Set<IngredientsInDrug> ingredients) {
+   public void setIngredients(Set<Ingredient> ingredients) {
       this.ingredients = ingredients;
    }
 
-   public IssuranceRegime getIssuanceRegime() {
-      return IssuanceRegime;
+   public IssuanceRegime getIssuanceRegime() {
+      return issuanceRegime;
    }
 
-   public void setIssuanceRegime(IssuranceRegime issuanceRegime) {
-      IssuanceRegime = issuanceRegime;
+   public void setIssuanceRegime(IssuanceRegime issuanceRegime) {
+      this.issuanceRegime = issuanceRegime;
    }
 
    public String getNote() {
@@ -127,7 +124,7 @@ public class Drug implements Serializable {
               ", typeOfDrug=" + typeOfDrug +
               ", formOfDrug=" + formOfDrug +
               ", ingredients=" + ingredients +
-              ", IssuanceRegime=" + IssuanceRegime +
+              ", IssuanceRegime=" + issuanceRegime+
               ", note='" + note + '\'' +
               ", manufacturer=" + manufacturer +
               '}';

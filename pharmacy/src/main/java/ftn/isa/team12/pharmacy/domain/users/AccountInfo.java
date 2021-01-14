@@ -7,19 +7,19 @@ import java.io.Serializable;
 @Embeddable
 public class AccountInfo implements Serializable {
 
-   @Column(name = "NAME", nullable = false)
+   @Column(name = "name", nullable = false)
    private String name;
 
-   @Column(name = "LASTNAME", nullable = false)
+   @Column(name = "lastname", nullable = false)
    private String lastName;
 
-   @Column(name = "PHONENUMBER", nullable = false)
+   @Column(name = "phonenumber", nullable = false)
    private String phoneNumber;
 
-   @Column(name = "ACTIVE", nullable = false)
+   @Column(name = "active", nullable = false)
    private boolean active;
 
-   @Column(name = "FIRSTLOGIN", nullable = false)
+   @Column(name = "firstlogin", nullable = false)
    private boolean isFirstLogin;
 
    public AccountInfo() { }

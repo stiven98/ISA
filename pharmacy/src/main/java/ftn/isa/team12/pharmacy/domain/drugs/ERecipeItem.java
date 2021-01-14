@@ -13,20 +13,20 @@ public class ERecipeItem implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-   @Column(name = "ITEM_ID", nullable = false, unique = true)
+   @Column(name = "item_id", nullable = false, unique = true)
    private UUID itemId;
 
    @Id
    @ManyToOne
-   @JoinColumn(name = "DRUG_ID", referencedColumnName = "DRUG_ID", nullable = false)
+   @JoinColumn(name = "drug_id", referencedColumnName = "drug_id", nullable = false)
    private Drug drug;
 
    @Id
    @ManyToOne
-   @JoinColumn(name = "ERECIPE_ID", referencedColumnName = "ERECIPE_ID", nullable = false)
+   @JoinColumn(name = "erecipe_id", referencedColumnName = "erecipe_id", nullable = false)
    private ERecipe eRecipe;
 
-   @Column(name = "QUANTITY", nullable = false)
+   @Column(name = "quantity", nullable = false)
    private int quantity;
 
    public UUID getItemId() {

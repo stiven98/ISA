@@ -12,18 +12,18 @@ public class City implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-   @Column(name = "CITY_ID", nullable = false, unique = true)
+   @Column(name = "city_id", nullable = false, unique = true)
    private UUID cityId;
 
-   @Column(name = "NAME", nullable = false, unique=false)
+   @Column(name = "name", nullable = false, unique=false)
    private String name;
 
-   @Column(name = "ZIP_CODE", nullable = false, unique = false)
+   @Column(name = "zip_code", nullable = false, unique = false)
    private int zipCode;
 
    @ManyToOne
    @Id
-   @JoinColumn(name = "COUNTRY_ID", referencedColumnName = "COUNTRY_ID", nullable = false)
+   @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
    private Country country;
 
    public City() { }
