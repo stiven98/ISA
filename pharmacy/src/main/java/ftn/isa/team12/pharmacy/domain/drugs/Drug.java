@@ -1,5 +1,8 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 import ftn.isa.team12.pharmacy.domain.enums.*;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,6 +10,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "DRUGS")
@@ -30,8 +36,14 @@ public class Drug implements Serializable {
    @Column(name = "formofdrug", nullable = false)
    private FormOfDrug formOfDrug;
 
-   @ManyToMany
+   @ManyToMany(mappedBy = "drugs")
    private Set<Ingredient> ingredients = new HashSet<Ingredient>();
+
+   @ManyToMany(mappedBy = "allergies")
+   private Set<Patient> patientsAllergies = new HashSet<Patient>();
+
+   @ManyToMany(mappedBy = "drugs")
+   private Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
 
    @Column(name = "issuanceregime", nullable = false)
    private IssuanceRegime issuanceRegime;
@@ -42,6 +54,25 @@ public class Drug implements Serializable {
    @ManyToOne
    @JoinColumn(name = "manufacturer_id", referencedColumnName = "manufacturer_id", nullable = false )
    private Manufacturer manufacturer;
+
+   @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "drug")
+   private Set<DrugPrice> priceList = new HashSet<DrugPrice>();
+
+   public Set<Patient> getPatientsAllergies() {
+      return patientsAllergies;
+   }
+
+   public void setPatientsAllergies(Set<Patient> patientsAllergies) {
+      this.patientsAllergies = patientsAllergies;
+   }
+
+   public Set<DrugPrice> getPriceList() {
+      return priceList;
+   }
+
+   public void setPriceList(Set<DrugPrice> priceList) {
+      this.priceList = priceList;
+   }
 
    public UUID getDrugId() {
       return drugId;
