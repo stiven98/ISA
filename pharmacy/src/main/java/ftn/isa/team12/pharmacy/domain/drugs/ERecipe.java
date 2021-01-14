@@ -32,7 +32,7 @@ public class ERecipe implements Serializable {
    private Patient patient;
 
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "eRecipe")
-   private Set<ERecipeItem> eRecipeItems;
+   private Set<ERecipeItem> eRecipeItems = new HashSet<ERecipeItem>();
 
    public UUID geteRecipeId() {
       return eRecipeId;

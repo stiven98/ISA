@@ -18,4 +18,19 @@ public class Patient extends User implements Serializable {
     @Embedded
     private AccountCategory category;
 
+    public Set<Drug> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(Set<Drug> allergies) {
+        this.allergies = allergies;
+    }
+
+    public AccountCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(AccountCategory category) {
+        this.category = category;
+    }
 }

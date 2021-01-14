@@ -2,11 +2,12 @@ package ftn.isa.team12.pharmacy.domain.common;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "LOCATIONS")
-public class Location {
+public class Location implements Serializable {
 
    @Id
    @GeneratedValue(generator = "uuid2")

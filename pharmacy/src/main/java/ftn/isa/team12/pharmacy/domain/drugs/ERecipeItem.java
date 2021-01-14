@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -60,4 +61,6 @@ public class ERecipeItem implements Serializable {
    public void setQuantity(int quantity) {
       this.quantity = quantity;
    }
+
+
 }
