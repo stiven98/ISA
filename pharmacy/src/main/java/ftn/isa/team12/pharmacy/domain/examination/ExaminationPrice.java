@@ -1,6 +1,6 @@
 package ftn.isa.team12.pharmacy.domain.examination;
 
-import ftn.isa.team12.pharmacy.domain.pharmacy.DateRange;
+import ftn.isa.team12.pharmacy.domain.common.DateRange;
 
 import java.util.UUID;
 
