@@ -5,6 +5,9 @@ import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,6 +19,9 @@ import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "PHARMACIES")
 public class Pharmacy {
    @Id
@@ -45,75 +51,4 @@ public class Pharmacy {
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
    private Set<DrugPrice> drugPriceList = new HashSet<DrugPrice>();
 
-   public UUID getId() {
-      return id;
-   }
-
-   public void setId(UUID id) {
-      this.id = id;
-   }
-
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
-
-   public String getDescription() {
-      return description;
-   }
-
-   public void setDescription(String description) {
-      this.description = description;
-   }
-
-   public Double getAverageMark() {
-      return averageMark;
-   }
-
-   public void setAverageMark(Double averageMark) {
-      this.averageMark = averageMark;
-   }
-
-   public Location getLocation() {
-      return location;
-   }
-
-   public void setLocation(Location location) {
-      this.location = location;
-   }
-
-   public Set<Drug> getDrugs() {
-      return drugs;
-   }
-
-   public void setDrugs(Set<Drug> drugs) {
-      this.drugs = drugs;
-   }
-
-   public Set<Dermatologist> getDermatologists() {
-      return dermatologists;
-   }
-
-   public void setDermatologists(Set<Dermatologist> dermatologists) {
-      this.dermatologists = dermatologists;
-   }
-
-   public Set<Pharmacist> getPharmacists() {
-      return pharmacists;
-   }
-
-   public void setPharmacists(Set<Pharmacist> pharmacists) {
-      this.pharmacists = pharmacists;
-   }
-
-   public Set<DrugPrice> getDrugPriceList() {
-      return drugPriceList;
-   }
-
-   public void setDrugPriceList(Set<DrugPrice> drugPriceList) {
-      this.drugPriceList = drugPriceList;
-   }
 }

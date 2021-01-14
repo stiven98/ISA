@@ -1,9 +1,17 @@
 package ftn.isa.team12.pharmacy.domain.common;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Embeddable
+@Getter
+@Setter
+@NoArgsConstructor
 public class DateRange {
     @Basic
     @Temporal(TemporalType.DATE)
@@ -14,19 +22,4 @@ public class DateRange {
     @Column(name = "enddate", nullable = false)
     private Date endDate;
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 }
