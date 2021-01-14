@@ -13,10 +13,10 @@ public class Manufacturer implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-   @Column(name = "MANUFACTURER_ID", nullable = false, unique = true)
+   @Column(name = "manufacturer_id", nullable = false, unique = true)
    private UUID manufacturerId;
 
-   @Column(name = "NAME", nullable = false, unique = true)
+   @Column(name = "name", nullable = false, unique = true)
    private String name;
 
    public UUID getManufacturerId() {

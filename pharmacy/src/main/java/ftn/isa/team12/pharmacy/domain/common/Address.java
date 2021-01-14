@@ -7,10 +7,10 @@ import java.io.Serializable;
 @Embeddable
 public class Address implements Serializable {
 
-   @Column(name = "STREET", nullable = false)
+   @Column(name = "street", nullable = false)
    private String street;
 
-   @Column(name = "NUMBER", nullable = false)
+   @Column(name = "number", nullable = false)
    private int number;
 
    public String getStreet() {
