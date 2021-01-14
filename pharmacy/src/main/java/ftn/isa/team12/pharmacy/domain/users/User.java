@@ -1,12 +1,17 @@
 package ftn.isa.team12.pharmacy.domain.users;
 import ftn.isa.team12.pharmacy.domain.common.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
 @MappedSuperclass
 public abstract class User implements Serializable {
 
@@ -25,36 +30,4 @@ public abstract class User implements Serializable {
 
    @Embedded
    private AccountInfo accountInfo;
-
-   public UUID getUserId() {
-      return userId;
-   }
-
-   public void setUserId(UUID userId) {
-      this.userId = userId;
-   }
-
-   public LoginInfo getLoginInfo() {
-      return loginInfo;
-   }
-
-   public void setLoginInfo(LoginInfo loginInfo) {
-      this.loginInfo = loginInfo;
-   }
-
-   public Location getLocation() {
-      return location;
-   }
-
-   public void setLocation(Location location) {
-      this.location = location;
-   }
-
-   public AccountInfo getAccountInfo() {
-      return accountInfo;
-   }
-
-   public void setAccountInfo(AccountInfo accountInfo) {
-      this.accountInfo = accountInfo;
-   }
 }
