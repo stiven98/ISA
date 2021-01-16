@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "DRUGORDERITEMS")
+@Table(name = "DRUG_ORDER_ITEMS")
 public class DrugOrderItem implements Serializable {
 
     @Id

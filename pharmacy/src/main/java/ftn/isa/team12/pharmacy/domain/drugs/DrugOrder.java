@@ -25,7 +25,7 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "DRUGORDERS")
+@Table(name = "DRUG_ORDERS")
 public class DrugOrder implements Serializable {
 
    @Id

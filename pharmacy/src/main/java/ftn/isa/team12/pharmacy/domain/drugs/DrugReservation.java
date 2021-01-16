@@ -17,7 +17,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "DRUGRESERVATIONS")
+@Table(name = "DRUG_RESERVATIONS")
 public class DrugReservation implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")

@@ -50,5 +50,9 @@ public class Pharmacy {
    private Set<Pharmacist> pharmacists = new HashSet<Pharmacist>();
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
    private Set<DrugPrice> drugPriceList = new HashSet<DrugPrice>();
+   @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
+   private Set<ExaminationPrice> examinationPriceList = new HashSet<ExaminationPrice>();
+   @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
+   private Set<Examination> examinations = new HashSet<Examination>();
 
 }
