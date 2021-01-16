@@ -1,10 +1,16 @@
 package ftn.isa.team12.pharmacy.domain.users;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.*;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
 public class LoginInfo implements Serializable {
 
@@ -14,21 +20,5 @@ public class LoginInfo implements Serializable {
    @Column(name = "password", nullable = false)
    private String password;
 
-   public LoginInfo() { }
 
-   public String getEmail() {
-      return email;
-   }
-
-   public void setEmail(String email) {
-      this.email = email;
-   }
-
-   public String getPassword() {
-      return password;
-   }
-
-   public void setPassword(String password) {
-      this.password = password;
-   }
 }

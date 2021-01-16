@@ -1,28 +1,52 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 
+import ftn.isa.team12.pharmacy.domain.common.DateRange;
+import ftn.isa.team12.pharmacy.domain.enums.ReservationStatus;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
-
-//@Entity
-//@Table(name = "DRUGRESERVATIONS")
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "DRUGRESERVATIONS")
 public class DrugReservation implements Serializable {
-//   @Id
-//   @GeneratedValue(generator = "uuid2")
-//   @GenericGenerator(name = "uuid2", strategy = "uuid2")
-//   @Column(name = "drugReservation_id", nullable = false, unique = true)
+   @Id
+   @GeneratedValue(generator = "uuid2")
+   @GenericGenerator(name = "uuid2", strategy = "uuid2")
+   @Column(name = "drugReservation_id", nullable = false, unique = true)
    private UUID drugReservationId;
 
+   @ManyToOne
+   @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id", nullable = false)
    private Pharmacy pharmacy;
+
+   @ManyToOne
+   @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
    private Patient patient;
+
+   @Column(name = "quantity")
    private int quantity;
+
+   @Column(name = "code")
    private String code;
-   private Pharmacist pharmacist;
-   private ReservationDateRange reservationDateRange;
+
+   @Embedded
+   @AttributeOverrides({
+           @AttributeOverride(name = "startDate" , column = @Column(name = "reservation_start")),
+           @AttributeOverride(name = "endDate" , column = @Column(name = "reservation_end"))
+   })
+   private DateRange reservationDateRange;
+
+   @Column(name = "reservation_status")
+   private ReservationStatus reservationStatus;
 
 }

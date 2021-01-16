@@ -3,6 +3,9 @@ import ftn.isa.team12.pharmacy.domain.enums.*;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,6 +17,9 @@ import java.util.UUID;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "DRUGS")
 public class Drug implements Serializable {
@@ -51,6 +57,9 @@ public class Drug implements Serializable {
    @Column(name = "note")
    private String note;
 
+//   @Column(name = "grades")
+//   private Set<Integer> grades = new HashSet<Integer>();
+
    @ManyToOne
    @JoinColumn(name = "manufacturer_id", referencedColumnName = "manufacturer_id", nullable = false )
    private Manufacturer manufacturer;
@@ -58,93 +67,6 @@ public class Drug implements Serializable {
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "drug")
    private Set<DrugPrice> priceList = new HashSet<DrugPrice>();
 
-   public Set<Patient> getPatientsAllergies() {
-      return patientsAllergies;
-   }
-
-   public void setPatientsAllergies(Set<Patient> patientsAllergies) {
-      this.patientsAllergies = patientsAllergies;
-   }
-
-   public Set<DrugPrice> getPriceList() {
-      return priceList;
-   }
-
-   public void setPriceList(Set<DrugPrice> priceList) {
-      this.priceList = priceList;
-   }
-
-   public UUID getDrugId() {
-      return drugId;
-   }
-
-   public void setDrugId(UUID drugId) {
-      this.drugId = drugId;
-   }
-
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
-
-   public String getCode() {
-      return code;
-   }
-
-   public void setCode(String code) {
-      this.code = code;
-   }
-
-   public TypeOfDrug getTypeOfDrug() {
-      return typeOfDrug;
-   }
-
-   public void setTypeOfDrug(TypeOfDrug typeOfDrug) {
-      this.typeOfDrug = typeOfDrug;
-   }
-
-   public FormOfDrug getFormOfDrug() {
-      return formOfDrug;
-   }
-
-   public void setFormOfDrug(FormOfDrug formOfDrug) {
-      this.formOfDrug = formOfDrug;
-   }
-
-   public Set<Ingredient> getIngredients() {
-      return ingredients;
-   }
-
-   public void setIngredients(Set<Ingredient> ingredients) {
-      this.ingredients = ingredients;
-   }
-
-   public IssuanceRegime getIssuanceRegime() {
-      return issuanceRegime;
-   }
-
-   public void setIssuanceRegime(IssuanceRegime issuanceRegime) {
-      this.issuanceRegime = issuanceRegime;
-   }
-
-   public String getNote() {
-      return note;
-   }
-
-   public void setNote(String note) {
-      this.note = note;
-   }
-
-   public Manufacturer getManufacturer() {
-      return manufacturer;
-   }
-
-   public void setManufacturer(Manufacturer manufacturer) {
-      this.manufacturer = manufacturer;
-   }
 
    @Override
    public String toString() {

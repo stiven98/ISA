@@ -1,4 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.common;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,6 +10,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "LOCATIONS")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Location implements Serializable {
 
    @Id
@@ -23,29 +29,5 @@ public class Location implements Serializable {
    @Embedded
    private Address address;
 
-   public Location() { }
 
-   public UUID getLocationId() {
-      return locationId;
-   }
-
-   public void setLocationId(UUID locationId) {
-      this.locationId = locationId;
-   }
-
-   public City getCity() {
-      return city;
-   }
-
-   public void setCity(City city) {
-      this.city = city;
-   }
-
-   public Address getAddress() {
-      return address;
-   }
-
-   public void setAddress(Address address) {
-      this.address = address;
-   }
 }
