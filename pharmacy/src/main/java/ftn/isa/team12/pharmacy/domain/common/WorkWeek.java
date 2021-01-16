@@ -15,46 +15,46 @@ public class WorkWeek {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "startDate" , column = @Column(name = "monday_start")),
-            @AttributeOverride(name = "endDate" , column = @Column(name = "monday_end"))
+            @AttributeOverride(name = "startTime" , column = @Column(name = "monday_start")),
+            @AttributeOverride(name = "endTime" , column = @Column(name = "monday_end"))
     })
-    private DateRange monday;
+    private TimeRange monday;
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "startDate" , column = @Column(name = "tuesday_start")),
-            @AttributeOverride(name = "endDate" , column = @Column(name = "tuesday_end"))
+            @AttributeOverride(name = "startTime" , column = @Column(name = "tuesday_start")),
+            @AttributeOverride(name = "endTime" , column = @Column(name = "tuesday_end"))
     })
-    private DateRange tuesday;
+    private TimeRange tuesday;
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "startDate" , column = @Column(name = "wednesday_start")),
-            @AttributeOverride(name = "endDate" , column = @Column(name = "wednesday_end"))
+            @AttributeOverride(name = "startTime" , column = @Column(name = "wednesday_start")),
+            @AttributeOverride(name = "endTime" , column = @Column(name = "wednesday_end"))
     })
-    private DateRange wednesday;
+    private TimeRange wednesday;
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "startDate" , column = @Column(name = "thursday_start")),
-            @AttributeOverride(name = "endDate" , column = @Column(name = "thursday_end"))
+            @AttributeOverride(name = "startTime" , column = @Column(name = "thursday_start")),
+            @AttributeOverride(name = "endTime" , column = @Column(name = "thursday_end"))
     })
-    private DateRange thursday;
+    private TimeRange thursday;
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "startDate" , column = @Column(name = "friday_start")),
-            @AttributeOverride(name = "endDate" , column = @Column(name = "friday_end"))
+            @AttributeOverride(name = "startTime" , column = @Column(name = "friday_start")),
+            @AttributeOverride(name = "endTime" , column = @Column(name = "friday_end"))
     })
-    private DateRange friday;
+    private TimeRange friday;
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "startDate" , column = @Column(name = "saturday_start")),
-            @AttributeOverride(name = "endDate" , column = @Column(name = "saturday_end"))
+            @AttributeOverride(name = "startTime" , column = @Column(name = "saturday_start")),
+            @AttributeOverride(name = "endTime" , column = @Column(name = "saturday_end"))
     })
-    private DateRange saturday;
+    private TimeRange saturday;
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "startDate" , column = @Column(name = "sunday_start")),
-            @AttributeOverride(name = "endDate" , column = @Column(name = "sunday_end"))
+            @AttributeOverride(name = "startTime" , column = @Column(name = "sunday_start")),
+            @AttributeOverride(name = "endTime" , column = @Column(name = "sunday_end"))
     })
-    private DateRange sunday;
+    private TimeRange sunday;
 
 }
 

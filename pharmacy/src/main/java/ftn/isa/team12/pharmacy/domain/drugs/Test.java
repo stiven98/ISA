@@ -1,15 +1,14 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 import ftn.isa.team12.pharmacy.domain.common.*;
-import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;
-import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
-import ftn.isa.team12.pharmacy.domain.enums.TypeOfDrug;
-import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
+import ftn.isa.team12.pharmacy.domain.enums.*;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
+import org.hibernate.jdbc.Work;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +29,10 @@ public class Test {
         address1.setNumber(10);
         address1.setStreet("Masarikova");
 
+        Address address2 = new Address();
+        address2.setNumber(20);
+        address2.setStreet("Kisacka");
+
         Country country = new Country();
         country.setName("Srbija");
 
@@ -38,13 +41,22 @@ public class Test {
         city.setCountry(country);
         city.setZipCode(21000);
 
+        City city1  = new City();
+        city1.setName("Beograd");
+        city1.setCountry(country);
+        city1.setZipCode(11000);
+
         Location location = new Location();
         location.setAddress(address);
         location.setCity(city);
 
         Location location1 = new Location();
         location1.setAddress(address1);
-        location1.setCity(city);
+        location1.setCity(city1);
+
+        Location location2 = new Location();
+        location2.setAddress(address2);
+        location2.setCity(city);
 
         Manufacturer manufacturer = new Manufacturer();
         manufacturer.setName("Bayer");
@@ -67,15 +79,44 @@ public class Test {
         accountInfo.setPhoneNumber("06344346");
         accountInfo.setFirstLogin(false);
 
+        AccountInfo accountInfo1 = new AccountInfo();
+        accountInfo1.setName("Aleksandar");
+        accountInfo1.setLastName("Stevanović");
+        accountInfo1.setActive(true);
+        accountInfo1.setPhoneNumber("06125446");
+        accountInfo1.setFirstLogin(false);
+
+        AccountInfo accountInfo2 = new AccountInfo();
+        accountInfo2.setName("Djordjije");
+        accountInfo2.setLastName("Kundacina");
+        accountInfo2.setActive(true);
+        accountInfo2.setPhoneNumber("06685446");
+        accountInfo2.setFirstLogin(false);
+
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setEmail("aca@faca.com");
         loginInfo.setPassword("acafaca");
 
+        LoginInfo loginInfo1 = new LoginInfo();
+        loginInfo1.setEmail("maca@faca.com");
+        loginInfo1.setPassword("macafaca");
+
+        LoginInfo loginInfo2 = new LoginInfo();
+        loginInfo2.setEmail("a@faca.com");
+        loginInfo2.setPassword("afaca");
+
+
 
         Dermatologist dermatologist = new Dermatologist();
-        dermatologist.setLocation(location);
+        dermatologist.setLocation(location2);
         dermatologist.setAccountInfo(accountInfo);
         dermatologist.setLoginInfo(loginInfo);
+
+        Pharmacist pharmacist = new Pharmacist();
+        pharmacist.setLocation(location1);
+        pharmacist.setLoginInfo(loginInfo2);
+        pharmacist.setAccountInfo(accountInfo2);
+
 
         Date startDate = new Date();
         Date endDate = new Date(2021,01,25);
@@ -89,23 +130,23 @@ public class Test {
         pharmacy.setDescription("Dobra apoteka");
         pharmacy.setAverageMark(8.9);
         pharmacy.getDrugs().add(drug);
-
+        pharmacy.getDermatologists().add(dermatologist);
+        pharmacist.setPharmacy(pharmacy);
 
         DrugPrice drugPrice = new DrugPrice();
         drugPrice.setPrice(560.0);
         drugPrice.setDrug(drug);
-        //drugPrice.setPharmacy(pharmacy);
+        drugPrice.setPharmacy(pharmacy);
         drugPrice.setValidityPeriod(dateRange);
 
-     //   pharmacy.getDrugPriceList().add(drugPrice);
         AccountCategory accounCategory = new AccountCategory();
         accounCategory.setCategory(UserCategory.gold);
         accounCategory.setPoints(12);
 
         Patient patient = new Patient();
         patient.setLocation(location1);
-        patient.setLoginInfo(loginInfo);
-        patient.setAccountInfo(accountInfo);
+        patient.setLoginInfo(loginInfo1);
+        patient.setAccountInfo(accountInfo1);
         patient.setCategory(accounCategory);
 
         ERecipe eRecipe = new ERecipe();
@@ -113,29 +154,79 @@ public class Test {
         eRecipe.setDateOfIssuing(startDate);
         eRecipe.setCode("123456675");
 
+
         ERecipeItem eRecipeItem = new ERecipeItem();
         eRecipeItem.setQuantity(12);
         eRecipeItem.setDrug(drug);
-        eRecipeItem.seteRecipe(eRecipe);
-        eRecipe.geteRecipeItems().add(eRecipeItem);
+        eRecipeItem.setERecipe(eRecipe);
+
+        ERecipeItem eRecipeItem1 = new ERecipeItem();
+        eRecipeItem1.setQuantity(14);
+        eRecipeItem1.setDrug(drug);
+        eRecipeItem1.setERecipe(eRecipe);
+
+        eRecipe.getERecipeItems().add(eRecipeItem);
+        eRecipe.getERecipeItems().add(eRecipeItem1);
 
 
+        DrugReservation drugReservation = new DrugReservation();
+        drugReservation.setCode("Rezervacija123");
+        drugReservation.setPatient(patient);
+        drugReservation.setPharmacy(pharmacy);
+        drugReservation.setQuantity(5);
+        drugReservation.setReservationStatus(ReservationStatus.created);
+        drugReservation.setReservationDateRange(dateRange);
+
+        LocalTime t =  LocalTime.of(8,0);
+        LocalTime t1 = LocalTime.of(16,0);
+
+        TimeRange timeRange = new TimeRange();
+        timeRange.setStartTime(t);
+        timeRange.setEndTime(t1);
+
+
+        WorkWeek workWeek = new WorkWeek();
+        workWeek.setSaturday(timeRange);
+        workWeek.setMonday(timeRange);
+        workWeek.setTuesday(timeRange);
+        workWeek.setWednesday(timeRange);
+        workWeek.setThursday(timeRange);
+        workWeek.setFriday(timeRange);
+        workWeek.setSunday(timeRange);
+
+
+
+        WorkTime workTime = new WorkTime();
+        workTime.setWorkWeek(workWeek);
+        workTime.setPharmacy(pharmacy);
+        workTime.setEmployee(dermatologist);
+        workTime.setDateRange(dateRange);
+
+        WorkTime workTime1 = new WorkTime();
+        workTime1.setWorkWeek(workWeek);
+        workTime1.setPharmacy(pharmacy);
+        workTime1.setEmployee(pharmacist);
+        workTime1.setDateRange(dateRange);
 
         em.getTransaction().begin();
         em.persist(country);
         em.persist(city);
+        em.persist(city1);
         em.persist(location);
         em.persist(location1);
+        em.persist(location2);
         em.persist(manufacturer);
         em.persist(drugIngreditent);
         em.persist(drug);
-       // em.persist(drugPrice);
+        em.persist(pharmacy);
+        em.persist(dermatologist);
+        em.persist(drugPrice);
         em.persist(patient);
         em.persist(eRecipe);
-        //em.persist(eRecipeItem);
-
-//        em.persist(pharmacy);
-        em.persist(dermatologist);
+        em.persist(drugReservation);
+        em.persist(workTime);
+        em.persist(pharmacist);
+        em.persist(workTime1);
         em.getTransaction().commit();
         em.close();
 

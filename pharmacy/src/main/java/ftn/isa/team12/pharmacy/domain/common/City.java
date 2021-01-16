@@ -1,4 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.common;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -8,6 +11,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name="CITIES")
+@Getter
+@Setter
+@NoArgsConstructor
 public class City implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")
@@ -26,38 +32,5 @@ public class City implements Serializable {
    @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
    private Country country;
 
-   public City() { }
-
-   public UUID getCityId() {
-      return cityId;
-   }
-
-   public void setCityId(UUID cityId) {
-      this.cityId = cityId;
-   }
-
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
-
-   public int getZipCode() {
-      return zipCode;
-   }
-
-   public void setZipCode(int zipCode) {
-      this.zipCode = zipCode;
-   }
-
-   public Country getCountry() {
-      return country;
-   }
-
-   public void setCountry(Country country) {
-      this.country = country;
-   }
 
 }

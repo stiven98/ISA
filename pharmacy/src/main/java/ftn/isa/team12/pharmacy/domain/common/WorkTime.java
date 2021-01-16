@@ -30,11 +30,11 @@ public class WorkTime {
     private DateRange dateRange;
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "user_id", nullable = false)
-    private Dermatologist employee;
+    private MedicalStuff employee;
     @ManyToOne
     @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id", nullable = false)
     private Pharmacy pharmacy;
     @Embedded
-    private WorkWeek workWekk;
+    private WorkWeek workWeek;
 
 }

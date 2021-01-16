@@ -1,5 +1,8 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,7 +10,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "INGREDIENTS")
 public class Ingredient implements Serializable {
@@ -26,27 +31,4 @@ public class Ingredient implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "drug_id"))
     private Set<Drug> drugs = new HashSet<Drug>();
 
-    public UUID getIngredientId() {
-        return ingredientId;
-    }
-
-    public void setIngredientId(UUID ingredientId) {
-        this.ingredientId = ingredientId;
-    }
-
-    public Set<Drug> getDrugs() {
-        return drugs;
-    }
-
-    public void setDrugs(Set<Drug> drugs) {
-        this.drugs = drugs;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
