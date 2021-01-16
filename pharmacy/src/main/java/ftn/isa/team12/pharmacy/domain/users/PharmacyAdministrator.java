@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(name = "PHARMACYADMINISTRATORS")
+@Table(name = "PHARMACY_ADMINISTRATORS")
 public class PharmacyAdministrator extends User implements Serializable {
 
     @ManyToOne
