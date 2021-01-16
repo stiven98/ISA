@@ -49,4 +49,8 @@ public class DrugReservation implements Serializable {
    @Column(name = "reservation_status")
    private ReservationStatus reservationStatus;
 
+   @ManyToOne
+   @JoinColumn(name = "drug_id", referencedColumnName = "drug_id", nullable = false)
+   private Drug drug;
+
 }

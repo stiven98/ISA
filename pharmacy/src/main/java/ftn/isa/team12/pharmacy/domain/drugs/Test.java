@@ -21,6 +21,7 @@ public class Test {
                 Persistence.createEntityManagerFactory("PharmacyDB");
         EntityManager em = factory.createEntityManager();
 
+
         Address address = new Address();
         address.setNumber(10);
         address.setStreet("Karadjordjeva");
@@ -57,6 +58,23 @@ public class Test {
         Location location2 = new Location();
         location2.setAddress(address2);
         location2.setCity(city);
+
+        AccountInfo accountInfo4 = new AccountInfo();
+        accountInfo4.setActive(false);
+        accountInfo4.setFirstLogin(false);
+        accountInfo4.setName("Marko");
+        accountInfo4.setLastName("Markovic");
+        accountInfo4.setPhoneNumber("000330303032");
+
+        LoginInfo loginInfo4 = new LoginInfo();
+        loginInfo4.setEmail("marko@gmail.com");
+        loginInfo4.setPassword("marko");
+
+        PharmacyAdministrator pharmacyAdministrator = new PharmacyAdministrator();
+        pharmacyAdministrator.setAccountInfo(accountInfo4);
+        pharmacyAdministrator.setLocation(location1);
+        pharmacyAdministrator.setLoginInfo(loginInfo4);
+
 
         Manufacturer manufacturer = new Manufacturer();
         manufacturer.setName("Bayer");
@@ -177,6 +195,8 @@ public class Test {
         drugReservation.setReservationStatus(ReservationStatus.created);
         drugReservation.setReservationDateRange(dateRange);
 
+        drugReservation.setDrug(drug);
+
         LocalTime t =  LocalTime.of(8,0);
         LocalTime t1 = LocalTime.of(16,0);
 
@@ -208,6 +228,39 @@ public class Test {
         workTime1.setEmployee(pharmacist);
         workTime1.setDateRange(dateRange);
 
+        pharmacyAdministrator.setPharmacy(pharmacy);
+        DrugOrder drugOrder = new DrugOrder();
+        drugOrder.setDrugOrderStatus(DrugOrderStatus.processed);
+        drugOrder.setPharmacy(pharmacy);
+        drugOrder.setDeadline(new Date());
+        drugOrder.setPharmacyAdministrator(pharmacyAdministrator);
+
+        DrugOrderItem drugOrderItem = new DrugOrderItem();
+        drugOrderItem.setQuantity(5);
+        drugOrderItem.setDrug(drug);
+        drugOrderItem.setDrugOrder(drugOrder);
+
+        DrugOrderItem drugOrderItem1 = new DrugOrderItem();
+        drugOrderItem1.setQuantity(10);
+        drugOrderItem1.setDrug(drug);
+        drugOrderItem1.setDrugOrder(drugOrder);
+
+        drugOrder.getDrugOrderItems().add(drugOrderItem);
+        drugOrder.getDrugOrderItems().add(drugOrderItem1);
+
+        Supplier supplier = new Supplier();
+        supplier.setLocation(location1);
+        supplier.setAccountInfo(accountInfo4);
+        supplier.setLoginInfo(loginInfo2);
+        supplier.getAvailableDrugs().add(drug);
+
+        Offer offer = new Offer();
+        offer.setStatus(OfferStatus.accepted);
+        offer.setDeadline(new Date());
+        offer.setPrice(10);
+        offer.setSupplier(supplier);
+        offer.setDrugOrder(drugOrder);
+
         em.getTransaction().begin();
         em.persist(country);
         em.persist(city);
@@ -227,6 +280,10 @@ public class Test {
         em.persist(workTime);
         em.persist(pharmacist);
         em.persist(workTime1);
+        em.persist(pharmacyAdministrator);
+        em.persist(drugOrder);
+        em.persist(supplier);
+        em.persist(offer);
         em.getTransaction().commit();
         em.close();
 
