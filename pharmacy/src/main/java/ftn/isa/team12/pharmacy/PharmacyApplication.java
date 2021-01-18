@@ -4,6 +4,7 @@ import ftn.isa.team12.pharmacy.domain.common.Address;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

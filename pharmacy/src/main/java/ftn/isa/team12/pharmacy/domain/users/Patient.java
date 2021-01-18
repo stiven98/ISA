@@ -4,6 +4,7 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.persistence.*;
 import javax.persistence.Inheritance;
@@ -26,6 +27,11 @@ public class Patient extends User implements Serializable {
     @JoinTable(name = "allergies", joinColumns = @JoinColumn(name="user_id" ,  referencedColumnName  = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "drug_id"))
     private Set<Drug> allergies = new HashSet<Drug>();
+
+    //@Scheduled(cron = "")
+    @Column(name = "penalties")
+    private int penalties;
+
     @Embedded
     private AccountCategory category;
     @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "patient")
