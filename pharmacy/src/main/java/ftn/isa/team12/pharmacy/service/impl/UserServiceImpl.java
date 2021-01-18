@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
+import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.repository.UserRepository;
 import ftn.isa.team12.pharmacy.service.UserService;
@@ -15,7 +16,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public List<User> findAll() {
+    public List<Patient> findAll() {
         return this.userRepository.findAll();
     }
 }

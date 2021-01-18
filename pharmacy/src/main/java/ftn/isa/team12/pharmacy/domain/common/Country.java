@@ -1,4 +1,6 @@
 package ftn.isa.team12.pharmacy.domain.common;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +32,7 @@ public class Country implements Serializable {
 
    @Column(name = "name", nullable = false, unique = false)
    public String name;
+
 
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "country")
    private Set<City> cities = new HashSet<City>();

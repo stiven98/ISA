@@ -1,16 +1,10 @@
 package ftn.isa.team12.pharmacy;
 
-import ftn.isa.team12.pharmacy.domain.common.Address;
-import ftn.isa.team12.pharmacy.domain.common.Country;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-@SpringBootApplication
+@SpringBootApplication(exclude={SecurityAutoConfiguration.class})
 public class PharmacyApplication {
 
 	public static void main(String[] args) {
