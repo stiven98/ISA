@@ -1,11 +1,9 @@
 package ftn.isa.team12.pharmacy.domain.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -33,7 +31,7 @@ public class Country implements Serializable {
    @Column(name = "name", nullable = false, unique = false)
    public String name;
 
-
+   @JsonIgnore
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "country")
    private Set<City> cities = new HashSet<City>();
 
