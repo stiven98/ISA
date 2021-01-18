@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TimeRange {
+public class TimeRange implements Serializable {
     @Basic
     @Column(name = "starttime", nullable = false)
     private LocalTime startTime;

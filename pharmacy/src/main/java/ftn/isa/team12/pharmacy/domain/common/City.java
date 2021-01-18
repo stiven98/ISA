@@ -27,8 +27,7 @@ public class City implements Serializable {
    @Column(name = "zip_code", nullable = false, unique = false)
    private int zipCode;
 
-   @ManyToOne
-   @Id
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
    private Country country;
 
