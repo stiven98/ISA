@@ -1,0 +1,25 @@
+dist: trusty
+sudo: required
+
+branches:
+  include: master
+
+matrix:
+  include:
+    - language: java
+      jdk:
+      - oraclejdk8
+      - openjdk8
+      script:
+        - mvn clean install
+      before_script:
+        - cd ./pharmacy/
+
+    - language: node_js
+      node_js: stable
+      install:
+        - npm install
+      before_install:
+        - cd ./pharmacy-frontend/
+      script:
+        - npm run build

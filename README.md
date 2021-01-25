@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/stiven98/ISA.svg?branch=develop)](https://travis-ci.com/stiven98/ISA)
+
 # ISA
 Projekat iz predmeta Internet softverske arhitekture
 ## Emoji guideline
