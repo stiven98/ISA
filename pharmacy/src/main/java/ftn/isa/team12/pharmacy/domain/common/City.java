@@ -1,4 +1,6 @@
 package ftn.isa.team12.pharmacy.domain.common;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,8 +29,8 @@ public class City implements Serializable {
    @Column(name = "zip_code", nullable = false, unique = false)
    private int zipCode;
 
+
    @ManyToOne
-   @Id
    @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
    private Country country;
 

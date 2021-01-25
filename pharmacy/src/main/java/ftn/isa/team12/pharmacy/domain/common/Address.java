@@ -1,9 +1,15 @@
 package ftn.isa.team12.pharmacy.domain.common;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
 public class Address implements Serializable {
 
@@ -13,23 +19,4 @@ public class Address implements Serializable {
    @Column(name = "number", nullable = false)
    private int number;
 
-   public String getStreet() {
-      return street;
-   }
-
-   public void setStreet(String street) {
-      this.street = street;
-   }
-
-
-   public int getNumber() {
-      return number;
-   }
-
-   public void setNumber(int number) {
-      this.number = number;
-   }
-
-   public Address() {
-   }
 }
