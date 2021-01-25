@@ -1,5 +1,8 @@
+[![Build Status](https://travis-ci.com/stiven98/ISA-test.svg?branch=master)](https://travis-ci.com/stiven98/ISA-test)
+
 # ISA
 Projekat iz predmeta Internet softverske arhitekture
+
 ## Emoji guideline
 It is recommended to use emoji's where adequate when commiting  
 
