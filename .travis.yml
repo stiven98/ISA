@@ -2,7 +2,7 @@ dist: trusty
 sudo: required
 
 branches:
-  include: master
+  only: develop
 
 matrix:
   include:
