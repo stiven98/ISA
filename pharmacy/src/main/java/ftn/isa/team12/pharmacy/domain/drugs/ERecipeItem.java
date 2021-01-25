@@ -1,13 +1,19 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
-@Table(name = "ERECIPEITEM")
+@Table(name = "ERECIPE_ITEM")
 public class ERecipeItem implements Serializable {
 
    @Id
@@ -29,35 +35,5 @@ public class ERecipeItem implements Serializable {
    @Column(name = "quantity", nullable = false)
    private int quantity;
 
-   public UUID getItemId() {
-      return itemId;
-   }
 
-   public void setItemId(UUID itemId) {
-      this.itemId = itemId;
-   }
-
-   public Drug getDrug() {
-      return drug;
-   }
-
-   public void setDrug(Drug drug) {
-      this.drug = drug;
-   }
-
-   public ERecipe geteRecipe() {
-      return eRecipe;
-   }
-
-   public void seteRecipe(ERecipe eRecipe) {
-      this.eRecipe = eRecipe;
-   }
-
-   public int getQuantity() {
-      return quantity;
-   }
-
-   public void setQuantity(int quantity) {
-      this.quantity = quantity;
-   }
 }

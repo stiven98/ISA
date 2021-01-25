@@ -1,4 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.common;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +17,9 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "COUNTRIES")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Country implements Serializable {
 
    @Id
@@ -28,29 +34,4 @@ public class Country implements Serializable {
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "country")
    private Set<City> cities = new HashSet<City>();
 
-   public UUID getCountryId() {
-      return countryId;
-   }
-
-   public void setCountryId(UUID countryId) {
-      this.countryId = countryId;
-   }
-
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
-
-   public Country() { }
-
-   public Set<City> getCities() {
-     return cities;
-   }
-
-   public void setCities(Set<City> cities) {
-    this.cities = cities;
-   }
 }

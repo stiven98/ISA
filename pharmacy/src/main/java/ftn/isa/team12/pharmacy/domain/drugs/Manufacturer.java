@@ -1,11 +1,16 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "MANUFACTURER")
 public class Manufacturer implements Serializable {
@@ -19,19 +24,4 @@ public class Manufacturer implements Serializable {
    @Column(name = "name", nullable = false, unique = true)
    private String name;
 
-   public UUID getManufacturerId() {
-      return manufacturerId;
    }
-
-   public void setManufacturerId(UUID manufacturerId) {
-      this.manufacturerId = manufacturerId;
-   }
-
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
-}
