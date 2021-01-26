@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import lombok.Getter;
