@@ -8,8 +8,8 @@ matrix:
   include:
     - language: java
       jdk:
-      - oraclejdk15
-      - openjdk15
+      - oraclejdk11
+      - openjdk11
       script:
         - mvn clean install
       before_script:
