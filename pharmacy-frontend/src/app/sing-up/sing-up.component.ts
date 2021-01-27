@@ -7,9 +7,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SingUpComponent implements OnInit {
 
+  selectedCountry = 'Choose...';
+  selectedCity = 'Choose...';
+  disabledCountry = false;
+  disabledCity = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onChangeSelectedCountry = (event) => {
+    this.selectedCountry = event.target.value;
+    this.disabledCountry = this.selectedCountry === 'Other country';
+  }
+
+  onChangeSelectedCity = (event) => {
+    this.selectedCity = event.target.value;
+    this.disabledCity = this.selectedCity === 'Other city';
   }
 
 }

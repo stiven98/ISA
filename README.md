@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=stiven98_ISA&metric=alert_status)](https://sonarcloud.io/dashboard?id=stiven98_ISA) [![Build Status](https://travis-ci.com/stiven98/ISA.svg?branch=develop)](https://travis-ci.com/stiven98/ISA)
+
 # ISA
 Projekat iz predmeta Internet softverske arhitekture
 ## Emoji guideline
