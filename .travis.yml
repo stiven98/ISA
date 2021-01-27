@@ -38,4 +38,6 @@ matrix:
         - cd ./pharmacy-frontend/
       script:
         - npm run build
+        - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh && . ./install-jdk.sh -F 11 -L GPL
+      after-success:
         - sonar-scanner -Dsonar.projectKey=stiven98_ISA
