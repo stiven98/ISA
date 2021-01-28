@@ -1,6 +1,9 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 import ftn.isa.team12.pharmacy.domain.common.*;
 import ftn.isa.team12.pharmacy.domain.enums.*;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
+import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
+import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
 import org.hibernate.jdbc.Work;
@@ -261,6 +264,33 @@ public class Test {
         offer.setSupplier(supplier);
         offer.setDrugOrder(drugOrder);
 
+        ExaminationType examinationType = new ExaminationType();
+        examinationType.setName("Consulting");
+
+        ExaminationPrice examinationPrice = new ExaminationPrice();
+        examinationPrice.setPrice(3000.0);
+        examinationPrice.setExaminationType(examinationType);
+        examinationPrice.setPharmacy(pharmacy);
+        examinationPrice.setDateOfValidity(dateRange);
+
+        Examination examination = new Examination();
+        examination.setEmployee(pharmacist);
+        examination.setPatient(patient);
+        examination.setExaminationPrice(examinationPrice);
+        examination.setDateOfExamination(new Date());
+        examination.setTimeOfExamination(LocalTime.of(13,45));
+        examination.setDuration(45);
+        examination.setPharmacy(pharmacy);
+
+        pharmacy.getExaminationPriceList().add(examinationPrice);
+        pharmacy.getExaminations().add(examination);
+
+        Vacation vacation = new Vacation();
+        vacation.setEmployee(pharmacist);
+        vacation.setDateRange(dateRange);
+
+        pharmacist.getVacations().add(vacation);
+
         em.getTransaction().begin();
         em.persist(country);
         em.persist(city);
@@ -271,6 +301,8 @@ public class Test {
         em.persist(manufacturer);
         em.persist(drugIngreditent);
         em.persist(drug);
+        em.persist(examinationType);
+        em.persist(examinationPrice);
         em.persist(pharmacy);
         em.persist(dermatologist);
         em.persist(drugPrice);

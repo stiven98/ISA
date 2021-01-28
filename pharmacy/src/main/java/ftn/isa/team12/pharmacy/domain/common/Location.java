@@ -22,8 +22,7 @@ public class Location implements Serializable {
    private UUID locationId;
 
    @ManyToOne
-   @JoinColumns({@JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false, unique = false),
-           @JoinColumn(name = "city_id", referencedColumnName = "city_id", nullable = false, unique = false)})
+   @JoinColumn(name = "city_id", referencedColumnName = "city_id", nullable = false, unique = false)
    private City city;
 
    @Embedded

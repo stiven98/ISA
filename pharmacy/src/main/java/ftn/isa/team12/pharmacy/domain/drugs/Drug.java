@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.isa.team12.pharmacy.domain.enums.*;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Patient;

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {CityService} from '../services/city.service';
+import {CountryService} from '../services/country.service';
 
 @Component({
   selector: 'app-sing-up',
@@ -12,9 +14,19 @@ export class SingUpComponent implements OnInit {
   disabledCountry = false;
   disabledCity = false;
 
-  constructor() { }
+  cities = [];
+  countries = [];
+
+  constructor(private cityService: CityService, private countryService: CountryService) { }
 
   ngOnInit(): void {
+
+    this.cityService.findAll().subscribe((response) => {
+      this.cities = response;
+    });
+    this.countryService.findAll().subscribe((response) => {
+      this.countries = response;
+    });
   }
 
   onChangeSelectedCountry = (event) => {

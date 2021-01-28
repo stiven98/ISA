@@ -1,0 +1,43 @@
+dist: trusty
+sudo: false
+language: java
+jdk:
+- oraclejdk11
+install: true
+
+addons:
+  sonarcloud:
+    organization: "isa"
+    token: 
+      secure: "Q5l1xGT81Pzkj69EDYBTClPH8gSaGI4qO91BozieNWXrD5OIjjfxYbUvb93djv5QCkGFGKvp2OjJf1qzM5KbOYqJSSn13iP6hYmWB8W/trP4h+njsw7gpVMfU/DQcp18QA+85BZJwHtC0PWWcWo+RTiVxWj4hzn/HPE3gdKMYHTSsANAxT2LNfHMTZRHUlW9gUehHgsgoI6hY+jFEU3aFNx47DXsZzhGGqkOOr6YCpaOVdf7E5q11h1byQmIki8Kr/c+muDkgWT7Q+6CajDgGcs5E53dP/NtWwtNP0I45cgZ4ZabCOUkQwlzCOu+eH8+IFNzx03XuSpoklUaNWNbkjPd5qyy19anVtNM2Jro0ESAW+FDs4GJqPAOwi5CEOEQGEOVUW5v8dNMFVlL8xRu8QnlkzKqLkwYKM3dAO+td5RwYT7hiT5Zq/M+1AADB/4ZhTnpANpqEaDGbshynbxXn3kOM+V5504x8aXJt4ZjkduK04sil+MFKza1AIw+yOZt3KLagAQedpAdN6W5b+qQScaS0+78Dg4oqPXarLbXWEasFSD73VF6JHA5EpWLjcK7bHjKcSp632U663ICzkFijfVng8GmAIlzTWEikdmF2/PxfX/+dMYYBhjJqfLhOEEKvrsxZQWUfHkD2bjw5rQjx6XIdF8GBwz/XbFlO7P8biI="
+
+branches:
+  only: develop
+
+matrix:
+  include:
+    - language: java
+      jdk:
+      - oraclejdk11
+      before_script:
+        - cd ./pharmacy/
+      script:
+        - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=stiven98_ISA
+      cache:
+      directories:
+        - '$HOME/.m2/repository'
+        - '$HOME/.sonar/cache' 
+      before_script:
+        - cd ./pharmacy/
+
+    - language: node_js
+      node_js: stable
+      install:
+        - npm install
+      before_install:
+        - cd ./pharmacy-frontend/
+      script:
+        - npm run build
+        - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh && . ./install-jdk.sh -F 11 -L GPL
+      after-success:
+        - sonar-scanner -Dsonar.projectKey=stiven98_ISA

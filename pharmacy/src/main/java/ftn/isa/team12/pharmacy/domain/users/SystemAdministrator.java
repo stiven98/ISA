@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "SYSTEMADMINISTRATORS")
+@Table(name = "SYSTEM_ADMINISTRATORS")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class SystemAdministrator extends User implements Serializable {
 
