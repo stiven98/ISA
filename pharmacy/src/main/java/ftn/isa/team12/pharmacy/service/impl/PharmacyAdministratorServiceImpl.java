@@ -28,9 +28,13 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
         return pharmacyAdministratorRepository.findAdminByEmail(email);
     }
 
-
     @Override
     public PharmacyAdministrator findAdminByPharmacyId(UUID pharmacy) {
         return pharmacyAdministratorRepository.findAdminByPharmacyId(pharmacy);
     }
+
+
+
+
+
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
+import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
@@ -45,12 +46,10 @@ public class Pharmacy implements Serializable {
    @JsonIdentityReference(alwaysAsId = true)
    @JoinColumn(name = "location_id", referencedColumnName = "location_id", nullable = false)
    private Location location;
-   @ManyToMany
-   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "drugId")
-   @JsonIdentityReference(alwaysAsId = true)
-   @JoinTable(name = "drugs_in_pharmacies", joinColumns = @JoinColumn(name="pharmacy_id" ,  referencedColumnName  = "pharmacy_id"),
-           inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "drug_id"))
-   private Set<Drug> drugs = new HashSet<Drug>();
+
+   @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
+   private Set<DrugInPharmacy> drugs = new HashSet<DrugInPharmacy>();
+
    @ManyToMany
    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId")
    @JsonIdentityReference(alwaysAsId = true)

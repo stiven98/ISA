@@ -1,6 +1,8 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import lombok.Getter;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name = "DRUG_PRICES")
 public class DrugPrice implements Serializable {
     @Id

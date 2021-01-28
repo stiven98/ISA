@@ -1,5 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.enums.*;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
@@ -22,6 +24,7 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "drugId")
 @Table(name = "DRUGS")
 public class Drug implements Serializable {
 
@@ -48,9 +51,6 @@ public class Drug implements Serializable {
 
    @ManyToMany(mappedBy = "allergies")
    private Set<Patient> patientsAllergies = new HashSet<Patient>();
-
-   @ManyToMany(mappedBy = "drugs")
-   private Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
 
    @Column(name = "issuanceregime", nullable = false)
    private IssuanceRegime issuanceRegime;
