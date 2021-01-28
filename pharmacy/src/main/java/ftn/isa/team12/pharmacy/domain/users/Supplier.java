@@ -15,8 +15,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
+@PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "SUPPLIERS")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Supplier extends User implements Serializable {
 
     @ManyToMany

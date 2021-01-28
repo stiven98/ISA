@@ -19,8 +19,8 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
+@PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "PATIENTS")
 public class Patient extends User implements Serializable {
     @ManyToMany
