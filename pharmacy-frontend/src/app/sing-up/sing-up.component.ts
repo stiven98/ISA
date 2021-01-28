@@ -13,20 +13,21 @@ export class SingUpComponent implements OnInit {
   selectedCity = 'Choose...';
   disabledCountry = false;
   disabledCity = false;
-
+  fetchData = false;
   cities = [];
   countries = [];
 
   constructor(private cityService: CityService, private countryService: CountryService) { }
 
   ngOnInit(): void {
-
+    this.fetchData = true;
     this.cityService.findAll().subscribe((response) => {
       this.cities = response;
     });
     this.countryService.findAll().subscribe((response) => {
       this.countries = response;
     });
+    this.fetchData = false;
   }
 
   onChangeSelectedCountry = (event) => {
