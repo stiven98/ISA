@@ -5,6 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import {NgxLoadingXConfig, NgxLoadingXModule, POSITION, SPINNER} from 'ngx-loading-x';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SingInComponent } from './sing-in/sing-in.component';
@@ -17,6 +18,11 @@ const appRoutes: Routes = [
   { path: 'login', component: SingInComponent },
   { path: 'registration', component: SingUpComponent }
 ];
+
+const ngxLoadingXConfig: NgxLoadingXConfig = {
+  spinnerType: SPINNER.circleSpinner,
+  spinnerColor: '#1a1a1a'
+};
 
 @NgModule({
   declarations: [
@@ -31,7 +37,8 @@ const appRoutes: Routes = [
     AppRoutingModule,
     FormsModule,
     RouterModule.forRoot(appRoutes),
-    HttpClientModule
+    HttpClientModule,
+    NgxLoadingXModule.forRoot(ngxLoadingXConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]
