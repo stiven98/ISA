@@ -25,6 +25,7 @@ public class DrugInPharmacy {
     @Column(name = "id", nullable = false, unique = true)
     private UUID id;
 
+    @OneToOne
     @JoinColumn(name = "drug" ,referencedColumnName = "drug_id")
     private Drug drug;
 

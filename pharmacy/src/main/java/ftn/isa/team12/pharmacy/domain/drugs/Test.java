@@ -145,14 +145,24 @@ public class Test {
         dateRange.setStartDate(startDate);
         dateRange.setEndDate(endDate);
 
+
+
+
+
         Pharmacy pharmacy = new Pharmacy();
         pharmacy.setName("Apoteka 1");
         pharmacy.setLocation(location1);
         pharmacy.setDescription("Dobra apoteka");
         pharmacy.setAverageMark(8.9);
-        pharmacy.getDrugs().add(drug);
+
         pharmacy.getDermatologists().add(dermatologist);
         pharmacist.setPharmacy(pharmacy);
+
+        DrugInPharmacy drugInPharmacy = new DrugInPharmacy();
+        drugInPharmacy.setPharmacy(pharmacy);
+        drugInPharmacy.setDrug(drug);
+        drugInPharmacy.setQuantity(10);
+        pharmacy.getDrugs().add(drugInPharmacy);
 
         DrugPrice drugPrice = new DrugPrice();
         drugPrice.setPrice(560.0);
@@ -304,6 +314,7 @@ public class Test {
         em.persist(examinationType);
         em.persist(examinationPrice);
         em.persist(pharmacy);
+        em.persist(drugInPharmacy);
         em.persist(dermatologist);
         em.persist(drugPrice);
         em.persist(patient);
