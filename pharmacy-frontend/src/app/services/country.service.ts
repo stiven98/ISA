@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { environment } from './../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class CountryService {
 
   findAll = () => {
     return this.http
-      .get('http://localhost:8080/api/country/all')
+      .get(environment.apiUrl + '/api/country/all')
       .pipe(map(responseData => {
         const countries = [];
         for (const key in responseData) {
