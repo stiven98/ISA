@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+
 import ftn.isa.team12.pharmacy.domain.common.*;
 import ftn.isa.team12.pharmacy.domain.enums.*;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
@@ -6,13 +7,15 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
-import org.hibernate.jdbc.Work;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +26,19 @@ public class Test {
         final EntityManagerFactory factory =
                 Persistence.createEntityManagerFactory("PharmacyDB");
         EntityManager em = factory.createEntityManager();
+
+
+        Authority a = new Authority();
+        a.setRole("PH_ADMIN");
+
+        Authority pa = new Authority();
+        pa.setRole("PATIENT");
+
+        List<Authority> authorities = new ArrayList<Authority>();
+        List<Authority> authorities2 = new ArrayList<Authority>();
+
+        authorities.add(pa);
+        authorities2.add(a);
 
 
         Address address = new Address();
@@ -261,10 +277,15 @@ public class Test {
         drugOrder.getDrugOrderItems().add(drugOrderItem);
         drugOrder.getDrugOrderItems().add(drugOrderItem1);
 
+        LoginInfo suplierInfo = new LoginInfo();
+        suplierInfo.setEmail("sup@sup.com");
+        suplierInfo.setPassword("aaa");
+
+
         Supplier supplier = new Supplier();
         supplier.setLocation(location1);
         supplier.setAccountInfo(accountInfo4);
-        supplier.setLoginInfo(loginInfo2);
+        supplier.setLoginInfo(suplierInfo);
         supplier.getAvailableDrugs().add(drug);
 
         Offer offer = new Offer();
@@ -301,7 +322,14 @@ public class Test {
 
         pharmacist.getVacations().add(vacation);
 
+
+        patient.setAuthorities(authorities);
+        pharmacyAdministrator.setAuthorities(authorities2);
+
         em.getTransaction().begin();
+        em.persist(a);
+        em.persist(pa);
+
         em.persist(country);
         em.persist(city);
         em.persist(city1);
@@ -318,6 +346,8 @@ public class Test {
         em.persist(dermatologist);
         em.persist(drugPrice);
         em.persist(patient);
+
+
         em.persist(eRecipe);
         em.persist(drugReservation);
         em.persist(workTime);
@@ -327,8 +357,10 @@ public class Test {
         em.persist(drugOrder);
         em.persist(supplier);
         em.persist(offer);
+
         em.getTransaction().commit();
         em.close();
+
 
         System.exit(0);
     }

@@ -18,7 +18,6 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "MEDICAL_STUFF")
 public abstract class MedicalStuff extends User implements Serializable {
 

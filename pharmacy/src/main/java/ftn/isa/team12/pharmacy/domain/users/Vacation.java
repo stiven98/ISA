@@ -1,7 +1,6 @@
 package ftn.isa.team12.pharmacy.domain.users;
 
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
-import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,8 +8,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor

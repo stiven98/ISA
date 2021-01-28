@@ -1,11 +1,11 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import ftn.isa.team12.pharmacy.domain.enums.*;
-import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;
+import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
+import ftn.isa.team12.pharmacy.domain.enums.TypeOfDrug;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
-import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

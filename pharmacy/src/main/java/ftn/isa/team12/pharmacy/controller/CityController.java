@@ -20,6 +20,7 @@ public class CityController {
     @Autowired
     private CityService cityService;
 
+
     @GetMapping("/all")
     public ResponseEntity<List<City>> findAll() {
         return new ResponseEntity<List<City>>(this.cityService.findAll(), HttpStatus.OK);

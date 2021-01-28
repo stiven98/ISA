@@ -1,9 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.common;
 
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
-import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
-import ftn.isa.team12.pharmacy.domain.users.Vacation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,9 +9,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
+
 @Entity
 @Table(name = "WORK_TIME")
 @Getter
