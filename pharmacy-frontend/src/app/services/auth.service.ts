@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { AccountInfoModel } from '../sing-in/accountInfo.model';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,9 @@ import { ConfigService } from './config.service';
 export class AuthService {
   constructor(
     private apiService: ApiService,
-    private http: HttpClient,
-    private config: ConfigService
+    private userService: UserService,
+    private config: ConfigService,
+    private router: Router
     ) {
   }
 
@@ -25,6 +27,12 @@ export class AuthService {
     });
     return this.apiService.post(this.config.login_url, accountInfoModel, loginHeaders);
   }
+
+  logout() {
+    this.userService.currentUser = null;
+    this.access_token = null; 
+    this.router.navigate(['/login']);
+}
 
   tokenIsPresent() {
     return this.access_token != undefined && this.access_token != null;
