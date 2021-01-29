@@ -1,8 +1,9 @@
 package ftn.isa.team12.pharmacy.controller;
 
+import ftn.isa.team12.pharmacy.domain.users.Authority;
 import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.dto.LoginDTO;
-import ftn.isa.team12.pharmacy.dto.UserTokenState;
+import ftn.isa.team12.pharmacy.dto.LoginResponseDTO;
 import ftn.isa.team12.pharmacy.security.TokenUtils;
 import ftn.isa.team12.pharmacy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,8 +36,8 @@ public class AuthenticationController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody LoginDTO authenticationRequest,
-                                                                    HttpServletResponse response) {
+    public ResponseEntity<LoginResponseDTO> createAuthenticationToken(@RequestBody LoginDTO authenticationRequest,
+                                                                      HttpServletResponse response) {
 
         //
 
@@ -51,9 +52,10 @@ public class AuthenticationController {
         User user = (User) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getUsername());
         int expiresIn = tokenUtils.getExpiredIn();
-
+        List<Authority> authorities = new ArrayList<>();
+        user.getAuthorities().stream().forEach(a -> authorities.add((Authority) a));
         // Vrati token kao odgovor na uspesnu autentifikaciju
-        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+        return ResponseEntity.ok(new LoginResponseDTO(jwt, (long)expiresIn, authorities, user.getUserId()));
     }
 
 }
