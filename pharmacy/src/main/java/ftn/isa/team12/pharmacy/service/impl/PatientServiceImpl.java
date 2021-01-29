@@ -22,4 +22,15 @@ public class PatientServiceImpl implements PatientService {
         return this.patientRepository.findAll();
     }
 
+
+    @Override
+    public Patient saveAndFlush(Patient patient) {
+        return this.patientRepository.saveAndFlush(patient);
+    }
+
+    @Override
+    public Patient findByEmail(String email) {
+        return this.patientRepository.findByEmail(email);
+    }
+
 }

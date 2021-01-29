@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {CityService} from '../services/city.service';
 import {CountryService} from '../services/country.service';
+import {RegistrationPatientModel} from './registrationPatient.model';
+import {ValidationModel} from './validation.model';
 
 @Component({
   selector: 'app-sing-up',
@@ -16,6 +18,8 @@ export class SingUpComponent implements OnInit {
   fetchData = false;
   cities = [];
   countries = [];
+  registrationPatient: RegistrationPatientModel = new RegistrationPatientModel();
+  validationModel: ValidationModel = new ValidationModel();
 
   constructor(private cityService: CityService, private countryService: CountryService) { }
 
@@ -30,6 +34,19 @@ export class SingUpComponent implements OnInit {
     this.fetchData = false;
   }
 
+  createAccount = () => {
+    if (this.validateInput()){
+      alert('salji request jebo ga ti');
+    } else {
+      alert('nije dobro');
+    }
+
+  }
+
+  validateInput = () => {
+    return true;
+  }
+
   onChangeSelectedCountry = (event) => {
     this.selectedCountry = event.target.value;
     this.disabledCountry = this.selectedCountry === 'Other country';
@@ -39,5 +56,4 @@ export class SingUpComponent implements OnInit {
     this.selectedCity = event.target.value;
     this.disabledCity = this.selectedCity === 'Other city';
   }
-
 }

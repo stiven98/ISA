@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface CountryService {
     List<Country> findAll();
+    Country saveAndFlush(Country country);
 
 }

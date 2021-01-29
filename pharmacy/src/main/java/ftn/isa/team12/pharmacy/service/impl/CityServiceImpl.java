@@ -16,4 +16,13 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public List<City> findAll() { return this.cityRepository.findAll(); }
+
+    @Override
+    public City saveAndFlush(City city) {
+        City existsCity = this.cityRepository.findByNameAndCountryId(city.getName(), city.getCountry().getCountryId());
+        if (existsCity == null) {
+            existsCity = this.cityRepository.saveAndFlush(city);
+        }
+        return existsCity;
+    }
 }

@@ -28,7 +28,7 @@ public class Country implements Serializable {
    @Column(name = "country_id", nullable = false, unique = true)
    public UUID countryId;
 
-   @Column(name = "name", nullable = false, unique = false)
+   @Column(name = "name", nullable = false, unique = true)
    public String name;
 
    @JsonIgnore
