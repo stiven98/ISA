@@ -12,11 +12,22 @@
           <h2 class="d-flex justify-content-center text-dark">Sing in</h2>
           <div class="row d-flex justify-content-center mt-3">
             <div class="col-8">
-              <label for="email" class="text-dark">E-mail</label>
-              <input type="text" class="form-control" required="true" id="email"/>
-              <label class="pt-3 text-dark" for="password">Password</label>
-              <input type="password" class="form-control" required="true" id="password"/>
-              <button  type="button" class="btn btn-dark mt-3 w-100">Sing in</button>
+              <div>
+                <label for="email" class="text-dark">E-mail</label>
+                <input type="text" class="form-control" required="true" id="email" [ngClass]="validEmail" [(ngModel)]="accountInfoModel.email" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+                <div class="invalid-feedback">
+                  Correct: name@service.com
+                </div>
+              </div>
+              <div>
+                <label class="pt-3 text-dark" for="password">Password</label>
+                <input type="password" class="form-control" required="true" id="password" [ngClass]="validPassword" [(ngModel)]="accountInfoModel.password" [ngModelOptions]="{standalone: true}"  (keydown)="onKeyDown()"/>
+                <div class="invalid-feedback">
+                  Minimum 8 characters.
+                </div>
+              </div>
+
+              <button  type="submit" class="btn btn-dark mt-3 w-100" (click)="onLogin()">Sing in</button>
 
             </div>
           </div>
