@@ -29,10 +29,10 @@ public class Test {
 
 
         Authority a = new Authority();
-        a.setRole("PH_ADMIN");
+        a.setRole("ROLE_PH_ADMIN");
 
         Authority pa = new Authority();
-        pa.setRole("PATIENT");
+        pa.setRole("ROLE_PATIENT");
 
         List<Authority> authorities = new ArrayList<Authority>();
         List<Authority> authorities2 = new ArrayList<Authority>();
@@ -79,7 +79,7 @@ public class Test {
         location2.setCity(city);
 
         AccountInfo accountInfo4 = new AccountInfo();
-        accountInfo4.setActive(false);
+        accountInfo4.setActive(true);
         accountInfo4.setFirstLogin(false);
         accountInfo4.setName("Marko");
         accountInfo4.setLastName("Markovic");
@@ -87,7 +87,7 @@ public class Test {
 
         LoginInfo loginInfo4 = new LoginInfo();
         loginInfo4.setEmail("marko@gmail.com");
-        loginInfo4.setPassword("marko");
+        loginInfo4.setPassword("$2y$10$Z5f1FLfPOnoUy30IFf45f.HI.hJFejU3oHGB0xd2ol5pjhBdllfZa");
 
         PharmacyAdministrator pharmacyAdministrator = new PharmacyAdministrator();
         pharmacyAdministrator.setAccountInfo(accountInfo4);
@@ -132,15 +132,15 @@ public class Test {
 
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setEmail("aca@faca.com");
-        loginInfo.setPassword("acafaca");
+        loginInfo.setPassword("$2y$10$rVG.V2iafHDekZkLfXRWJuHls2SChJkHRQNJepCWxBv9EEFuymag6");
 
         LoginInfo loginInfo1 = new LoginInfo();
         loginInfo1.setEmail("maca@faca.com");
-        loginInfo1.setPassword("macafaca");
+        loginInfo1.setPassword("$2y$10$1fIqu1TMa1nSN40huVlHsePYVeXDIcb.5/lqNLzvSq0nM4p3ZNmIS");
 
         LoginInfo loginInfo2 = new LoginInfo();
         loginInfo2.setEmail("a@faca.com");
-        loginInfo2.setPassword("afaca");
+        loginInfo2.setPassword("$2y$10$C9VSEjAKLPEbwSPD7tCjXeVuUSwjp89l59bDtF3LEjD1EJp9qqv5O");
 
 
 
@@ -279,7 +279,7 @@ public class Test {
 
         LoginInfo suplierInfo = new LoginInfo();
         suplierInfo.setEmail("sup@sup.com");
-        suplierInfo.setPassword("aaa");
+        suplierInfo.setPassword("$2y$10$dGToolHjytPEch4CJNuVP.yEulslPNB0Dsyy.JmTYLE68fyqNz1MC");
 
 
         Supplier supplier = new Supplier();

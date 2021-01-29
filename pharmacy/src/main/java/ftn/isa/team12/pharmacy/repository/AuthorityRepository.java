@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface AuthorityRepository extends JpaRepository<Authority, UUID> {
     Authority findByRole(String role);
+
 }
