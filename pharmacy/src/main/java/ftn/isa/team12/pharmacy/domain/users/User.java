@@ -1,15 +1,14 @@
 package ftn.isa.team12.pharmacy.domain.users;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ftn.isa.team12.pharmacy.domain.common.*;
+import ftn.isa.team12.pharmacy.domain.common.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.*;
 

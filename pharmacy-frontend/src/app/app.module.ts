@@ -11,12 +11,16 @@ import { HeaderComponent } from './header/header.component';
 import { SingInComponent } from './sing-in/sing-in.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
 import { HomeComponent } from './home/home.component';
+import { PhAdminComponent } from './ph-admin/ph-admin.component';
+import { ChangeAccountInfoComponent } from './change-account-info/change-account-info.component';
 
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: SingInComponent },
-  { path: 'registration', component: SingUpComponent }
+  { path: 'registration', component: SingUpComponent },
+  {path: 'phAdmin', component: PhAdminComponent},
+  {path: 'changeAccountInfo/:id' , component: ChangeAccountInfoComponent}
 ];
 
 const ngxLoadingXConfig: NgxLoadingXConfig = {
@@ -30,7 +34,9 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     HeaderComponent,
     SingInComponent,
     SingUpComponent,
-    HomeComponent
+    HomeComponent,
+    PhAdminComponent,
+    ChangeAccountInfoComponent
   ],
   imports: [
     BrowserModule,
