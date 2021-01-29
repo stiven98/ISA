@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.domain.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Embeddable
 public class Address implements Serializable {
 
@@ -18,5 +20,10 @@ public class Address implements Serializable {
 
    @Column(name = "number", nullable = false)
    private int number;
+
+
+   public Address(Address address){
+      this(address.getStreet(), address.getNumber());
+   }
 
 }

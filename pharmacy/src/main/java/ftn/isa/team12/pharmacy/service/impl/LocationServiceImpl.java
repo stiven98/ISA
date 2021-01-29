@@ -12,13 +12,19 @@ public class LocationServiceImpl implements LocationService {
     @Autowired
     private LocationRepository locationRepository;
 
-
     @Override
     public Location saveAndFlush(Location location) {
-        Location existsLocation = this.locationRepository.findByLocationAndCity(location.getAddress().getStreet(), location.getAddress().getNumber(), location.getCity().getCityId() );
+        Location existsLocation = this.locationRepository.findByLocationAndCity(location.getAddress().getStreet(), location.getAddress().getNumber(), location.getCity().getCityId());
         if (existsLocation == null) {
             existsLocation = this.locationRepository.saveAndFlush(location);
         }
         return existsLocation;
     }
+
+
+
+
+
+
+
 }
