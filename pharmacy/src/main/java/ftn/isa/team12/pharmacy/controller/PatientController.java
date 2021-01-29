@@ -29,7 +29,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/patient", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PatientController {
 
     @Autowired
