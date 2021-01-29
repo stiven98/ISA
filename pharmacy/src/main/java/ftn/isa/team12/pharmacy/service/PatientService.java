@@ -5,9 +5,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface PatientService extends UserDetailsService {
+public interface PatientService {
 
     List<Patient> findAll();
-
+    Patient saveAndFlush(Patient patient);
+    Patient findByEmail(String email);
 
 }

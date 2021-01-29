@@ -8,9 +8,6 @@ import java.util.UUID;
 
 public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
-    @Query("select s from Patient s where s.loginInfo.email= ?1")
-    Patient findPatientByEmail(String email);
-
-
-
+    @Query("SELECT patient from Patient patient WHERE patient.loginInfo.email = ?1")
+    Patient findByEmail(String email);
 }

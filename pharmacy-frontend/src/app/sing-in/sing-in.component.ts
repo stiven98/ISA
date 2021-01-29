@@ -13,6 +13,7 @@ export class SingInComponent implements OnInit {
   validPassword = 'no-validate';
   accountInfoModel: AccountInfoModel = new AccountInfoModel();
 
+
   constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
@@ -20,7 +21,9 @@ export class SingInComponent implements OnInit {
 
   onLogin = () => {
     if (this.validateInput()){
-      alert('Http');
+      this.loginService.loginRequest(this.accountInfoModel).subscribe((response) =>{
+        console.log(response);
+      });
     } else  {
       console.log(this.validEmail);
       console.log(this.validPassword);
@@ -29,8 +32,8 @@ export class SingInComponent implements OnInit {
   }
 
   validateInput = () => {
-    const { email, password } = this.accountInfoModel;
-    const op1 = this.isValidEmail(email);
+    const { username, password } = this.accountInfoModel;
+    const op1 = this.isValidEmail(username);
     const op2 = this.isValidPassword(password);
     return (op1 && op2);
   }
@@ -43,7 +46,7 @@ export class SingInComponent implements OnInit {
 
   isValidPassword = (password: string) => {
     console.log('ValidPassword');
-    if (password.length < 8) {this.validPassword = 'is-invalid'; return false; }
+    if (password.length < 4) {this.validPassword = 'is-invalid'; return false; }
     return true;
   }
 

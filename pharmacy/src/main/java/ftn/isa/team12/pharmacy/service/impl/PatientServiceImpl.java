@@ -24,12 +24,13 @@ public class PatientServiceImpl implements PatientService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Patient patient = patientRepository.findPatientByEmail(email);
-        if (patient == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
-        } else {
-            return patient;
-        }
+    public Patient saveAndFlush(Patient patient) {
+        return this.patientRepository.saveAndFlush(patient);
     }
+
+    @Override
+    public Patient findByEmail(String email) {
+        return this.patientRepository.findByEmail(email);
+    }
+
 }

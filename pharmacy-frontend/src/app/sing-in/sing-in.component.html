@@ -14,7 +14,7 @@
             <div class="col-8">
               <div>
                 <label for="email" class="text-dark">E-mail</label>
-                <input type="text" class="form-control" required="true" id="email" [ngClass]="validEmail" [(ngModel)]="accountInfoModel.email" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+                <input type="text" class="form-control" required="true" id="email" [ngClass]="validEmail" [(ngModel)]="accountInfoModel.username" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
                 <div class="invalid-feedback">
                   Correct: name@service.com
                 </div>

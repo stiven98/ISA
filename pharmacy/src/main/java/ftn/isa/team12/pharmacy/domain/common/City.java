@@ -22,7 +22,7 @@ public class City implements Serializable {
    @Column(name = "city_id", nullable = false, unique = true)
    private UUID cityId;
 
-   @Column(name = "name", nullable = false, unique=false)
+   @Column(name = "name", nullable = false, unique=true)
    private String name;
 
    @Column(name = "zip_code", nullable = false, unique = false)

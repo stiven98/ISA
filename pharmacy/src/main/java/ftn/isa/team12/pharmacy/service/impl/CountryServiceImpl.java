@@ -16,4 +16,13 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public List<Country> findAll() { return this.countryRepository.findAll(); }
+
+    @Override
+    public Country saveAndFlush(Country country) {
+        Country existsCountry = this.countryRepository.findByName(country.getName());
+        if (existsCountry == null) {
+            existsCountry = this.countryRepository.saveAndFlush(country);
+        }
+        return existsCountry;
+    }
 }

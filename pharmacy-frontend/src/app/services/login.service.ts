@@ -13,6 +13,6 @@ export class LoginService {
 
   loginRequest = (accountInfoModel: AccountInfoModel) => {
     return this.http
-      .post('http://localhost:8080/api', accountInfoModel);
+      .post('http://localhost:8080/auth/login', accountInfoModel);
   }
 }
