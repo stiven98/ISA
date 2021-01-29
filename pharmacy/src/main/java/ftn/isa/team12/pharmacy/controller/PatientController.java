@@ -24,7 +24,7 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    @PreAuthorize("hasRole('PH_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_PH_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<PatientDTO>> findAll() {
         List<Patient> patients = patientService.findAll();

@@ -10,10 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Getter
 @Setter
@@ -21,7 +19,7 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "USERS")
-public abstract class User implements Serializable, UserDetails {
+public abstract class User implements UserDetails {
 
    @Id
    @GeneratedValue(generator = "uuid2")
@@ -45,6 +43,24 @@ public abstract class User implements Serializable, UserDetails {
            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
    private List<Authority> authorities = new ArrayList<Authority>() {
    };
+
+   public void setUsername(String username) {
+      this.loginInfo.setEmail(username);
+   }
+
+   public void setPassword(String password) {
+      Timestamp now = new Timestamp(new Date().getTime());
+      this.loginInfo.setLastPasswordResetDate(now);
+      this.loginInfo.setPassword(password);
+   }
+
+   public Timestamp getLastPasswordResetDate() {
+      return loginInfo.getLastPasswordResetDate();
+   }
+
+   public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+      this.loginInfo.setLastPasswordResetDate(lastPasswordResetDate);
+   }
 
    @Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
