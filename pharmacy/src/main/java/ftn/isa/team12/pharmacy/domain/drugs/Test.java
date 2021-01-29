@@ -31,15 +31,19 @@ public class Test {
         Authority a = new Authority();
         a.setRole("ROLE_PH_ADMIN");
 
+        Authority derm = new Authority();
+        derm.setRole("ROLE_DERMATOLOGIST");
+
         Authority pa = new Authority();
         pa.setRole("ROLE_PATIENT");
 
         List<Authority> authorities = new ArrayList<Authority>();
         List<Authority> authorities2 = new ArrayList<Authority>();
+        List<Authority> authoritiesDerm = new ArrayList<>();
 
         authorities.add(pa);
         authorities2.add(a);
-
+        authoritiesDerm.add(derm);
 
         Address address = new Address();
         address.setNumber(10);
@@ -329,10 +333,11 @@ public class Test {
 
         patient.setAuthorities(authorities);
         pharmacyAdministrator.setAuthorities(authorities2);
-
+        dermatologist.setAuthorities(authoritiesDerm);
         em.getTransaction().begin();
         em.persist(a);
         em.persist(pa);
+        em.persist(derm);
 
         em.persist(country);
         em.persist(city);

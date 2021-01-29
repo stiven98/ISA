@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { AccountInfoModel } from '../sing-in/accountInfo.model';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
@@ -25,7 +26,24 @@ export class AuthService {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
-    return this.apiService.post(this.config.login_url, accountInfoModel, loginHeaders);
+    return this.apiService.post(this.config.login_url, accountInfoModel, loginHeaders)
+    .subscribe(res => {
+      console.log('Login success');
+      this.access_token = res.accessToken;
+      this.userService.getMyInfo().subscribe(resUser => {
+        let authorities = resUser.authorities;
+        if(authorities.length > 0){
+          switch(authorities[0].authority){
+            case('ROLE_DERMATOLOGIST'):
+              this.router.navigate(['/dermatologist']);
+              break;
+          }
+        }else{
+          alert('Login error');
+          this.router.navigate(['/']);
+        }
+      });
+    });
   }
 
   logout() {
