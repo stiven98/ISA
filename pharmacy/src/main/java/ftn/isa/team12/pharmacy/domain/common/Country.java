@@ -35,4 +35,9 @@ public class Country implements Serializable {
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "country")
    private Set<City> cities = new HashSet<City>();
 
+   public Country(String name){
+      this.name = name;
+   }
+
+
 }

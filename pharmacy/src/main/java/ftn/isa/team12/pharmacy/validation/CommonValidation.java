@@ -1,5 +1,7 @@
 package ftn.isa.team12.pharmacy.validation;
 
+import java.util.regex.Pattern;
+
 public class CommonValidation {
 
     private String newValue;
@@ -18,10 +20,8 @@ public class CommonValidation {
     }
 
     public boolean regexValidation(String regex){
-        if(!newValue.matches(regex)){
-            return false;
-        }
-        return true;
+
+        return Pattern.matches(regex,newValue);
     }
 
     public String getNewValue() {

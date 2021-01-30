@@ -22,7 +22,6 @@ public class UserController {
     public ResponseEntity<UserDto> changeAccountInfo(@RequestBody UserDto userDto) {
             //userService.IsLoginUserExist(userDto.getPassword());
             User user = userService.findUserByEmail(userDto.getEmail());
-            System.out.println(user.getPassword());
             UserDto changedUser = userService.changeAccountInfo(user, userDto);
             if (changedUser == null)
                 return new ResponseEntity<UserDto>(changedUser, HttpStatus.BAD_REQUEST);

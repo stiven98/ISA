@@ -25,7 +25,8 @@ public class CityServiceImpl implements CityService {
     @Override
     public City saveAndFlush(City city) {
        commonValidation = new CommonValidation(city.getName());
-        if(!commonValidation.commonValidationCheck("") && !commonValidation.regexValidation("(^[A-Z][a-z]{3,12}$)"))
+        //regex prolazi Beograd ili Novi Sad morate prva slovo velikim
+        if(!commonValidation.commonValidationCheck("") && !commonValidation.regexValidation("^[A-Z][a-zA-Z]{2,}(?: [A-Z][a-zA-Z]*){0,2}$"))
             throw new IllegalArgumentException("Bad input");
         City existsCity = this.cityRepository.findByNameAndCountryId(city.getName(), city.getCountry().getCountryId());
         if (existsCity == null) {
