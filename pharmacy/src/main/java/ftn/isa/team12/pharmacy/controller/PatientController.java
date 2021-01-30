@@ -1,14 +1,11 @@
 package ftn.isa.team12.pharmacy.controller;
 
-<<<<<<< HEAD
-=======
 
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
 import ftn.isa.team12.pharmacy.domain.users.AccountCategory;
->>>>>>> a84123ecc915ddff7eaa17baef098d2516af0acc
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.dto.LoginDTO;
 import ftn.isa.team12.pharmacy.dto.PatientDTO;
