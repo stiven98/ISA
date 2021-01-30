@@ -9,10 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -21,6 +20,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/getUser")
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST')") // Dodati ostale role
+    public User user(Principal user) {
+        return this.userService.findUserByEmail(user.getName());
+    }
 
     @PostMapping("/change")
     public ResponseEntity<UserDto> changeAccountInfo(@RequestBody UserDto userDto) {
