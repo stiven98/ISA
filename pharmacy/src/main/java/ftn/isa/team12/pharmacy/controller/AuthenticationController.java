@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,25 @@ public class AuthenticationController {
         user.getAuthorities().stream().forEach(a -> authorities.add((Authority) a));
         // Vrati token kao odgovor na uspesnu autentifikaciju
         return ResponseEntity.ok(new LoginResponseDTO(jwt, (long)expiresIn, authorities, user.getUserId()));
+    }
+
+    @PostMapping(value = "/refresh")
+    public ResponseEntity<LoginResponseDTO> refreshAuthenticationToken(HttpServletRequest request) {
+
+        String token = tokenUtils.getToken(request);
+        String username = this.tokenUtils.getUsernameFromToken(token);
+        User user = (User) this.userService.loadUserByUsername(username);
+
+        if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+            String refreshedToken = tokenUtils.refreshToken(token);
+            int expiresIn = tokenUtils.getExpiredIn();
+            List<Authority> authorities = new ArrayList<>();
+            user.getAuthorities().stream().forEach(a -> authorities.add((Authority) a));
+            return ResponseEntity.ok(new LoginResponseDTO(refreshedToken,(long)expiresIn, authorities, user.getUserId()));
+        } else {
+            LoginResponseDTO userTokenState = new LoginResponseDTO();
+            return ResponseEntity.badRequest().body(userTokenState);
+        }
     }
 
 }

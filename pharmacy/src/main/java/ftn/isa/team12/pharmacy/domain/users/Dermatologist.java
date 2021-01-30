@@ -1,5 +1,8 @@
 package ftn.isa.team12.pharmacy.domain.users;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +25,8 @@ import java.util.Set;
 @Table(name = "DERMATOLOGISTS")
 public class Dermatologist extends MedicalStuff implements Serializable {
     @ManyToMany(mappedBy = "dermatologists")
-    private Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Set<Pharmacy> pharmacies = new HashSet<>();
 
 }
