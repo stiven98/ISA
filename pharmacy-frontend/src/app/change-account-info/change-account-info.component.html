@@ -1,4 +1,82 @@
-<p>change-account-info works!</p>
+<div class="container p-5" >
+    <div >
+      <div>
+        <h1 class="d-flex justify-content-center font-weight-bold text-dark">Account information</h1>
+      </div>
+  
+      <div class="d-flex justify-content-center pt-4">
+        <form class="form-control-feedback w-50">
+          <label for="firstName" class="text-dark" >Name:</label>
+          <input type="text" id="firstName" class="form-control" [(ngModel)]="changeUser.name" [ngModelOptions]="{standalone: true}" [disabled]="onButtonClick"  />
+          <label for="lastName" class="text-dark mt-3" >Surname:</label>
+          <input type="text" id="lastName" class="form-control"  [(ngModel)]="changeUser.lastName" [ngModelOptions]="{standalone: true}"[disabled]="onButtonClick" />
+  
+          
+          <label for="email" class="text-dark mt-3" >Email:</label>
+          <input type="text" id="email" class="form-control"  [(ngModel)]="changeUser.email" [ngModelOptions]="{standalone: true}" readonly/>
+          <div [hidden]="!onButtonClick">
+            <label for="currentCountry" class="text-dark mt-3" >Country:</label>
+            <input type="text" id="currentCountry" class="form-control"  [(ngModel)]="changeUser.countryName" [ngModelOptions]="{standalone: true}" [disabled]="onButtonClick" />
+    
+            <label for="currentCity" class="text-dark mt-3" >City:</label>
+            <input type="text" id="currentCity" class="form-control" [(ngModel)]="changeUser.cityName" [ngModelOptions]="{standalone: true}" [disabled]="onButtonClick" />
+    
+            <label for="currentLocation" class="text-dark mt-3" >Location</label>
+            <input type="text" id="currentLocatin" class="form-control" [(ngModel)]="changeUser.street" [ngModelOptions]="{standalone: true}" [disabled]="onButtonClick" />
+          </div>
+          <div [hidden]="onButtonClick">
+            <label for="country" class="text-dark mt-3" >Select country:</label>
+            <div class="row">
+                <div class="col-6">
+                <select class="custom-select" id="country" (change)="onChangeSelectedCountry($event)">
+                    <option value="Choose..." selected>Choose...</option>
+                    <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+                    <option value="Other country">Other country</option>
+                </select>
+                </div>
+    
+                <div class="col-6">
+                <input type="text" id="otherCountry" class="form-control" [(ngModel)]="changeUser.countryName"  [ngModelOptions]="{standalone: true}"  [disabled]="!disabledCountry"/>
+                </div>
+            </div>
+    
+            <label for="city" class="text-dark mt-3" >Select city:</label>
+            <div class="row">
+                <div class="col-6">
+                <select class="custom-select" id="city" (change)="onChangeSelectedCity($event)">
+                    <option value="Choose..." selected>Choose...</option>
+                    <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+                    <option value="Other city">Other city</option>
+                </select>
+                </div>
+    
+                <div class="col-6">
+                <input type="text" id="otherCity" class="form-control" [(ngModel)]="changeUser.cityName"  [ngModelOptions]="{standalone: true}" [disabled]="!disabledCity"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-9">
+                    <label for="street" class="text-dark mt-3" >Street:</label>
+                    <input type="text" id="street" class="form-control"  [(ngModel)]="changeUser.street" [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="col-3">
+                    <label for="streetNumber" class="text-dark mt-3" >Street:</label>
+                    <input type="text" id="streetNumber" class="form-control"  [(ngModel)]="changeUser.streetNumber" [ngModelOptions]="{standalone: true}"/>
+                </div>
+            </div>
+            <label for="password" class="text-dark mt-3" >Password to confirme:</label>
+            <input type="password" id="password" class="form-control"  [(ngModel)]="password" [ngModelOptions]="{standalone: true}"/>
+        </div>
 
+          <button class="btn btn-dark mt-3 w-100" (click)="changeVisibiliti()" [hidden]="!onButtonClick" >Change Information</button>
 
-<h1> {{id}} </h1>
+          <button class="btn btn-dark mt-3 w-100" (click)="changeAccountInfo()" [hidden]="onButtonClick" >change</button>
+  
+        </form>
+      </div>
+    </div>
+  
+    <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
+  
+  </div>
+  

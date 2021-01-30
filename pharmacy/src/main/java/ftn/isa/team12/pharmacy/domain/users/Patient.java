@@ -1,14 +1,12 @@
 package ftn.isa.team12.pharmacy.domain.users;
+
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.persistence.*;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;

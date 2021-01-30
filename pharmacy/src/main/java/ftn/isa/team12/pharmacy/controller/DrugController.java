@@ -2,9 +2,7 @@ package ftn.isa.team12.pharmacy.controller;
 
 
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
-import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.dto.DrugDTO;
-import ftn.isa.team12.pharmacy.dto.PatientDTO;
 import ftn.isa.team12.pharmacy.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

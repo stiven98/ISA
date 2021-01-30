@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { ApiService } from './api.service';
@@ -9,7 +10,6 @@ import { ConfigService } from './config.service';
 export class UserService {
 
   currentUser;
-
   constructor(
     private apiService: ApiService,
     private config: ConfigService
@@ -44,6 +44,21 @@ export class UserService {
 
   getAll() {
     return this.apiService.get(this.config.users_url);
+  }
+
+  getUserByID(id){
+    return this.apiService.get(this.config.get_user_by_id + id)
+    .pipe(map(user =>{
+      return user;
+    }))
+  }
+
+
+  changeAccountInformation(changeUser){  
+    return this.apiService.post(this.config.user_change,changeUser)
+    .pipe(map(user =>{ 
+      return user;
+    }))
   }
 
 }

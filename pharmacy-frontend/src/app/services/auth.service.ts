@@ -1,7 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
 import { AccountInfoModel } from '../sing-in/accountInfo.model';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
@@ -17,7 +16,10 @@ export class AuthService {
     private config: ConfigService,
     private router: Router
     ) {
+      this.access_token = localStorage.getItem('token');
   }
+
+
 
   private access_token = null;
 
@@ -29,6 +31,7 @@ export class AuthService {
     return this.apiService.post(this.config.login_url, accountInfoModel, loginHeaders)
     .subscribe(res => {
       console.log('Login success');
+      localStorage.setItem('token', res.accessToken);
       this.access_token = res.accessToken;
       this.userService.getMyInfo().subscribe(resUser => {
         let authorities = resUser.authorities;
@@ -47,6 +50,7 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem('token');
     this.userService.currentUser = null;
     this.access_token = null; 
     this.router.navigate(['/login']);

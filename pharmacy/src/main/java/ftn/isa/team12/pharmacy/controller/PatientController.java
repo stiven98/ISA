@@ -7,7 +7,6 @@ import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
 import ftn.isa.team12.pharmacy.domain.users.AccountCategory;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
-import ftn.isa.team12.pharmacy.dto.LoginDTO;
 import ftn.isa.team12.pharmacy.dto.PatientDTO;
 import ftn.isa.team12.pharmacy.service.CityService;
 import ftn.isa.team12.pharmacy.service.CountryService;

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -13,7 +12,6 @@ import java.sql.Timestamp;
 public class UserDto {
     private String email;
     private String password;
-    private String newPassword;
     private String cityName;
     public String countryName;
     private int zipCode;
@@ -29,7 +27,6 @@ public class UserDto {
         return "UserDto{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", newPassword='" + newPassword + '\'' +
                 ", cityName='" + cityName + '\'' +
                 ", countryName='" + countryName + '\'' +
                 ", zipCode=" + zipCode +
