@@ -171,6 +171,53 @@ public class Test {
         pharmacy.setDescription("Dobra apoteka");
         pharmacy.setAverageMark(8.9);
 
+
+        Pharmacy pharmacy2 = new Pharmacy();
+        pharmacy2.setName("Apoteka 2");
+        pharmacy2.setLocation(location2);
+        pharmacy2.setDescription("Nasa apoteka");
+        pharmacy2.setAverageMark(8.6);
+
+        Pharmacy pharmacy3 = new Pharmacy();
+        pharmacy3.setName("Apoteka 3");
+        pharmacy3.setLocation(location);
+        pharmacy3.setDescription("Kul apoteka");
+        pharmacy3.setAverageMark(9.6);
+
+
+        Pharmacy pharmacy4 = new Pharmacy();
+        pharmacy4.setName("Apoteka 4");
+        pharmacy4.setLocation(location);
+        pharmacy4.setDescription("Naj apoteka");
+        pharmacy4.setAverageMark(9.1);
+
+        Pharmacy pharmacy5 = new Pharmacy();
+        pharmacy5.setName("Apoteka 5");
+        pharmacy5.setLocation(location);
+        pharmacy5.setDescription("Nova apoteka");
+        pharmacy5.setAverageMark(8.1);
+
+        Pharmacy pharmacy6 = new Pharmacy();
+        pharmacy6.setName("Apoteka 6");
+        pharmacy6.setLocation(location);
+        pharmacy6.setDescription("Ful apoteka");
+        pharmacy6.setAverageMark(8.7);
+
+
+
+        Pharmacy pharmacy7 = new Pharmacy();
+        pharmacy7.setName("Apoteka 7");
+        pharmacy7.setLocation(location2);
+        pharmacy7.setDescription("Mnogo dobra apoteka");
+        pharmacy7.setAverageMark(9.2);
+
+
+        Pharmacy pharmacy8 = new Pharmacy();
+        pharmacy8.setName("Apoteka 8");
+        pharmacy8.setLocation(location1);
+        pharmacy8.setDescription("Nasa najbolja apoteka");
+        pharmacy8.setAverageMark(9.8);
+
         pharmacy.getDermatologists().add(dermatologist);
         pharmacist.setPharmacy(pharmacy);
 
@@ -346,8 +393,13 @@ public class Test {
         em.persist(dermatologist);
         em.persist(drugPrice);
         em.persist(patient);
-
-
+        em.persist(pharmacy2);
+        em.persist(pharmacy3);
+        em.persist(pharmacy4);
+        em.persist(pharmacy5);
+        em.persist(pharmacy6);
+        em.persist(pharmacy7);
+        em.persist(pharmacy8);
         em.persist(eRecipe);
         em.persist(drugReservation);
         em.persist(workTime);

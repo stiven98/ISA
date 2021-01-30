@@ -1,0 +1,58 @@
+.search-sec{
+  margin-left: 200px;
+  padding: 1rem;
+  margin-top: 10px;
+}
+.search-slt{
+  display: block;
+  width: 100%;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  height: calc(3rem + 2px) !important;
+  border-radius:0;
+}
+.wrn-btn{
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: capitalize;
+  height: calc(3rem + 2px) !important;
+  border-radius:0;
+}
+.main-row{
+  margin-top: 10%;
+}
+.display-4{
+  border: 5px solid dimgray;
+  color: chocolate;
+  font-weight: normal;
+  background: dimgray;
+}
+.card{
+  cursor: pointer;
+  margin: 20px;
+}
+
+.card img{
+  transform: translateY(-50px);
+  border-radius: 15px;
+  z-index: 1;
+}
+
+.card .card-body{
+  visibility: hidden;
+  transform: translateY(-150px);
+  height: 0px;
+}
+
+.card:hover .card-body{
+  visibility: visible;
+  transform: translateY(-10px);
+  transition:.5s;
+  height: auto;
+}
+
+

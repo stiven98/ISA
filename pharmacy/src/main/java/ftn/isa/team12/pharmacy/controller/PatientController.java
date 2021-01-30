@@ -1,6 +1,5 @@
 package ftn.isa.team12.pharmacy.controller;
 
-
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.dto.PatientDTO;
 import ftn.isa.team12.pharmacy.service.PatientService;
