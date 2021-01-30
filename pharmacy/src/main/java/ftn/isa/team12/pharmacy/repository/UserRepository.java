@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("select s from User s where s.loginInfo.email= ?1")
     User findUserByEmail (String email);
+
 }

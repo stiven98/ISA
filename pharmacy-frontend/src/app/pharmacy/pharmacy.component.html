@@ -1,0 +1,52 @@
+<div class="container-fluid padding">
+  <section class="search-sec">
+    <div class="container">
+      <form action="#" method="post" novalidate="novalidate">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                <input type="text"  class="form-control search-slt" placeholder="Enter pharmacy name">
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                <select class="form-control search-slt">
+                  <option>Choose average mark</option>
+                  <option>
+                    <a><p>9.0 - 10.0</p></a>
+                  </option>
+                  <option>
+                    <a><p>8.0 - 9.0</p></a>
+                  </option>
+                  <option>
+                    <a><p>7.0 - 8.0</p></a>
+                  </option>
+                  <option>
+                    <a><p> < 7.0 </p></a>
+                  </option>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                <button type="button" class="btn btn-secondary wrn-btn">Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+<div class = "container" >
+  <div class = "row main-row row-cols-1 row-cols-md-3 g-4" >
+    <div lass = "col-12"  *ngFor="let pharmacy of pharmacies">
+      <div class = "card p-3 text-center" style = "width: 20rem">
+        <img src="/assets/img/pharmacy.jpg" class = "card-img-top shadow bg-white rounded">
+        <h5 class ="card-title>">{{pharmacy.name}}</h5>
+        <div class = "card-body">
+          <p class = "card-text">Average mark {{pharmacy.averageMark}}</p>
+          <a class="btn-secondary"  class = "btn btn-outline-dark" [routerLink]="['/pharmacy-home/',pharmacy.name]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">See additional info</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
