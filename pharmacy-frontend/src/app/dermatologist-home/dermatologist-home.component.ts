@@ -11,7 +11,9 @@ export class DermatologistHomeComponent implements OnInit {
   dermatologist;
   constructor(
     userService : UserService
-  ) { }
+  ) {
+    this.dermatologist = userService.currentUser;
+   }
 
   ngOnInit(): void {
   }

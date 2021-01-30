@@ -1,7 +1,99 @@
 <div class="container  border w-100 pt-3">
     <div class="d-flex justify-content-center  bg-dark title">
-        <h1 > Dermatologist </h1>  
+        <h1>Dermatologist</h1>  
     </div>
 
-    
-</div>
+    <div class="container p-3">
+        <div class="row">
+            <div class="col-4">
+                <div class="row d-flex justify-content-center carde pb-2">
+                    <img src="/assets/img/doctor.png" class="img-responsive fit-image" style="max-width: 30%;" alt="Dermatologist image">
+                </div>
+                <div class="row border">
+                   <div class="col">
+                    <label>Name: {{dermatologist.accountInfo.name}}</label>
+                   </div>
+                   <div class="col">
+                    <label>Surname: {{dermatologist.accountInfo.lastName}}</label>
+                    </div>
+                </div>
+                <div class="row border">
+                    <div class="col">
+                     <label>Email/username: </label>
+                    </div>
+                    <div class="col">
+                        <label>{{dermatologist.loginInfo.email}}</label>
+                    </div>
+                 </div>
+                 <div class="row d-flex justify-content-center border">
+                     <label>PhD Dermatologist</label>
+                 </div>
+                 <div class="row d-flex justify-content-center border">
+                    <button  type="button" class="btn btn-dark mt-3 w-100">Change account info</button>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col"> 
+                        <div class="card">
+                            <img class="card-img-top" src="/assets/img/patient.png" alt="Card image clients">
+                            <div class="card-body">
+                                <h5 class="card-title">My clients</h5>
+                                <p class="card-text">Access all your patients so far</p>
+                                <a href="#"class="btn btn-dark mt-3 w-100">Show patients</a>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="col"> 
+                        <div class="card">
+                            <img class="card-img-top" src="/assets/img/stethoscope.png" alt="Card image appointment">
+                            <div class="card-body">
+                                <h5 class="card-title">Start appointment</h5>
+                                <p class="card-text">Allows you to start appointment</p>
+                                <a href="#"class="btn btn-dark mt-3 w-100">Start appointment</a>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="col"> 
+                        <div class="card">
+                            <img class="card-img-top" src="/assets/img/calendar.png" alt="Card image calendar">
+                            <div class="card-body">
+                                <h5 class="card-title">My work calendar</h5>
+                                <p class="card-text">Shows your work calendar</p>
+                                <a href="#"class="btn btn-dark mt-3 w-100">Show calendar</a>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col"> 
+                    <div class="card">
+                        <img class="card-img-top" src="/assets/img/vacation.png" alt="Card image vacation">
+                        <div class="card-body">
+                            <h5 class="card-title">Vacations</h5>
+                            <p class="card-text">Allows you to make vacation request</p>
+                            <a href="#"class="btn btn-dark mt-3 w-100">Make request</a>
+                        </div>
+                    </div>    
+                </div>
+                <div class="col"> 
+                    <div class="card">
+                        <img class="card-img-top" src="/assets/img/schedul_appointment.png" alt="Card image clients">
+                        <div class="card-body">
+                            <h5 class="card-title">Schedule appointment</h5>
+                            <p class="card-text">Schedule patient appointment</p>
+                            <a href="#"class="btn btn-dark mt-3 w-100">Schedule appointment</a>
+                        </div>
+                    </div>    
+                </div>
+                    <div class="col"> 
+                        <div class="card">
+                            
+                        </div>    
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
