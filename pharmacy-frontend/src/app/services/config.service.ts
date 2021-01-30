@@ -40,4 +40,17 @@ export class ConfigService {
     return this._get_user_url;
   }
 
+  private _get_user_by_id = this._user_url + '/getById/';
+
+  get  get_user_by_id (): string {
+    return this._get_user_by_id ;
+  }
+
+  private _user_change = this._user_url + '/change';
+
+  get user_change (): string {
+    return this._user_change ;
+  }
+
+
 }

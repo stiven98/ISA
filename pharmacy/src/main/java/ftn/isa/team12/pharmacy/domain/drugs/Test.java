@@ -333,6 +333,7 @@ public class Test {
         patient.setAuthorities(authorities);
         pharmacyAdministrator.setAuthorities(authorities2);
         dermatologist.setAuthorities(authoritiesDerm);
+
         em.getTransaction().begin();
         em.persist(a);
         em.persist(pa);

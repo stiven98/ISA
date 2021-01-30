@@ -105,7 +105,6 @@ public class UserServiceImpl implements UserService {
         Location location = locationService.saveAndFlush(new Location(city,address));
         user.setLocation(location);
 
-
         if(!fleg)
            return null;
 
@@ -126,15 +125,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
-    public Location changeLocation(Location location){
-        //smisli sta uradii ovde kakvu validaciju i kako sacuvati sve
-        commonValidation.setNewValue(location.getCity().getCountry().getName());
-
-
-        return location;
+    @Override
+    public User findByUserId(UUID id) {
+        return userRepository.findByUserId(id);
     }
-
-
-
 }

@@ -12,7 +12,6 @@ import lombok.Setter;
 public class UserDto {
     private String email;
     private String password;
-    private String newPassword;
     private String cityName;
     public String countryName;
     private int zipCode;
@@ -28,7 +27,6 @@ public class UserDto {
         return "UserDto{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", newPassword='" + newPassword + '\'' +
                 ", cityName='" + cityName + '\'' +
                 ", countryName='" + countryName + '\'' +
                 ", zipCode=" + zipCode +
