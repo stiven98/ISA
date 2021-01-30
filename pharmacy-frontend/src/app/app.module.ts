@@ -16,15 +16,20 @@ import { ChangeAccountInfoComponent } from './change-account-info/change-account
 import { DermatologistHomeComponent } from './dermatologist-home/dermatologist-home.component';
 import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { DermatologistsGuard } from './guard/dermatologists.guard';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: SingInComponent },
   { path: 'registration', component: SingUpComponent },
-  {path: 'phAdmin', component: PhAdminComponent},
-  {path: 'changeAccountInfo/:id' , component: ChangeAccountInfoComponent},
-  { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]}
+  { path: 'phAdmin', component: PhAdminComponent},
+  { path: 'changeAccountInfo/:id' , component: ChangeAccountInfoComponent},
+  { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
+  { path: '404', component: NotFoundComponent},
+  { path: '403', component: ForbiddenComponent},
+  { path: '**', redirectTo: '/404'}
 ];
 
 const ngxLoadingXConfig: NgxLoadingXConfig = {
@@ -41,7 +46,9 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     HomeComponent,
     PhAdminComponent,
     ChangeAccountInfoComponent,
-    DermatologistHomeComponent
+    DermatologistHomeComponent,
+    ForbiddenComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

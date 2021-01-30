@@ -16,13 +16,13 @@ export class DermatologistsGuard implements CanActivate {
         if (JSON.stringify(this.userService.currentUser.authorities).search('ROLE_DERMATOLOGIST') !== -1) {
           return true;
         } else {
-          this.router.navigate(['/']);
-          // this.router.navigate(['/403']); Implementirati forbidden componentu
+          console.log('IS NOT DERMATOLOGIST');
+          this.router.navigate(['/403']);
           return false;
         }
   
       } else {
-        console.log('IS NOT DERMATOLOGIST');
+        console.log('IS NOT LOGGED IN');
         this.router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
         return false;
       }
