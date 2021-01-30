@@ -31,15 +31,19 @@ public class Test {
         Authority a = new Authority();
         a.setRole("ROLE_PH_ADMIN");
 
+        Authority derm = new Authority();
+        derm.setRole("ROLE_DERMATOLOGIST");
+
         Authority pa = new Authority();
         pa.setRole("ROLE_PATIENT");
 
         List<Authority> authorities = new ArrayList<Authority>();
         List<Authority> authorities2 = new ArrayList<Authority>();
+        List<Authority> authoritiesDerm = new ArrayList<>();
 
         authorities.add(pa);
         authorities2.add(a);
-
+        authoritiesDerm.add(derm);
 
         Address address = new Address();
         address.setNumber(10);
@@ -87,6 +91,7 @@ public class Test {
 
         LoginInfo loginInfo4 = new LoginInfo();
         loginInfo4.setEmail("marko@gmail.com");
+        //marko
         loginInfo4.setPassword("$2y$10$Z5f1FLfPOnoUy30IFf45f.HI.hJFejU3oHGB0xd2ol5pjhBdllfZa");
 
         PharmacyAdministrator pharmacyAdministrator = new PharmacyAdministrator();
@@ -132,14 +137,17 @@ public class Test {
 
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setEmail("aca@faca.com");
-        loginInfo.setPassword("$2y$10$rVG.V2iafHDekZkLfXRWJuHls2SChJkHRQNJepCWxBv9EEFuymag6");
+        //acafaca
+        loginInfo.setPassword("$2a$10$PLALH3vbrAY7mZKmndud4.NdDd2eV9TDbreXZV0kOamJA0/MYEMhS");
 
         LoginInfo loginInfo1 = new LoginInfo();
         loginInfo1.setEmail("maca@faca.com");
+        //macafaca
         loginInfo1.setPassword("$2y$10$1fIqu1TMa1nSN40huVlHsePYVeXDIcb.5/lqNLzvSq0nM4p3ZNmIS");
 
         LoginInfo loginInfo2 = new LoginInfo();
         loginInfo2.setEmail("a@faca.com");
+        //afaca
         loginInfo2.setPassword("$2y$10$C9VSEjAKLPEbwSPD7tCjXeVuUSwjp89l59bDtF3LEjD1EJp9qqv5O");
 
 
@@ -372,10 +380,11 @@ public class Test {
 
         patient.setAuthorities(authorities);
         pharmacyAdministrator.setAuthorities(authorities2);
-
+        dermatologist.setAuthorities(authoritiesDerm);
         em.getTransaction().begin();
         em.persist(a);
         em.persist(pa);
+        em.persist(derm);
 
         em.persist(country);
         em.persist(city);
