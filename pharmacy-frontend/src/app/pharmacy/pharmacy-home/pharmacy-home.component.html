@@ -1,0 +1,248 @@
+<section id="hero" class="d-flex align-items-center">
+  <div class="container">
+    <h1>Welcome to {{pharmacy.name}}  </h1>
+    <h3>We are here to help you best way we can</h3>
+    <a href="" class="btn-get-started scrollto">Get Started</a>
+  </div>
+</section>
+<main id="main">
+
+  <!-- ======= Why Us Section ======= -->
+  <section id="why-us" class="why-us">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-lg-4 d-flex align-items-stretch">
+          <div class="content">
+            <h3>Why Choose {{pharmacy.name}}?</h3>
+            <p>
+              {{pharmacy.description}}
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-8 d-flex align-items-stretch">
+          <div class="icon-boxes d-flex flex-column justify-content-center">
+            <div class="row">
+              <div class="col-xl-4 d-flex align-items-stretch">
+                <div class="icon-box mt-4 mt-xl-0">
+                  <h2>Our average mark is
+                  <p style="font-size: 30px; margin-top: 20px; color: black;">  {{pharmacy.averageMark}}</p> </h2>
+                </div>
+              </div>
+              <div class="col-xl-4 d-flex align-items-stretch">
+                <div class="icon-box mt-4 mt-xl-0">
+                  <i class="bx bx-cube-alt"></i>
+                  <h4>Ullamco laboris ladore pan</h4>
+                  <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+                </div>
+              </div>
+              <div class="col-xl-4 d-flex align-items-stretch">
+                <div class="icon-box mt-4 mt-xl-0">
+                  <i class="bx bx-images"></i>
+                  <h4>Labore consequatur</h4>
+                  <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="services" class="services">
+    <div class="container">
+      <div class="section-title">
+        <h2>Services</h2>
+        <p>Here you can see wich services our pharmacy offers</p>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+          <div class="icon-box">
+            <div class="icon"><img src="assets/img/drugs.png"></div>
+            <h4><a href="/pharmacy-home/{{pharmacy.name}}#medications">Medications</a></h4>
+            <p>Here you can see all medication that our pharmacy offers</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+          <div class="icon-box">
+            <div class="icon"><img src="/assets/img/medicalstuff.png"></div>
+            <h4><a  href="/pharmacy-home/{{pharmacy.name}}#medicalstuff">Medical stuff</a></h4>
+            <p>See the professional medical staff who are there to help you  </p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+          <div class="icon-box">
+            <div class="icon"> <img src="/assets/img/appointment.png"></div>
+            <h4><a href="/pharmacy-home/{{pharmacy.name}}#appointments">Make an appointment</a></h4>
+            <p>Consult with our pharmacists or see dermatologist</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><img src="assets/img/action.png"></div>
+            <h4><a href="">Actions</a></h4>
+            <p>We constantly offer actions for our loyal consumers</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><img src="assets/img/promotion.png"></div>
+            <h4><a href="">Promotions</a></h4>
+            <p>Promotions are an integral part of our business where we offer various benefits</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><img src="assets/img/map.png"></div>
+            <h4><a href="/pharmacy-home/{{pharmacy.name}}#map">Find us</a></h4>
+            <p>You can find our pharmacy very easy and we will do the rest</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- End Services Section -->
+  <!-- ======= Medication Section ======= -->
+  <section id="medications" class="medical">
+    <div class="section-title">
+      <h2>Medications</h2>
+      <p>We offer you the highest quality medicines in our pharmacy</p>
+    </div>
+    <div class="wrapper">
+      <div class="container">
+        <div class="row main-row row-cols-3 row-cols-md-3 g-3"  *ngFor="let drug of drugs">
+          <div class="col-sm-3">
+            <div class="card p-3">
+              <div class="text-center"> <img src="/assets/img/aspirin.jpg" width="200"> </div>
+              <div class="product-details"> <span class="font-weight-bold d-block">$ 7.00</span> <span>{{drug.name}}</span>
+                <div class="buttons d-flex flex-row">
+                  <div class="cart"><img src="assets/img/drug.png"></div> <button class="btn btn-success cart-button btn-block"><span class="dot">1</span>Order now</button>
+                </div>
+                <div class="weight"> <small>{{drug.formOfDrug}} {{drug.typeOfDrug}} {{drug.issuanceRegime}}</small> </div>
+              </div>
+            </div>
+          </div>
+            </div>
+          </div>
+        </div>
+  </section>
+
+  <!-- ======= Appointment Section ======= -->
+  <section id="appointment" style="background-color: lightgray" class="appointment section-bg">
+    <div id="appointments" name = "appointments" class="container">
+
+      <div class="section-title">
+        <h2>Make an Appointment</h2>
+        <p>You can very easily schedule an examination or consultation with our medical staff</p>
+      </div>
+
+      <form action="" method="post" role="form" class="php-email-form">
+        <div class="form-row">
+          <div class="col-md-4 form-group">
+            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+            <div class="validate"></div>
+          </div>
+          <div class="col-md-4 form-group">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
+            <div class="validate"></div>
+          </div>
+          <div class="col-md-4 form-group">
+            <input type="tel" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+            <div class="validate"></div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-4 form-group">
+            <input type="datetime" name="date" class="form-control datepicker" id="date" placeholder="Appointment Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+            <div class="validate"></div>
+          </div>
+          <div class="col-md-4 form-group">
+            <select name="department" id="department" class="form-control">
+              <option value="">Select Department</option>
+              <option value="Department 1">Department 1</option>
+              <option value="Department 2">Department 2</option>
+              <option value="Department 3">Department 3</option>
+            </select>
+            <div class="validate"></div>
+          </div>
+          <div class="col-md-4 form-group">
+            <select name="doctor" id="doctor" class="form-control">
+              <option value="">Select Doctor</option>
+              <option value="Doctor 1">Doctor 1</option>
+              <option value="Doctor 2">Doctor 2</option>
+              <option value="Doctor 3">Doctor 3</option>
+            </select>
+            <div class="validate"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <textarea class="form-control" name="message" rows="5" placeholder="Message (Optional)"></textarea>
+          <div class="validate"></div>
+        </div>
+        <div class="mb-3">
+          <div class="loading">Loading</div>
+          <div class="error-message"></div>
+          <div class="sent-message">Your appointment request has been sent successfully. Thank you!</div>
+        </div>
+        <div class="text-center"><button type="submit">Make an Appointment</button></div>
+      </form>
+
+    </div>
+  </section><!-- End Appointment Section -->
+  <!-- ======= Doctors Section ======= -->
+  <section id="doctors" class="doctors">
+    <div class="container">
+
+      <div id="medicalstuff" name = "medicalstuff" class="section-title">
+        <h2>Medical stuff</h2>
+        <p>Our professional medical stuff </p>
+      </div>
+
+      <div class="row"  *ngFor="let pharmac of pharmacists">
+        <div class="col-lg-6">
+          <div class="member d-flex align-items-start">
+            <div class="pic"><img src="assets/img/doctors/doctors-1.jpg" class="img-fluid" alt=""></div>
+            <div class="member-info">
+              <h4>{{pharmac.accountInfo.name}} {{pharmac.accountInfo.lastName}}</h4>
+              <span>Pharmacist</span>
+              <p>Phone number: {{pharmac.accountInfo.phoneNumber}}</p>
+              <p>Email: {{pharmac.loginInfo.email}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row"  *ngFor="let derm of dermatologists">
+        <div class="col-lg-6">
+          <div class="member d-flex align-items-start">
+            <div class="pic"><img src="assets/img/doctors/doctors-3.jpg" class="img-fluid" alt=""></div>
+            <div class="member-info">
+              <h4>{{derm.accountInfo.name}} {{derm.accountInfo.lastName}}</h4>
+              <span>Dermatologist</span>
+              <p>Phone number: {{derm.accountInfo.phoneNumber}}</p>
+              <p>Email: {{derm.loginInfo.email}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>You can find us easy</h2>
+      </div>
+    </div>
+    <div id="map" name="map">
+      <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </section><!-- End Contact Section -->
+</main>

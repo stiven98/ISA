@@ -2,6 +2,7 @@ package ftn.isa.team12.pharmacy.domain.pharmacy;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
@@ -46,6 +47,7 @@ public class Pharmacy implements Serializable {
    @JoinColumn(name = "location_id", referencedColumnName = "location_id", nullable = false)
    private Location location;
 
+   @JsonIgnore
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
    private Set<DrugInPharmacy> drugs = new HashSet<DrugInPharmacy>();
 

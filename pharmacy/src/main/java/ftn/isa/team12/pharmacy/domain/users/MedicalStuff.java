@@ -39,5 +39,4 @@ public abstract class MedicalStuff extends User implements Serializable {
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "employee")
    private Set<Vacation> vacations = new HashSet<Vacation>();
 
-
 }
