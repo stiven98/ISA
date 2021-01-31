@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
+import { Dermatologist } from '../shared/models/dermatologist';
 
 @Component({
   selector: 'app-dermatologist-home',
@@ -8,14 +9,17 @@ import { UserService } from '../services/user.service';
 })
 export class DermatologistHomeComponent implements OnInit {
 
-  dermatologist;
+  dermatologist = new Dermatologist();
   constructor(
-    userService : UserService
+    private userService : UserService
   ) {
-    this.dermatologist = userService.currentUser;
+
    }
 
   ngOnInit(): void {
+    this.userService.getMyInfo().subscribe(resUser => {
+    this.dermatologist =  resUser;
+    });
   }
 
 }

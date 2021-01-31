@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
 import { AccountInfoModel } from './accountInfo.model';
 
 @Component({
@@ -18,7 +17,6 @@ export class SingInComponent implements OnInit {
 
   constructor(
     private loginService: AuthService,
-    private userService: UserService,
     private router: Router
     ) { }
 
@@ -26,14 +24,14 @@ export class SingInComponent implements OnInit {
   }
 
   onLogin = () => {
-    if (this.validateInput()){
-      this.loginService.loginRequest(this.accountInfoModel);
-    } else  {
-      console.log(this.validEmail);
-      console.log(this.validPassword);
-
+      if (this.validateInput()){
+        this.loginService.signIn(this.accountInfoModel);
+      } else  {
+        console.log(this.validEmail);
+        console.log(this.validPassword);
+  
+      }
     }
-  }
 
   validateInput = () => {
     const { username, password } = this.accountInfoModel;
