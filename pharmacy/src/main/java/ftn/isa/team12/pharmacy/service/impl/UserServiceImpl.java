@@ -77,21 +77,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean changePassword(User user, String newPassword) {
-        // TO-DO
-        boolean passwordValidityFlag = false;
-        commonValidation=new CommonValidation(newPassword);
+        commonValidation=new CommonValidation(user.getPassword());
         String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}";
-        if(commonValidation.commonValidationCheck(newPassword) && commonValidation.regexValidation(pattern)) {
-            passwordValidityFlag = true;
-            user.setPassword(newPassword);
-            if(user.getAccountInfo().isFirstLogin()){
-                user.getAccountInfo().setFirstLogin(false);
+        if(commonValidation.regexValidation(pattern)) {
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            if(commonValidation.commonValidationCheck(encodedPassword)){
+                user.setPassword(encodedPassword);
+                if(user.getAccountInfo().isFirstLogin()){
+                    user.getAccountInfo().setFirstLogin(false);
+                }
+                userRepository.save(user);
+                return true;
             }
-            userRepository.save(user);
-            return true;
-        }else {
-            return false;
         }
+        return false;
     }
 
     @Override
