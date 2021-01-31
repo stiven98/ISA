@@ -3,12 +3,11 @@ package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,4 +24,11 @@ public class CityController {
     public ResponseEntity<List<City>> findAll() {
         return new ResponseEntity<List<City>>(this.cityService.findAll(), HttpStatus.OK);
     }
+
+    @GetMapping("/byCountry")
+    @ResponseBody
+    public ResponseEntity<List<City>> findByCountry(@RequestParam String name){
+        return new ResponseEntity<List<City>>(this.cityService.findByCountry(name), HttpStatus.OK);
+    }
+
 }

@@ -7,5 +7,6 @@ import java.util.List;
 public interface CityService {
 
     List<City> findAll();
+    List<City> findByCountry(String name);
     City saveAndFlush(City city);
 }

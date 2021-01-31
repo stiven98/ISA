@@ -21,7 +21,7 @@ export class SingInComponent implements OnInit {
 
   onLogin = () => {
     if (this.validateInput()){
-      this.loginService.loginRequest(this.accountInfoModel).subscribe((response) =>{
+      this.loginService.loginRequest(this.accountInfoModel).subscribe((response) => {
         console.log(response);
       });
     } else  {
@@ -39,13 +39,11 @@ export class SingInComponent implements OnInit {
   }
 
   isValidEmail = (email: string) => {
-    console.log('ValidEmail');
     if (!email.match(new RegExp('.+(@).+(.com)'))){ this.validEmail = 'is-invalid'; return false; }
     return true;
   }
 
   isValidPassword = (password: string) => {
-    console.log('ValidPassword');
     if (password.length < 4) {this.validPassword = 'is-invalid'; return false; }
     return true;
   }

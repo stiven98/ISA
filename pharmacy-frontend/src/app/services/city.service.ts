@@ -13,9 +13,9 @@ export class CityService {
   constructor(private http: HttpClient) {
   }
 
-  findAll = () => {
+  findAll = (country: string) => {
     return this.http
-      .get(environment.apiUrl + '/api/city/all')
+      .get(environment.apiUrl + '/api/city/byCountry', { params: { name: country }} )
       .pipe(map(responseData => {
         const cities = [];
         for (const key in responseData) {

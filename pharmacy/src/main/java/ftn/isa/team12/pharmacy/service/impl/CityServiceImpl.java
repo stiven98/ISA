@@ -18,6 +18,11 @@ public class CityServiceImpl implements CityService {
     public List<City> findAll() { return this.cityRepository.findAll(); }
 
     @Override
+    public List<City> findByCountry(String name) {
+        return this.cityRepository.findByCountry(name);
+    }
+
+    @Override
     public City saveAndFlush(City city) {
         City existsCity = this.cityRepository.findByNameAndCountryId(city.getName(), city.getCountry().getCountryId());
         if (existsCity == null) {
@@ -25,4 +30,6 @@ public class CityServiceImpl implements CityService {
         }
         return existsCity;
     }
+
+
 }
