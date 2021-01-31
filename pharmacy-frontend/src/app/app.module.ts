@@ -19,6 +19,7 @@ import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { DermatologistsGuard } from './guard/dermatologists.guard';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { PatientComponent } from './patient/patient.component';
 
 
 const appRoutes: Routes = [
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo/:id' , component: ChangeAccountInfoComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
+  { path: 'patient', component: PatientComponent},
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
   { path: '**', redirectTo: '/404'}
@@ -53,7 +55,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     ChangeAccountInfoComponent,
     DermatologistHomeComponent,
     ForbiddenComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    PatientComponent
   ],
   imports: [
     BrowserModule,

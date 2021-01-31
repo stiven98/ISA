@@ -40,6 +40,9 @@ export class AuthService {
             case('ROLE_DERMATOLOGIST'):
               this.router.navigate(['/dermatologist']);
               break;
+            case('ROLE_PATIENT'):
+              this.router.navigate(['/patient']);
+              break;
           }
         }else{
           alert('Login error');
@@ -52,7 +55,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     this.userService.currentUser = null;
-    this.access_token = null; 
+    this.access_token = null;
     this.router.navigate(['/login']);
 }
 

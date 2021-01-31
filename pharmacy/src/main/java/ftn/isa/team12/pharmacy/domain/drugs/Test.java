@@ -149,6 +149,17 @@ public class Test {
         //afaca
         loginInfo2.setPassword("$2y$10$C9VSEjAKLPEbwSPD7tCjXeVuUSwjp89l59bDtF3LEjD1EJp9qqv5O");
 
+        AccountInfo accountInfo3 = new AccountInfo();
+        accountInfo3.setName("Jovan");
+        accountInfo3.setLastName("Bosnic");
+        accountInfo3.setFirstLogin(false);
+        accountInfo3.setPhoneNumber("06134562");
+
+        LoginInfo loginInfo3 = new LoginInfo();
+        loginInfo3.setEmail("jovan@gmail.com");
+        loginInfo3.setPassword("");
+
+
 
 
         Dermatologist dermatologist = new Dermatologist();
