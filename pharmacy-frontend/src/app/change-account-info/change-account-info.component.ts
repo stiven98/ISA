@@ -20,16 +20,16 @@ export class ChangeAccountInfoComponent implements OnInit {
   disabledCity = false;
   cities = [];
   countries = [];
-  location:string;
+  location: string;
   changeUser: ChangeUserModel = new ChangeUserModel();
   fetchData = false;
-  password = "";
+  password = '';
 
 
   constructor( private route: ActivatedRoute , private userService:UserService,
-     private cityService: CityService,
-     private countryService: CountryService) {
-   
+      private cityService: CityService,
+      private countryService: CountryService) {
+
    }
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class ChangeAccountInfoComponent implements OnInit {
     this.disabledCity = this.selectedCity === 'Other city';
   }
 
-  changeVisibiliti = ()=> {  
+  changeVisibility = () => {
     this.onButtonClick = false;
     this.fetchData = true;
     this.cityService.findAll().subscribe((response) => {
@@ -65,12 +65,12 @@ export class ChangeAccountInfoComponent implements OnInit {
     this.fetchData = false;
   }
 
-  changeAccountInfo = ()=> { 
+  changeAccountInfo = () => {
     this.changeUser.password = this.password;
-    this.userService.changeAccountInformation(this.changeUser).subscribe((response)=> {
+    this.userService.changeAccountInformation(this.changeUser).subscribe((response) => {
       this.changeUser = response;
       this.onButtonClick = true;
-    })
+    });
 
 
   }

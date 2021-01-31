@@ -19,7 +19,7 @@ export class AuthService {
     private config: ConfigService,
     private userService: UserService,
     private router: Router
-    ) {
+  ) {
   }
 
   private access_token = null;
@@ -33,10 +33,10 @@ export class AuthService {
           let authority = res.role;
           localStorage.setItem('role', authority);
           if(authority == 'ROLE_DERMATOLOGIST'){
-                this.router.navigate(['/dermatologist']);
+            this.router.navigate(['/dermatologist']);
           }
         })
-    });
+      });
   }
 
   getToken() {
@@ -73,9 +73,9 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     this.userService.currentUser = null;
-    this.access_token = null; 
+    this.access_token = null;
     this.router.navigate(['/login']);
-}
+  }
 
   tokenIsPresent() {
     return this.access_token != undefined && this.access_token != null;
