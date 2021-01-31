@@ -29,4 +29,10 @@ public class Location implements Serializable {
    private Address address;
 
 
+
+   public  Location(City city, Address address){
+      this.city=city;
+      this.address=address;
+   }
+
 }

@@ -1,10 +1,14 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
+import ftn.isa.team12.pharmacy.domain.common.Address;
+import ftn.isa.team12.pharmacy.domain.common.City;
+import ftn.isa.team12.pharmacy.domain.common.Country;
+import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.dto.UserDto;
 import ftn.isa.team12.pharmacy.repository.UserRepository;
-import ftn.isa.team12.pharmacy.service.AuthorityService;
-import ftn.isa.team12.pharmacy.service.UserService;
+import ftn.isa.team12.pharmacy.service.*;
+import ftn.isa.team12.pharmacy.validation.CommonValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +36,17 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private CountryService countryService;
+
+    @Autowired
+    private CityService cityService;
+
+    @Autowired
+    private LocationService locationService;
+
+    private CommonValidation commonValidation;
 
     @Override
     public User findById(UUID id) throws AccessDeniedException {
@@ -64,38 +79,38 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto changeAccountInfo(User user, UserDto dto) {
         boolean fleg = false;
-        if(this.validationCommon(user.getAccountInfo().getName(),dto.getName()) ||
-                this.valildationRegex(dto.getName(),"(^[A-Za-z]\\w{5,12}$)")) {
+        commonValidation=new CommonValidation(dto.getName());
+        if(commonValidation.commonValidationCheck(user.getAccountInfo().getName()) && commonValidation.regexValidation("(^[A-Z][a-z]{3,12}$)")) {
             user.getAccountInfo().setName(dto.getName());
             fleg = true;
-        }if(this.validationCommon(user.getAccountInfo().getLastName(),dto.getLastName()) ||
-                this.valildationRegex(dto.getName(),"(^[A-Za-z]\\w{5,12}$)")){
+        }
+        commonValidation.setNewValue(dto.getLastName());
+        if(commonValidation.commonValidationCheck(user.getAccountInfo().getLastName()) && commonValidation.regexValidation("(^[A-Z][a-z]{3,12}$)")){
             user.getAccountInfo().setLastName(dto.getLastName());
             fleg = true;
-        }if(this.validationCommon(user.getAccountInfo().getPhoneNumber(),dto.getPhoneNumber()) ||
-                this.valildationRegex(dto.getName(),"(\\w)")){
+        }
+        commonValidation.setNewValue(dto.getPhoneNumber());
+        if(commonValidation.commonValidationCheck(user.getAccountInfo().getPhoneNumber()) && commonValidation.regexValidation("(^[0-9]{3,12}$)")){
             user.getAccountInfo().setPhoneNumber(dto.getPhoneNumber());
             fleg = true;
         }
-        //treba dodati za grad
+
+        Country country = countryService.saveAndFlush(new Country(dto.getCountryName()));
+        user.getLocation().getCity().setCountry(country);
+
+        City city = cityService.saveAndFlush(new City(dto.getCityName(),country ,dto.getZipCode()));
+        user.getLocation().setCity(city);
+
+        Address address = new Address(dto.getStreet(),dto.getStreetNumber());
+        Location location = locationService.saveAndFlush(new Location(city,address));
+        user.setLocation(location);
+
         if(!fleg)
-            return null;
+           return null;
 
         userRepository.save(user);
 
         return dto;
-    }
-
-    public boolean validationCommon(String valid, String chagne ){
-        if(valid.equals(chagne) || chagne.equals(""))
-            return false;
-        return true;
-    }
-    public boolean valildationRegex(String change, String reg){
-        if(!change.matches(reg)){
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -110,4 +125,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User findByUserId(UUID id) {
+        return userRepository.findByUserId(id);
+    }
 }

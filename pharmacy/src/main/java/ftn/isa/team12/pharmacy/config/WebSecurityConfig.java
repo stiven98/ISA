@@ -4,6 +4,7 @@ import ftn.isa.team12.pharmacy.security.TokenUtils;
 import ftn.isa.team12.pharmacy.security.auth.RestAuthenticationEntryPoint;
 import ftn.isa.team12.pharmacy.security.auth.TokenAuthenticationFilter;
 import ftn.isa.team12.pharmacy.service.UserService;
+import ftn.isa.team12.pharmacy.validation.CommonValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,10 +43,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
         return super.authenticationManagerBean();
     }
 
+
+    public CommonValidation commonValidation;
+
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
+
+
 
     @Autowired
     private TokenUtils tokenUtils;
@@ -63,12 +70,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/h2-console/**")
                 .permitAll().antMatchers("/api/country/all").permitAll()
                 .antMatchers("/api/city/all").permitAll()
+                .antMatchers("/api/pharmacy/**").permitAll()
+                .antMatchers("/api/medicalStuff/**").permitAll()
+                .antMatchers("/api/drugInPharmacy/**").permitAll()
                 .antMatchers("/api/user/all").permitAll()
                 .antMatchers("/api/user/patient/add").permitAll()
+                .antMatchers("/api/user/getById/{id}").permitAll()
                 .antMatchers("/api/user/change").permitAll()
                 .antMatchers("/api/city/byCountry").permitAll()
                 .antMatchers("/api/patient/add").permitAll()
              
+
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
                 .anyRequest().authenticated().and()

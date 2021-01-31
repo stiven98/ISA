@@ -1,10 +1,15 @@
 package ftn.isa.team12.pharmacy.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import ftn.isa.team12.pharmacy.domain.users.Authority;
+import ftn.isa.team12.pharmacy.domain.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.sql.Timestamp;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +18,6 @@ import java.sql.Timestamp;
 public class UserDto {
     private String email;
     private String password;
-    private String newPassword;
     private String cityName;
     public String countryName;
     private int zipCode;
@@ -22,14 +26,33 @@ public class UserDto {
     private String name;
     private String lastName;
     private String phoneNumber;
+    private String role;
 
+    public UserDto(User user){
+        this.email = user.getUsername();
+        this.password = "";
+        this.cityName= user.getLocation().getCity().getName();
+        this.countryName= user.getLocation().getCity().getCountry().getName();
+        this.zipCode= user.getLocation().getCity().getZipCode();
+        this.street = user.getLocation().getAddress().getStreet();
+        this.streetNumber = user.getLocation().getAddress().getNumber();
+        this.name = user.getAccountInfo().getName();
+        this.lastName = user.getAccountInfo().getLastName();
+        this.phoneNumber = user.getAccountInfo().getPhoneNumber();
+        List<Authority> authorities = new ArrayList<>();
+        user.getAuthorities().stream().forEach(a -> authorities.add((Authority) a));
+        Authority a = authorities.stream().findFirst().orElseGet(null);
+        if(a != null)
+            this.role = a.getRole();
+        else
+            this.role = "";
+    }
 
     @Override
     public String toString() {
         return "UserDto{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", newPassword='" + newPassword + '\'' +
                 ", cityName='" + cityName + '\'' +
                 ", countryName='" + countryName + '\'' +
                 ", zipCode=" + zipCode +

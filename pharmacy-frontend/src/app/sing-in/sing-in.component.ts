@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { AccountInfoModel } from './accountInfo.model';
-import {LoginService} from '../services/login.service';
 
 @Component({
   selector: 'app-sing-in',
@@ -14,22 +15,24 @@ export class SingInComponent implements OnInit {
   accountInfoModel: AccountInfoModel = new AccountInfoModel();
 
 
-  constructor(private loginService: LoginService) { }
+  constructor(
+    private loginService: AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
   }
 
   onLogin = () => {
-    if (this.validateInput()){
-      this.loginService.loginRequest(this.accountInfoModel).subscribe((response) => {
-        console.log(response);
-      });
-    } else  {
-      console.log(this.validEmail);
-      console.log(this.validPassword);
 
+      if (this.validateInput()){
+        this.loginService.signIn(this.accountInfoModel);
+      } else  {
+        console.log(this.validEmail);
+        console.log(this.validPassword);
+
+      }
     }
-  }
 
   validateInput = () => {
     const { username, password } = this.accountInfoModel;

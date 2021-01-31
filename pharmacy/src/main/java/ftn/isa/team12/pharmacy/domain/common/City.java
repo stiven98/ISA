@@ -35,4 +35,12 @@ public class City implements Serializable {
    private Country country;
 
 
+
+
+   public City(String name, Country country, int zipCode){
+      this.name = name;
+      this.country = country;
+      this.zipCode = zipCode;
+
+   }
 }

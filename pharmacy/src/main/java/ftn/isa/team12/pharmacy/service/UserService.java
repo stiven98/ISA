@@ -13,4 +13,6 @@ public interface UserService extends UserDetailsService {
     List<User> findAll ();
     UserDto changeAccountInfo(User user, UserDto dto);
     boolean IsLoginUserExist(String oldPassword);
+    User findByUserId(UUID id);
+
 }

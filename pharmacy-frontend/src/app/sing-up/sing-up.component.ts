@@ -188,7 +188,7 @@ export class SingUpComponent implements OnInit {
       this.ifCountry = true;
       this.fetchData = true;
       this.addedCountry = '';
-      this.cityService.findAll(this.selectedCountry).subscribe((response) => {
+      this.cityService.findAllByCountry(this.selectedCountry).subscribe((response) => {
         this.cities = response;
         this.fetchData = false;
       });
