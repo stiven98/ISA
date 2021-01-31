@@ -4,6 +4,7 @@ import {CountryService} from '../services/country.service';
 import {RegistrationPatientModel} from './registrationPatient.model';
 import {ValidationModel} from './validation.model';
 import {CreateAccountService} from '../services/createAccount.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sing-up',
@@ -29,7 +30,8 @@ export class SingUpComponent implements OnInit {
 
   constructor(private cityService: CityService,
               private countryService: CountryService,
-              private createAccountService: CreateAccountService) { }
+              private createAccountService: CreateAccountService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.addedCountry = '';
@@ -62,11 +64,13 @@ export class SingUpComponent implements OnInit {
 
       console.log(this.registrationPatient);
       this.createAccountService.register(this.registrationPatient).subscribe((response) => {
-        alert(response);
+        console.log(response);
         this.fetchData = false;
+        this.router.navigate(['/login']);
+      }, (error) => {
+        console.log(error);
       });
-
-
+      
     } else {
       console.log('Nije dobro');
     }

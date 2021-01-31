@@ -43,6 +43,9 @@ public class PatientController {
     @Autowired
     private CityService cityService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 
     @GetMapping("/all")
@@ -62,11 +65,12 @@ public class PatientController {
         Patient existsPatient = patientService.findByEmail(patient.getLoginInfo().getEmail());
         if (existsPatient == null) {
 
-
+            System.out.println("-------------------" + patient.getPassword());
             ResponseEntity.unprocessableEntity();
             patient.getAccountInfo().setActive(false);
             patient.getAccountInfo().setFirstLogin(true);
             patient.setPenalties(0);
+            patient.getLoginInfo().setPassword(passwordEncoder.encode(patient.getPassword()));
             patient.setCategory(new AccountCategory());
             patient.getCategory().setCategory(UserCategory.bronse);
             patient.getCategory().setPoints(0);
