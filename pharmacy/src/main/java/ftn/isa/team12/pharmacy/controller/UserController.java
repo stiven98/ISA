@@ -27,8 +27,10 @@ public class UserController {
 
     @GetMapping("/getUser")
     @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST')") // Dodati ostale role
-    public User user(Principal user) {
-        return this.userService.findUserByEmail(user.getName());
+    public ResponseEntity<UserDto> user(Principal user) {
+        User userDetails = this.userService.findUserByEmail(user.getName());
+        UserDto dto = new UserDto(userDetails);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     //treba dodati role da ne moze ne ulogovan da pristupi stranici
@@ -47,9 +49,7 @@ public class UserController {
     @GetMapping("/getById/{id}")
     public ResponseEntity<UserDto> getByID(@PathVariable UUID id) {
         User user = userService.findByUserId(id);
-        UserDto dto = new UserDto(user.getUsername(), "",user.getLocation().getCity().getName(),user.getLocation().getCity().getCountry().getName(),
-                user.getLocation().getCity().getZipCode(),user.getLocation().getAddress().getStreet(),user.getLocation().getAddress().getNumber(),user.getAccountInfo().getName()
-        ,user.getAccountInfo().getLastName(),user.getAccountInfo().getPhoneNumber());
+        UserDto dto = new UserDto(user);
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
