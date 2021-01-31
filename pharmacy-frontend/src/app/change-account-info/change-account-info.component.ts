@@ -34,8 +34,7 @@ export class ChangeAccountInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchData = true;
-    this.id = this.route.snapshot.params['id'];
-    this.userService.getUserByID(this.id).subscribe(user => this.changeUser=user);
+    this.userService.getMyInfo().subscribe(user => this.changeUser=user);
     this.fetchData = false;
 
   }

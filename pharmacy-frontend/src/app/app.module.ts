@@ -29,7 +29,7 @@ const appRoutes: Routes = [
   { path: 'pharmacy', component: PharmacyComponent },
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
   { path: 'phAdmin', component: PhAdminComponent},
-  { path: 'changeAccountInfo/:id' , component: ChangeAccountInfoComponent},
+  { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
   { path: 'patient', component: PatientComponent},
   { path: '404', component: NotFoundComponent},
