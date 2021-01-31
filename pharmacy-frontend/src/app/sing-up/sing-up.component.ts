@@ -111,7 +111,9 @@ export class SingUpComponent implements OnInit {
   }
 
   isValidPassword = () => {
-    if (this.registrationPatient.loginInfo.password.length < 4) {this.validationModel.validPassword = 'is-invalid'; return false; }
+    var regex = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{6,}/g;
+    const isPasswordValidFlag = regex.test(this.registrationPatient.loginInfo.password);
+    if (!isPasswordValidFlag) {this.validationModel.validPassword = 'is-invalid'; return false; }
     return true;
   }
 

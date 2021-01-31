@@ -10,7 +10,8 @@ public interface UserService extends UserDetailsService {
     User findUserByEmail(String email);
     List<User> findAll ();
     UserDto changeAccountInfo(User user, UserDto dto);
-    boolean IsLoginUserExist(String oldPassword);
+    boolean changePassword(User user, String newPassword);
+    boolean checkCurrentUserCredentials(String password);
     User findByUserId(UUID id);
 
 }

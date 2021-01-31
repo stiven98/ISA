@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -75,6 +77,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean changePassword(User user, String newPassword) {
+        // TO-DO
+        boolean passwordValidityFlag = false;
+        commonValidation=new CommonValidation(newPassword);
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}";
+        if(commonValidation.commonValidationCheck(newPassword) && commonValidation.regexValidation(pattern)) {
+            passwordValidityFlag = true;
+            user.setPassword(newPassword);
+            if(user.getAccountInfo().isFirstLogin()){
+                user.getAccountInfo().setFirstLogin(false);
+            }
+            userRepository.save(user);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
     public UserDto changeAccountInfo(User user, UserDto dto) {
         boolean fleg = false;
         commonValidation=new CommonValidation(dto.getName());
@@ -112,11 +133,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean IsLoginUserExist(String oldPassword){
+    public boolean checkCurrentUserCredentials(String password){
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String username = currentUser.getName();
         if (authenticationManager != null) {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             return true;
         } else {
             return false;
