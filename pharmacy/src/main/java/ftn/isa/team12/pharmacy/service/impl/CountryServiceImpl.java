@@ -29,8 +29,8 @@ public class CountryServiceImpl implements CountryService {
     public Country saveAndFlush(Country country) {
         commonValidation = new CommonValidation(country.getName());
         //regex prolazi Beograd ili Novi Sad morate prva slovo velikim
-        if(!commonValidation.commonValidationCheck("") || !commonValidation.regexValidation("^[A-Z][a-zA-Z]{3,}(?: [A-Z][a-zA-Z]*){0,2}$"))
-            throw new IllegalArgumentException("Bad input");
+        //if(!commonValidation.commonValidationCheck("") || !commonValidation.regexValidation("[A-Za-z]+"))
+        //    throw new IllegalArgumentException("Bad input");
 
         Country existsCountry = this.countryRepository.findByName(country.getName());
         if (existsCountry == null) {

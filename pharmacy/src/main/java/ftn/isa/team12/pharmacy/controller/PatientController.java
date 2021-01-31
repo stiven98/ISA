@@ -17,14 +17,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+import sun.net.smtp.SmtpClient;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 
 @RestController
@@ -43,6 +43,9 @@ public class PatientController {
     @Autowired
     private CityService cityService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 
     @GetMapping("/all")
@@ -55,17 +58,19 @@ public class PatientController {
         return new ResponseEntity<List<PatientDTO>>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/patient/add")
-    public ResponseEntity<String> savePatient(@RequestBody Patient patient,
+    @PostMapping("/add")
+    public ResponseEntity<Patient> savePatient(@RequestBody Patient patient,
                                                 HttpServletResponse response) {
 
         Patient existsPatient = patientService.findByEmail(patient.getLoginInfo().getEmail());
         if (existsPatient == null) {
 
+            System.out.println("-------------------" + patient.getPassword());
             ResponseEntity.unprocessableEntity();
             patient.getAccountInfo().setActive(false);
             patient.getAccountInfo().setFirstLogin(true);
             patient.setPenalties(0);
+            patient.getLoginInfo().setPassword(passwordEncoder.encode(patient.getPassword()));
             patient.setCategory(new AccountCategory());
             patient.getCategory().setCategory(UserCategory.bronse);
             patient.getCategory().setPoints(0);
@@ -84,10 +89,14 @@ public class PatientController {
 
             //SMTP Send email
 
-            return ResponseEntity.ok().body("Patient is registered!");
+            return new ResponseEntity<>(patient, HttpStatus.CREATED);
         } else {
-            return ResponseEntity.ok().body("Email has been used!" );
+            return new ResponseEntity<>(patient, HttpStatus.NO_CONTENT);
         }
+    }
+
+    void sendEmail(String email) {
+
     }
 
 }

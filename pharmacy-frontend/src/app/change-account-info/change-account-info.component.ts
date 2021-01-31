@@ -45,6 +45,9 @@ export class ChangeAccountInfoComponent implements OnInit {
     this.selectedCountry = event.target.value;
     this.changeUser.countryName = this.selectedCountry;
     this.disabledCountry = this.selectedCountry === 'Other country';
+    this.cityService.findAllByCountry(this.selectedCountry).subscribe((response) => {
+      this.cities = response;
+    });
   }
 
   onChangeSelectedCity = (event) => {
@@ -56,7 +59,7 @@ export class ChangeAccountInfoComponent implements OnInit {
   changeVisibility = () => {
     this.onButtonClick = false;
     this.fetchData = true;
-    this.cityService.findAll().subscribe((response) => {
+    this.cityService.findAllByCountry(this.selectedCountry).subscribe((response) => {
       this.cities = response;
     });
     this.countryService.findAll().subscribe((response) => {

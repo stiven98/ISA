@@ -23,23 +23,22 @@ public class CityServiceImpl implements CityService {
     public List<City> findAll() { return this.cityRepository.findAll(); }
 
     @Override
+    public List<City> findByCountry(String name) {
+        return this.cityRepository.findByCountry(name);
+    }
+
+    @Override
     public City saveAndFlush(City city) {
        commonValidation = new CommonValidation(city.getName());
         //regex prolazi Beograd ili Novi Sad morate prva slovo velikim
-        if(!commonValidation.commonValidationCheck("") && !commonValidation.regexValidation("^[A-Z][a-zA-Z]{2,}(?: [A-Z][a-zA-Z]*){0,2}$"))
-            throw new IllegalArgumentException("Bad input");
+        // if(!commonValidation.commonValidationCheck("") && !commonValidation.regexValidation("[A-Za-z]+"))
+        //    throw new IllegalArgumentException("Bad input");
         City existsCity = this.cityRepository.findByNameAndCountryId(city.getName(), city.getCountry().getCountryId());
         if (existsCity == null) {
             existsCity = this.cityRepository.saveAndFlush(city);
         }
         return existsCity;
     }
-
-
-
-
-
-
 
 
 
