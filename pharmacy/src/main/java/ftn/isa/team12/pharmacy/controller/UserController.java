@@ -1,7 +1,6 @@
 package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.dto.UserDto;
-import ftn.isa.team12.pharmacy.repository.UserRepository;
 import ftn.isa.team12.pharmacy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,8 +51,5 @@ public class UserController {
         UserDto dto = new UserDto(user);
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
-
-
-
 
 }

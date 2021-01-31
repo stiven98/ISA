@@ -1,10 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.common;
-
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.io.Serializable;
 

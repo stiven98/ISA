@@ -1,5 +1,3 @@
-
-
 export class RegistrationPatientModel {
   name: string;
   surname: string;

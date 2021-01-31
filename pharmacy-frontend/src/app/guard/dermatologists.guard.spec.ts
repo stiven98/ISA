@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { DermatologistsGuard } from './dermatologists.guard';
 
 describe('DermatologistsGuard', () => {

@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.repository.CityRepository;
 import ftn.isa.team12.pharmacy.service.CityService;

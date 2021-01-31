@@ -1,6 +1,4 @@
 package ftn.isa.team12.pharmacy.controller;
-
-
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +42,5 @@ public class PharmacyAdministratorController {
 
         return new ResponseEntity<PharmacyAdministrator>(phAdmin,HttpStatus.OK);
     }
-
-
-
-
 
 }

@@ -1,13 +1,10 @@
 package ftn.isa.team12.pharmacy.dto;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.isa.team12.pharmacy.domain.users.Authority;
 import ftn.isa.team12.pharmacy.domain.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
