@@ -1,7 +1,4 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
-
-import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.repository.PharmacyAdministratorRepository;
 import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
@@ -10,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 

@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.domain.users;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import lombok.Getter;

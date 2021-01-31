@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.controller;
-
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;

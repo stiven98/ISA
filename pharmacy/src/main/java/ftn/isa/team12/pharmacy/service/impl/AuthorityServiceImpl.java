@@ -1,11 +1,9 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
 import ftn.isa.team12.pharmacy.domain.users.Authority;
 import ftn.isa.team12.pharmacy.repository.AuthorityRepository;
 import ftn.isa.team12.pharmacy.service.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

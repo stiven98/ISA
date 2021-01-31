@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.dto;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.dto;
-
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.Manufacturer;
 import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;

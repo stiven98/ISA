@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.config;
-
 import ftn.isa.team12.pharmacy.security.TokenUtils;
 import ftn.isa.team12.pharmacy.security.auth.RestAuthenticationEntryPoint;
 import ftn.isa.team12.pharmacy.security.auth.TokenAuthenticationFilter;

@@ -1,9 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.users;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -27,6 +25,5 @@ public class AccountInfo implements Serializable {
 
    @Column(name = "firstlogin", nullable = false)
    private boolean isFirstLogin;
-
 
 }
