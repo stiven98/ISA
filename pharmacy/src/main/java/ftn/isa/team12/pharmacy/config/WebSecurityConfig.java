@@ -76,7 +76,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .antMatchers("/api/user/patient/add").permitAll()
                 .antMatchers("/api/user/getById/{id}").permitAll()
                 .antMatchers("/api/user/change").permitAll()
-
+                .antMatchers("/api/city/byCountry").permitAll()
+                .antMatchers("/api/patient/add").permitAll()
+             
 
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan

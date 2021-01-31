@@ -15,7 +15,21 @@ export class CityService {
 
   findAll = () => {
     return this.http
-      .get(environment.apiUrl + '/api/city/all')
+      .get(environment.apiUrl + '/api/city/all' )
+      .pipe(map(responseData => {
+        const cities = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)){
+            cities.push(responseData[key].name);
+          }
+        }
+        return cities;
+      }));
+  }
+
+  findAllByCountry = (country: string) => {
+    return this.http
+      .get(environment.apiUrl + '/api/city/byCountry', { params: { name: country }} )
       .pipe(map(responseData => {
         const cities = [];
         for (const key in responseData) {
