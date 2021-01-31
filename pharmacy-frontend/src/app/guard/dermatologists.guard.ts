@@ -16,6 +16,7 @@ export class DermatologistsGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.authService.isLoggedIn !== true || this.authService.getRole() !== "ROLE_DERMATOLOGIST") {
       window.alert("Access not allowed!");
+      this.authService.doLogout();
       this.router.navigate(['/403']);
     }
     return true;
