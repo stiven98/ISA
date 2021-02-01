@@ -22,7 +22,7 @@ export class ConfigService {
     return this._login_url;
   }
 
-  private _change_password_url = this._auth_url + '/changePassword';
+  private _change_password_url = this._user_url + '/changePassword';
 
   get change_password_url(): string {
     return this._change_password_url;
