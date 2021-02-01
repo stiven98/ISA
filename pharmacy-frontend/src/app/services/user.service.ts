@@ -60,4 +60,8 @@ export class UserService {
     }))
   }
 
+  changePassword(passwordsWrapper){  
+    return this.apiService.post(this.config.change_password_url, passwordsWrapper);
+  }
+
 }

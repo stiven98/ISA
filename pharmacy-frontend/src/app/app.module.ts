@@ -20,6 +20,7 @@ import { DermatologistsGuard } from './guard/dermatologists.guard';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PatientComponent } from './patient/patient.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 const appRoutes: Routes = [
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
+  { path: 'changePassword' , component: ChangePasswordComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
   { path: 'patient', component: PatientComponent},
   { path: '404', component: NotFoundComponent},
@@ -56,7 +58,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     DermatologistHomeComponent,
     ForbiddenComponent,
     NotFoundComponent,
-    PatientComponent
+    PatientComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
