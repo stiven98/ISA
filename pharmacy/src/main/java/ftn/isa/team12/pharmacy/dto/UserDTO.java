@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserDTO {
     private String email;
     private String password;
     private String cityName;
@@ -26,7 +26,7 @@ public class UserDto {
     private String role;
     private boolean firstLogin;
 
-    public UserDto(User user){
+    public UserDTO(User user){
         this.email = user.getUsername();
         this.password = "";
         this.cityName= user.getLocation().getCity().getName();

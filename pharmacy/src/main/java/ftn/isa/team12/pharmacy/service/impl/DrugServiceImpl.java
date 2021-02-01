@@ -5,6 +5,7 @@ import ftn.isa.team12.pharmacy.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DrugServiceImpl implements DrugService {
@@ -16,5 +17,11 @@ public class DrugServiceImpl implements DrugService {
     @Override
     public List<Drug> findAll() {
         return drugRepository.findAll();
+    }
+
+
+    @Override
+    public Drug findById(UUID id) {
+        return drugRepository.findById(id).orElseGet(null);
     }
 }
