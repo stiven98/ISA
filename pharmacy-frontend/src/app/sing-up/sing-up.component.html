@@ -1,5 +1,5 @@
 <div class="container p-5" >
-  <div >
+  <div *ngIf="registration">
     <div class=" d-flex justify-content-center">
       <p>Join with Us</p>
     </div>
@@ -142,4 +142,10 @@
 
   <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
 
+
+
+</div>
+
+<div *ngIf="!registration" class="m-3 ">
+  <h3 class="text text-success">Registration success! Go on email and verify account!</h3>
 </div>

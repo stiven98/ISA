@@ -5,7 +5,9 @@ import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
 import ftn.isa.team12.pharmacy.domain.users.AccountCategory;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.dto.PatientDTO;
+import ftn.isa.team12.pharmacy.email.EmailSender;
 import ftn.isa.team12.pharmacy.service.CityService;
 import ftn.isa.team12.pharmacy.service.CountryService;
 import ftn.isa.team12.pharmacy.service.LocationService;
@@ -19,11 +21,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.util.UUID;
+
 
 
 @RestController
@@ -43,7 +47,7 @@ public class PatientController {
     private CityService cityService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private EmailSender sender;
 
     @PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 
@@ -57,45 +61,50 @@ public class PatientController {
         return new ResponseEntity<List<PatientDTO>>(dto, HttpStatus.OK);
     }
 
+
     @PostMapping("/add")
-    public ResponseEntity<Patient> savePatient(@RequestBody Patient patient,
+    public ResponseEntity<Patient> savePatient(@RequestBody Patient patientRequest,
                                                 HttpServletResponse response) {
 
-        Patient existsPatient = patientService.findByEmail(patient.getLoginInfo().getEmail());
-        if (existsPatient == null) {
+        System.out.println(patientRequest.getLoginInfo().getEmail());
+        User user = patientService.findByEmail(patientRequest.getLoginInfo().getEmail());
+        System.out.println(user);
+        if (user == null) {
 
-            System.out.println("-------------------" + patient.getPassword());
             ResponseEntity.unprocessableEntity();
-            patient.getAccountInfo().setActive(false);
-            patient.getAccountInfo().setFirstLogin(true);
-            patient.setPenalties(0);
-            patient.getLoginInfo().setPassword(passwordEncoder.encode(patient.getPassword()));
-            patient.setCategory(new AccountCategory());
-            patient.getCategory().setCategory(UserCategory.bronse);
-            patient.getCategory().setPoints(0);
+
+            Country country = this.countryService.saveAndFlush(patientRequest.getLocation().getCity().getCountry());
+            patientRequest.getLocation().getCity().setCountry(country);
+
+            City city = this.cityService.saveAndFlush(patientRequest.getLocation().getCity());
+            patientRequest.getLocation().setCity(city);
+
+            Location location = this.locationService.saveAndFlush(patientRequest.getLocation());
+            patientRequest.setLocation(location);
 
 
-            Country country = this.countryService.saveAndFlush(patient.getLocation().getCity().getCountry());
-            patient.getLocation().getCity().setCountry(country);
+            Patient patient = this.patientService.saveAndFlush(patientRequest);
 
-            City city = this.cityService.saveAndFlush(patient.getLocation().getCity());
-            patient.getLocation().setCity(city);
-
-            Location location = this.locationService.saveAndFlush(patient.getLocation());
-            patient.setLocation(location);
-
-            patient = patientService.saveAndFlush(patient);
-
-            //SMTP Send email
+            try {
+                sender.sendVerificationEmail(patient.getLoginInfo().getEmail(), patient.getUserId().toString());
+            } catch (Exception e) {
+                return new ResponseEntity<>(patientRequest, HttpStatus.NO_CONTENT);
+            }
 
             return new ResponseEntity<>(patient, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(patient, HttpStatus.NO_CONTENT);
+            throw new IllegalArgumentException("Email already exist!");
         }
     }
 
-    void sendEmail(String email) {
+    @GetMapping("/activateAccount/{id}")
+    public void activateAccount(@PathVariable String id, HttpServletResponse httpServletResponse) {
 
+        Patient patient = this.patientService.updateStatus(UUID.fromString(id));
+        httpServletResponse.setHeader("Location", "http://localhost:4200/login");
+        httpServletResponse.setStatus(302);
     }
+
+
 
 }
