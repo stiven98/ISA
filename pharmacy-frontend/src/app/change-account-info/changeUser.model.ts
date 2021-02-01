@@ -23,8 +23,4 @@ export class ChangeUserModel {
       this.cityName = '';
       this.phoneNumber = '';
     }
-  
-  
-  
   }
-  

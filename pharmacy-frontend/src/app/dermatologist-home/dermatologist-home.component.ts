@@ -11,7 +11,7 @@ export class DermatologistHomeComponent implements OnInit {
 
   dermatologist = new Dermatologist();
   constructor(
-    private userService : UserService
+    private userService: UserService
   ) {
 
    }
@@ -21,5 +21,4 @@ export class DermatologistHomeComponent implements OnInit {
     this.dermatologist =  resUser;
     });
   }
-
 }

@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.dto;
-
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.users.AccountCategory;
 import ftn.isa.team12.pharmacy.domain.users.AccountInfo;

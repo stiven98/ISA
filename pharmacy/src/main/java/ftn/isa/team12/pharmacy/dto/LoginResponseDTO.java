@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.dto;
-
 import ftn.isa.team12.pharmacy.domain.users.Authority;
 import lombok.Getter;
 import lombok.Setter;

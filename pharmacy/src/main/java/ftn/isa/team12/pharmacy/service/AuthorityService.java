@@ -1,7 +1,5 @@
 package ftn.isa.team12.pharmacy.service;
-
 import ftn.isa.team12.pharmacy.domain.users.Authority;
-
 import java.util.List;
 import java.util.UUID;
 

@@ -1,10 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.users;
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
 import java.util.UUID;
 

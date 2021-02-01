@@ -1,14 +1,10 @@
 package ftn.isa.team12.pharmacy.security;
-
 import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
-
 import ftn.isa.team12.pharmacy.domain.users.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

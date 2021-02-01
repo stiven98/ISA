@@ -1,14 +1,16 @@
 package ftn.isa.team12.pharmacy.controller;
-
 import ftn.isa.team12.pharmacy.domain.users.Authority;
 import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.dto.LoginDTO;
 import ftn.isa.team12.pharmacy.dto.LoginResponseDTO;
+import ftn.isa.team12.pharmacy.dto.PasswordChangeDTO;
 import ftn.isa.team12.pharmacy.security.TokenUtils;
 import ftn.isa.team12.pharmacy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,18 +39,12 @@ public class AuthenticationController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> createAuthenticationToken(@RequestBody LoginDTO authenticationRequest,
-                                                                      HttpServletResponse response) {
-
-        //
-
+    public ResponseEntity<LoginResponseDTO> createAuthenticationToken(@RequestBody LoginDTO authenticationRequest, HttpServletResponse response) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()));
-
         // Ubaci korisnika u trenutni security kontekst
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         // Kreiraj token za tog korisnika
         User user = (User) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getUsername());

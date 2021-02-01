@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SingInComponent } from './sing-in.component';
 
 describe('SingInComponent', () => {

@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.validation;
-
 import java.util.regex.Pattern;
 
 public class CommonValidation {
