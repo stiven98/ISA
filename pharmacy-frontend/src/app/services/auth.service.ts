@@ -31,9 +31,15 @@ export class AuthService {
         this.getUserProfile().subscribe((res) => {
           this.currentUser = res;
           let authority = res.role;
+          let firstLogin = res.firstLogin;
           localStorage.setItem('role', authority);
-          if(authority == 'ROLE_DERMATOLOGIST'){
-            this.router.navigate(['/dermatologist']);
+          localStorage.setItem('first_login', firstLogin);
+          if(firstLogin){
+            this.router.navigate(['/changePassword']);
+          }else{
+            if(authority == 'ROLE_DERMATOLOGIST'){
+              this.router.navigate(['/dermatologist']);
+            }
           }
         })
       });
@@ -52,9 +58,16 @@ export class AuthService {
     return (authToken !== null) ? true : false;
   }
 
+  get isFirstLogin() : boolean{
+    let first = localStorage.getItem('first_login');
+    return (first == "true") ? true : false;
+  }
+
   doLogout() {
     let removeToken = localStorage.removeItem('access_token');
+    this.userService.currentUser = null;
     localStorage.removeItem('role');
+    localStorage.removeItem('first_login');
     if (removeToken == null) {
       this.router.navigate(['/login']);
     }
@@ -68,13 +81,6 @@ export class AuthService {
       }),
       catchError(this.handleError)
     )
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    this.userService.currentUser = null;
-    this.access_token = null;
-    this.router.navigate(['/login']);
   }
 
   tokenIsPresent() {

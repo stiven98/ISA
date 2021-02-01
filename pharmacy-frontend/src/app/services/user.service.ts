@@ -8,7 +8,7 @@ import { ConfigService } from './config.service';
 })
 export class UserService {
 
-  currentUser;
+  currentUser = {};
   constructor(
     private apiService: ApiService,
     private config: ConfigService
@@ -58,6 +58,10 @@ export class UserService {
     .pipe(map(user =>{ 
       return user;
     }))
+  }
+
+  changePassword(passwordsWrapper){  
+    return this.apiService.post(this.config.change_password_url, passwordsWrapper);
   }
 
 }
