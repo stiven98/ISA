@@ -8,7 +8,7 @@ import { ConfigService } from './config.service';
 })
 export class UserService {
 
-  currentUser;
+  currentUser = {};
   constructor(
     private apiService: ApiService,
     private config: ConfigService

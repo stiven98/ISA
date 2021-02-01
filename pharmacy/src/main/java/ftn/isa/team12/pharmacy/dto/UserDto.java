@@ -24,6 +24,7 @@ public class UserDto {
     private String lastName;
     private String phoneNumber;
     private String role;
+    private boolean firstLogin;
 
     public UserDto(User user){
         this.email = user.getUsername();
@@ -36,6 +37,7 @@ public class UserDto {
         this.name = user.getAccountInfo().getName();
         this.lastName = user.getAccountInfo().getLastName();
         this.phoneNumber = user.getAccountInfo().getPhoneNumber();
+        this.firstLogin = user.getAccountInfo().isFirstLogin();
         List<Authority> authorities = new ArrayList<>();
         user.getAuthorities().stream().forEach(a -> authorities.add((Authority) a));
         Authority a = authorities.stream().findFirst().orElseGet(null);

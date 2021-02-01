@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -52,18 +54,23 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST')") // Dodati ostale role
     @PostMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestBody PasswordChangeDTO passwords) {
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangeDTO passwords) {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String email = currentUser.getName();
         boolean isPasswordValid = userService.checkCurrentUserCredentials(passwords.getOldPassword());
+        Map<String, String> result = new HashMap<>();
         if(!isPasswordValid){
-            return new ResponseEntity<>("Bad credentials",HttpStatus.UNAUTHORIZED);
+            result.put("result", "Bad credentials");
+            return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
         User userToChange = userService.findUserByEmail(email);
         boolean isPasswordChanged = userService.changePassword(userToChange, passwords.getPassword());
-        if (!isPasswordChanged)
-            return new ResponseEntity<>("New password is not valid! Try again!", HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>("Password change was successful!", HttpStatus.OK);
+        if (!isPasswordChanged){
+            result.put("result", "Password is not in the appropriate format");
+            return ResponseEntity.badRequest().body(result);
+        }
+        result.put("result", "Password successfully changed");
+        return ResponseEntity.accepted().body(result);
     }
 
     @GetMapping("/getById/{id}")

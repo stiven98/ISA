@@ -19,6 +19,10 @@ export class DermatologistsGuard implements CanActivate {
       this.authService.doLogout();
       this.router.navigate(['/403']);
     }
+    if(this.authService.isFirstLogin){
+      window.alert("You must change your password in order to use our services");
+      this.router.navigate(['/changePassword']);
+    }
     return true;
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {PasswordsWrapper} from 'src/app/change-password/passwordsWrapper.model'
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
@@ -16,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
   confPassword = '';
   buttonDisabled = false;
   passwordWrapper = new PasswordsWrapper();
-  constructor(private userService : UserService) { }
+  constructor(private userService : UserService, private router : Router) { }
 
   ngOnInit(): void {
   }
@@ -58,7 +59,9 @@ export class ChangePasswordComponent implements OnInit {
 
   onClick(){
     this.userService.changePassword(this.passwordWrapper).subscribe(res => {
-      alert(res);
+      localStorage.setItem('first_login', 'false');
+      alert(res.result);
+      this.router.navigate(['/']);
     });
   }
 
