@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-forbidden',
@@ -7,8 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForbiddenComponent implements OnInit {
 
-  constructor() { }
+  timeLeft: number = 5;
+  interval;
+
+startTimer() {
+    this.interval = setInterval(() => {
+      if(this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        this.timeLeft = 5;
+      }
+    },1000)
+  }
+
+  constructor(private router : Router) { }
 
   ngOnInit(): void {
+    this.startTimer();
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+  }, 5000);
   }
+
 }
