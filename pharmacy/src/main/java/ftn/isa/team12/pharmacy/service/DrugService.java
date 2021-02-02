@@ -12,4 +12,6 @@ public interface DrugService {
 
     List<DrugForOrderDTO> getAll();
 
+    Drug findDrugByName(String drugName);
+
 }

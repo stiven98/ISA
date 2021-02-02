@@ -34,14 +34,17 @@ export class AuthService {
           let firstLogin = res.firstLogin;
           localStorage.setItem('role', authority);
           localStorage.setItem('first_login', firstLogin);
-          if(firstLogin){
+          if (firstLogin){
             this.router.navigate(['/changePassword']);
           }else{
-            if(authority == 'ROLE_DERMATOLOGIST'){
+            if (authority == 'ROLE_DERMATOLOGIST'){
               this.router.navigate(['/dermatologist']);
             }
+             else if (authority == 'ROLE_PATIENT'){
+              this.router.navigate(['/patient']);
+            }
           }
-        })
+        });
       });
   }
 
@@ -58,7 +61,7 @@ export class AuthService {
     return (authToken !== null) ? true : false;
   }
 
-  get isFirstLogin() : boolean{
+  get isFirstLogin(): boolean{
     let first = localStorage.getItem('first_login');
     return (first == "true") ? true : false;
   }

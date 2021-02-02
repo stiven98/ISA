@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import {environment} from '../../environments/environment';
+import {Pharmacy} from '../shared/models/Pharmacy';
 
 
 @Injectable({
@@ -28,11 +29,8 @@ export class PharmacyService {
   findByName = (name) => {
     return this.http
       .get(environment.apiUrl + '/api/pharmacy/name/' + name)
-      .pipe(map(responseData => {
-        const pharmacy = responseData;
-        console.log(responseData);
-        return responseData;
-
+      .pipe(map((responseData: Pharmacy) => {
+         return responseData;
       }));
   }
 

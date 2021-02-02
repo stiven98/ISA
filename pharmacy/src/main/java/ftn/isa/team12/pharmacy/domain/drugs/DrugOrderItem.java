@@ -1,10 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
-import ftn.isa.team12.pharmacy.dto.DrugOrderDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
