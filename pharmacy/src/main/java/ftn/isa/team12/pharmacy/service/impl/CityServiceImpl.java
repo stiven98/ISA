@@ -39,6 +39,4 @@ public class CityServiceImpl implements CityService {
         return existsCity;
     }
 
-
-
 }
