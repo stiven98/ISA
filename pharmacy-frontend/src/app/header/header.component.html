@@ -5,8 +5,10 @@
         <img class="logo ml-3" src="/assets/img/logo.png" height="22" width="20" alt="Logo"/>
         Pharmacy
       </a>
-      <a class="nav-item nav-link ml-2 mr-2 text-light" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" routerLink="/patient" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  >Home</a>
       <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/pharmacy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Pharmacies</a>
+      <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/drugs" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Drugs</a>
+
     </div>
     <div class="d-flex justify-content-end">
       <a class=" nav-link pr-3 pl-3 mr-3 text-light" *ngIf="!this.authService.isLoggedIn" routerLink="/registration" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Sing up</a>

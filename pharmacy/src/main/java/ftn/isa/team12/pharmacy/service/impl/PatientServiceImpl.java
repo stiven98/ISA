@@ -1,5 +1,5 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
+import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
 import ftn.isa.team12.pharmacy.domain.users.AccountCategory;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
@@ -49,8 +49,34 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Patient findByEmail(String email) {
         return this.patientRepository.findByEmail(email);
     }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return this.patientRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public List<Drug> findPatientAllergies(String email) {
+        return this.patientRepository.findPatientAllergies(email);
+    }
+
+    @Override
+    public void addAllergy(Patient patient) {
+        this.patientRepository.save(patient);
+    }
+
+    @Override
+    public AccountCategory findAccountCategory(String email) {
+        return this.patientRepository.findAccountCategory(email);
+    }
+
+    @Override
+    public Integer findPenalty(String email) {
+        return this.patientRepository.findPenalty(email);
+    }
+
 
 }

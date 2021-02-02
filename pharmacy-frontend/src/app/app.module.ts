@@ -21,10 +21,11 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PatientComponent } from './patient/patient.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: PharmacyComponent },
   { path: 'login', component: SingInComponent },
   { path: 'registration', component: SingUpComponent },
   { path: 'pharmacy', component: PharmacyComponent },
@@ -34,15 +35,14 @@ const appRoutes: Routes = [
   { path: 'changePassword' , component: ChangePasswordComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
   { path: 'patient', component: PatientComponent},
+  { path: 'drugs', component: DrugsComponent},
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
   { path: 'drugOrder', component: DrugOrderComponent},
 
-
-
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
-  
+
 ];
 
 const ngxLoadingXConfig: NgxLoadingXConfig = {
@@ -66,8 +66,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NotFoundComponent,
     PatientComponent,
     ChangePasswordComponent,
+    DrugsComponent,
     DrugOrderComponent
-
   ],
   imports: [
     BrowserModule,
@@ -77,7 +77,6 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     HttpClientModule,
     NgxLoadingXModule.forRoot(ngxLoadingXConfig),
     FormsModule,
-    
   ],
   providers: [
     {
