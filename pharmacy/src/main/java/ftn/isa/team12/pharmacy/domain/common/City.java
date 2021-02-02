@@ -40,6 +40,6 @@ public class City implements Serializable {
       this.name = name;
       this.country = country;
       this.zipCode = zipCode;
-
    }
+
 }
