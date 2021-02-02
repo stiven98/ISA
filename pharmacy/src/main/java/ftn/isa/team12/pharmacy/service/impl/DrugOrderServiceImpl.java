@@ -41,7 +41,7 @@ public class DrugOrderServiceImpl implements DrugOrderService {
     @Override
     public DrugOrder createDrugOrder(DrugOrderDTO drugOrder) {
 
-        if(drugOrder.getDeadline().after(new Date())){
+        if(drugOrder.getDeadline().before(new Date())){
             throw new IllegalArgumentException("Bad input date");
         }
         DrugOrder order = new DrugOrder();

@@ -1,0 +1,9 @@
+.fit-image{
+    width: 80%;
+    object-fit: cover;
+    height: auto; /* only if you want fixed height */
+}
+
+.title{
+    color: #ff8c00;
+}

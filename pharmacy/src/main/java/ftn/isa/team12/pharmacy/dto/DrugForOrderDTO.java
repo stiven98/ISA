@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.dto;
 
+import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;
 import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
 import ftn.isa.team12.pharmacy.domain.enums.TypeOfDrug;
@@ -25,4 +26,13 @@ public class DrugForOrderDTO {
     private String note;
     private String manufactureName;
     private int quantity;
+
+
+    public DrugForOrderDTO(Drug drug){
+        this(drug.getDrugId(),drug.getName(),drug.getCode(),drug.getTypeOfDrug(),drug.getFormOfDrug(),drug.getIssuanceRegime(),drug.getNote(),drug.getManufacturer().getName(),0);
+    }
+
+
+
+
 }

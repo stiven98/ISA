@@ -12,7 +12,6 @@ public class CountryServiceImpl implements CountryService {
 
     @Autowired
     private CountryRepository countryRepository;
-
     private CommonValidation commonValidation;
 
 
