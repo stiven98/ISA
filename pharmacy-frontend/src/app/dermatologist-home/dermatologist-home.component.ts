@@ -9,6 +9,7 @@ import { Dermatologist } from '../shared/models/dermatologist';
 })
 export class DermatologistHomeComponent implements OnInit {
 
+  contentTitle = 'Content';
   dermatologist = new Dermatologist();
   constructor(
     private userService: UserService

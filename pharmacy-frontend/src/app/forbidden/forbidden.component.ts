@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { timer } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-forbidden',
@@ -22,13 +22,13 @@ startTimer() {
     },1000)
   }
 
-  constructor(private router : Router) { }
+  constructor(private router : Router, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.startTimer();
     setTimeout(() => {
+      this.auth.doLogout();
       this.router.navigate(['/login']);
   }, 5000);
   }
-
 }
