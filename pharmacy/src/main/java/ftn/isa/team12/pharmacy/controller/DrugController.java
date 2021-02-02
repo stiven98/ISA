@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.dto.DrugDTO;
+import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,12 @@ public class DrugController {
         }
 
         return new ResponseEntity<List<DrugDTO>>(dto, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/drugForOrder")
+    public ResponseEntity<List<DrugForOrderDTO>> getAll(){
+        return new ResponseEntity<List<DrugForOrderDTO>>(drugService.getAll(), HttpStatus.OK);
     }
 
 

@@ -26,7 +26,7 @@ export class ChangeAccountInfoComponent implements OnInit {
   password = '';
 
 
-  constructor( private route: ActivatedRoute , private userService:UserService,
+  constructor(private userService:UserService,
       private cityService: CityService,
       private countryService: CountryService) {
 

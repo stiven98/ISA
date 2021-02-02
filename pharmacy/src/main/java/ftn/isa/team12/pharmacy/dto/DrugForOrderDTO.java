@@ -1,6 +1,6 @@
 package ftn.isa.team12.pharmacy.dto;
+
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
-import ftn.isa.team12.pharmacy.domain.drugs.Manufacturer;
 import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;
 import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
 import ftn.isa.team12.pharmacy.domain.enums.TypeOfDrug;
@@ -13,9 +13,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class DrugDTO {
+@AllArgsConstructor
+public class DrugForOrderDTO {
 
     private UUID id;
     private String name;
@@ -24,11 +24,14 @@ public class DrugDTO {
     private FormOfDrug formOfDrug;
     private IssuanceRegime issuanceRegime;
     private String note;
-    private Manufacturer manufacturer;
+    private String manufactureName;
+    private int quantity;
 
-    public DrugDTO(Drug drug){
-        this(drug.getDrugId(),drug.getName(),drug.getCode(),drug.getTypeOfDrug(),drug.getFormOfDrug(),drug.getIssuanceRegime(), drug.getNote(), drug.getManufacturer());
+
+    public DrugForOrderDTO(Drug drug){
+        this(drug.getDrugId(),drug.getName(),drug.getCode(),drug.getTypeOfDrug(),drug.getFormOfDrug(),drug.getIssuanceRegime(),drug.getNote(),drug.getManufacturer().getName(),0);
     }
+
 
 
 
