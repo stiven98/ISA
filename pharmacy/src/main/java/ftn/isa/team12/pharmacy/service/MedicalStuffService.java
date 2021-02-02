@@ -1,10 +1,14 @@
 package ftn.isa.team12.pharmacy.service;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import java.nio.file.AccessDeniedException;
+import ftn.isa.team12.pharmacy.domain.users.Patient;
+
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
-public interface MedicalStuffService extends UserDetailsService {
+public interface MedicalStuffService {
 
-    MedicalStuff findById(UUID id) throws AccessDeniedException;
+    MedicalStuff findById(UUID id);
+
+    Set<Patient> findPatientsByMedicalStuff(MedicalStuff medicalStuff);
 }

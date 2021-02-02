@@ -21,6 +21,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PatientComponent } from './patient/patient.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { MedicalStuffClientsComponent } from './medical-stuff-clients/medical-stuff-clients.component';
 
 
 const appRoutes: Routes = [
@@ -64,7 +65,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     ForbiddenComponent,
     NotFoundComponent,
     PatientComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    MedicalStuffClientsComponent
   ],
   imports: [
     BrowserModule,
