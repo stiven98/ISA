@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {DrugService} from '../services/drug.service';
 import {Drug} from '../shared/models/drug';
+import {DrugService} from '../services/drug.service';
+import {Patient} from '../shared/models/patient';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-drugs',
@@ -10,8 +12,9 @@ import {Drug} from '../shared/models/drug';
 export class DrugsComponent implements OnInit {
 
   drugs: Drug [];
+  currentUser = new Patient();
 
-  constructor(private drugService: DrugService) {
+  constructor(private drugService: DrugService, private authService: AuthService) {
   }
 
   ngOnInit(): void {

@@ -44,7 +44,8 @@
             <div class="text-center"> <img src="/assets/img/aspirin.jpg" width="200"> </div>
             <div class="product-details"> <span class="font-weight-bold d-block">{{drug.name}}</span>
               <div class="buttons d-flex flex-row">
-                <div class="cart"><img src="assets/img/drug.png"></div> <button class="btn btn-success cart-button btn-block"><span class="dot"></span>Order now</button>
+                <div class="cart"><img src="assets/img/drug.png" ></div> <a *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" [routerLink]="['/drug-reservation/', drug.name]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color:white;" class="btn btn-success cart-button btn-block"><span class="dot"></span>Reserve now</a>
+                <p style="color: white" *ngIf="this.authService.getRole() != 'ROLE_PATIENT'" [routerLink]="['/registration']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Register to order</p>
               </div>
               <div class="weight"> <small>{{drug.formOfDrug}} {{drug.typeOfDrug}} {{drug.issuanceRegime}}</small> </div>
             </div>

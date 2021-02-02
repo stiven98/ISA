@@ -1,0 +1,61 @@
+<div class="container register">
+  <div class="row">
+    <div class="col-md-3 register-left">
+      <img src="/assets/img/pill.png" alt=""/>
+      <h3>Drug reservation</h3>
+      <p>Here you can reserve your drug in just few seconds</p>
+
+    </div>
+    <div class="col-md-9 register-right">
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <h3 class="register-heading">Reservation of {{drug.name}}</h3>
+          <div class="row register-form ">
+            <div class="col-md-6">
+              <div class="form-group">
+                <p class="text-justify" >Type of drug: {{drug.typeOfDrug}}</p>
+              </div>
+              <div class="form-group">
+                <p class="text-justify">Form of drug: {{drug.formOfDrug}}</p>
+              </div>
+              <div class="form-group">
+                <p>Issance regime: {{drug.issuanceRegime}}</p>
+              </div>
+              <div class="form-group">
+                <p>Note: {{drug.note}}</p>
+              </div>
+              <div class="form-group">
+                <p>Manufacturer: {{drug.manufacturer.name}}</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                Select the date by which you will take the medicine:
+                <input type="date" [(ngModel)]="deadline" class="form-control" >
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="quantity"  (input)="onInput($event)" placeholder="Input quantity of drug">
+              </div>
+              <div class="form-group">
+                <select *ngIf="quantity != null" (change)="onSelect($event)" class="form-control">
+                  <option class="hidden" >Select pharmacy where you want to reserve {{drug.name}}</option>
+                  <option *ngFor="let pharmacy of pharmacies" >{{pharmacy.name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <div class="form-group">
+                  <p>Price for one box: {{price}} </p>
+                </div>
+                <div class="form-group">
+                  <p>Total to pay: {{totalToPay}} </p>
+                </div>
+              <input type="submit" class="btnRegister"  value="Reserve"/>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

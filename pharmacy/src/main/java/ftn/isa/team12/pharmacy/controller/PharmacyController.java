@@ -37,6 +37,4 @@ public class PharmacyController {
         Pharmacy pharmacy = pharmacyService.findPharmacyByName(name);
         return new ResponseEntity<Pharmacy>(pharmacy,HttpStatus.OK);
     }
-
-
 }

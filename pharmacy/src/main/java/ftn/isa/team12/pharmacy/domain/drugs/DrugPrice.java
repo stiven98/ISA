@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name = "DRUG_PRICES")
 public class DrugPrice implements Serializable {
@@ -24,11 +26,10 @@ public class DrugPrice implements Serializable {
     @Column(name = "price_id", nullable = false, unique = true)
     private UUID id;
     @ManyToOne
-    @Id
+
     @JoinColumn(name = "drug_id", referencedColumnName = "drug_id")
     private Drug drug;
     @ManyToOne
-    @Id
     @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id")
     private Pharmacy pharmacy;
     @Column(name = "price", nullable = false)

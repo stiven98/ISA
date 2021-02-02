@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugOrder;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.repository.DrugInPharmacyRepository;
 import ftn.isa.team12.pharmacy.service.DrugInPharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,10 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
 
     @Override
     public void addDrugInPharmacyFromOrder(DrugOrder drugOrder) {
+    }
 
-
-
+    @Override
+    public List<Pharmacy> findPharmaciesWithDrug(UUID id) {
+        return this.drugInPharmacyRepository.findPharmaciesWithDrug(id);
     }
 }
