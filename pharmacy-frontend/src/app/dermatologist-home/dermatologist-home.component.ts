@@ -1,4 +1,6 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { Dermatologist } from '../shared/models/dermatologist';
 
@@ -9,17 +11,22 @@ import { Dermatologist } from '../shared/models/dermatologist';
 })
 export class DermatologistHomeComponent implements OnInit {
 
-  contentTitle = 'Content';
   dermatologist = new Dermatologist();
   constructor(
-    private userService: UserService
-  ) {
+    private userService: UserService,
+    private router: Router
+  ) { }
 
-   }
+   account(el: HTMLElement){
+    this.router.navigate(['dermatologist/changeAccountInfo']);
+    el.scrollIntoView({ behavior: 'smooth' });
+  }
 
   ngOnInit(): void {
+
     this.userService.getMyInfo().subscribe(resUser => {
     this.dermatologist =  resUser;
+    
     });
   }
 }

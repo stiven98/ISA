@@ -32,7 +32,12 @@ const appRoutes: Routes = [
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
   { path: 'changePassword' , component: ChangePasswordComponent},
-  { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
+  { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard],
+  children : [
+    { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
+    { path: '**', redirectTo:'changeAccountInfo'}
+  ]
+  },
   { path: 'patient', component: PatientComponent},
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
