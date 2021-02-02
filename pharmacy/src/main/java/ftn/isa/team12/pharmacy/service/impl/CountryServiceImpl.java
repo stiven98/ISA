@@ -26,7 +26,6 @@ public class CountryServiceImpl implements CountryService {
         commonValidation = new CommonValidation(country.getName());
         if(!commonValidation.regexValidation("[A-Za-z ]+"))
             throw new IllegalArgumentException("Bad input");
-
         Country existsCountry = this.countryRepository.findByName(country.getName());
         if (existsCountry == null) {
             existsCountry = this.countryRepository.saveAndFlush(country);

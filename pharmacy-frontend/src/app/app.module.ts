@@ -24,6 +24,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
 import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
+import { PhAdminGuard } from './guard/ph-admin.guard';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -40,8 +41,7 @@ const appRoutes: Routes = [
   { path: 'drugs', component: DrugsComponent},
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
-  { path: 'drugOrder', component: DrugOrderComponent},
-
+  { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
 
