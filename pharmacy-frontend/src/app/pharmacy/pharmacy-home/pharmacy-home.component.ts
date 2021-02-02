@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PharmacyService} from '../../services/pharmacy.service';
+import {Pharmacy} from '../../shared/models/Pharmacy';
 
 
 @Component({
@@ -10,17 +11,17 @@ import {PharmacyService} from '../../services/pharmacy.service';
 })
 export class PharmacyHomeComponent implements OnInit {
   name: string;
-  pharmacy;
   pharmacists = [];
   dermatologists = [];
   drugs = [];
+  pharmacy: Pharmacy = new Pharmacy();
 
   constructor(private route: ActivatedRoute, private pharmacyService: PharmacyService) {
     this.name = route.snapshot.params[`name`];
   }
 
   ngOnInit(): void {
-    this.pharmacyService.findByName(this.name).subscribe((response) => {
+    this.pharmacyService.findByName(this.name).subscribe(response => {
       this.pharmacy = response;
       for ( let i = 0; i < this.pharmacy.pharmacists.length; i++) {
         this.pharmacyService.findMedicalStuffById(this.pharmacy.pharmacists[i]).subscribe((pharmacist) => {

@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;
 import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
@@ -47,6 +48,7 @@ public class Drug implements Serializable {
    private Set<Ingredient> ingredients = new HashSet<Ingredient>();
 
    @ManyToMany(mappedBy = "allergies")
+   @JsonIgnore
    private Set<Patient> patientsAllergies = new HashSet<Patient>();
 
    @Column(name = "issuanceregime", nullable = false)

@@ -17,4 +17,9 @@ public class DrugServiceImpl implements DrugService {
     public List<Drug> findAll() {
         return drugRepository.findAll();
     }
+
+    @Override
+    public Drug findDrugByName(String drugName) {
+        return drugRepository.findDrugByName(drugName);
+    }
 }

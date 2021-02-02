@@ -6,4 +6,6 @@ public interface DrugService {
 
     List<Drug> findAll();
 
+    Drug findDrugByName(String drugName);
+
 }

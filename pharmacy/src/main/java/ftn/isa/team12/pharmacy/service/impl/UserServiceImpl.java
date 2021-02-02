@@ -95,38 +95,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto changeAccountInfo(User user, UserDto dto) {
-        boolean fleg = false;
+        boolean flag = false;
         commonValidation=new CommonValidation(dto.getName());
         if(commonValidation.commonValidationCheck(user.getAccountInfo().getName()) && commonValidation.regexValidation("(^[A-Z][a-z]{3,12}$)")) {
             user.getAccountInfo().setName(dto.getName());
-            fleg = true;
+            flag = true;
         }
         commonValidation.setNewValue(dto.getLastName());
         if(commonValidation.commonValidationCheck(user.getAccountInfo().getLastName()) && commonValidation.regexValidation("(^[A-Z][a-z]{3,12}$)")){
             user.getAccountInfo().setLastName(dto.getLastName());
-            fleg = true;
+            flag = true;
         }
         commonValidation.setNewValue(dto.getPhoneNumber());
         if(commonValidation.commonValidationCheck(user.getAccountInfo().getPhoneNumber()) && commonValidation.regexValidation("(^[0-9]{3,12}$)")){
             user.getAccountInfo().setPhoneNumber(dto.getPhoneNumber());
-            fleg = true;
+            flag = true;
         }
 
-        Country country = countryService.saveAndFlush(new Country(dto.getCountryName()));
-        user.getLocation().getCity().setCountry(country);
+        if(true) {
+            Country country = countryService.saveAndFlush(new Country(dto.getCountryName()));
+            user.getLocation().getCity().setCountry(country);
 
-        City city = cityService.saveAndFlush(new City(dto.getCityName(),country ,dto.getZipCode()));
-        user.getLocation().setCity(city);
+            City city = cityService.saveAndFlush(new City(dto.getCityName(), country, dto.getZipCode()));
+            user.getLocation().setCity(city);
 
-        Address address = new Address(dto.getStreet(),dto.getStreetNumber());
-        Location location = locationService.saveAndFlush(new Location(city,address));
-        user.setLocation(location);
-
-        if(!fleg)
+            Address address = new Address(dto.getStreet(), dto.getStreetNumber());
+            Location location = locationService.saveAndFlush(new Location(city, address));
+            user.setLocation(location);
+            flag = true;
+        }
+        if(!flag)
            return null;
 
         userRepository.save(user);
-
         return dto;
     }
 

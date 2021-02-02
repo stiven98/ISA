@@ -2,14 +2,15 @@ package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
+import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
 import ftn.isa.team12.pharmacy.domain.users.AccountCategory;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.domain.users.User;
+import ftn.isa.team12.pharmacy.dto.AddAllergyDTO;
 import ftn.isa.team12.pharmacy.dto.PatientDTO;
-import ftn.isa.team12.pharmacy.service.CityService;
-import ftn.isa.team12.pharmacy.service.CountryService;
-import ftn.isa.team12.pharmacy.service.LocationService;
-import ftn.isa.team12.pharmacy.service.PatientService;
+import ftn.isa.team12.pharmacy.dto.UserDto;
+import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,6 +42,9 @@ public class PatientController {
 
     @Autowired
     private CityService cityService;
+
+    @Autowired
+    private DrugService drugService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -84,6 +88,7 @@ public class PatientController {
             Location location = this.locationService.saveAndFlush(patient.getLocation());
             patient.setLocation(location);
 
+
             patient = patientService.saveAndFlush(patient);
 
             //SMTP Send email
@@ -98,4 +103,30 @@ public class PatientController {
 
     }
 
-}
+    @GetMapping("/allergies/{email}")
+    public ResponseEntity<List<Drug>> findPatientAllergies(@PathVariable String email) {
+        List<Drug> allergies = patientService.findPatientAllergies(email);
+        return new ResponseEntity<List<Drug>>(allergies, HttpStatus.OK);
+    }
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')") // Dodati ostale role
+    @PostMapping("/addAllergy")
+    public ResponseEntity<?> addAllergy(@RequestBody AddAllergyDTO addAllergy) {
+        Patient patient = patientService.findByEmail(addAllergy.getEmail());
+        Drug allergy = drugService.findDrugByName(addAllergy.getDrugName());
+        patient.getAllergies().add(allergy);
+        patientService.addAllergy(patient);
+        return new ResponseEntity<>("Successfully added allergy", HttpStatus.OK);
+       }
+    //@PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/accountCategory/{email}")
+    public ResponseEntity<AccountCategory> findAccountCategory(@PathVariable String email) {
+        AccountCategory category = patientService.findAccountCategory(email);
+        return new ResponseEntity<>(category, HttpStatus.OK);
+    }
+    @GetMapping("/penalty/{email}")
+    public ResponseEntity<Integer> findPenalty(@PathVariable String email) {
+        Integer penalty = patientService.findPenalty(email);
+        return new ResponseEntity<>(penalty, HttpStatus.OK);
+    }
+
+   }
