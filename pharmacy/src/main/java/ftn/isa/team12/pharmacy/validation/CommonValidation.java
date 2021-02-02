@@ -19,7 +19,6 @@ public class CommonValidation {
     }
 
     public boolean regexValidation(String regex){
-
         return Pattern.matches(regex,newValue);
     }
 

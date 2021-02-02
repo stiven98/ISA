@@ -1,4 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,11 +30,12 @@ public class DrugOrderItem implements Serializable {
 
     @Id
     @ManyToOne
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "orderId")
+    @JsonIdentityReference(alwaysAsId = true)
     @JoinColumn(name = "drugorder_id", referencedColumnName = "drugorder_id", nullable = false)
     private DrugOrder drugOrder;
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
-
 
 }

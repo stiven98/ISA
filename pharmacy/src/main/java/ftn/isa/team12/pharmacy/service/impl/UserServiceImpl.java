@@ -4,7 +4,7 @@ import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.users.User;
-import ftn.isa.team12.pharmacy.dto.UserDto;
+import ftn.isa.team12.pharmacy.dto.UserDTO;
 import ftn.isa.team12.pharmacy.repository.UserRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import ftn.isa.team12.pharmacy.validation.CommonValidation;
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto changeAccountInfo(User user, UserDto dto) {
+    public UserDTO changeAccountInfo(User user, UserDTO dto) {
         boolean flag = false;
         commonValidation=new CommonValidation(dto.getName());
         if(commonValidation.commonValidationCheck(user.getAccountInfo().getName()) && commonValidation.regexValidation("(^[A-Z][a-z]{3,12}$)")) {

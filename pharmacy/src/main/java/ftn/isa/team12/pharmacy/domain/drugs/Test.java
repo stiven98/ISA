@@ -109,6 +109,7 @@ public class Test {
         drug.setTypeOfDrug(TypeOfDrug.herbalMedicine);
         drug.setFormOfDrug(FormOfDrug.pill);
         drug.setManufacturer(manufacturer);
+        drug.setNote("This is note");
         drug.setIssuanceRegime(IssuanceRegime.withoutRecipe);
 
         Drug drug1 = new Drug();
@@ -170,6 +171,15 @@ public class Test {
         drug7.setFormOfDrug(FormOfDrug.cream);
         drug7.setManufacturer(manufacturer);
         drug7.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+        drug1.setCode("321DROGA321");
+        drug1.setTypeOfDrug(TypeOfDrug.herbalMedicine);
+        drug1.setFormOfDrug(FormOfDrug.capsule);
+        drug1.setManufacturer(manufacturer);
+        drug1.setNote("This is note 2");
+        drug1.setIssuanceRegime(IssuanceRegime.withRecipe);
+
+
 
         AccountInfo accountInfo = new AccountInfo();
         accountInfo.setName("Aca");
@@ -464,6 +474,7 @@ public class Test {
         em.persist(manufacturer);
         em.persist(drugIngreditent);
         em.persist(drug);
+        em.persist(drug1);
         em.persist(examinationType);
         em.persist(examinationPrice);
         em.persist(pharmacy);

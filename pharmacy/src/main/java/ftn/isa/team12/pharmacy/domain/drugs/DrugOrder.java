@@ -1,4 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.enums.DrugOrderStatus;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
@@ -21,6 +24,7 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "orderId")
 @Table(name = "DRUG_ORDERS")
 public class DrugOrder implements Serializable {
 
@@ -31,25 +35,28 @@ public class DrugOrder implements Serializable {
    private UUID orderId;
 
    @ManyToOne
+   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+   @JsonIdentityReference(alwaysAsId = true)
    @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id", nullable = false)
    private Pharmacy pharmacy;
 
-   @Column(name = "drugOrderStatus")
+   @Column(name = "drug_order_status")
    private DrugOrderStatus drugOrderStatus;
 
    @ManyToOne
+   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId")
+   @JsonIdentityReference(alwaysAsId = true)
    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
    private PharmacyAdministrator pharmacyAdministrator;
 
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "drugOrder")
    private Set<DrugOrderItem> drugOrderItems = new HashSet<DrugOrderItem>();
 
+   //treba dodati listu ponuda za porudzebinicu
 
    @Basic
    @Temporal(TemporalType.DATE)
    @Column(name = "deadline")
    private Date deadline;
-
-
 
 }

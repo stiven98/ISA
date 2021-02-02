@@ -79,7 +79,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .antMatchers("/api/patient/**").permitAll()
                 .antMatchers("/api/patient/accountCategory/{email}").permitAll()
                 .antMatchers("/api/drug/all").permitAll()
-
+                .antMatchers("/api/patient/add").permitAll()
+                .antMatchers("/api/drug/all").permitAll()
+                .antMatchers("/api/drugOrder/createOrder").permitAll()
+                .antMatchers("/api/patient/sendEmail").permitAll()
+                .antMatchers("/api/patient/activateAccount/{id}").permitAll()
 
 
 
