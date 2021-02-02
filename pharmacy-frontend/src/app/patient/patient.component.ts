@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../services/user.service';
-import {Patient} from '../shared/models/patient';
 import {PatientService} from '../services/patient.service';
-import {Drug} from '../shared/models/drug';
-import {DrugService} from '../services/drug.service';
-import {AccountCategory} from '../shared/models/accountCategory';
 import {Router} from '@angular/router';
+import {Patient} from '../shared/models/patient';
+import {Drug} from '../shared/models/drug';
+import {AccountCategory} from '../shared/models/accountCategory';
+import {DrugService} from '../services/drug.service';
 
 @Component({
   selector: 'app-patient',

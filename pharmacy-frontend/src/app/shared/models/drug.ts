@@ -1,10 +1,12 @@
+import {Manufacturer} from './manufacturer';
+
 export class Drug{
   code: string;
   drugId;
   formOfDrug: string;
   ingredients: [];
   issuanceRegime: string;
-  manufacturer;
+  manufacturer: Manufacturer;
   name: string;
   note: string;
   priceList;
@@ -16,7 +18,7 @@ export class Drug{
     this. formOfDrug = '';
     this.ingredients = null;
     this.issuanceRegime = '';
-    this. manufacturer = null;
+    this. manufacturer = new Manufacturer();
     this. name = '';
     this.note = '';
     this.priceList = null;

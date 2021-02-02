@@ -12,6 +12,19 @@ export class PharmacyService {
   pharmacies = [];
   constructor(private http: HttpClient) { }
 
+  findPharmaciesWithDrug = (drugId) => {
+    return this.http
+      .get(environment.apiUrl + '/api/drugInPharmacy/pharmacies/' + drugId)
+      .pipe(map(responseData => {
+        const pharmacies = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            pharmacies.push(responseData[key]);
+          }
+        }
+        return pharmacies;
+      }));
+  }
   findAll = () => {
     return this.http
       .get(environment.apiUrl + '/api/pharmacy/all')

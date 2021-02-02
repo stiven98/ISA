@@ -23,6 +23,7 @@ import { PatientComponent } from './patient/patient.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
+import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
 import { PhAdminGuard } from './guard/ph-admin.guard';
 
 const appRoutes: Routes = [
@@ -31,6 +32,7 @@ const appRoutes: Routes = [
   { path: 'registration', component: SingUpComponent },
   { path: 'pharmacy', component: PharmacyComponent },
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
+  { path: 'drug-reservation/:drug', component: DrugReservationComponent},
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
   { path: 'changePassword' , component: ChangePasswordComponent},
@@ -67,7 +69,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     PatientComponent,
     ChangePasswordComponent,
     DrugsComponent,
-    DrugOrderComponent
+    DrugOrderComponent,
+    DrugReservationComponent
   ],
   imports: [
     BrowserModule,

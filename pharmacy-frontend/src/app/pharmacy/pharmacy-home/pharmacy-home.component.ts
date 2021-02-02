@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PharmacyService} from '../../services/pharmacy.service';
 import {Pharmacy} from '../../shared/models/Pharmacy';
+import {AuthService} from '../../services/auth.service';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class PharmacyHomeComponent implements OnInit {
   drugs = [];
   pharmacy: Pharmacy = new Pharmacy();
 
-  constructor(private route: ActivatedRoute, private pharmacyService: PharmacyService) {
+  constructor(private route: ActivatedRoute, private pharmacyService: PharmacyService, private authService: AuthService) {
     this.name = route.snapshot.params[`name`];
   }
 
