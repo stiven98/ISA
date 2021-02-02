@@ -52,7 +52,6 @@ public class PatientController {
     private DrugService drugService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
     private EmailSender sender;
 
     @PreAuthorize("hasRole('ROLE_PH_ADMIN')")
@@ -60,21 +59,20 @@ public class PatientController {
     @GetMapping("/all")
     public ResponseEntity<List<PatientDTO>> findAll() {
         List<Patient> patients = patientService.findAll();
-        List<PatientDTO> dto = new ArrayList<PatientDTO>();
+        List<PatientDTO> dto = new ArrayList<>();
         for (Patient p: patients) {
             dto.add(new PatientDTO(p));
         }
-        return new ResponseEntity<List<PatientDTO>>(dto, HttpStatus.OK);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
 
     @PostMapping("/add")
     public ResponseEntity<Patient> savePatient(@RequestBody Patient patientRequest,
-                                                HttpServletResponse response) {
+                                               HttpServletResponse response) {
 
-        System.out.println(patientRequest.getLoginInfo().getEmail());
-        User user = patientService.findByEmail(patientRequest.getLoginInfo().getEmail());
-        System.out.println(user);
+        User user = patientService.findUserByEmail(patientRequest.getLoginInfo().getEmail());
+
         if (user == null) {
 
             ResponseEntity.unprocessableEntity();
@@ -87,11 +85,14 @@ public class PatientController {
 
             Location location = this.locationService.saveAndFlush(patientRequest.getLocation());
             patientRequest.setLocation(location);
+
+
             Patient patient = this.patientService.saveAndFlush(patientRequest);
 
             try {
                 sender.sendVerificationEmail(patient.getLoginInfo().getEmail(), patient.getUserId().toString());
             } catch (Exception e) {
+                System.out.println(e);
                 return new ResponseEntity<>(patientRequest, HttpStatus.NO_CONTENT);
             }
 

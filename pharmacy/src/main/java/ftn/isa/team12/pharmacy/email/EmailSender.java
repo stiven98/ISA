@@ -17,6 +17,7 @@ public class EmailSender {
         message.setTo(to);
         message.setSubject("Verification email!");
         message.setText(body);
+        System.out.println(body);
         emailSender.send(message);
     }
 }

@@ -26,5 +26,4 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
     @Query("SELECT user from User user WHERE user.loginInfo.email = ?1")
     User findUserByEmail(String email);
 
-
 }
