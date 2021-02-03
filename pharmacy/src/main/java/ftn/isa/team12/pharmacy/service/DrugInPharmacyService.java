@@ -10,5 +10,6 @@ public interface DrugInPharmacyService {
     List<Drug> findDrugInPharmacyById(UUID id);
     void addDrugInPharmacyFromOrder(DrugOrder drugOrder);
     List<Pharmacy> findPharmaciesWithDrug(UUID id);
+    int findDrugQuantity(UUID drugId, UUID pharmacyId);
 
 }

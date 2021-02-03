@@ -30,4 +30,9 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
     public List<Pharmacy> findPharmaciesWithDrug(UUID id) {
         return this.drugInPharmacyRepository.findPharmaciesWithDrug(id);
     }
+
+    @Override
+    public int findDrugQuantity(UUID drugId, UUID pharmacyId) {
+        return this.drugInPharmacyRepository.findDrugQuantity(drugId, pharmacyId);
+    }
 }

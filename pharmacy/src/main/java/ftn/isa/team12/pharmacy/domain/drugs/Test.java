@@ -361,6 +361,12 @@ public class Test {
         drugPrice.setPharmacy(pharmacy);
         drugPrice.setValidityPeriod(dateRange);
 
+        DrugPrice drugPrice1 = new DrugPrice();
+        drugPrice1.setPrice(520.0);
+        drugPrice1.setDrug(drug);
+        drugPrice1.setPharmacy(pharmacy4);
+        drugPrice1.setValidityPeriod(dateRange);
+
         AccountCategory accounCategory = new AccountCategory();
         accounCategory.setCategory(UserCategory.gold);
         accounCategory.setPoints(12);
@@ -398,7 +404,6 @@ public class Test {
         drugReservation.setQuantity(5);
         drugReservation.setReservationStatus(ReservationStatus.created);
         drugReservation.setReservationDateRange(dateRange);
-
         drugReservation.setDrug(drug);
 
         LocalTime t =  LocalTime.of(8,0);
@@ -497,6 +502,25 @@ public class Test {
 
         pharmacist.getVacations().add(vacation);
 
+        DrugInPharmacy drugInPharmacy1 = new DrugInPharmacy();
+        drugInPharmacy1.setPharmacy(pharmacy2);
+        drugInPharmacy1.setDrug(drug1);
+        drugInPharmacy1.setQuantity(12);
+        pharmacy2.getDrugs().add(drugInPharmacy1);
+
+        DrugInPharmacy drugInPharmacy3 = new DrugInPharmacy();
+        drugInPharmacy3.setPharmacy(pharmacy);
+        drugInPharmacy3.setDrug(drug3);
+        drugInPharmacy3.setQuantity(78);
+        pharmacy.getDrugs().add(drugInPharmacy3);
+
+
+        DrugInPharmacy drugInPharmacy4 = new DrugInPharmacy();
+        drugInPharmacy4.setPharmacy(pharmacy4);
+        drugInPharmacy4.setDrug(drug);
+        drugInPharmacy4.setQuantity(10);
+        pharmacy4.getDrugs().add(drugInPharmacy4);
+
 
         patient.setAuthorities(authorities);
         pharmacyAdministrator.setAuthorities(authorities2);
@@ -552,6 +576,10 @@ public class Test {
         em.persist(drug5);
         em.persist(drug6);
         em.persist(drug7);
+        em.persist(drugInPharmacy1);
+        em.persist(drugInPharmacy4);
+        em.persist(drugInPharmacy3);
+        em.persist(drugPrice1);
 
         em.getTransaction().commit();
         em.close();
