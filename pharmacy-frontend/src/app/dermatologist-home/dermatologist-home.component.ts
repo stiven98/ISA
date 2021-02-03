@@ -1,7 +1,5 @@
-import { DOCUMENT } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { timeout } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 import { Dermatologist } from '../shared/models/dermatologist';
 
@@ -34,7 +32,7 @@ export class DermatologistHomeComponent implements OnInit {
 
     this.userService.getMyInfo().subscribe(resUser => {
     this.dermatologist =  resUser;
-    
+
     });
   }
 }

@@ -12,9 +12,7 @@ import ftn.isa.team12.pharmacy.repository.DrugReservationRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -74,14 +72,19 @@ public class DrugReservationServiceImpl implements DrugReservationService {
 
     @Override
     public DrugReservation cancelReservation(UUID id) {
-        Instant now = Instant.now();
-        Instant yesterday = now.minus(1, ChronoUnit.DAYS);
-        DrugReservation drugReservation =  this.drugReservationRepository.findDrugReservationByDrug_reservation_id(id);
-        if(!drugReservation.getReservationDateRange().getEndDate().before(Date.from(yesterday))){
+
+        Calendar calendar = Calendar.getInstance();
+        DrugReservation drugReservation = this.drugReservationRepository.findDrugReservationByDrug_reservation_id(id);
+        Date deadline = drugReservation.getReservationDateRange().getEndDate();
+        calendar.setTime(deadline);
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        Date dayberofedealdine = calendar.getTime();
+        if (new Date().before(dayberofedealdine)) {
+            drugReservation.setReservationStatus(ReservationStatus.cancelled);
+            this.drugReservationRepository.save(drugReservation);
+            return drugReservation;
+        } else {
             throw new IllegalArgumentException("You cant cancel reservation 24h before deadline");
         }
-        drugReservation.setReservationStatus(ReservationStatus.cancelled);
-        this.drugReservationRepository.save(drugReservation);
-        return drugReservation;
     }
 }

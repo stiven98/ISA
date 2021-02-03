@@ -91,7 +91,7 @@ export class PatientComponent implements OnInit {
     window.location.reload();
    }
     else {
-      alert('You cant cancel reservation 24h before deadline');
+     alert('You cant cancel reservation 24h before deadline');
     }
   }
 }
