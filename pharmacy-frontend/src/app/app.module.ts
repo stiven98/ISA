@@ -25,6 +25,7 @@ import { SysAdminComponent } from './sys-admin/sys-admin.component';
 import { NewPharmacyComponent } from './new-pharmacy/new-pharmacy.component';
 import { NewAdminComponent } from './new-admin/new-admin.component';
 import { AdministratorsComponent } from './administrators/administrators.component';
+import { MedicalStuffClientsComponent } from './medical-stuff-clients/medical-stuff-clients.component';
 import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
 import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
@@ -41,7 +42,13 @@ const appRoutes: Routes = [
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
   { path: 'changePassword' , component: ChangePasswordComponent},
-  { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
+  { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard],
+  children : [
+    { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
+    { path: 'patients', component: MedicalStuffClientsComponent },
+    { path: '**', redirectTo: 'changeAccountInfo'}
+  ]
+  },
   { path: 'patient', component: PatientComponent},
 
   { path: 'newPharmacy', component: NewPharmacyComponent},
@@ -79,11 +86,11 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NotFoundComponent,
     PatientComponent,
     ChangePasswordComponent,
-
     SysAdminComponent,
     NewPharmacyComponent,
     NewAdminComponent,
     AdministratorsComponent,
+    MedicalStuffClientsComponent,
     DrugsComponent,
     DrugOrderComponent,
     DrugReservationComponent

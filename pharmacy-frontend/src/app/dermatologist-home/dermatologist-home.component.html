@@ -1,99 +1,97 @@
-<div class="container  border w-100 pt-3">
-    <div class="d-flex justify-content-center  bg-dark title">
-        <h1>Dermatologist</h1>  
-    </div>
-
-    <div class="container p-3">
-        <div class="row">
-            <div class="col-4">
-                <div class="row d-flex justify-content-center carde pb-2">
-                    <img src="/assets/img/doctor.png" class="img-responsive fit-image" style="max-width: 30%;" alt="Dermatologist image">
-                </div>
-                <div class="row border">
-                   <div class="col">
-                    <label>Name: {{dermatologist.name}}</label>
-                   </div>
-                   <div class="col">
-                    <label>Surname: {{dermatologist.lastName}}</label>
-                    </div>
-                </div>
-                <div class="row border">
-                    <div class="col">
-                     <label>Email/username: </label>
-                    </div>
-                    <div class="col">
-                        <label>{{dermatologist.email}}</label>
-                    </div>
-                 </div>
-                 <div class="row d-flex justify-content-center border">
-                     <label>PhD Dermatologist</label>
-                 </div>
-                 <div class="row d-flex justify-content-center border">
-                    <button  type="button" class="btn btn-dark mt-3 w-100">Change account info</button>
-                </div>
+<div class="row py-5 px-4">
+    <div class="col-md-6 mx-auto">
+      <!-- Profile widget -->
+      <div class="bg-white shadow rounded overflow-hidden">
+        <div class="px-4 pt-0 pb-4 cover">
+          <div class="media align-items-end profile-head">
+            <div class="profile mr-3"><img src="assets/img/doctors/doctors-2.jpg" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a (click)="account(content)" class="btn btn-outline-dark btn-sm btn-block">My account</a></div>
+            <div class="media-body mb-5 text-white">
+              <h4 class="mt-0 mb-0">{{dermatologist.name}} {{dermatologist.lastName}}</h4>
+              <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{{dermatologist.cityName}}</p>
             </div>
-            <div class="col-8">
-                <div class="row">
-                    <div class="col"> 
-                        <div class="card">
-                            <img class="card-img-top" src="/assets/img/patient.png" alt="Card image clients">
-                            <div class="card-body">
-                                <h5 class="card-title">My clients</h5>
-                                <p class="card-text">Access all your patients so far</p>
-                                <a href="#"class="btn btn-dark mt-3 w-100">Show patients</a>
-                            </div>
-                        </div>    
+          </div>
+        </div>
+        <div class="bg-light p-4 d-flex justify-content-end text-center">
+          <ul class="list-inline mt-5 mb-0">
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Shows you the list of all your patients" (click)="patients(content)">
+                            <img alt="My patients" src="/assets/img/medicalstuff_icons/group.png" >
+                        </a>
                     </div>
-                    <div class="col"> 
-                        <div class="card">
-                            <img class="card-img-top" src="/assets/img/stethoscope.png" alt="Card image appointment">
-                            <div class="card-body">
-                                <h5 class="card-title">Start appointment</h5>
-                                <p class="card-text">Allows you to start appointment</p>
-                                <a href="#"class="btn btn-dark mt-3 w-100">Start appointment</a>
-                            </div>
-                        </div>    
-                    </div>
-                    <div class="col"> 
-                        <div class="card">
-                            <img class="card-img-top" src="/assets/img/calendar.png" alt="Card image calendar">
-                            <div class="card-body">
-                                <h5 class="card-title">My work calendar</h5>
-                                <p class="card-text">Shows your work calendar</p>
-                                <a href="#"class="btn btn-dark mt-3 w-100">Show calendar</a>
-                            </div>
-                        </div>    
+                    <div class ="row-2">
+                        <p class="secondary-text">My patients</p>
                     </div>
                 </div>
-                <div class="row">
-                <div class="col"> 
-                    <div class="card">
-                        <img class="card-img-top" src="/assets/img/vacation.png" alt="Card image vacation">
-                        <div class="card-body">
-                            <h5 class="card-title">Vacations</h5>
-                            <p class="card-text">Allows you to make vacation request</p>
-                            <a href="#"class="btn btn-dark mt-3 w-100">Make request</a>
-                        </div>
-                    </div>    
-                </div>
-                <div class="col"> 
-                    <div class="card">
-                        <img class="card-img-top" src="/assets/img/schedul_appointment.png" alt="Card image clients">
-                        <div class="card-body">
-                            <h5 class="card-title">Schedule appointment</h5>
-                            <p class="card-text">Schedule patient appointment</p>
-                            <a href="#"class="btn btn-dark mt-3 w-100">Schedule appointment</a>
-                        </div>
-                    </div>    
-                </div>
-                    <div class="col"> 
-                        <div class="card">
-                            
-                        </div>    
+            </li>
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Shows you the appointment page" href="dermatologist#content">
+                            <img alt="Start the appointment" src="/assets/img/medicalstuff_icons/appointment.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">Start appointment</p>
                     </div>
                 </div>
-
-
-            </div>
+            </li>
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Shows you your work calendar" href="dermatologist#content">
+                            <img alt="Work calendar" src="/assets/img/medicalstuff_icons/calendar.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">Work calendar</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Takes you to the vacation request page" href="dermatologist#content">
+                            <img alt="Vacation" src="/assets/img/medicalstuff_icons/vacation.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">Request vacation</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Takes you to the appointment schedule page" href="dermatologist#content">
+                            <img alt="Schedule new appointment" src="/assets/img/medicalstuff_icons/schedule.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">Schedule appointment</p>
+                    </div>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+        <!--  PERSONAL INFORMATIONS -->
+        <div class="py-3">
+          <h5 class="mb-0">Personal information</h5>
+          <div class="p-4 rounded shadow-sm bg-light">
+            <p class="font-italic mb-0">Email: {{dermatologist.email}}</p>
+            <p class="font-italic mb-0">Address: {{dermatologist.street}}  {{dermatologist.streetNumber}}</p>
+            <p class="font-italic mb-0">Phone number: {{dermatologist.phoneNumber}}</p>
+          </div>
+        </div>
+        <!--  Fucntionalities -->
+        <div id="content" #content>
+        <div class="container mt-5 mb-5">
+            <router-outlet>
+                
+            </router-outlet>
+        </div>
         </div>
     </div>
+</div>

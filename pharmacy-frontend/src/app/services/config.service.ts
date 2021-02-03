@@ -9,6 +9,7 @@ export class ConfigService {
   private _api_url = environment.apiUrl + '/api';
   private _auth_url = environment.apiUrl +'/auth';
   private _user_url = this._api_url + '/user';
+  private _patient_url = this._api_url + '/patient';
   private _drug_url = this._api_url + '/drug'
   private _drug_order_url = this._api_url + '/drugOrder';
 
@@ -54,6 +55,11 @@ export class ConfigService {
     return this._user_change ;
   }
 
+  private _get_patients_by_medical_stuff = this._patient_url + '/getPatientsByMedicalStuffId/';
+
+  get get_patients_by_medical_stuff (): string {
+    return this._get_patients_by_medical_stuff ;
+  }
   private _get_drug_for_order = this._drug_url + '/drugForOrder';
 
   get get_drug_for_order (): string {
