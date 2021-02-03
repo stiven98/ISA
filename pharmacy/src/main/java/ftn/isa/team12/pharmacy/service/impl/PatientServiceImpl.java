@@ -7,9 +7,7 @@ import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.repository.PatientRepository;
 import ftn.isa.team12.pharmacy.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;

@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
 import ftn.isa.team12.pharmacy.domain.users.SystemAdministrator;
 import ftn.isa.team12.pharmacy.repository.SystemAdministratorRepository;
 import ftn.isa.team12.pharmacy.service.SystemAdministratorService;

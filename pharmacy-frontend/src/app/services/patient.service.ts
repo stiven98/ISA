@@ -3,7 +3,6 @@ import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {AccountCategory} from '../shared/models/accountCategory';
-import {DrugReservation} from '../shared/models/drugreservation';
 
 @Injectable({
   providedIn: 'root'
