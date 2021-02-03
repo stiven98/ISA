@@ -30,6 +30,7 @@ import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
 import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
 import { PhAdminGuard } from './guard/ph-admin.guard';
+import { AuthGuard } from './guard/auth.guard';
 
 
 const appRoutes: Routes = [
@@ -40,7 +41,7 @@ const appRoutes: Routes = [
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
   { path: 'drug-reservation/:drug', component: DrugReservationComponent},
   { path: 'phAdmin', component: PhAdminComponent},
-  { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
+  { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent, canActivate: [AuthGuard] },
   { path: 'changePassword' , component: ChangePasswordComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard],
   children : [

@@ -1,109 +1,193 @@
-<div class="container  border w-100 pt-3">
-    <div class="d-flex justify-content-center  bg-dark title">
-        <h1 > Pharmacy Administrator</h1>  
-    </div>
-
-    <div class="container p-3">
-        <div class="row ">
-            <div class="col-4">
-                <div class="row d-flex justify-content-center carde pb-2">
-                    <img src="/assets/img/admin.png" class="img-responsive fit-image" max-widht="40%" alt="Responsive image">
-                </div>
-                <div class="row border">
-                   <div class="col">
-                    <label>Name: Aleksandar</label>
-                   </div>
-                   <div class="col">
-                    <label>Surname: Stevanovic</label>
-                    </div>
-                </div>
-                <div class="row border">
-                    <div class="col">
-                     <label>Username: phadmin@gmail.com </label>
-                    </div>
-                 </div>
-                 <div class="row border">
-                    <div class="col">
-                     <label>Pharmacy: Apoteka Jovanovic</label>
-                    </div>
-                 </div>
-                 <div class="row border">
-                    <div class="col">
-                     <label>City: Beograd  </label>
-                    </div>
-                 </div>
-                 <div class="row d-flex justify-content-center border">
-                    <button  type="button" class="btn btn-dark mt-3 w-100">Change info</button>
-                 </div>
-
-
+<div class="row py-5 px-4">
+    <div class="col-md-5 mx-auto">
+      <!-- Profile widget -->
+      <div class="bg-white shadow rounded overflow-hidden">
+        <div class="px-4 pt-0 pb-4 cover">
+          <div class="media align-items-end profile-head">
+            <div class="profile mr-3"><img src="assets/img/doctors/doctors-3.jpg" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="/changeAccountInfo" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a></div>
+            <div class="media-body mb-5 text-white" >
+              <h4 class="mt-0 mb-0">{{phAdmin.name}} {{phAdmin.lastName}} </h4>
+              <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{{phAdmin.cityName}}, {{phAdmin.countryName}}</p>
             </div>
-            <div class="col-8">
-                <div class="row">
-                    <div class="col"> 
-                        <div class="card">
-                            <img class="card-img-top" src="/assets/img/login.png" alt="Card image cap">
-                            <div class="card-body">
-                              <h5 class="card-title">Pharmacy</h5>
-                              <p class="card-text">Ovde ce ici tekst na neku foru</p>
-                              <a href="#"class="btn btn-dark mt-3 w-100">More Info</a>
-                            </div>
-                          </div>    
-                     </div>
-                    <div class="col">
-                        <div class="card">
-                            <img class="card-img-top" src="/assets/img/login.png" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Pharmacist</h5>
-                                <p class="card-text">Ovde ce ici tekst na neku foru</p>
-                                <a href="#"class="btn btn-dark mt-3 w-100">More Info</a>
-                            </div>
-                          </div>      
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img class="card-img-top" src="/assets/img/login.png" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Dermatologist</h5>
-                                <p class="card-text">Ovde ce ici tekst na neku foru</p>
-                                <a href="#"class="btn btn-dark mt-3 w-100">More Info</a>
-                            </div>
-                          </div>   
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col"> 
-                        <div class="card">
-                            <img class="card-img-top" src="/assets/img/login.png" alt="Card image cap">
-                            <div class="card-body">
-                              <h5 class="card-title">Free Terms</h5>
-                              <p class="card-text">Ovde ce ici tekst na neku foru</p>
-                              <a href="#"class="btn btn-dark mt-3 w-100">More Info</a>
-                            </div>
-                          </div>    
-                     </div>
-                    <div class="col">
-                        <div class="card">
-                            <img class="card-img-top" src="/assets/img/login.png" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Drugs list</h5>
-                                <p class="card-text">Ovde ce ici tekst na neku foru</p>
-                                <a href="#"class="btn btn-dark mt-3 w-100">More Info</a>
-                            </div>
-                          </div>      
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img class="card-img-top" src="/assets/img/login.png" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Price</h5>
-                                <p class="card-text">Ovde ce ici tekst na neku foru</p>
-                                <a href="#"class="btn btn-dark mt-3 w-100">More Info</a>
-                            </div>
-                          </div>   
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="bg-light p-4 d-flex justify-content-end text-center">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item">
+              <a title="See Pharmacy reports" href="/"><img title="See Pharmacy reports" src="/assets/img/medicalstuff_icons/report.png" ></a>
+            </li>
+            <li class="list-inline-item">
+              <a title="Create employees" href="/"> <img title="Create employees" src="/assets/img/medicalstuff.png" ></a>
+            </li>
+            <li class="list-inline-item">
+              <a title="Make drug order" href="/drugOrder"> <img alt="Make drug order" src="/assets/img/medicalstuff_icons/orderIcon.png" ></a>
+            </li>
+            <li class="list-inline-item">
+              <a title="Change drugs in pharmacy" href="/"> <img alt="Change drugs in pharmacy" src="/assets/img/drugs.png" ></a>
+            </li>
+            <li class="list-inline-item">
+                <a title="Change pharmacy info" href="/"> <img alt="Change pharmacy info" src="/assets/img/pharmacy.png" ></a>
+              </li>
+          </ul>
+        </div>
+      </div>
+        <!--  PERSONAL INFORMATIONS -->
+        <div class="px-4 py-3">
+          <h5 class="mb-0">Personal informations</h5>
+          <div class="p-4 rounded shadow-sm bg-light">
+            <p class="font-italic mb-0">Address: {{phAdmin.street}} {{phAdmin.streetNumber}} </p>
+            <p class="font-italic mb-0">Email: {{phAdmin.email}}</p>
+            <p class="font-italic mb-0">Phone number: {{phAdmin.phoneNumber}}</p>
+  
+          </div>
+        </div>
+        <!--  APPOINTMENTS -->
+        <div >
+          <div class="section-title">
+            <h2>Appointments</h2>
+          </div>
+          <div class="container mt-5 mb-5">
+            <div class="d-flex justify-content-center row">
+              <div class="col-md-10">
+                <div class="row p-2 bg-white border rounded">
+                  <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/appointment.png"></div>
+                  <div class="col-md-6 mt-1">
+                    <h5>Pharmacist Consultation</h5>
+                    <div class="mt-1 mb-1 spec-1"><span></span>Finished<span class="dot"></span><span> 11.01.2021.</span><span class="dot"></span><span><br></span></div>
+                    <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> Aca</span><span class="dot"></span><span> Simic<br></span></div>
+                    <p class="text-justify text-truncate para mb-0">Description<br><br></p>
+                  </div>
+                  <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                    <h6 class="text">Actions</h6>
+                    <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
+                  </div>
+                </div>
+                <div class="row p-2 bg-white border rounded">
+                  <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/appointment.png"></div>
+                  <div class="col-md-6 mt-1">
+                    <h5>Dermatologist Examination</h5>
+                    <div class="mt-1 mb-1 spec-1"><span></span>Unfinished<span class="dot"></span><span> 21.02.2021.</span><span class="dot"></span><span><br></span></div>
+                    <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> Aca</span><span class="dot"></span><span> Simic<br></span></div>
+                    <p class="text-justify text-truncate para mb-0">Description<br><br></p>
+                  </div>
+                  <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                    <h6 class="text">Actions</h6>
+                    <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
+                  </div>
+                </div>
+              </div>
+          </div>
+            <button style="margin-top: 20px; margin-left: 55px" class="btn" >Make new appointment<img style="margin-left: 5px" src="assets/img/add.png"></button>
+  
+          </div>
+        </div>
+            <!--  ERECEPIES -->
+            <div id="erecepies" style="margin-top: 50px" class="section-title">
+              <h2>ERecepies</h2>
+            </div>
+            <div class="container mt-5 mb-5">
+              <div class="d-flex justify-content-center row">
+                <div class="col-md-10">
+                  <div class="row p-2 bg-white border rounded">
+                    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/recipe.png"></div>
+                    <div class="col-md-6 mt-1">
+                      <h5>ERecipe 1</h5>
+                      <div class="mt-1 mb-1 spec-1"><span></span>Date of Issuing: <span class="dot"></span><span> 11.01.2021.</span><span class="dot"></span><span><br></span></div>
+                      <div class="mt-1 mb-1 spec-1"><span>Drugs: </span><span class="dot"></span><span> Aspirin </span><span class="dot"></span><span> Brufen <br></span></div>
+                      <p class="text-justify text-truncate para mb-0">Quantity: 3<br><br></p>
+                    </div>
+                    <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                      <h6 class="text">Actions</h6>
+                      <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
+                    </div>
+                  </div>
+                  <div class="row p-2 bg-white border rounded">
+                    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/recipe.png"></div>
+                    <div class="col-md-6 mt-1">
+                      <h5>ERecipe 2</h5>
+                      <div class="mt-1 mb-1 spec-1"><span></span>Date of Issuing: <span class="dot"></span><span> 11.01.2021.</span><span class="dot"></span><span><br></span></div>
+                      <div class="mt-1 mb-1 spec-1"><span>Drugs: </span><span class="dot"></span><span> Aspirin </span><span class="dot"></span><span> Brufen <br></span></div>
+                      <p class="text-justify text-truncate para mb-0">Quantity: 3<br><br></p>
+                    </div>
+                    <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                      <h6 class="text">Actions</h6>
+                      <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--  MEDICATIONS -->
+      <section id="allergies" class="medical">
+        <div class="section-title">
+          <h2>Medications you are alergic to </h2>
+        </div>
+        <div class="wrapper">
+          <div class="container text-center"  >
+            <div class="row main-row row-cols-3 row-cols-md-3 g-3" >
+              <div class="col-sm-4" >
+                <div style="margin-top: 10px" class="card p-3">
+                  <div class="text-center"> <img src="/assets/img/drugPatient.jpg" width="200"> </div>
+                  <div class="product-details"> <span class="font-weight-bold d-block">ff</span> <span></span>
+                    <div class="buttons d-flex flex-row">
+                      <button  class="btn btn-success cart-button btn-block"><span class="dot">1</span>Allergic</button>
+                    </div>
+                    <div class="weight"> <small>AAAAA</small> </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button style="margin-top: 20px; margin-left: 15px" class="btn" data-toggle="modal" data-target = "#addAllergy" >Add allergies<img style="margin-left: 5px" src="assets/img/add.png"></button>
+        </div>
+      </section>
+      <!-- Modal -->
+      <div class="modal fade" id="addAllergy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add medication you are alegic to</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group"  >
+                    <select  class="custom-select form-control"   >
+                      <option>Choose drug</option>
+                      <!--<option *ngFor="let drug of drugList">{{drug.name}}</option> -->
+                    </select>
+                </div>
+                <input class = "btn btn-secondary"  data-dismiss="modal"   type="submit">
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class = "container" >
+        <div id="pharmacies" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
+          <h2>Pharmacies</h2>
+        </div>
+        <div class = "row main-row row-cols-1 row-cols-sm-3 g-4" >
+          <div lass = "col-12">
+            <div class = "card p-1 text-center" style = "width: 20rem">
+              <img src="/assets/img/pharmacy.jpg" class = "card-img-top shadow bg-white rounded">
+              <h5 class ="card-title>">Apoteka 1</h5>
+              <div class = "card-body">
+                <p class = "card-text">Average mark 8.6 </p>
+                <a class="btn-secondary"  class = "btn btn-outline-dark">See additional info</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+    <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
+  </div>
+  
+  
+  
