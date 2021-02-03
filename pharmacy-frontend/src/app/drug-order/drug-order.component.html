@@ -1,0 +1,78 @@
+<div class="container">
+    <div >
+        <div>
+          <h1 class="d-flex justify-content-center font-weight-bold text-dark">Make drug order</h1>
+        </div>
+
+        <div class="row border d-flex justify-content-center ">
+            <div class="col-6">
+                <div>
+                    <h3 class="d-flex justify-content-center font-weight-bold text-dark">List of drugs</h3>
+                  </div>
+                <div class="row d-flex justify-content-center border pt-4" *ngFor="let drug of drugList"> 
+                    <div class="col-3  ">
+                        <img src="/assets/img/orderIcon.png" class="img-responsive fit-image " style="max-width: 100%;" alt="orderIcon">
+                    </div>
+                    <div class="col-5 ">
+                        <div class="row">
+                            <label>Name: {{drug.name}} </label>
+                            <div>
+                                <label>Type of drug: {{drug.typeOfDrug}} </label>
+                                <label>Manufacture: {{drug.manufactureName}} </label>
+                             </div>
+                             <label>Issuance Regime: {{drug.issuanceRegime}} </label>
+                            <p> {{drug.note}}</p>
+                        </div>
+                    </div>
+                    <div class="col-3 ">
+                        <div class="row">
+                            <input type="number" id="quantity"  [(ngModel)]="drug.quantity" [ngModelOptions]="{standalone: true}"  class="form-control" />
+                        </div>
+                        <div class="row borde">
+                            <button class="btn btn-dark mt-3 w-100" (click)="addInOrder(drug)" > Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div>
+                    <h3 class="d-flex justify-content-center font-weight-bold text-dark">List drugs order</h3>
+                </div>
+                <div class="row d-flex justify-content-center border pt-4" *ngFor="let drug of drugOrder.drugOrderItems"> 
+                    <div class="col-3  ">
+                        <img src="/assets/img/orderIcon.png" class="img-responsive fit-image " style="max-width: 100%;" alt="orderIcon">
+                    </div>
+                    <div class="col-5 ">
+                        <div class="row">
+                            <label>Name: {{drug.name}} </label>
+                            <div>
+                                <label>Type of drug: {{drug.typeOfDrug}} </label>
+                                <label>Manufacture: {{drug.manufactureName}} </label>
+                             </div>
+                             <label>Issuance Regime: {{drug.issuanceRegime}} </label>
+                            <p> {{drug.note}}</p>
+                        </div>
+                    </div>
+                    <div class="col-3 ">
+                        <div class="row">
+                            <input type="number" id="quantity"  [(ngModel)]="drug.quantity" [ngModelOptions]="{standalone: true}"  class="form-control" />
+                        </div>
+                        <div class="row borde">
+                            <button class="btn btn-dark mt-3 w-100" (click)="remove(drug)" > remove</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group date d-flex justify-content-end" data-provide="datepicker">
+                    <input type="date" class="mt-3 w-20"  [(ngModel)]="drugOrder.deadline" [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="row borde d-flex justify-content-end" *ngIf="drugOrder.drugOrderItems.length != 0">
+                    <button class="btn btn-dark mt-3 w-20 " (click)="createOrder()" > Create order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

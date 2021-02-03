@@ -12,4 +12,8 @@ public interface PharmacyService {
     Pharmacy findPharmacyById(UUID id);
 
     Pharmacy saveAndFlush(Pharmacy pharmacyRequest);
+
+    Pharmacy saveDrugInPharmacy(Pharmacy pharmacy);
+
+
 }

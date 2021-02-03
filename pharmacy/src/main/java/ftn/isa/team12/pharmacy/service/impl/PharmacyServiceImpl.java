@@ -34,4 +34,9 @@ public class PharmacyServiceImpl implements PharmacyService {
         pharmacyRequest.setAverageMark(0.0);
         return this.pharmacyRepository.saveAndFlush(pharmacyRequest);
     }
+
+    @Override
+    public Pharmacy saveDrugInPharmacy(Pharmacy pharmacy) {
+        return pharmacyRepository.save(pharmacy);
+    }
 }

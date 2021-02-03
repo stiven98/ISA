@@ -25,25 +25,37 @@ import { SysAdminComponent } from './sys-admin/sys-admin.component';
 import { NewPharmacyComponent } from './new-pharmacy/new-pharmacy.component';
 import { NewAdminComponent } from './new-admin/new-admin.component';
 import { AdministratorsComponent } from './administrators/administrators.component';
+import { DrugsComponent } from './drugs/drugs.component';
+import { DrugOrderComponent } from './drug-order/drug-order.component';
+import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
+import { PhAdminGuard } from './guard/ph-admin.guard';
 
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: PharmacyComponent },
   { path: 'login', component: SingInComponent },
   { path: 'registration', component: SingUpComponent },
   { path: 'pharmacy', component: PharmacyComponent },
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
+  { path: 'drug-reservation/:drug', component: DrugReservationComponent},
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
   { path: 'changePassword' , component: ChangePasswordComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
   { path: 'patient', component: PatientComponent},
+
   { path: 'newPharmacy', component: NewPharmacyComponent},
   { path: 'newAdmin', component: NewAdminComponent},
   { path: 'administrators', component: AdministratorsComponent},
+
+  { path: 'drugs', component: DrugsComponent},
+
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
+  { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
+  //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
+
 ];
 
 const ngxLoadingXConfig: NgxLoadingXConfig = {
@@ -67,10 +79,15 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NotFoundComponent,
     PatientComponent,
     ChangePasswordComponent,
+
     SysAdminComponent,
     NewPharmacyComponent,
     NewAdminComponent,
-    AdministratorsComponent
+    AdministratorsComponent,
+    DrugsComponent,
+    DrugOrderComponent,
+    DrugReservationComponent
+
   ],
   imports: [
     BrowserModule,
@@ -79,7 +96,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
     NgxLoadingXModule.forRoot(ngxLoadingXConfig),
-    FormsModule
+    FormsModule,
   ],
   providers: [
     {

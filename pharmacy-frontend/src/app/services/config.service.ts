@@ -9,6 +9,8 @@ export class ConfigService {
   private _api_url = environment.apiUrl + '/api';
   private _auth_url = environment.apiUrl +'/auth';
   private _user_url = this._api_url + '/user';
+  private _drug_url = this._api_url + '/drug'
+  private _drug_order_url = this._api_url + '/drugOrder';
 
   private _refresh_token_url = this._api_url + '/refresh';
 
@@ -51,6 +53,21 @@ export class ConfigService {
   get user_change (): string {
     return this._user_change ;
   }
+
+  private _get_drug_for_order = this._drug_url + '/drugForOrder';
+
+  get get_drug_for_order (): string {
+    return this._get_drug_for_order ;
+  }
+
+
+
+  private _drug_order_create = this._drug_order_url + '/createOrder';
+
+  get drug_order_create (): string {
+    return this._drug_order_create ;
+  }
+
 
 
 }

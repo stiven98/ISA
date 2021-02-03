@@ -1,4 +1,7 @@
 package ftn.isa.team12.pharmacy.domain.users;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import lombok.Getter;
@@ -19,6 +22,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "PATIENTS")
 public class Patient extends User implements Serializable {
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "allergies", joinColumns = @JoinColumn(name="user_id" ,  referencedColumnName  = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "drug_id"))
     private Set<Drug> allergies = new HashSet<Drug>();
@@ -29,6 +33,8 @@ public class Patient extends User implements Serializable {
 
     @Embedded
     private AccountCategory category;
+
+    @JsonIgnore
     @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "patient")
     private Set<Examination> examinations = new HashSet<Examination>();
 }

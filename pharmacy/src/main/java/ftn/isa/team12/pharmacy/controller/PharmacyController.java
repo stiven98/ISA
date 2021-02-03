@@ -52,6 +52,7 @@ public class PharmacyController {
         return new ResponseEntity<Pharmacy>(pharmacy,HttpStatus.OK);
     }
 
+
     @PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
     @PostMapping("/add")
     public ResponseEntity<Pharmacy> savePharmacy(@RequestBody Pharmacy pharmacyRequest) {
@@ -76,8 +77,6 @@ public class PharmacyController {
             throw new IllegalArgumentException("Pharmacy with name already exist!");
         }
 
-
     }
-
 
 }
