@@ -39,4 +39,9 @@ public class PharmacyServiceImpl implements PharmacyService {
     public Pharmacy saveDrugInPharmacy(Pharmacy pharmacy) {
         return pharmacyRepository.save(pharmacy);
     }
+
+    @Override
+    public Pharmacy save(Pharmacy pharmacy) {
+        return this.pharmacyRepository.save(pharmacy);
+    }
 }

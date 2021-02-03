@@ -16,4 +16,5 @@ public interface PharmacyService {
     Pharmacy saveDrugInPharmacy(Pharmacy pharmacy);
 
 
+    Pharmacy save(Pharmacy pharmacy);
 }

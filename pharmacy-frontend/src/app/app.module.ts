@@ -30,6 +30,8 @@ import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
 import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
 import { PhAdminGuard } from './guard/ph-admin.guard';
+import { NewDermatologistComponent } from './new-dermatologist/new-dermatologist.component';
+import { NewSupplierComponent } from './new-supplier/new-supplier.component';
 
 
 const appRoutes: Routes = [
@@ -50,6 +52,8 @@ const appRoutes: Routes = [
   ]
   },
   { path: 'patient', component: PatientComponent},
+  { path: 'newDermatologist', component: NewDermatologistComponent},
+  { path: 'newSupplier', component: NewSupplierComponent },
 
   { path: 'newPharmacy', component: NewPharmacyComponent},
   { path: 'newAdmin', component: NewAdminComponent},
@@ -93,7 +97,9 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     MedicalStuffClientsComponent,
     DrugsComponent,
     DrugOrderComponent,
-    DrugReservationComponent
+    DrugReservationComponent,
+    NewDermatologistComponent,
+    NewSupplierComponent
 
   ],
   imports: [

@@ -1,21 +1,22 @@
+
 <div class="container p-5" >
-  <div>
+  <div >
     <div>
-      <h1 class="d-flex justify-content-center font-weight-bold text-dark">Add administrator</h1>
+      <h1 class="d-flex justify-content-center font-weight-bold text-dark">Add new dermatologist</h1>
     </div>
 
     <div class="d-flex justify-content-center pt-4">
       <form class="form-control-feedback w-50">
         <div>
           <label for="firstName" class="text-dark" >Name:</label>
-          <input type="text" id="firstName" class="form-control" [ngClass]="validationModel.validName" [(ngModel)]="admin.accountInfo.name" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <input type="text" id="firstName" class="form-control" [ngClass]="validationModel.validName" [(ngModel)]="registrationPatient.accountInfo.name" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
           <div class="invalid-feedback">
             Input name!
           </div>
         </div>
         <div>
           <label for="lastName" class="text-dark mt-3" >Surname:</label>
-          <input type="text" id="lastName" class="form-control" [ngClass]="validationModel.validSurname" [(ngModel)]="admin.accountInfo.lastName" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <input type="text" id="lastName" class="form-control" [ngClass]="validationModel.validSurname" [(ngModel)]="registrationPatient.accountInfo.lastName" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
           <div class="invalid-feedback">
             Input surname!
           </div>
@@ -23,7 +24,7 @@
 
         <div>
           <label for="email" class="text-dark mt-3" >Email:</label>
-          <input type="text" id="email" class="form-control" [ngClass]="validationModel.validEmail" [(ngModel)]="admin.loginInfo.email" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <input type="text" id="email" class="form-control" [ngClass]="validationModel.validEmail" [(ngModel)]="registrationPatient.loginInfo.email" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
           <div class="invalid-feedback">
             Wrong email!
           </div>
@@ -31,7 +32,7 @@
 
         <div>
           <label for="password" class="text-dark mt-3" >Password:</label>
-          <input type="password" id="password" class="form-control" [ngClass]="validationModel.validPassword" [(ngModel)]="admin.loginInfo.password" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <input type="password" id="password" class="form-control" [ngClass]="validationModel.validPassword" [(ngModel)]="registrationPatient.loginInfo.password" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
 
           <div class="invalid-feedback">
             Last 8 character!
@@ -49,7 +50,7 @@
 
         <div>
           <label for="phoneNumber" class="text-dark mt-3" >Phone number:</label>
-          <input type="text" id="phoneNumber" class="form-control" [ngClass]="validationModel.validPhoneNumber" [(ngModel)]="admin.accountInfo.phoneNumber" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <input type="text" id="phoneNumber" class="form-control" [ngClass]="validationModel.validPhoneNumber" [(ngModel)]="registrationPatient.accountInfo.phoneNumber" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
           <div class="invalid-feedback">
             Wrong format of number! Correct: +xxx-xx-xxx-xx-xx
           </div>
@@ -117,52 +118,22 @@
         <div class="row">
           <div class="col-9">
             <label for="address" class="text-dark mt-3" >Location:</label>
-            <input type="text" id="address" class="form-control" [ngClass]="validationModel.validAddress" [(ngModel)]="admin.location.address.street" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+            <input type="text" id="address" class="form-control" [ngClass]="validationModel.validAddress" [(ngModel)]="registrationPatient.location.address.street" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
             <div class="invalid-feedback">
               Input street!
             </div>
           </div>
           <div class="col-3">
             <label for="number" class="text-dark mt-3" >Location:</label>
-            <input type="text" id="number" class="form-control" [ngClass]="validationModel.validNumber" [(ngModel)]="admin.location.address.number" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+            <input type="text" id="number" class="form-control" [ngClass]="validationModel.validNumber" [(ngModel)]="registrationPatient.location.address.number" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
             <div class="invalid-feedback">
               Input valid number!
             </div>
           </div>
         </div>
 
-        <div class="col-16">
-          <label for="admin_type" class="text-dark mt-3" >Select type of administrator:</label>
-          <select class="custom-select" id="admin_type" (change)="onChangeAdminType($event)" [ngClass]="validationModel.validAdmin" >
-            <option value="Choose..." selected>Choose...</option>
-            <option value="System administrator">System administrator</option>
-            <option value="Pharmacy administrator">Pharmacy administrator</option>
-          </select>
 
-          <div class="invalid-feedback">
-            Select type of administrator!
-          </div>
-        </div>
-
-        <div class="col-16" *ngIf="showPharmacy" >
-          <label for="pharmacy" class="text-dark mt-3" >Select pharmacy:</label>
-          <select class="custom-select" id="pharmacy" (change)="onChangePharmacy($event)" [ngClass]="validationModel.validPharmacy">
-            <option value="Choose..." selected>Choose...</option>
-            <option *ngFor="let pharmacy of pharmacies"  [value]="pharmacy.id">{{pharmacy.name}}</option>
-          </select>
-
-          <div class="invalid-feedback">
-            Select pharmacy!
-          </div>
-
-
-        </div>
-
-
-
-
-
-        <button class="btn btn-dark mt-3 w-100" (click)="createNewAdmin()">Create Account</button>
+        <button class="btn btn-dark mt-3 w-100" (click)="createAccount()">Create new dermatologist</button>
 
       </form>
     </div>
@@ -171,4 +142,7 @@
   <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
 
 
+
 </div>
+
+
