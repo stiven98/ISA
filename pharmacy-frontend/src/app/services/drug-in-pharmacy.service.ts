@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DrugOrderModel } from '../drug-order/drugOrderModel';
 import { DrugInpharmacyChangeModel } from '../ph-admin/drug-in-pharmacy/drugInPharmacyModel';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
@@ -24,7 +23,7 @@ export class DrugInPharmacyService {
 
   addDrugInPharmacy(drugInPharmacy:DrugInpharmacyChangeModel){
     return this.apiService.post('http://localhost:8080/api/drugInPharmacy/add',drugInPharmacy)
-    .pipe(map(drugOrder =>{ 
+    .pipe(map(drugOrder =>{
       return drugOrder;
     }))
   }
@@ -32,14 +31,14 @@ export class DrugInPharmacyService {
 
   removeDrugInPharmacy(drugInPharmacy:DrugInpharmacyChangeModel){
     return this.apiService.post('http://localhost:8080/api/drugInPharmacy/remove',drugInPharmacy)
-    .pipe(map(drugOrder =>{ 
+    .pipe(map(drugOrder =>{
       return drugOrder;
     }))
   }
 
   updateDrugInPharmacy(drugInPharmacy:DrugInpharmacyChangeModel){
     return this.apiService.post('http://localhost:8080/api/drugInPharmacy/update',drugInPharmacy)
-    .pipe(map(drugOrder =>{ 
+    .pipe(map(drugOrder =>{
       return drugOrder;
     }))
   }

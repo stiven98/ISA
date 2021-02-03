@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Drug} from '../shared/models/drug';
 import {DrugService} from '../services/drug.service';
 import {PharmacyService} from '../services/pharmacy.service';
+import {Pharmacy} from '../shared/models/Pharmacy';
+import {UserService} from '../services/user.service';
+import {Patient} from '../shared/models/patient';
+import {DrugReservation} from '../shared/models/drugreservation';
+import {DrugreservationService} from '../services/drugreservation.service';
 
 @Component({
   selector: 'app-drug-reservation',
@@ -17,11 +22,19 @@ export class DrugReservationComponent implements OnInit {
   pharmacyName: string;
   quantity: number;
   totalToPay = 0;
+  pharmacy = new Pharmacy();
   deadline;
-  constructor(private route: ActivatedRoute, private drugService: DrugService, private pharmacyService: PharmacyService) { }
+  today = new Date();
+  patient = new Patient();
+  available: number;
+  constructor(private route: ActivatedRoute, private drugService: DrugService, private pharmacyService: PharmacyService,
+              private userService: UserService, private drugreservationService: DrugreservationService, private router: Router) { }
 
   ngOnInit(): void {
     this.drugName = this.route.snapshot.params[`drug`];
+    this.userService.getMyInfo().subscribe( resUser => {
+      this.patient = resUser;
+    });
     this.drugService.findDrugByName(this.drugName).subscribe((drug) =>  {
       this.drug = drug;
       this.pharmacyService.findPharmaciesWithDrug(this.drug.drugId).subscribe((response ) => {
@@ -34,9 +47,13 @@ export class DrugReservationComponent implements OnInit {
     this.pharmacyName = event.target.value.toString();
     for (let i = 0; i < this.pharmacies.length; i++) {
       if ( this.pharmacyName === this.pharmacies[i].name) {
-        this.drugService.findDrugPrice(this.pharmacies[i].id, this.drug.drugId).subscribe((price) =>{
+        this.drugService.findDrugPrice(this.pharmacies[i].id, this.drug.drugId).subscribe((price) => {
           this.price = price;
           this.totalToPay = this.price * this.quantity;
+          this.drugService.findDrugQuantity(this.drug.drugId, this.pharmacies[i].id).subscribe((available) => {
+            this.available = available;
+            this.pharmacy = this.pharmacies[i];
+          });
         });
         break;
       }
@@ -44,5 +61,17 @@ export class DrugReservationComponent implements OnInit {
   }
   onInput = (event) => {
     this.totalToPay = this.price * this.quantity;
+  }
+  reserveDrug = () => {
+    alert('Reservation successfully  created');
+    const drugReservation = new DrugReservation();
+    drugReservation.patientEmail = this.patient.email;
+    drugReservation.deadline = this.deadline;
+    drugReservation.pharmacyId = this.pharmacy.id;
+    drugReservation.quantity = this.quantity;
+    drugReservation.drugId = this.drug.drugId;
+    this.drugreservationService.createReservation(drugReservation).subscribe();
+    this.router.navigate(["/patient"]);
+
   }
 }

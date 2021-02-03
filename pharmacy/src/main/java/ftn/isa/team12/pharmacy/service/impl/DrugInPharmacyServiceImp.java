@@ -1,17 +1,14 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
-import ftn.isa.team12.pharmacy.domain.drugs.DrugOrder;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugInPharmacyChangesDTO;
-import ftn.isa.team12.pharmacy.dto.DrugOrderDTO;
 import ftn.isa.team12.pharmacy.repository.DrugInPharmacyRepository;
 import ftn.isa.team12.pharmacy.service.DrugInPharmacyService;
 import ftn.isa.team12.pharmacy.service.DrugService;
 import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
-import ftn.isa.team12.pharmacy.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +71,10 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
         return this.drugInPharmacyRepository.findPharmaciesWithDrug(id);
     }
 
+    @Override
+    public int findDrugQuantity(UUID drugId, UUID pharmacyId) {
+        return this.drugInPharmacyRepository.findDrugQuantity(drugId, pharmacyId);
+    }
     @Override
     public List<DrugForOrderDTO> findAllDrugInPharmacyByid(UUID id) {
         List<DrugForOrderDTO> dto = new ArrayList<>();

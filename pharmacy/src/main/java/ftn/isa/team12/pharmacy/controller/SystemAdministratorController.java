@@ -1,9 +1,7 @@
 package ftn.isa.team12.pharmacy.controller;
-
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
-import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.SystemAdministrator;
 import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.email.EmailSender;

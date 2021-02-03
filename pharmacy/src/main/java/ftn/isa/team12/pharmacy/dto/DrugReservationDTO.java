@@ -3,18 +3,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DrugOrderDTO {
+public class DrugReservationDTO {
 
-    private String pharmacyAdminEmail;
+    private String patientEmail;
     private Date deadline;
-    private Set<DrugForOrderDTO> drugOrderItems = new HashSet<>();
+    private UUID pharmacyId;
+    private int quantity;
+    private UUID drugId;
 
 }
