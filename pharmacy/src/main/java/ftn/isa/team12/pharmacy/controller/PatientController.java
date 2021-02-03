@@ -5,6 +5,7 @@ import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
 import ftn.isa.team12.pharmacy.domain.users.*;
 import ftn.isa.team12.pharmacy.dto.PatientDTO;
+import ftn.isa.team12.pharmacy.dto.PatientExaminationDTO;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,25 +61,19 @@ public class PatientController {
         return new ResponseEntity<List<PatientDTO>>(dto, HttpStatus.OK);
     }
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST','ROLE_PHARMACIST')")
-    @GetMapping("/getPatientsByMedicalStuffId/{id}")
-    public ResponseEntity<?> findPatientsByMedicalStuff(@PathVariable UUID id) {
+    @GetMapping("/getPatientsByMedicalStuffId")
+    public ResponseEntity<?> findPatientsByMedicalStuff() {
         Map<String, String> result = new HashMap<>();
-        MedicalStuff medicalStuff = medicalStuffService.findById(id);
-        if(medicalStuff == null){
-            result.put("result", "The medical stuff user with specified id doesn't exist");
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-        }
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String email = currentUser.getName();
         User user = userService.findUserByEmail(email);
         if(user == null){
-            result.put("result", "You can access just yours clients!");
+            result.put("result", "Please log in first!");
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
-        Set<Patient> patients = medicalStuffService.findPatientsByMedicalStuff(medicalStuff);
-        List<PatientDTO> dtos = new ArrayList<>();
-        patients.forEach(patient -> dtos.add(new PatientDTO(patient)));
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        MedicalStuff medicalStuff = medicalStuffService.findById(user.getUserId());
+        Set<PatientExaminationDTO> patients = medicalStuffService.findPatientsByMedicalStuff(medicalStuff);
+        return new ResponseEntity<>(patients, HttpStatus.OK);
     }
 
     @PostMapping("/add")

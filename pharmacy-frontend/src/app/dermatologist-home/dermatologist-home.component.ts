@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { timeout } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 import { Dermatologist } from '../shared/models/dermatologist';
 
@@ -19,6 +20,13 @@ export class DermatologistHomeComponent implements OnInit {
 
    account(el: HTMLElement){
     this.router.navigate(['dermatologist/changeAccountInfo']);
+    setTimeout(() => {
+    el.scrollIntoView({ behavior: 'smooth' });
+  }, 1000);
+  }
+
+  patients(el: HTMLElement){
+    this.router.navigate(['dermatologist/patients']);
     el.scrollIntoView({ behavior: 'smooth' });
   }
 

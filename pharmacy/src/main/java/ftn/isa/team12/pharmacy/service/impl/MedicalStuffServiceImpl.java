@@ -1,7 +1,7 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
-import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.dto.PatientExaminationDTO;
 import ftn.isa.team12.pharmacy.repository.MedicalStuffRepository;
 import ftn.isa.team12.pharmacy.service.ExaminationService;
 import ftn.isa.team12.pharmacy.service.MedicalStuffService;
@@ -25,13 +25,13 @@ public class MedicalStuffServiceImpl implements MedicalStuffService {
     }
 
     @Override
-    public Set<Patient> findPatientsByMedicalStuff(MedicalStuff medicalStuff) {
+    public Set<PatientExaminationDTO> findPatientsByMedicalStuff(MedicalStuff medicalStuff) {
         List<Examination> examinations = examinationService.findAllByEmployee(medicalStuff);
-        Set<Patient> patients = new HashSet<>();
+        Set<PatientExaminationDTO> patients = new HashSet<>();
         if(examinations == null){
             return patients;
         }
-        examinations.forEach(examination -> { patients.add(examination.getPatient()); });
+        examinations.forEach(examination -> { patients.add(new PatientExaminationDTO(examination.getPatient(), examination)); });
         return patients;
     }
 

@@ -36,6 +36,7 @@ const appRoutes: Routes = [
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard],
   children : [
     { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
+    { path: 'patients', component: MedicalStuffClientsComponent },
     { path: '**', redirectTo:'changeAccountInfo'}
   ]
   },
