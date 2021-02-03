@@ -2,8 +2,8 @@
     <div class="text-left">
         <h3>My patients</h3>
     </div>
-    
-    <table class="table table-hover table-dark">
+    <div class="table-wrapper-scroll-y my-scrollbar">
+      <table class="table table-hover table-dark">
         <thead class="thead-dark">
           <tr>
             <th scope="col" sortable="id" (sort)="onSort($event)">#</th>
@@ -25,5 +25,6 @@
           </tr>
         </tbody>
       </table>
+    </div>
 </div>
 

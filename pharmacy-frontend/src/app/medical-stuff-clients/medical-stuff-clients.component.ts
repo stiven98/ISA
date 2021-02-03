@@ -48,7 +48,7 @@ export class MedicalStuffClientsComponent implements OnInit {
     this.medicalStuffServ.getMyPatients().subscribe(res => {
       let tmp = res;
       for(let pat of tmp){
-        pat.examinationDate = new Date(pat.examinationDate).toLocaleString();
+        pat.examinationDate = new Date(pat.examinationDate).toLocaleDateString();
       }
       this.patients = tmp;
       this.starter = tmp;
