@@ -21,6 +21,8 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PatientComponent } from './patient/patient.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { MedicalStuffClientsComponent } from './medical-stuff-clients/medical-stuff-clients.component';
+
 import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
 import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
@@ -36,7 +38,13 @@ const appRoutes: Routes = [
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
   { path: 'changePassword' , component: ChangePasswordComponent},
-  { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
+  { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard],
+  children : [
+    { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
+    { path: 'patients', component: MedicalStuffClientsComponent },
+    { path: '**', redirectTo:'changeAccountInfo'}
+  ]
+  },
   { path: 'patient', component: PatientComponent},
   { path: 'drugs', component: DrugsComponent},
   { path: '404', component: NotFoundComponent},
@@ -68,6 +76,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NotFoundComponent,
     PatientComponent,
     ChangePasswordComponent,
+    MedicalStuffClientsComponent,
     DrugsComponent,
     DrugOrderComponent,
     DrugReservationComponent
