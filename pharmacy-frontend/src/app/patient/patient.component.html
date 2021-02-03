@@ -120,6 +120,34 @@
               </div>
             </div>
           </div>
+    <!--  Reservations -->
+    <div id="reservations" style="margin-top: 50px" class="section-title">
+      <h2>Your drug reservations</h2>
+    </div>
+    <div class="container mt-5 mb-5">
+      <div class="d-flex justify-content-center row">
+        <div class="col-md-10" *ngFor="let reservation of reservations">
+          <div class="row p-3 bg-white border rounded">
+            <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/pill.png"></div>
+            <div class="col-md-6 mt-1">
+              <h5><b>Reservation code: </b> <br>{{reservation.drug_reservation_id}}</h5>
+              <div class="mt-1 mb-1 spec-1"><span></span>Drug: <span class="dot"></span><span> {{reservation.drug.name}}</span><span class="dot"></span><span><br></span></div>
+              <div class="mt-1 mb-1 spec-1"><span></span>Date of creating: <span class="dot"></span><span> {{reservation.reservationDateRange.startDate}}</span><span class="dot"></span><span><br></span></div>
+              <div class="mt-1 mb-1 spec-1"><span>Dead line for collecting: {{reservation.reservationDateRange.endDate}} </span><span class="dot"></span><span>  </span><span class="dot"></span><span>  <br></span></div>
+              <div class="mt-1 mb-1 spec-1"><span>Reservation status: {{reservation.reservationStatus}} </span><span class="dot"></span><span>  </span><span class="dot"></span><span>  <br></span></div>
+              <div class="mt-1 mb-1 spec-1"><span>Pharmacy: {{reservation.pharmacy.name}} </span><span class="dot"></span><span>  </span><span class="dot"></span><span>  <br></span></div>
+              <p class="text-justify text-truncate para mb-0">Quantity: {{reservation.quantity}}<br><br></p>
+            </div>
+            <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+              <h6 class="text">Actions</h6>
+              <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" *ngIf="reservation.reservationStatus !== 'cancelled'" (click)="cancelReservation(reservation)" type="button">Cancel reservation</button>
+                <button *ngIf="reservation.reservationStatus !== 'cancelled'" class="btn btn-outline-secondary btn-sm mt-2" type="button">Collect</button></div>
+                <button *ngIf="reservation.reservationStatus == 'cancelled'" class = "btn btn-outline-secondary btn-sm mt-2" >Cancelled</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
           <!--  MEDICATIONS -->
     <section id="allergies" class="medical">
       <div class="section-title">

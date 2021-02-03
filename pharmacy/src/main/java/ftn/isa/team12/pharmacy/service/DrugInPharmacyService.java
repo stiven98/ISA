@@ -14,6 +14,7 @@ public interface DrugInPharmacyService {
     List<Drug> findDrugInPharmacyById(UUID id);
     void addDrugInPharmacy(DrugInPharmacyChangesDTO drugInPharmacyChangesDTO);
     List<Pharmacy> findPharmaciesWithDrug(UUID id);
+    int findDrugQuantity(UUID drugId, UUID pharmacyId);
     List<DrugForOrderDTO> findAllDrugInPharmacyByid(UUID id);
     void updateDrugInPharmacy(DrugInPharmacyChangesDTO dto);
     void removeDrugInPharmacy(DrugInPharmacyChangesDTO drugInPharmacyChangesDTO);

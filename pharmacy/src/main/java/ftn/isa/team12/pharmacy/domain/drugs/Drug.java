@@ -22,7 +22,6 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "drugId")
 @Table(name = "DRUGS")
 public class Drug implements Serializable {
 

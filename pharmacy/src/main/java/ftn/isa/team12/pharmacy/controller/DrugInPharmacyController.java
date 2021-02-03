@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import ftn.isa.team12.pharmacy.dto.GetDrugQuantityDTO;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugInPharmacyChangesDTO;
@@ -37,6 +38,12 @@ public class DrugInPharmacyController {
         return  drugInPharmacyService.findPharmaciesWithDrug(id);
     }
 
+  //  @PreAuthorize("hasAnyRole('ROLE_PATIENT')") // Dodati ostale role
+    @PostMapping("/getQuantity")
+    public ResponseEntity<?> getQuantity(@RequestBody GetDrugQuantityDTO drugQuantityDTO) {
+      int quantity =   this.drugInPharmacyService.findDrugQuantity(drugQuantityDTO.getDrugId(), drugQuantityDTO.getPharmacyId());
+        return new ResponseEntity<>(quantity, HttpStatus.OK);
+    }
     @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @GetMapping("/all/{email}")
     public ResponseEntity<List<DrugForOrderDTO>> findPharmaciesWithDrug(@PathVariable String email) throws AccessDeniedException{
@@ -64,8 +71,4 @@ public class DrugInPharmacyController {
         drugInPharmacyService.updateDrugInPharmacy(dto);
         return new ResponseEntity<>("Succesfuly created", HttpStatus.OK);
     }
-
-
-
-
 }

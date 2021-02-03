@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {Drug} from '../shared/models/drug';
-import {newArray} from '@angular/compiler/src/util';
 import {AccountCategory} from '../shared/models/accountCategory';
-import {Pharmacy} from '../shared/models/Pharmacy';
+import {DrugReservation} from '../shared/models/drugreservation';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +11,29 @@ import {Pharmacy} from '../shared/models/Pharmacy';
 export class PatientService {
   constructor(private http: HttpClient) {
   }
-
+  cancelReservation = (reservation) => {
+    return this.http
+      .get(environment.apiUrl + '/api/drugReservation/cancel/' + reservation)
+      .pipe(map(responseData => {
+        return responseData;
+      }));
+  }
+  findReservations = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/drugReservation/getPatientReservations/' + email)
+      .pipe(map(responseData => {
+        const reservations = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            const tmp = responseData[key];
+            tmp.reservationDateRange.startDate = new Date(tmp.reservationDateRange.startDate).toLocaleDateString();
+            tmp.reservationDateRange.endDate = new Date(tmp.reservationDateRange.endDate).toLocaleDateString();
+            reservations.push(tmp);
+          }
+        }
+        return reservations;
+      }));
+  }
   addAllergy = (email, drugName) => {
     return this.http
       .post(environment.apiUrl + '/api/patient/addAllergy/', { "email": email, "drugName": drugName})
