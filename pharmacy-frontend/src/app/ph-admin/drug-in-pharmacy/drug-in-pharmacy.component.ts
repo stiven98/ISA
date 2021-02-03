@@ -5,6 +5,7 @@ import { DrugInPharmacyService } from '../../services/drug-in-pharmacy.service';
 import { DrugOrderService } from '../../services/drug-order.service';
 import { UserService } from '../../services/user.service';
 import { DrugInpharmacyChangeModel } from './drugInPharmacyModel';
+import { SearchDrugModel } from './searchDrugModel';
 
 @Component({
   selector: 'app-drug-in-pharmacy',
@@ -18,6 +19,7 @@ export class DrugInPharmacyComponent implements OnInit {
   user:ChangeUserModel = new ChangeUserModel();
   drugInPharmacy: DrugOrderModel = new DrugOrderModel();
   drugChanges:DrugInpharmacyChangeModel = new DrugInpharmacyChangeModel();
+  serachDrug:SearchDrugModel = new SearchDrugModel();
   flag = false;
 
   constructor( private drugOrderSerivice: DrugOrderService, private userService:UserService,
@@ -85,5 +87,15 @@ export class DrugInPharmacyComponent implements OnInit {
     alert("cao");
     this.drugInPharmacyService.updateDrugInPharmacy(this.drugChanges).subscribe((response)=> {alert(response)})
   }
+
+  search(){
+    this.fetchData = true;
+    this.serachDrug.phAdminEmail = this.drugInPharmacy.pharmacyAdminEmail;
+    this.drugInPharmacyService.searhcDrugInPharmacy(this.serachDrug).subscribe((list) => { this.drugInPharmacy.drugOrderItems = list; 
+      this.serachDrug = new SearchDrugModel(); });
+    this.fetchData = false;
+  }
+
+
 
 }
