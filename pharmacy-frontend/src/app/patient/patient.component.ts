@@ -87,9 +87,9 @@ export class PatientComponent implements OnInit {
     const deadlineday: number = +parts[1];
     const deadlinemonth: number = +parts[0];
     if (deadlinemonth >= month && deadlineday > day + 1) {
-      this.patientService.cancelReservation(reservation.drug_reservation_id).subscribe();
-      window.location.reload();
-    }
+    this.patientService.cancelReservation(reservation.drug_reservation_id).subscribe();
+    window.location.reload();
+   }
     else {
       alert('You cant cancel reservation 24h before deadline');
     }
