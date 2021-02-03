@@ -12,32 +12,32 @@
         <div class="row border-right border-left">
             <div class="row ">
                 <div class="col-3">
-                    <label>Drug name   <input/></label>
+                    <label>Drug name   <input type="text" id="drugName"  [(ngModel)]="serachDrug.name" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
                 </div>
                 <div class="col-3">
-                    <label>Drug code<input/></label>
+                    <label>Drug code<input type="text" id="drugCodee"  [(ngModel)]="serachDrug.code" [ngModelOptions]="{standalone: true}"  class="form-control" /></label>
                 </div>
                 <div class="col-3">
-                    <label>Type of drug <input/></label>
+                    <label>Type of drug <input type="text" id="typeOfDrug"  [(ngModel)]="serachDrug.typeOfDrug" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
                 </div>
                 <div class="col-3">
-                    <label>Form of drug  <input/></label>
+                    <label>Form of drug  <input type="text" id="formOfDrug"  [(ngModel)]="serachDrug.formOfDrug" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
                 </div>
             </div>
         </div>
         <div class="row border-right border-left d-flex justify-content-center ">
             <div class="row">
                 <div class="col-3">
-                    <label>Issuance regime <input/></label>
+                    <label>Issuance regime <input type="text" id="issuanceRegime"  [(ngModel)]="serachDrug.issuanceRegime" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
                 </div>
                 <div class="col-3">
-                    <label>Manufacture name  <input/></label>
+                    <label>Manufacture name <input type="text" id="manufactureName"  [(ngModel)]="serachDrug.manufactureName" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
                 </div>
                 <div class="col-3">
-                    <label>Quantity is higher <input/></label>
+                    <label>Quantity is higher <input type="number" id="quantity"  [(ngModel)]="serachDrug.quantity" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
                 </div>
                 <div class="col-3">
-                  <button class="btn btn-dark mt-3 w-75"> Search </button>
+                  <button class="btn btn-dark mt-3 w-75"  (click)="search()"> Search </button>
                 </div>
             </div>
         </div>
