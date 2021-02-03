@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {PasswordsWrapper} from 'src/app/change-password/passwordsWrapper.model'
-import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 
 @Component({

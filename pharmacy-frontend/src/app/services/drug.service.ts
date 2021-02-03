@@ -10,6 +10,15 @@ import {Drug} from '../shared/models/drug';
 export class DrugService {
   constructor(private http: HttpClient) { }
 
+  findDrugQuantity = (drugId, pharmacyId) => {
+    return this.http
+      .post(environment.apiUrl + '/api/drugInPharmacy/getQuantity/', { "drugId": drugId, "pharmacyId": pharmacyId})
+      .pipe(map((responseData: number) => {
+        return responseData;
+      }));
+  }
+
+
   findDrugPrice = (pharmacyId, drugId) => {
     return this.http
       .post(environment.apiUrl + '/api/drugPrice/price/', { "pharmacyId": pharmacyId, "drugId": drugId})
