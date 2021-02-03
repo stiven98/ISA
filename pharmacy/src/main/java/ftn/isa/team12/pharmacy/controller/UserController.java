@@ -35,7 +35,6 @@ public class UserController {
     @GetMapping("/getUser")
 
     @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST', 'ROLE_SYSTEM_ADMINISTRATOR')") // Dodati ostale role
-
     public ResponseEntity<UserDTO> user(Principal user) {
         User userDetails = this.userService.findUserByEmail(user.getName());
         UserDTO dto = new UserDTO(userDetails);

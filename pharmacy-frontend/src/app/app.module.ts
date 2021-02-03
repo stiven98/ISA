@@ -30,6 +30,8 @@ import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
 import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
 import { PhAdminGuard } from './guard/ph-admin.guard';
+import { AuthGuard } from './guard/auth.guard';
+import { DrugInPharmacyComponent } from './ph-admin/drug-in-pharmacy/drug-in-pharmacy.component';
 
 
 const appRoutes: Routes = [
@@ -40,7 +42,7 @@ const appRoutes: Routes = [
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
   { path: 'drug-reservation/:drug', component: DrugReservationComponent},
   { path: 'phAdmin', component: PhAdminComponent},
-  { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
+  { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent, canActivate: [AuthGuard] },
   { path: 'changePassword' , component: ChangePasswordComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard],
   children : [
@@ -60,6 +62,7 @@ const appRoutes: Routes = [
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
   { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
+  { path: 'drugInPharmacy', component: DrugInPharmacyComponent, canActivate: [PhAdminGuard]},
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
 
@@ -93,7 +96,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     MedicalStuffClientsComponent,
     DrugsComponent,
     DrugOrderComponent,
-    DrugReservationComponent
+    DrugReservationComponent,
+    DrugInPharmacyComponent
 
   ],
   imports: [

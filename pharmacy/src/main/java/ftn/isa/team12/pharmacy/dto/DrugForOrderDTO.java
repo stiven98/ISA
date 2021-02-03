@@ -32,6 +32,9 @@ public class DrugForOrderDTO {
         this(drug.getDrugId(),drug.getName(),drug.getCode(),drug.getTypeOfDrug(),drug.getFormOfDrug(),drug.getIssuanceRegime(),drug.getNote(),drug.getManufacturer().getName(),0);
     }
 
+    public DrugForOrderDTO(Drug drug, int quantity ){
+        this(drug.getDrugId(),drug.getName(),drug.getCode(),drug.getTypeOfDrug(),drug.getFormOfDrug(),drug.getIssuanceRegime(),drug.getNote(),drug.getManufacturer().getName(),quantity);
+    }
 
 
 
