@@ -11,4 +11,5 @@ public interface PharmacyAdministratorService {
 
     PharmacyAdministrator findAdminByPharmacyId(UUID pharmacy);
 
+    PharmacyAdministrator saveAndFlush(PharmacyAdministrator pharmacyAdministratorRequest);
 }

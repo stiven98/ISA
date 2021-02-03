@@ -1,0 +1,174 @@
+<div class="container p-5" >
+  <div>
+    <div>
+      <h1 class="d-flex justify-content-center font-weight-bold text-dark">Add administrator</h1>
+    </div>
+
+    <div class="d-flex justify-content-center pt-4">
+      <form class="form-control-feedback w-50">
+        <div>
+          <label for="firstName" class="text-dark" >Name:</label>
+          <input type="text" id="firstName" class="form-control" [ngClass]="validationModel.validName" [(ngModel)]="admin.accountInfo.name" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <div class="invalid-feedback">
+            Input name!
+          </div>
+        </div>
+        <div>
+          <label for="lastName" class="text-dark mt-3" >Surname:</label>
+          <input type="text" id="lastName" class="form-control" [ngClass]="validationModel.validSurname" [(ngModel)]="admin.accountInfo.lastName" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <div class="invalid-feedback">
+            Input surname!
+          </div>
+        </div>
+
+        <div>
+          <label for="email" class="text-dark mt-3" >Email:</label>
+          <input type="text" id="email" class="form-control" [ngClass]="validationModel.validEmail" [(ngModel)]="admin.loginInfo.email" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <div class="invalid-feedback">
+            Wrong email!
+          </div>
+        </div>
+
+        <div>
+          <label for="password" class="text-dark mt-3" >Password:</label>
+          <input type="password" id="password" class="form-control" [ngClass]="validationModel.validPassword" [(ngModel)]="admin.loginInfo.password" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+
+          <div class="invalid-feedback">
+            Last 8 character!
+          </div>
+        </div>
+
+
+        <div>
+          <label for="confirmPassword" class="text-dark mt-3" >Confirm password:</label>
+          <input type="password" id="confirmPassword" class="form-control" [ngClass]="validationModel.validConfirmPassword" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <div class="invalid-feedback">
+            Password is not correct!
+          </div>
+        </div>
+
+        <div>
+          <label for="phoneNumber" class="text-dark mt-3" >Phone number:</label>
+          <input type="text" id="phoneNumber" class="form-control" [ngClass]="validationModel.validPhoneNumber" [(ngModel)]="admin.accountInfo.phoneNumber" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+          <div class="invalid-feedback">
+            Wrong format of number! Correct: +xxx-xx-xxx-xx-xx
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-6">
+            <label for="country" class="text-dark mt-3" >Select country:</label>
+
+            <select class="custom-select form-control" id="country" (change)="onChangeSelectedCountry($event)" [ngClass]="validationModel.validCountry">
+              <option value="Choose..." selected>Choose...</option>
+              <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+              <option value="Other country">Other country</option>
+            </select>
+
+            <div class="invalid-feedback">
+              Select country!
+            </div>
+          </div>
+
+          <div class="col-6">
+            <label for="otherCountry" class="text-dark mt-3" >Add country:</label>
+            <input type="text" id="otherCountry" class="form-control"  [disabled]="!disabledCountry" [(ngModel)]="addedCountry" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()" [ngClass]="validationModel.validInputCountry"/>
+            <div class="invalid-feedback">
+              Input country!
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <div class="row">
+          <div class="col-5">
+            <label for="city" class="text-dark mt-3" >Select city:</label>
+            <select class="custom-select" id="city" (change)="onChangeSelectedCity($event)" [disabled]="!ifCountry" [ngClass]="validationModel.validCity">
+              <option value="Choose..." selected>Choose...</option>
+              <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+              <option value="Other city">Other city</option>
+            </select>
+
+            <div class="invalid-feedback">
+              Select city!
+            </div>
+          </div>
+
+          <div class="col-4">
+            <label for="otherCity" class="text-dark mt-3" >Add city:</label>
+            <input type="text" id="otherCity" class="form-control" [disabled]="!(disabledCity && ifCountry)" [(ngModel)]="addedCity" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()" [ngClass]="validationModel.validInputCity"/>
+            <div class="invalid-feedback">
+              Input city!
+            </div>
+          </div>
+
+          <div class="col-3">
+            <label for="zipCode" class="text-dark mt-3" >Zip code:</label>
+            <input type="text" id="zipCode" class="form-control"  [disabled]="!(disabledCity && ifCountry)" [(ngModel)]="zipCode" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()" [ngClass]="validationModel.validZipCode"/>
+            <div class="invalid-feedback">
+              Input correct zip!
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-9">
+            <label for="address" class="text-dark mt-3" >Location:</label>
+            <input type="text" id="address" class="form-control" [ngClass]="validationModel.validAddress" [(ngModel)]="admin.location.address.street" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+            <div class="invalid-feedback">
+              Input street!
+            </div>
+          </div>
+          <div class="col-3">
+            <label for="number" class="text-dark mt-3" >Location:</label>
+            <input type="text" id="number" class="form-control" [ngClass]="validationModel.validNumber" [(ngModel)]="admin.location.address.number" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+            <div class="invalid-feedback">
+              Input valid number!
+            </div>
+          </div>
+        </div>
+
+        <div class="col-16">
+          <label for="admin_type" class="text-dark mt-3" >Select type of administrator:</label>
+          <select class="custom-select" id="admin_type" (change)="onChangeAdminType($event)" [ngClass]="validationModel.validAdmin" >
+            <option value="Choose..." selected>Choose...</option>
+            <option value="System administrator">System administrator</option>
+            <option value="Pharmacy administrator">Pharmacy administrator</option>
+          </select>
+
+          <div class="invalid-feedback">
+            Select type of administrator!
+          </div>
+        </div>
+
+        <div class="col-16" *ngIf="showPharmacy" >
+          <label for="admin_type" class="text-dark mt-3" >Select pharmacy:</label>
+          <select class="custom-select" id="pharmacy" (change)="onChangePharmacy($event)" [ngClass]="validationModel.validPharmacy">
+            <option value="Choose..." selected>Choose...</option>
+            <option *ngFor="let pharmacy of pharmacies"  [value]="pharmacy.id">{{pharmacy.name}}</option>
+          </select>
+
+          <div class="invalid-feedback">
+            Select pharmacy!
+          </div>
+
+
+        </div>
+
+
+
+
+
+        <button class="btn btn-dark mt-3 w-100" (click)="createNewAdmin()">Create Account</button>
+
+      </form>
+    </div>
+  </div>
+
+  <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
+
+
+</div>

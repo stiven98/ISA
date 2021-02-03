@@ -9,13 +9,37 @@
       <a class="nav-item nav-link ml-2 mr-2 text-light" *ngIf="this.authService.getRole() === 'ROLE_DERMATOLOGIST'" routerLink="/dermatologist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
       <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" routerLink="/patient" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  >Home</a>
       <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/pharmacy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Pharmacies</a>
+
+      <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/administrators" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Administrators</a>
+      <div class="nav-item dropdown" *ngIf="authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'">
+        <a class="nav-item nav-link dropdown-toggle pr-3 pl-3 mr-3 text-light btn " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          Add
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item btn text-dark" routerLink="/newPharmacy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Pharmacy</a>
+          <a class="dropdown-item btn text-dark" routerLink="/newAdmin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Administrator</a>
+        </div>
+      </div>
+
       <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/drugs" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Drugs</a>
+
 
     </div>
     <div class="d-flex justify-content-end">
       <a class=" nav-link pr-3 pl-3 mr-3 text-light" *ngIf="!this.authService.isLoggedIn" routerLink="/registration" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Sing up</a>
       <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="!this.authService.isLoggedIn" routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Sing in</a>
-      <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.isLoggedIn" (click)="onLogout()">Logout</a>
+
+      <div *ngIf="this.authService.isLoggedIn" class="btn-group">
+        <a class="dropdown-toggle pr-3 pl-3 text-light btn dropdown-menu-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          My Account
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item btn text-dark"  routerLink="/changeAccountInfo" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Change info</a>
+          <a class="dropdown-item btn text-dark"  (click)="onLogout()">Logout</a>
+        </div>
+      </div>
+
+
     </div>
   </div>
 </nav>

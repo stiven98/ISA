@@ -97,6 +97,10 @@ public class PatientController {
 
         User user = patientService.findUserByEmail(patientRequest.getLoginInfo().getEmail());
 
+
+
+
+
         if (user == null) {
 
             ResponseEntity.unprocessableEntity();

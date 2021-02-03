@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  role: string;
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.role = this.authService.getRole();
+    console.log(this.role);
   }
 
 }

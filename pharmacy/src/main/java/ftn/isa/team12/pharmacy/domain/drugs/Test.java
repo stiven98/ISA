@@ -6,6 +6,9 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -17,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Test {
+
+
 
     public static void main(String[] args) throws Exception {
         Logger.getLogger("").setLevel(Level.OFF);
@@ -34,13 +39,23 @@ public class Test {
         Authority pa = new Authority();
         pa.setRole("ROLE_PATIENT");
 
+        Authority sa = new Authority();
+        sa.setRole("ROLE_SYSTEM_ADMINISTRATOR");
+
         List<Authority> authorities = new ArrayList<Authority>();
         List<Authority> authorities2 = new ArrayList<Authority>();
         List<Authority> authoritiesDerm = new ArrayList<>();
+        List<Authority> authoritiesSysAdmin = new ArrayList<>();
 
         authorities.add(pa);
         authorities2.add(a);
         authoritiesDerm.add(derm);
+        authoritiesSysAdmin.add(sa);
+
+        Address addressSysAdmin = new Address();
+        addressSysAdmin.setStreet("Bulevar Despota Stefana");
+        addressSysAdmin.setNumber(7);
+
 
         Address address = new Address();
         address.setNumber(10);
@@ -67,6 +82,10 @@ public class Test {
         city1.setCountry(country);
         city1.setZipCode(11000);
 
+        Location locationSysAdmin = new Location();
+        locationSysAdmin.setCity(city);
+        locationSysAdmin.setAddress(addressSysAdmin);
+
         Location location = new Location();
         location.setAddress(address);
         location.setCity(city);
@@ -90,6 +109,29 @@ public class Test {
         loginInfo4.setEmail("marko@gmail.com");
         //marko
         loginInfo4.setPassword("$2y$10$Z5f1FLfPOnoUy30IFf45f.HI.hJFejU3oHGB0xd2ol5pjhBdllfZa");
+
+        AccountInfo accountInfoSysAdmin = new AccountInfo();
+        accountInfoSysAdmin.setActive(true);
+        accountInfoSysAdmin.setFirstLogin(false);
+        accountInfoSysAdmin.setName("Petar");
+        accountInfoSysAdmin.setLastName("Petrovic");
+        accountInfoSysAdmin.setPhoneNumber("+381-64-333-21-12");
+
+        LoginInfo loginInfoSysAdmin = new LoginInfo();
+        loginInfoSysAdmin.setEmail("petar.petrovic@gmail.com");
+        loginInfoSysAdmin.setPassword("$2a$10$FCQuRUBQvmjK9JatjRzbaO8ZgmCX/lnr2ycU0ge/r9eT.dZbTcQl6");
+
+
+
+        SystemAdministrator systemAdministrator = new SystemAdministrator();
+        systemAdministrator.setAccountInfo(accountInfoSysAdmin);
+        systemAdministrator.setLocation(locationSysAdmin);
+
+        systemAdministrator.setLoginInfo(loginInfoSysAdmin);
+        systemAdministrator.setAuthorities(authoritiesSysAdmin);
+
+
+
 
         PharmacyAdministrator pharmacyAdministrator = new PharmacyAdministrator();
         pharmacyAdministrator.setAccountInfo(accountInfo4);
@@ -464,6 +506,7 @@ public class Test {
         em.persist(a);
         em.persist(pa);
         em.persist(derm);
+        em.persist(sa);
 
         em.persist(country);
         em.persist(city);
@@ -471,6 +514,7 @@ public class Test {
         em.persist(location);
         em.persist(location1);
         em.persist(location2);
+        em.persist(locationSysAdmin);
         em.persist(manufacturer);
         em.persist(drugIngreditent);
         em.persist(drug);
@@ -480,6 +524,9 @@ public class Test {
         em.persist(pharmacy);
         em.persist(drugInPharmacy);
         em.persist(dermatologist);
+
+        em.persist(systemAdministrator);
+
         em.persist(drugPrice);
         em.persist(patient);
         em.persist(pharmacy2);

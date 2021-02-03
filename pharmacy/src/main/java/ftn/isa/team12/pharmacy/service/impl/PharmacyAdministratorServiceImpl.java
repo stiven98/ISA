@@ -31,6 +31,12 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
         return pharmacyAdministratorRepository.findAdminByPharmacyId(pharmacy);
     }
 
+    @Override
+    public PharmacyAdministrator saveAndFlush(PharmacyAdministrator pharmacyAdministratorRequest) {
+
+        return this.pharmacyAdministratorRepository.saveAndFlush(pharmacyAdministratorRequest);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

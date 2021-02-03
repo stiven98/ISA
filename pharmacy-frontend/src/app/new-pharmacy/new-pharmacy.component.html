@@ -1,0 +1,114 @@
+<div class="container p-5" >
+  <div>
+    <div>
+      <h1 class="d-flex justify-content-center font-weight-bold text-dark">Create new Pharmacy</h1>
+    </div>
+
+    <div class="d-flex justify-content-center pt-4">
+      <form class="form-control-feedback w-50">
+        <div>
+          <label for="firstName" class="text-dark" >Name:</label>
+          <input type="text" id="firstName" class="form-control" [ngClass]="validationModel.validName"  [(ngModel)]="newPharmacyModel.name" [ngModelOptions]="{standalone: true}"  (keydown)="onKeyDown()"/>
+          <div class="invalid-feedback">
+            Input name!
+          </div>
+
+        </div>
+        <div>
+          <label for="lastName" class="text-dark mt-3" >Description:</label>
+          <input type="text" id="lastName" class="form-control" [ngClass]="validationModel.validSurname" [(ngModel)]="newPharmacyModel.description" [ngModelOptions]="{standalone: true}"  (keydown)="onKeyDown()"/>
+          <div class="invalid-feedback">
+            Input description!
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <label for="country" class="text-dark mt-3" >Select country:</label>
+
+            <select class="custom-select form-control" id="country" (change)="onChangeSelectedCountry($event)" [ngClass]="validationModel.validCountry">
+              <option value="Choose..." selected>Choose...</option>
+              <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+              <option value="Other country">Other country</option>
+            </select>
+
+            <div class="invalid-feedback">
+              Select country!
+            </div>
+          </div>
+
+          <div class="col-6">
+            <label for="otherCountry" class="text-dark mt-3" >Add country:</label>
+            <input type="text" id="otherCountry" class="form-control"  [disabled]="!disabledCountry" [(ngModel)]="addedCountry" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()" [ngClass]="validationModel.validInputCountry"/>
+            <div class="invalid-feedback">
+              Input country!
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <div class="row">
+          <div class="col-5">
+            <label for="city" class="text-dark mt-3" >Select city:</label>
+            <select class="custom-select" id="city" (change)="onChangeSelectedCity($event)" [disabled]="!ifCountry" [ngClass]="validationModel.validCity">
+              <option value="Choose..." selected>Choose...</option>
+              <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+              <option value="Other city">Other city</option>
+            </select>
+
+            <div class="invalid-feedback">
+              Select city!
+            </div>
+          </div>
+
+          <div class="col-4">
+            <label for="otherCity" class="text-dark mt-3" >Add city:</label>
+            <input type="text" id="otherCity" class="form-control" [disabled]="!(disabledCity && ifCountry)" [(ngModel)]="addedCity" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()" [ngClass]="validationModel.validInputCity"/>
+            <div class="invalid-feedback">
+              Input city!
+            </div>
+          </div>
+
+          <div class="col-3">
+            <label for="zipCode" class="text-dark mt-3" >Zip code:</label>
+            <input type="text" id="zipCode" class="form-control"  [disabled]="!(disabledCity && ifCountry)" [(ngModel)]="zipCode" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()" [ngClass]="validationModel.validZipCode"/>
+            <div class="invalid-feedback">
+              Input correct zip!
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-9">
+            <label for="address" class="text-dark mt-3" >Location:</label>
+            <input type="text" id="address" class="form-control" [ngClass]="validationModel.validAddress" [(ngModel)]="newPharmacyModel.location.address.street" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+            <div class="invalid-feedback">
+              Input street!
+            </div>
+          </div>
+          <div class="col-3">
+            <label for="number" class="text-dark mt-3" >Number:</label>
+            <input type="text" id="number" class="form-control" [ngClass]="validationModel.validNumber" [(ngModel)]="newPharmacyModel.location.address.number" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+            <div class="invalid-feedback">
+              Input valid number!
+            </div>
+          </div>
+        </div>
+
+        <div (show)="errorName !== ''" class="text-danger mt-2 mb-2">
+          {{errorName}}
+        </div>
+
+        <button class="btn btn-dark mt-3 w-100" (click)="createNewPharmacy()">Create new pharmacy</button>
+
+      </form>
+    </div>
+  </div>
+
+  <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
+
+
+
+</div>

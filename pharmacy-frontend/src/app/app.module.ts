@@ -21,12 +21,16 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PatientComponent } from './patient/patient.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { SysAdminComponent } from './sys-admin/sys-admin.component';
+import { NewPharmacyComponent } from './new-pharmacy/new-pharmacy.component';
+import { NewAdminComponent } from './new-admin/new-admin.component';
+import { AdministratorsComponent } from './administrators/administrators.component';
 import { MedicalStuffClientsComponent } from './medical-stuff-clients/medical-stuff-clients.component';
-
 import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
 import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
 import { PhAdminGuard } from './guard/ph-admin.guard';
+
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -42,11 +46,17 @@ const appRoutes: Routes = [
   children : [
     { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
     { path: 'patients', component: MedicalStuffClientsComponent },
-    { path: '**', redirectTo:'changeAccountInfo'}
+    { path: '**', redirectTo: 'changeAccountInfo'}
   ]
   },
   { path: 'patient', component: PatientComponent},
+
+  { path: 'newPharmacy', component: NewPharmacyComponent},
+  { path: 'newAdmin', component: NewAdminComponent},
+  { path: 'administrators', component: AdministratorsComponent},
+
   { path: 'drugs', component: DrugsComponent},
+
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
   { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
@@ -76,10 +86,15 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NotFoundComponent,
     PatientComponent,
     ChangePasswordComponent,
+    SysAdminComponent,
+    NewPharmacyComponent,
+    NewAdminComponent,
+    AdministratorsComponent,
     MedicalStuffClientsComponent,
     DrugsComponent,
     DrugOrderComponent,
     DrugReservationComponent
+
   ],
   imports: [
     BrowserModule,

@@ -69,4 +69,11 @@ export class PharmacyService {
         return drugs;
       }));
   }
+
+  saveAndFlush = (pharmacy) => {
+    return this.http
+      .post(environment.apiUrl + '/api/pharmacy/add', pharmacy);
+  }
+
+
 }
