@@ -56,7 +56,6 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
         //treba proveriti da li je lek rezervisan jos
         PharmacyAdministrator phAdmin = pharmacyAdministratorService.findAdminByEmail(dto.getPharmacyAdminEmail());
         Drug drug = drugService.findById(dto.getDrugId());
-        Pharmacy pharmacy = phAdmin.getPharmacy();
         for (DrugInPharmacy druginph : phAdmin.getPharmacy().getDrugs()){
             if(druginph.getDrug().getDrugId() == drug.getDrugId()){
                 phAdmin.getPharmacy().getDrugs().remove(druginph);
