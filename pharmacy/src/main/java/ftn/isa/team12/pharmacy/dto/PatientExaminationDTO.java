@@ -8,11 +8,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatientExaminationDTO {
+    private UUID id;
     private String name;
     private String lastName;
     private Date examinationDate;
@@ -20,6 +23,6 @@ public class PatientExaminationDTO {
     private String phoneNumber;
 
     public PatientExaminationDTO(Patient patient, Examination examination){
-        this(patient.getAccountInfo().getName(), patient.getAccountInfo().getLastName(), examination.getDateOfExamination(), patient.getUsername(), patient.getAccountInfo().getPhoneNumber());
+        this(patient.getUserId(), patient.getAccountInfo().getName(), patient.getAccountInfo().getLastName(), examination.getDateOfExamination(), patient.getUsername(), patient.getAccountInfo().getPhoneNumber());
     }
 }

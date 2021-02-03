@@ -1,31 +1,30 @@
-<div class="container p-5">
+<div class="container">
     <div class="text-left">
         <h3>My patients</h3>
     </div>
-    
-    <table class="table table-dark">
+    <div class="table-wrapper-scroll-y my-scrollbar">
+      <table class="table table-hover table-dark">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Lastname</th>
-            <th scope="col">Examination date</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone number</th>
+            <th scope="col" sortable="id" (sort)="onSort($event)">#</th>
+            <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
+            <th scope="col" sortable="lastName" (sort)="onSort($event)">Lastname</th>
+            <th scope="col" sortable="examinationDate" (sort)="onSort($event)">Examination date</th>
+            <th scope="col" sortable="email" (sort)="onSort($event)">Email</th>
+            <th scope="col" sortable="phoneNumber" (sort)="onSort($event)">Phone number</th>
           </tr>
         </thead>
         <tbody>
-            <ng-container *ngIf= "patients && patients.length > 0">
-                <tr *ngFor='let patient of patients'>
-                <td>{{ patient.id}}</td>
-                <td>{{ patient.name}}</td>
-                <td>{{ patient.lastName}}</td>
-                <td>{{ patient.examinationDate}}</td>
-                <td>{{ patient.email}}</td>
-                <td>{{ patient.phoneNumber}}</td>
-               </tr>
-            </ng-container>
+          <tr *ngFor='let patient of patients'>
+            <td>{{ patient.id}}</td>
+            <td>{{ patient.name}}</td>
+            <td>{{ patient.lastName}}</td>
+            <td>{{ patient.examinationDate}}</td>
+            <td>{{ patient.email}}</td>
+            <td>{{ patient.phoneNumber}}</td>
+          </tr>
         </tbody>
       </table>
+    </div>
 </div>
 

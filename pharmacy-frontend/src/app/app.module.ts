@@ -32,6 +32,8 @@ import { DrugReservationComponent } from './drug-reservation/drug-reservation.co
 import { PhAdminGuard } from './guard/ph-admin.guard';
 import { AuthGuard } from './guard/auth.guard';
 import { DrugInPharmacyComponent } from './ph-admin/drug-in-pharmacy/drug-in-pharmacy.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdSortableHeaderDirective } from './shared/utilities/ngbd-sortable-header.directive';
 
 
 const appRoutes: Routes = [
@@ -97,7 +99,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     DrugsComponent,
     DrugOrderComponent,
     DrugReservationComponent,
-    DrugInPharmacyComponent
+    DrugInPharmacyComponent,
+    NgbdSortableHeaderDirective
 
   ],
   imports: [
@@ -108,6 +111,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     HttpClientModule,
     NgxLoadingXModule.forRoot(ngxLoadingXConfig),
     FormsModule,
+    NgbModule,
   ],
   providers: [
     {
