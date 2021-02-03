@@ -32,7 +32,7 @@ public class Pharmacy implements Serializable {
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
    @Column(name = "pharmacy_id", nullable = false, unique = true)
    private UUID id;
-   @Column(name = "name", nullable = false)
+   @Column(name = "name", nullable = false, unique = true)
    private String name;
    @Column(name = "description", nullable = false)
    private String description;

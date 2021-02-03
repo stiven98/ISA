@@ -21,6 +21,10 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PatientComponent } from './patient/patient.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { SysAdminComponent } from './sys-admin/sys-admin.component';
+import { NewPharmacyComponent } from './new-pharmacy/new-pharmacy.component';
+import { NewAdminComponent } from './new-admin/new-admin.component';
+import { AdministratorsComponent } from './administrators/administrators.component';
 
 
 const appRoutes: Routes = [
@@ -34,6 +38,9 @@ const appRoutes: Routes = [
   { path: 'changePassword' , component: ChangePasswordComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard]},
   { path: 'patient', component: PatientComponent},
+  { path: 'newPharmacy', component: NewPharmacyComponent},
+  { path: 'newAdmin', component: NewAdminComponent},
+  { path: 'administrators', component: AdministratorsComponent},
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
   { path: '**', redirectTo: '/404'}
@@ -59,7 +66,11 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     ForbiddenComponent,
     NotFoundComponent,
     PatientComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    SysAdminComponent,
+    NewPharmacyComponent,
+    NewAdminComponent,
+    AdministratorsComponent
   ],
   imports: [
     BrowserModule,

@@ -2,8 +2,6 @@ package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
-import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
-import ftn.isa.team12.pharmacy.domain.users.AccountCategory;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.dto.PatientDTO;
@@ -50,7 +48,6 @@ public class PatientController {
     private EmailSender sender;
 
     @PreAuthorize("hasRole('ROLE_PH_ADMIN')")
-
     @GetMapping("/all")
     public ResponseEntity<List<PatientDTO>> findAll() {
         List<Patient> patients = patientService.findAll();
@@ -66,9 +63,8 @@ public class PatientController {
     public ResponseEntity<Patient> savePatient(@RequestBody Patient patientRequest,
                                                 HttpServletResponse response) {
 
-        System.out.println(patientRequest.getLoginInfo().getEmail());
         User user = patientService.findByEmail(patientRequest.getLoginInfo().getEmail());
-        System.out.println(user);
+
         if (user == null) {
 
             ResponseEntity.unprocessableEntity();

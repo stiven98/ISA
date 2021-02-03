@@ -3,3 +3,9 @@ a.active  {
   border: 1px solid gray;
   color: gray !important;
 }
+
+a[aria-expanded="true"] {
+  background-color: whitesmoke !important;
+  border: 1px solid gray;
+  color: gray !important;
+}

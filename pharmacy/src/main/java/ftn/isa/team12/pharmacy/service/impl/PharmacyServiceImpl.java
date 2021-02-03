@@ -28,4 +28,10 @@ public class PharmacyServiceImpl implements PharmacyService {
     public Pharmacy findPharmacyById(UUID id) {
         return pharmacyRepository.findPharmacyById(id);
     }
+
+    @Override
+    public Pharmacy saveAndFlush(Pharmacy pharmacyRequest) {
+        pharmacyRequest.setAverageMark(0.0);
+        return this.pharmacyRepository.saveAndFlush(pharmacyRequest);
+    }
 }

@@ -10,4 +10,6 @@ public interface PharmacyService {
     Pharmacy findPharmacyByName(String name);
 
     Pharmacy findPharmacyById(UUID id);
+
+    Pharmacy saveAndFlush(Pharmacy pharmacyRequest);
 }

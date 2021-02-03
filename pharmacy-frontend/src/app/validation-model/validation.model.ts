@@ -14,6 +14,8 @@ export class ValidationModel {
   validNumber: string;
   validInputCountry: string;
   validInputCity: string;
+  validAdmin: string;
+  validPharmacy: string;
 
   constructor() {
     this.validName = 'no-validate';
@@ -30,5 +32,14 @@ export class ValidationModel {
     this.validZipCode = 'no-validate';
     this.validInputCountry = 'no-validate';
     this.validInputCity = 'no-validate';
+    this.validAdmin = 'no-validate';
+    this.validPharmacy = 'no-validate';
   }
+
+
+
+
+
+
+
 }

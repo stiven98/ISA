@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CityService} from '../services/city.service';
 import {CountryService} from '../services/country.service';
 import {RegistrationPatientModel} from './registrationPatient.model';
-import {ValidationModel} from './validation.model';
+import {ValidationModel} from '../validation-model/validation.model';
 import {CreateAccountService} from '../services/createAccount.service';
 import {Router} from '@angular/router';
 
@@ -68,6 +68,7 @@ export class SingUpComponent implements OnInit {
         console.log(response);
         this.fetchData = false;
         this.registration = false;
+        this.router.navigate(['administrators']);
       }, (error) => {
         this.fetchData = false;
         this.validationModel.validEmail = 'is-invalid';
