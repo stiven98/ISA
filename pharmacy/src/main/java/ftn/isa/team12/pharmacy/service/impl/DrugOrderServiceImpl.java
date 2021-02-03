@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugOrder;
@@ -76,7 +75,4 @@ public class DrugOrderServiceImpl implements DrugOrderService {
                 return false;
         return true;
     }
-
-
-
 }

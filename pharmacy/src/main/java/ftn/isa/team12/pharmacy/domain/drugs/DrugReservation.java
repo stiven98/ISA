@@ -3,6 +3,7 @@ import ftn.isa.team12.pharmacy.domain.common.DateRange;
 import ftn.isa.team12.pharmacy.domain.enums.ReservationStatus;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,13 +16,14 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
 @Table(name = "DRUG_RESERVATIONS")
 public class DrugReservation implements Serializable {
    @Id
    @GeneratedValue(generator = "uuid2")
    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-   @Column(name = "drugReservation_id", nullable = false, unique = true)
-   private UUID drugReservationId;
+   @Column(name = "drug_reservation_id", nullable = false, unique = true)
+   private UUID drug_reservation_id;
 
    @ManyToOne
    @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id", nullable = false)

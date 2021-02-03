@@ -17,6 +17,7 @@ export class PatientComponent implements OnInit {
   patient = new Patient();
   allergies: Drug [];
   drugs: Drug [];
+  reservations = [];
   drugList = [];
   addAllergies: string;
   accountCategory = new AccountCategory();
@@ -27,6 +28,9 @@ export class PatientComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getMyInfo().subscribe( resUser => {
       this.patient = resUser;
+      this.patientService.findReservations(this.patient.email).subscribe((reservation) => {
+        this.reservations = reservation;
+      });
       this.patientService.findAccountCategory(this.patient.email).subscribe( accountCat => {
         this.accountCategory = accountCat;
       });
@@ -59,19 +63,36 @@ export class PatientComponent implements OnInit {
     console.log(this.addAllergies);
     console.log(this.patient.email);
     this.patientService.addAllergy(this.patient.email, this.addAllergies).subscribe(res => {
-      alert("Succsessfuly added allergy" + this.addAllergies);
+      alert('Succsessfuly added allergy' + this.addAllergies);
     });
     window.location.reload();
 
   }
   onSelect = (event) => {
-    console.log(event);
     this.addAllergies = event.target.value.toString();
 
   }
   alert = () => {
     alert('Go to pharmacy home page where you want to make new appointment');
     this.router.navigate(['/pharmacy']);
+  }
+  cancelReservation = (reservation) => {
+    const deadline = new Date(reservation.reservationDateRange.endDate).toLocaleDateString();
+    const parts = deadline.split('/');
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const day: number = +dd;
+    const month: number = +mm;
+    const deadlineday: number = +parts[1];
+    const deadlinemonth: number = +parts[0];
+    if (deadlinemonth >= month && deadlineday > day + 1) {
+    this.patientService.cancelReservation(reservation.drug_reservation_id).subscribe();
+    window.location.reload();
+   }
+    else {
+     alert('You cant cancel reservation 24h before deadline');
+    }
   }
 }
 

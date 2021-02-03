@@ -6,7 +6,6 @@ import {CountryService} from '../services/country.service';
 import {CreateAccountService} from '../services/createAccount.service';
 import {Router} from '@angular/router';
 import {PharmacyService} from '../services/pharmacy.service';
-import {SysAdminComponent} from '../sys-admin/sys-admin.component';
 import {SisAdminService} from '../services/sis-admin.service';
 import {PhAdminService} from '../services/ph-admin.service';
 

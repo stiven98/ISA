@@ -42,6 +42,8 @@ export class AuthService {
             }
              else if (authority == 'ROLE_PATIENT'){
               this.router.navigate(['/patient']);
+            }else if(authority == 'ROLE_PH_ADMIN'){
+              this.router.navigate(['/phAdmin']);
             }
           }
         });

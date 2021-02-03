@@ -1,0 +1,114 @@
+<div class="container">
+    <div >
+        <div>
+          <h1 class="d-flex justify-content-center font-weight-bold text-dark">Drug in pharmacy</h1>
+        </div>
+
+        <div class="row border d-flex justify-content-center ">
+            <div class="row">
+                <h3 class="d-flex justify-content-center font-weight-bold text-dark">Search for drug in phramacy</h3>
+            </div>
+        </div>
+        <div class="row border-right border-left">
+            <div class="row ">
+                <div class="col-3">
+                    <label>Drug name   <input type="text" id="drugName"  [(ngModel)]="serachDrug.name" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
+                </div>
+                <div class="col-3">
+                    <label>Drug code<input type="text" id="drugCodee"  [(ngModel)]="serachDrug.code" [ngModelOptions]="{standalone: true}"  class="form-control" /></label>
+                </div>
+                <div class="col-3">
+                    <label>Type of drug <input type="text" id="typeOfDrug"  [(ngModel)]="serachDrug.typeOfDrug" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
+                </div>
+                <div class="col-3">
+                    <label>Form of drug  <input type="text" id="formOfDrug"  [(ngModel)]="serachDrug.formOfDrug" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
+                </div>
+            </div>
+        </div>
+        <div class="row border-right border-left d-flex justify-content-center ">
+            <div class="row">
+                <div class="col-3">
+                    <label>Issuance regime <input type="text" id="issuanceRegime"  [(ngModel)]="serachDrug.issuanceRegime" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
+                </div>
+                <div class="col-3">
+                    <label>Manufacture name <input type="text" id="manufactureName"  [(ngModel)]="serachDrug.manufactureName" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
+                </div>
+                <div class="col-3">
+                    <label>Quantity is higher <input type="number" id="quantity"  [(ngModel)]="serachDrug.quantity" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
+                </div>
+                <div class="col-3">
+                  <button class="btn btn-dark mt-3 w-75"  (click)="search()"> Search </button>
+                </div>
+            </div>
+        </div>
+        <div class="row border d-flex justify-content-center ">
+            <div class="col-6">
+                <div>
+                    <h3 class="d-flex justify-content-center font-weight-bold text-dark">List of drugs</h3>
+                  </div>
+                <div class="row d-flex justify-content-center border pt-4" *ngFor="let drug of drugList"> 
+                    <div class="col-3  ">
+                        <img src="/assets/img/orderIcon.png" class="img-responsive fit-image " style="max-width: 100%;" alt="orderIcon">
+                    </div>
+                    <div class="col-5 ">
+                        <div class="row">
+                            <label>Name: {{drug.name}} </label>
+                            <div>
+                                <label>Type of drug: {{drug.typeOfDrug}} </label>
+                                <label>Manufacture: {{drug.manufactureName}} </label>
+                             </div>
+                             <label>Issuance Regime: {{drug.issuanceRegime}} </label>
+                            <p> {{drug.note}}</p>
+                        </div>
+                    </div>
+                    <div class="col-3 ">
+                        <div class="row borde">
+                            <button class="btn btn-dark mt-3 w-100" (click)="addDrugInPharmacy(drug)"> Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div>
+                    <h3 class="d-flex justify-content-center font-weight-bold text-dark">List of drug in pharmacy</h3>
+                </div>
+                <div class="row d-flex justify-content-center border pt-4" *ngFor="let drug of drugInPharmacy.drugOrderItems"> 
+                    <div class="col-3  ">
+                        <img src="/assets/img/orderIcon.png" class="img-responsive fit-image " style="max-width: 100%;" alt="orderIcon">
+                    </div>
+                    <div class="col-5 ">
+                        <div class="row">
+                            <label>Name: {{drug.name}} </label>
+                            <div>
+                                <label>Type of drug: {{drug.typeOfDrug}} </label>
+                                <label>Manufacture: {{drug.manufactureName}} </label>
+                             </div>
+                             <label>Issuance Regime: {{drug.issuanceRegime}} </label>
+                            <p> {{drug.note}}</p>
+                        </div>
+                    </div>
+                    <div class="col-3 ">
+                        <div class="row"  *ngIf="!flag">
+                            <p> {{drug.quantity}}</p> 
+                        </div>
+                        <div class="row"  *ngIf="flag">
+                            <input type="number" id="quantity"  [(ngModel)]="drug.quantity" [ngModelOptions]="{standalone: true}"  class="form-control" />
+                        </div>
+                        <div class="row borde">
+                            <button class="btn btn-dark mt-3 w-100"  (click)="change()"  *ngIf="!flag"> change</button>
+                            <button class="btn btn-dark mt-3 w-100"  (click)="update(drug)" *ngIf="flag"> save</button>
+                        </div>
+                        <div class="row borde">
+                            <button class="btn btn-dark mt-3 w-100" (click) ="removeDrugFromPharmacy(drug)" > remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
