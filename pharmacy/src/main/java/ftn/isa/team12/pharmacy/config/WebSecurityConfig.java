@@ -75,10 +75,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .antMatchers("/api/user/all").permitAll()
                 .antMatchers("/api/user/patient/add").permitAll()
                 .antMatchers("/api/user/getById/{id}").permitAll()
-                .antMatchers("/api/user/change").permitAll()
                 .antMatchers("/api/city/byCountry").permitAll()
+                .antMatchers("/api/patient/**").permitAll()
+                .antMatchers("/api/patient/accountCategory/{email}").permitAll()
+                .antMatchers("/api/drug/all").permitAll()
                 .antMatchers("/api/patient/add").permitAll()
-             
+                .antMatchers("/api/drug/all").permitAll()
+                .antMatchers("/api/drug/name/{name}").permitAll()
+                .antMatchers("/api/drugOrder/createOrder").permitAll()
+                .antMatchers("/api/patient/sendEmail").permitAll()
+                .antMatchers("/api/patient/activateAccount/{id}").permitAll()
+                .antMatchers("/api/drugPrice/**").permitAll()
+
+
 
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan

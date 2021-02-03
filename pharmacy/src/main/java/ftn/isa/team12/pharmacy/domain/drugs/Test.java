@@ -105,11 +105,81 @@ public class Test {
 
         Drug drug = new Drug();
         drug.setName("Aspirin");
-        drug.setCode("123DROGA123");
+        drug.setCode("ASP123XXX123");
         drug.setTypeOfDrug(TypeOfDrug.herbalMedicine);
         drug.setFormOfDrug(FormOfDrug.pill);
         drug.setManufacturer(manufacturer);
+        drug.setNote("This is note");
         drug.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+        Drug drug1 = new Drug();
+        drug1.setName("Brufen");
+        drug1.setCode("BRUF123XXX123");
+        drug1.setTypeOfDrug(TypeOfDrug.herbalMedicine);
+        drug1.setFormOfDrug(FormOfDrug.capsule);
+        drug1.setManufacturer(manufacturer);
+        drug1.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+        Drug drug2 = new Drug();
+        drug2.setName("Paracetamol");
+        drug2.setCode("PAR123XXX123");
+        drug2.setTypeOfDrug(TypeOfDrug.herbalMedicine);
+        drug2.setFormOfDrug(FormOfDrug.powder);
+        drug2.setManufacturer(manufacturer);
+        drug2.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+
+        Drug drug3 = new Drug();
+        drug3.setName("Andol");
+        drug3.setCode("AND123XXX123");
+        drug3.setTypeOfDrug(TypeOfDrug.herbalMedicine);
+        drug3.setFormOfDrug(FormOfDrug.pill);
+        drug3.setManufacturer(manufacturer);
+        drug3.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+        Drug drug4 = new Drug();
+        drug4.setName("Panadol");
+        drug4.setCode("PAND123XXX123");
+        drug4.setTypeOfDrug(TypeOfDrug.herbalMedicine);
+        drug4.setFormOfDrug(FormOfDrug.capsule);
+        drug4.setManufacturer(manufacturer);
+        drug4.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+
+        Drug drug5 = new Drug();
+        drug5.setName("Febricet");
+        drug5.setCode("FEB123XXX123");
+        drug5.setTypeOfDrug(TypeOfDrug.herbalMedicine);
+        drug5.setFormOfDrug(FormOfDrug.powder);
+        drug5.setManufacturer(manufacturer);
+        drug5.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+
+        Drug drug6 = new Drug();
+        drug6.setName("Biofrezee");
+        drug6.setCode("BF123XXX123");
+        drug6.setTypeOfDrug(TypeOfDrug.herbalMedicine);
+        drug6.setFormOfDrug(FormOfDrug.cream);
+        drug6.setManufacturer(manufacturer);
+        drug6.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+
+        Drug drug7 = new Drug();
+        drug7.setName("Pantenol");
+        drug7.setCode("PAN123XXX123");
+        drug7.setTypeOfDrug(TypeOfDrug.herbalMedicine);
+        drug7.setFormOfDrug(FormOfDrug.cream);
+        drug7.setManufacturer(manufacturer);
+        drug7.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+        drug1.setCode("321DROGA321");
+        drug1.setTypeOfDrug(TypeOfDrug.herbalMedicine);
+        drug1.setFormOfDrug(FormOfDrug.capsule);
+        drug1.setManufacturer(manufacturer);
+        drug1.setNote("This is note 2");
+        drug1.setIssuanceRegime(IssuanceRegime.withRecipe);
+
+
 
         AccountInfo accountInfo = new AccountInfo();
         accountInfo.setName("Aca");
@@ -258,7 +328,7 @@ public class Test {
         patient.setLoginInfo(loginInfo1);
         patient.setAccountInfo(accountInfo1);
         patient.setCategory(accounCategory);
-
+        patient.getAllergies().add(drug);
         ERecipe eRecipe = new ERecipe();
         eRecipe.setPatient(patient);
         eRecipe.setDateOfIssuing(startDate);
@@ -404,6 +474,7 @@ public class Test {
         em.persist(manufacturer);
         em.persist(drugIngreditent);
         em.persist(drug);
+        em.persist(drug1);
         em.persist(examinationType);
         em.persist(examinationPrice);
         em.persist(pharmacy);
@@ -427,6 +498,13 @@ public class Test {
         em.persist(drugOrder);
         em.persist(supplier);
         em.persist(offer);
+        em.persist(drug1);
+        em.persist(drug2);
+        em.persist(drug3);
+        em.persist(drug4);
+        em.persist(drug5);
+        em.persist(drug6);
+        em.persist(drug7);
 
         em.getTransaction().commit();
         em.close();

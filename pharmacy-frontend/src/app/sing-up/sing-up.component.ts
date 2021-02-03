@@ -27,6 +27,7 @@ export class SingUpComponent implements OnInit {
   addedCountry: string;
   addedCity: string;
   zipCode: string;
+  registration: boolean;
 
   constructor(private cityService: CityService,
               private countryService: CountryService,
@@ -38,6 +39,7 @@ export class SingUpComponent implements OnInit {
     this.addedCity = '';
     this.zipCode = '';
     this.fetchData = true;
+    this.registration = true;
 
     this.countryService.findAll().subscribe((response) => {
       this.countries = response;
@@ -62,15 +64,15 @@ export class SingUpComponent implements OnInit {
       }
       this.fetchData = true;
 
-      console.log(this.registrationPatient);
       this.createAccountService.register(this.registrationPatient).subscribe((response) => {
         console.log(response);
         this.fetchData = false;
-        this.router.navigate(['/login']);
+        this.registration = false;
       }, (error) => {
-        console.log(error);
+        this.fetchData = false;
+        this.validationModel.validEmail = 'is-invalid';
       });
-      
+
     } else {
       console.log('Nije dobro');
     }

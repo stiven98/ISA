@@ -22,7 +22,6 @@ public class DrugDTO {
     private String code;
     private TypeOfDrug typeOfDrug;
     private FormOfDrug formOfDrug;
-    //private Pharmacy pharmacies;
     private IssuanceRegime issuanceRegime;
     private String note;
     private Manufacturer manufacturer;

@@ -47,20 +47,20 @@ export class UserService {
 
   getUserByID(id){
     return this.apiService.get(this.config.get_user_by_id + id)
-    .pipe(map(user =>{
+    .pipe(map(user => {
       return user;
     }))
   }
 
 
-  changeAccountInformation(changeUser){  
-    return this.apiService.post(this.config.user_change,changeUser)
-    .pipe(map(user =>{ 
+  changeAccountInformation(changeUser){
+    return this.apiService.post(this.config.user_change, changeUser)
+    .pipe(map(user => {
       return user;
-    }))
+    }));
   }
 
-  changePassword(passwordsWrapper){  
+  changePassword(passwordsWrapper){
     return this.apiService.post(this.config.change_password_url, passwordsWrapper);
   }
 

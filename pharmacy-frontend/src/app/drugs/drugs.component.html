@@ -1,0 +1,57 @@
+<div class="container-fluid padding">
+  <section class="search-sec">
+    <div class="container">
+      <form action="#" method="post" novalidate="novalidate">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                <input type="text"  class="form-control search-slt" placeholder="Enter drug name">
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                <select class="form-control search-slt">
+                  <option>Choose average mark</option>
+                  <option>
+                    <a><p>9.0 - 10.0</p></a>
+                  </option>
+                  <option>
+                    <a><p>8.0 - 9.0</p></a>
+                  </option>
+                  <option>
+                    <a><p>7.0 - 8.0</p></a>
+                  </option>
+                  <option>
+                    <a><p> < 7.0 </p></a>
+                  </option>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                <button type="button" class="btn btn-secondary wrn-btn">Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+<section id="medications" class="medical">
+  <div class="wrapper">
+    <div class="container text-center">
+      <div class="row main-row row-cols-3 row-cols-md-3 g-3"  >
+        <div class="col-sm-3" *ngFor="let drug of drugs">
+          <div class="card p-3" style="margin-top: 30px" >
+            <div class="text-center"> <img src="/assets/img/aspirin.jpg" width="200"> </div>
+            <div class="product-details"> <span class="font-weight-bold d-block">{{drug.name}}</span>
+              <div class="buttons d-flex flex-row">
+                <div class="cart"><img src="assets/img/drug.png" ></div> <a *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" [routerLink]="['/drug-reservation/', drug.name]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color:white;" class="btn btn-success cart-button btn-block"><span class="dot"></span>Reserve now</a>
+                <p style="color: white" *ngIf="this.authService.getRole() != 'ROLE_PATIENT'" [routerLink]="['/registration']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Register to order</p>
+              </div>
+              <div class="weight"> <small>{{drug.formOfDrug}} {{drug.typeOfDrug}} {{drug.issuanceRegime}}</small> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

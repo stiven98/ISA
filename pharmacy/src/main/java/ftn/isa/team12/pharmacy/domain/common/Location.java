@@ -34,4 +34,13 @@ public class Location implements Serializable {
       this.address=address;
    }
 
+   public String getCityName(){
+      return city.getName();
+   }
+
+   public String getCountryName(){
+      return city.getCountry().getName();
+   }
+
+
 }

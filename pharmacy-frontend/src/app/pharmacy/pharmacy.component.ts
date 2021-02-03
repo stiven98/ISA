@@ -7,7 +7,7 @@ import {PharmacyService} from '../services/pharmacy.service';
   styleUrls: ['./pharmacy.component.css']
 })
 export class PharmacyComponent implements OnInit {
-  pharmacies = [];
+  pharmacies =  [];
   filteredPharmacies = [];
   pharmacyName: string;
   constructor(private pharmacyService: PharmacyService ) { }

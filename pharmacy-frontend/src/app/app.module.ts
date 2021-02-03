@@ -23,13 +23,18 @@ import { PatientComponent } from './patient/patient.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { MedicalStuffClientsComponent } from './medical-stuff-clients/medical-stuff-clients.component';
 
+import { DrugsComponent } from './drugs/drugs.component';
+import { DrugOrderComponent } from './drug-order/drug-order.component';
+import { DrugReservationComponent } from './drug-reservation/drug-reservation.component';
+import { PhAdminGuard } from './guard/ph-admin.guard';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: PharmacyComponent },
   { path: 'login', component: SingInComponent },
   { path: 'registration', component: SingUpComponent },
   { path: 'pharmacy', component: PharmacyComponent },
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
+  { path: 'drug-reservation/:drug', component: DrugReservationComponent},
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent},
   { path: 'changePassword' , component: ChangePasswordComponent},
@@ -41,9 +46,13 @@ const appRoutes: Routes = [
   ]
   },
   { path: 'patient', component: PatientComponent},
+  { path: 'drugs', component: DrugsComponent},
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
+  { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
+  //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
+
 ];
 
 const ngxLoadingXConfig: NgxLoadingXConfig = {
@@ -67,7 +76,10 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NotFoundComponent,
     PatientComponent,
     ChangePasswordComponent,
-    MedicalStuffClientsComponent
+    MedicalStuffClientsComponent,
+    DrugsComponent,
+    DrugOrderComponent,
+    DrugReservationComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +88,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
     NgxLoadingXModule.forRoot(ngxLoadingXConfig),
-    FormsModule
+    FormsModule,
   ],
   providers: [
     {
