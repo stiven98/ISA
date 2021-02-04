@@ -27,4 +27,5 @@ public class Dermatologist extends MedicalStuff implements Serializable {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<Pharmacy> pharmacies = new HashSet<>();
 
+
 }
