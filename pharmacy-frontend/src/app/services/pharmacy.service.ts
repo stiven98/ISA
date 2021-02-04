@@ -12,6 +12,23 @@ export class PharmacyService {
   pharmacies = [];
   constructor(private http: HttpClient) { }
 
+  searchPharmacies = (pharmacyName, pharmacyCity, pharmacyMark) => {
+    return this.http
+      .post(environment.apiUrl + '/api/pharmacy/search/',
+        {"pharmacyName": pharmacyName, "pharmacyCity": pharmacyCity, "pharmacyMark": pharmacyMark} )
+      .pipe(map(responseData => {
+        const pharmacies = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            console.log(responseData[key]);
+            console.log('Aca');
+            pharmacies.push(responseData[key]);
+          }
+        }
+        return pharmacies;
+      }));
+  }
+
   findPharmaciesWithDrug = (drugId) => {
     return this.http
       .get(environment.apiUrl + '/api/drugInPharmacy/pharmacies/' + drugId)
