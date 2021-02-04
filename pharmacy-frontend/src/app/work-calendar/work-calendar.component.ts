@@ -156,7 +156,6 @@ export class WorkCalendarComponent implements OnInit {
     this.medStuffServ.getMyVacations().subscribe(res => {
       this.vacations = res;
       let i = 0;
-      let events = [];
       for (let vac of this.vacations){
         i++;
         let event = {
@@ -171,9 +170,7 @@ export class WorkCalendarComponent implements OnInit {
           },
           draggable: false,
         };
-        events.push(event);
         this.events.push(event);
-
       }
     });
   }
