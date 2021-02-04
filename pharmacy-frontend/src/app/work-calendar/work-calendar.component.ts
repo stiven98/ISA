@@ -52,6 +52,8 @@ export class WorkCalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
+  eventMaxId = 0;
+
   events: CalendarEvent[] = [];
 
   examinations: any[];
@@ -96,9 +98,11 @@ export class WorkCalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, calEvent: CalendarEvent): void {
-    let examination = this.examinationViews[calEvent.id];
-    this.modalData = { examination, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    if(calEvent.id < this.eventMaxId){
+      let examination = this.examinationViews[calEvent.id];
+      this.modalData = { examination, action };
+      this.modal.open(this.modalContent, { size: 'lg' });
+    }
   }
 
   setView(view: CalendarView) {
@@ -148,14 +152,16 @@ export class WorkCalendarComponent implements OnInit {
           pharmacyMark: pharmacy.averageMark,
         }
         this.examinationViews.push(viewExam);
-
+        i++;
       }
-
+      this.eventMaxId = i;
+      i = -1;
       this.medStuffServ.getMyVacations().subscribe(res => {
         this.vacations = res;
         for (let vac of this.vacations){
           i++;
           let event = {
+            id: this.eventMaxId + i,
             start: startOfDay(new Date(vac.dateRange.startDate)),
             end: endOfDay(new Date(vac.dateRange.endDate)),
             title: 'Vacation ' + i,
