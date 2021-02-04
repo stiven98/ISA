@@ -37,13 +37,16 @@ public class DrugReservationServiceImpl implements DrugReservationService {
 
     @Override
     public DrugReservation createDrugReservation(DrugReservationDTO drugReservationDTO) {
+        Patient patient = this.patientService.findByEmail(drugReservationDTO.getPatientEmail());
         if(drugReservationDTO.getDeadline().before(new Date())){
             throw new IllegalArgumentException("Bad input date");
+        }
+        if(patient.getPenalties() > 2) {
+            throw new IllegalArgumentException("You have 3 or more penalties and you cant reserve drug");
         }
         DrugReservation drugReservation = new DrugReservation();
         Drug drug = this.drugService.findById(drugReservationDTO.getDrugId());
         Pharmacy pharmacy = this.pharmacyService.findPharmacyById(drugReservationDTO.getPharmacyId());
-        Patient patient = this.patientService.findByEmail(drugReservationDTO.getPatientEmail());
         DateRange dateRange = new DateRange();
         dateRange.setStartDate(new Date());
         dateRange.setEndDate(drugReservationDTO.getDeadline());

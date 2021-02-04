@@ -39,8 +39,8 @@ public class Pharmacy implements Serializable {
    @Column(name = "averagemark", nullable = false)
    private Double averageMark;
    @OneToOne
-   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "locationId")
-   @JsonIdentityReference(alwaysAsId = true)
+ //  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "locationId")
+   //@JsonIdentityReference(alwaysAsId = true)
    @JoinColumn(name = "location_id", referencedColumnName = "location_id", nullable = false)
    private Location location;
 

@@ -34,6 +34,8 @@ import { AuthGuard } from './guard/auth.guard';
 import { DrugInPharmacyComponent } from './ph-admin/drug-in-pharmacy/drug-in-pharmacy.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdSortableHeaderDirective } from './shared/utilities/ngbd-sortable-header.directive';
+import { SeeAllDermatologistComponent } from './see-all-dermatologist/see-all-dermatologist.component';
+
 import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -69,6 +71,8 @@ const appRoutes: Routes = [
   { path: '403', component: ForbiddenComponent},
   { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
   { path: 'drugInPharmacy', component: DrugInPharmacyComponent, canActivate: [PhAdminGuard]},
+  { path: 'allDermatologist', component: SeeAllDermatologistComponent},
+
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
 
@@ -105,6 +109,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     DrugReservationComponent,
     DrugInPharmacyComponent,
     NgbdSortableHeaderDirective,
+    SeeAllDermatologistComponent,
     WorkCalendarComponent
 
   ],

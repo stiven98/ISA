@@ -3,6 +3,7 @@ import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
 import ftn.isa.team12.pharmacy.service.CityService;
 import ftn.isa.team12.pharmacy.service.CountryService;
 import ftn.isa.team12.pharmacy.service.LocationService;
@@ -76,6 +77,12 @@ public class PharmacyController {
             throw new IllegalArgumentException("Pharmacy with name already exist!");
         }
 
+    }
+    @PostMapping("/search")
+    public ResponseEntity<List<Pharmacy>> searchPharmacies(@RequestBody PharmacySearchDTO dto) {
+        List<Pharmacy> pharmacies = this.pharmacyService.findAll();
+        List<Pharmacy> searched =  this.pharmacyService.searchPharmacies(pharmacies, dto);
+        return new ResponseEntity<>(searched, HttpStatus.OK);
     }
 
 }
