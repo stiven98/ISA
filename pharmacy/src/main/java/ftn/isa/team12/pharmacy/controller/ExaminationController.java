@@ -1,41 +1,42 @@
 package ftn.isa.team12.pharmacy.controller;
+
+import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.User;
-import ftn.isa.team12.pharmacy.domain.users.Vacation;
+import ftn.isa.team12.pharmacy.service.ExaminationService;
 import ftn.isa.team12.pharmacy.service.MedicalStuffService;
+import ftn.isa.team12.pharmacy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.nio.file.AccessDeniedException;
 import java.security.Principal;
-import java.util.Set;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api/medicalStuff", produces = MediaType.APPLICATION_JSON_VALUE)
-public class MedicalStuffController {
+@RequestMapping(value = "/api/examination", produces = MediaType.APPLICATION_JSON_VALUE)
+public class ExaminationController {
 
     @Autowired
-    private MedicalStuffService medicalStuffService;
+    ExaminationService examinationService;
 
-    @GetMapping("/id/{id}")
-    public User findById(@PathVariable UUID id) throws AccessDeniedException {
-        return medicalStuffService.findById(id);
-    }
+    @Autowired
+    MedicalStuffService medicalStuffService;
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
-    @GetMapping("/vacations")
-    public ResponseEntity<?> findEmployeeVacations(Principal user){
+    @GetMapping("/allByEmployee")
+    public ResponseEntity<?> findAllByEmployee(Principal user) {
+        Map<String, String> result = new HashMap<>();
         MedicalStuff medicalStuff = medicalStuffService.findByEmail(user.getName());
-        Set<Vacation> vacations = medicalStuff.getVacations();
-        return new ResponseEntity<>(vacations, HttpStatus.OK);
+        List<Examination> examinations = examinationService.findAllByEmployee(medicalStuff);
+        return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
 
 }

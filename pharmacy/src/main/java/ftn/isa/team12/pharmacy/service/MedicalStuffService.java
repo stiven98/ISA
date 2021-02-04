@@ -8,6 +8,6 @@ import java.util.UUID;
 public interface MedicalStuffService {
 
     MedicalStuff findById(UUID id);
-
+    MedicalStuff findByEmail(String email);
     Set<PatientExaminationDTO> findPatientsByMedicalStuff(MedicalStuff medicalStuff);
 }

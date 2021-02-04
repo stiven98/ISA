@@ -28,6 +28,11 @@ export class DermatologistHomeComponent implements OnInit {
     el.scrollIntoView({ behavior: 'smooth' });
   }
 
+  calendar(el: HTMLElement){
+    this.router.navigate(['dermatologist/workCalendar']);
+    el.scrollIntoView({ behavior: 'smooth' });
+  }
+
   ngOnInit(): void {
 
     this.userService.getMyInfo().subscribe(resUser => {

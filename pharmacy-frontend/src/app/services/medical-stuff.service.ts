@@ -20,14 +20,14 @@ export class MedicalStuffService {
   }
 
   getAllDermatologist():Observable<any>{
-    return this.api.get('http://localhost:8080/api/dermatologist/all')
+    return this.api.get(this.configService.get_all_dermatologist)
     .pipe(map((response:Response)=> {
       return response;
     }) )
   }
 
   getAllDermatologistFromPharmacy(email:String):Observable<any>{
-    return this.api.get('http://localhost:8080/api/dermatologist/all/' + email)
+    return this.api.get(this.configService.get_all_dermatologist + '/' + email)
     .pipe(map((response:Response)=> {
       return response;
     }))
@@ -35,11 +35,17 @@ export class MedicalStuffService {
 
 
   searchDermatologist(searchDto:EmployeesSearchModel): Observable<any>{
-    return this.api.post('http://localhost:8080/api/dermatologist/searchDermatologist',searchDto)
+    return this.api.post(this.configService.search_dermatologist,searchDto)
     .pipe(map((response:Response) => {
       return response;
     }));
   }
 
+
+  getMyVacations() : Observable<any[]>{
+    return this.api.get(this.configService.vacations).pipe(map(vacations => {
+      return vacations;
+    }));
+  }
 
 }

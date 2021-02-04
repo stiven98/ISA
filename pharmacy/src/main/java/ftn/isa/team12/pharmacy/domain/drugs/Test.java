@@ -457,28 +457,14 @@ public class Test {
         timeRange.setEndTime(t1);
 
 
-        WorkWeek workWeek = new WorkWeek();
-        workWeek.setSaturday(timeRange);
-        workWeek.setMonday(timeRange);
-        workWeek.setTuesday(timeRange);
-        workWeek.setWednesday(timeRange);
-        workWeek.setThursday(timeRange);
-        workWeek.setFriday(timeRange);
-        workWeek.setSunday(timeRange);
-
-
 
         WorkTime workTime = new WorkTime();
-        workTime.setWorkWeek(workWeek);
         workTime.setPharmacy(pharmacy);
         workTime.setEmployee(dermatologist);
-        workTime.setDateRange(dateRange);
 
         WorkTime workTime1 = new WorkTime();
-        workTime1.setWorkWeek(workWeek);
         workTime1.setPharmacy(pharmacy);
         workTime1.setEmployee(pharmacist);
-        workTime1.setDateRange(dateRange);
 
         pharmacyAdministrator.setPharmacy(pharmacy);
         DrugOrder drugOrder = new DrugOrder();
