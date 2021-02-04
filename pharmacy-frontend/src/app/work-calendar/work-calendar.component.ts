@@ -52,7 +52,7 @@ export class WorkCalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[];
+  events: CalendarEvent[] = [];
 
   examinations: any[];
 
@@ -110,10 +110,10 @@ export class WorkCalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let eventsTmp = [];
     this.examinationServ.getAllByEmployee().subscribe(res =>{
       this.examinations = res;
       let i = 0;
+      let exams = [];
       for (let exam of this.examinations){
         let dateOfExamination = startOfDay(new Date(exam.dateOfExamination));
         let startHour = exam.timeOfExamination[0];
@@ -137,7 +137,7 @@ export class WorkCalendarComponent implements OnInit {
           },
           draggable: false,
         };
-        eventsTmp.push(event);
+        exams.push(event);
         let pharmacy = exam.pharmacy;
         let viewExam = {
           patientName : patientName,
@@ -150,29 +150,29 @@ export class WorkCalendarComponent implements OnInit {
         this.examinationViews.push(viewExam);
 
       }
-      this.events = eventsTmp;
+
+      this.medStuffServ.getMyVacations().subscribe(res => {
+        this.vacations = res;
+        for (let vac of this.vacations){
+          i++;
+          let event = {
+            start: startOfDay(new Date(vac.dateRange.startDate)),
+            end: endOfDay(new Date(vac.dateRange.endDate)),
+            title: 'Vacation ' + i,
+            color: colors.red,
+            allDay: true,
+            resizable: {
+              beforeStart: false,
+              afterEnd: false,
+            },
+            draggable: false,
+          };
+          exams.push(event);
+        }
+        this.events = exams;
+      });
     });
 
-    this.medStuffServ.getMyVacations().subscribe(res => {
-      this.vacations = res;
-      let i = 0;
-      for (let vac of this.vacations){
-        i++;
-        let event = {
-          start: startOfDay(new Date(vac.dateRange.startDate)),
-          end: endOfDay(new Date(vac.dateRange.endDate)),
-          title: 'Vacation ' + i,
-          color: colors.red,
-          allDay: true,
-          resizable: {
-            beforeStart: false,
-            afterEnd: false,
-          },
-          draggable: false,
-        };
-        this.events.push(event);
-      }
-    });
   }
 
 
