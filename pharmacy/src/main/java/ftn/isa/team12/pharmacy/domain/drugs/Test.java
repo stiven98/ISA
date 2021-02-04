@@ -314,9 +314,26 @@ public class Test {
         dermatologist.setLoginInfo(loginInfo);
 
         Pharmacist pharmacist = new Pharmacist();
+        pharmacist.setAverageMark(3.0);
         pharmacist.setLocation(location1);
         pharmacist.setLoginInfo(loginInfo2);
         pharmacist.setAccountInfo(accountInfo2);
+
+        Pharmacist pharmacistA = new Pharmacist();
+        pharmacistA.setAverageMark(5.0);
+        pharmacistA.setLocation(location);
+        LoginInfo l = new LoginInfo();
+        l.setEmail("d@gmail.com");
+        //b
+        l.setPassword("$2y$10$eGbL004kbDrfj4GPoK7yQO2yYRYqfyFLHS7UjPmH7tp1ub7fl0vom ");
+        pharmacistA.setLoginInfo(l);
+        AccountInfo g = new AccountInfo();
+        g.setPhoneNumber("0666666666");
+        g.setName("Paja");
+        g.setLastName("Pajic");
+        g.setActive(true);
+        g.setFirstLogin(false);
+        pharmacistA.setAccountInfo(g);
 
 
         Date startDate = new Date();
@@ -385,9 +402,11 @@ public class Test {
 
         pharmacy.getDermatologists().add(dermatologist);
         pharmacy.getDermatologists().add(dermatologistPharmacy1);
+        pharmacy.getPharmacists().add(pharmacistA);
         pharmacy3.getDermatologists().add(der);
         pharmacy8.getDermatologists().add(dermatologistPharmacy1);
         pharmacist.setPharmacy(pharmacy);
+        pharmacistA.setPharmacy(pharmacy);
 
 
 
@@ -581,6 +600,7 @@ public class Test {
         em.persist(dermatologistPharmacy1);
         em.persist(der);
 
+
         em.persist(systemAdministrator);
 
         em.persist(drugPrice);
@@ -595,6 +615,7 @@ public class Test {
         em.persist(eRecipe);
         em.persist(drugReservation);
         em.persist(workTime);
+        em.persist(pharmacistA);
         em.persist(pharmacist);
         em.persist(workTime1);
         em.persist(pharmacyAdministrator);

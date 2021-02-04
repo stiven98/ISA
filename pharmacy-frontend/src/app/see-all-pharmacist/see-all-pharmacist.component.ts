@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalStuffService } from '../services/medical-stuff.service';
 import { UserService } from '../services/user.service';
 import { EmployeesSearchModel } from '../shared/models/EmployeesSearch';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-see-all-dermatologist',
-  templateUrl: './see-all-dermatologist.component.html',
-  styleUrls: ['./see-all-dermatologist.component.css']
+  selector: 'app-see-all-pharmacist',
+  templateUrl: './see-all-pharmacist.component.html',
+  styleUrls: ['./see-all-pharmacist.component.css']
 })
-export class SeeAllDermatologistComponent implements OnInit {
+export class SeeAllPharmacistComponent implements OnInit {
   fetchData = false;
   dermatologist = []
   list = [];
@@ -17,9 +17,9 @@ export class SeeAllDermatologistComponent implements OnInit {
   pharmacyName:String;
   cityName:String;
   averageMark:number= 0;
-
   closeResult = '';
   search:EmployeesSearchModel = new EmployeesSearchModel();
+
   constructor(private medicalStuffService:MedicalStuffService, private modalService:NgbModal, 
     private userService:UserService ) { }
 
@@ -27,14 +27,14 @@ export class SeeAllDermatologistComponent implements OnInit {
     this.fetchData = true;
     this.search.role =  localStorage.getItem('role');
     if( localStorage.getItem('role') == 'ROLE_PATIENT'){
-      this.medicalStuffService.getAllDermatologist().subscribe((list)=> {this.dermatologist = list;
+      this.medicalStuffService.getAllPharmacist().subscribe((list)=> {this.dermatologist = list;
       this.list = list;
       });
     }
     if( localStorage.getItem('role') == 'ROLE_PH_ADMIN'){
       this.userService.getMyInfo().subscribe((user) => {
         this.search.email = user.email;
-        this.medicalStuffService.getAllDermatologistFromPharmacy(user.email).subscribe((list)=> {this.dermatologist = list;
+        this.medicalStuffService.getAllPharmacistFromPharmacy(user.email).subscribe((list)=> {this.dermatologist = list;
           this.list = list;
         });
       });
@@ -42,9 +42,10 @@ export class SeeAllDermatologistComponent implements OnInit {
     this.fetchData = false;
   }
 
-  searchDermatologist(){
+
+  searchPharmacist(){
     this.fetchData = true;
-    this.medicalStuffService.searchDermatologist(this.search).subscribe((list)=> {this.dermatologist = list; 
+    this.medicalStuffService.searchPharmacist(this.search).subscribe((list)=> {this.dermatologist = list; 
       this.fetchData = false;
       if(this.dermatologist.length == 0){
         alert("No dermatogolist with search parametars");
@@ -117,4 +118,5 @@ export class SeeAllDermatologistComponent implements OnInit {
       this.closeResult = `Dismissed`;
     });
   }
+
 }

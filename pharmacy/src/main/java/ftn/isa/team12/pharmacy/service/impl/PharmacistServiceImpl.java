@@ -1,13 +1,13 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
-import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
+import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
 import ftn.isa.team12.pharmacy.dto.PharmacyDTO;
-import ftn.isa.team12.pharmacy.repository.DermatologistRepository;
-import ftn.isa.team12.pharmacy.service.DermatologistService;
+import ftn.isa.team12.pharmacy.repository.PharmacistRepository;
+import ftn.isa.team12.pharmacy.service.PharmacistService;
 import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,22 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DermatologistServiceImpl implements DermatologistService {
+public class PharmacistServiceImpl implements PharmacistService {
 
     @Autowired
-    private DermatologistRepository dermatologistRepository;
+    private PharmacistRepository pharmacistRepository;
 
     @Autowired
     private PharmacyAdministratorService pharmacyAdministratorService;
 
     @Override
-    public List<EmployeesDTO> findAllDermatologist() {
+    public List<EmployeesDTO> findAllPharmacist() {
         List<EmployeesDTO> list = new ArrayList<>();
-        for(Dermatologist der : dermatologistRepository.findAll()){
+        for(Pharmacist pharmacist : pharmacistRepository.findAll()){
             List<PharmacyDTO> phList = new ArrayList<>();
-            for(Pharmacy ph : der.getPharmacies())
-                    phList.add(new PharmacyDTO(ph));
-            list.add(new EmployeesDTO(der,phList));
+            phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
+            list.add(new EmployeesDTO(pharmacist,phList));
         }
         return list;
     }
@@ -40,19 +39,18 @@ public class DermatologistServiceImpl implements DermatologistService {
     public List<EmployeesDTO> findAllByPhADmin(String email) {
         PharmacyAdministrator phAdmin = pharmacyAdministratorService.findAdminByEmail(email);
         List<EmployeesDTO> list = new ArrayList<>();
-        for(Dermatologist der : phAdmin.getPharmacy().getDermatologists()){
+        for(Pharmacist pharmacist : phAdmin.getPharmacy().getPharmacists()){
             List<PharmacyDTO> phList = new ArrayList<>();
-            for(Pharmacy ph : der.getPharmacies())
-                phList.add(new PharmacyDTO(ph));
-            list.add(new EmployeesDTO(der,phList));
+                phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
+            list.add(new EmployeesDTO(pharmacist,phList));
         }
         return list;
     }
 
     @Override
-    public List<EmployeesDTO> searchDermatologist(EmployeesSearchDTO searchDTO) {
+    public List<EmployeesDTO> searchPharmacist(EmployeesSearchDTO searchDTO) {
         List<EmployeesDTO> dto = new ArrayList<>();
-        List<Dermatologist> list;
+        List<Pharmacist> list;
 
         if(searchDTO.getEmail().equals("") && searchDTO.getRole().equals(""))
             throw new IllegalArgumentException("Bad input for search");
@@ -62,41 +60,39 @@ public class DermatologistServiceImpl implements DermatologistService {
         else
             list = this.serachByPhAdmin(searchDTO);
 
-        for(Dermatologist der : list){
+        for(Pharmacist pharmacist : list){
             List<PharmacyDTO> phList = new ArrayList<>();
-            for(Pharmacy ph : der.getPharmacies())
-                phList.add(new PharmacyDTO(ph));
-            dto.add(new EmployeesDTO(der,phList));
+                phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
+            dto.add(new EmployeesDTO(pharmacist,phList));
         }
-
         return dto;
     }
 
     @Override
-    public List<Dermatologist> serachByPatient(EmployeesSearchDTO searchDTO) {
-        List<Dermatologist> list = dermatologistRepository.findAll();
+    public List<Pharmacist> serachByPatient(EmployeesSearchDTO searchDTO) {
+        List<Pharmacist> list = pharmacistRepository.findAll();
         return this.search(searchDTO,list);
     }
 
     @Override
-    public List<Dermatologist> serachByPhAdmin(EmployeesSearchDTO searchDTO) {
+    public List<Pharmacist> serachByPhAdmin(EmployeesSearchDTO searchDTO) {
         PharmacyAdministrator phAdmin = pharmacyAdministratorService.findAdminByEmail(searchDTO.getEmail());
-        return this.search(searchDTO, new ArrayList<>(phAdmin.getPharmacy().getDermatologists()));
+        return this.search(searchDTO, new ArrayList<>(phAdmin.getPharmacy().getPharmacists()));
     }
 
     @Override
-    public List<Dermatologist> search(EmployeesSearchDTO searchDTO, List<Dermatologist> dermatologists) {
-        List<Dermatologist> list = new ArrayList<>();
-        for (Dermatologist der : dermatologists){
+    public List<Pharmacist> search(EmployeesSearchDTO searchDTO, List<Pharmacist> pharmacist) {
+        List<Pharmacist> list = new ArrayList<>();
+        for (Pharmacist phar : pharmacist){
             if(!searchDTO.getName().equals("") && !searchDTO.getLastName().equals(""))
-                if(der.getAccountInfo().getLastName().equals(searchDTO.getLastName()) && der.getAccountInfo().getName().equals(searchDTO.getName()))
-                    list.add(der);
+                if(phar.getAccountInfo().getLastName().equals(searchDTO.getLastName()) && phar.getAccountInfo().getName().equals(searchDTO.getName()))
+                    list.add(phar);
             if(searchDTO.getName().equals("") && !searchDTO.getLastName().equals(""))
-                if(der.getAccountInfo().getLastName().equals(searchDTO.getLastName()))
-                    list.add(der);
+                if(phar.getAccountInfo().getLastName().equals(searchDTO.getLastName()))
+                    list.add(phar);
             if(!searchDTO.getName().equals("") && searchDTO.getLastName().equals(""))
-                if(der.getAccountInfo().getName().equals(searchDTO.getName()))
-                    list.add(der);
+                if(phar.getAccountInfo().getName().equals(searchDTO.getName()))
+                    list.add(phar);
         }
         return list;
     }
