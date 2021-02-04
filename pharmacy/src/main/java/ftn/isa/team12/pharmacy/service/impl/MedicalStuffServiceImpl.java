@@ -25,6 +25,11 @@ public class MedicalStuffServiceImpl implements MedicalStuffService {
     }
 
     @Override
+    public MedicalStuff findByEmail(String email) {
+        return this.medicalStuffRepository.findByLoginInfoEmail(email);
+    }
+
+    @Override
     public Set<PatientExaminationDTO> findPatientsByMedicalStuff(MedicalStuff medicalStuff) {
         List<Examination> examinations = examinationService.findAllByEmployee(medicalStuff);
         Set<PatientExaminationDTO> patients = new HashSet<>();

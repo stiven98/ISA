@@ -5,4 +5,5 @@ import java.util.UUID;
 
 public interface MedicalStuffRepository extends JpaRepository<MedicalStuff, UUID> {
     MedicalStuff findByUserId(UUID userId);
+    MedicalStuff findByLoginInfoEmail(String email);
 }

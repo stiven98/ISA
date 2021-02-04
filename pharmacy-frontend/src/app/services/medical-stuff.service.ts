@@ -18,4 +18,10 @@ export class MedicalStuffService {
     }));
   }
 
+  getMyVacations() : Observable<any[]>{
+    return this.api.get(this.configService.vacations).pipe(map(vacations => {
+      return vacations;
+    }));
+  }
+
 }
