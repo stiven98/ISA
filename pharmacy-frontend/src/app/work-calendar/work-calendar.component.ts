@@ -52,7 +52,9 @@ export class WorkCalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[];
+  eventMaxId = 0;
+
+  events: CalendarEvent[] = [];
 
   examinations: any[];
 
@@ -96,9 +98,11 @@ export class WorkCalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, calEvent: CalendarEvent): void {
-    let examination = this.examinationViews[calEvent.id];
-    this.modalData = { examination, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    if(calEvent.id < this.eventMaxId){
+      let examination = this.examinationViews[calEvent.id];
+      this.modalData = { examination, action };
+      this.modal.open(this.modalContent, { size: 'lg' });
+    }
   }
 
   setView(view: CalendarView) {
@@ -110,10 +114,10 @@ export class WorkCalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let eventsTmp = [];
     this.examinationServ.getAllByEmployee().subscribe(res =>{
       this.examinations = res;
       let i = 0;
+      let exams = [];
       for (let exam of this.examinations){
         let dateOfExamination = startOfDay(new Date(exam.dateOfExamination));
         let startHour = exam.timeOfExamination[0];
@@ -137,7 +141,7 @@ export class WorkCalendarComponent implements OnInit {
           },
           draggable: false,
         };
-        eventsTmp.push(event);
+        exams.push(event);
         let pharmacy = exam.pharmacy;
         let viewExam = {
           patientName : patientName,
@@ -148,31 +152,33 @@ export class WorkCalendarComponent implements OnInit {
           pharmacyMark: pharmacy.averageMark,
         }
         this.examinationViews.push(viewExam);
-
-      }
-      this.events = eventsTmp;
-    });
-
-    this.medStuffServ.getMyVacations().subscribe(res => {
-      this.vacations = res;
-      let i = 0;
-      for (let vac of this.vacations){
         i++;
-        let event = {
-          start: startOfDay(new Date(vac.dateRange.startDate)),
-          end: endOfDay(new Date(vac.dateRange.endDate)),
-          title: 'Vacation ' + i,
-          color: colors.red,
-          allDay: true,
-          resizable: {
-            beforeStart: false,
-            afterEnd: false,
-          },
-          draggable: false,
-        };
-        this.events.push(event);
       }
+      this.eventMaxId = i;
+      i = -1;
+      this.medStuffServ.getMyVacations().subscribe(res => {
+        this.vacations = res;
+        for (let vac of this.vacations){
+          i++;
+          let event = {
+            id: this.eventMaxId + i,
+            start: startOfDay(new Date(vac.dateRange.startDate)),
+            end: endOfDay(new Date(vac.dateRange.endDate)),
+            title: 'Vacation ' + i,
+            color: colors.red,
+            allDay: true,
+            resizable: {
+              beforeStart: false,
+              afterEnd: false,
+            },
+            draggable: false,
+          };
+          exams.push(event);
+        }
+        this.events = exams;
+      });
     });
+
   }
 
 
