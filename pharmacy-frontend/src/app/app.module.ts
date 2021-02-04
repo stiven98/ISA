@@ -34,7 +34,10 @@ import { AuthGuard } from './guard/auth.guard';
 import { DrugInPharmacyComponent } from './ph-admin/drug-in-pharmacy/drug-in-pharmacy.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdSortableHeaderDirective } from './shared/utilities/ngbd-sortable-header.directive';
-
+import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -50,6 +53,7 @@ const appRoutes: Routes = [
   children : [
     { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
     { path: 'patients', component: MedicalStuffClientsComponent },
+    { path: 'workCalendar', component: WorkCalendarComponent },
     { path: '**', redirectTo: 'changeAccountInfo'}
   ]
   },
@@ -100,11 +104,13 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     DrugOrderComponent,
     DrugReservationComponent,
     DrugInPharmacyComponent,
-    NgbdSortableHeaderDirective
+    NgbdSortableHeaderDirective,
+    WorkCalendarComponent
 
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     RouterModule.forRoot(appRoutes),
@@ -112,6 +118,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NgxLoadingXModule.forRoot(ngxLoadingXConfig),
     FormsModule,
     NgbModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [
     {
