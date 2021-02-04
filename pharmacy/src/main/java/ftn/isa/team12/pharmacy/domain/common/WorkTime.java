@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -21,20 +23,21 @@ public class WorkTime implements Serializable  {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "work_time_id", nullable = false, unique = true)
     private UUID id;
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "startDate" , column = @Column(name = "work_time_start")),
-            @AttributeOverride(name = "endDate" , column = @Column(name = "work_time_end"))
-    })
-    private DateRange dateRange;
+    @Basic
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date", nullable = false)
+    private Date date;
+    @Basic
+    @Column(name = "starttime", nullable = false)
+    private LocalTime startTime;
+    @Basic
+    @Column(name = "endtime", nullable = false)
+    private LocalTime endTime;
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "user_id", nullable = false)
     private MedicalStuff employee;
     @ManyToOne
     @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id", nullable = false)
     private Pharmacy pharmacy;
-    @Embedded
-    private WorkWeek workWeek;
-
 
 }
