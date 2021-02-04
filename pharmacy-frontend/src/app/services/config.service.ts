@@ -13,7 +13,7 @@ export class ConfigService {
   private _drug_url = this._api_url + '/drug'
   private _drug_order_url = this._api_url + '/drugOrder';
   private _examination_url = this._api_url + '/examination';
-
+  private _medical_stuff_url = this._api_url + '/medicalStuff';
   private _refresh_token_url = this._api_url + '/refresh';
 
   get refresh_token_url(): string {
@@ -79,5 +79,10 @@ export class ConfigService {
     return this._examinations_by_employee ;
   }
 
+  private _vacations = this._medical_stuff_url + '/vacations';
+
+  get vacations (): string {
+    return this._vacations ;
+  }
 
 }

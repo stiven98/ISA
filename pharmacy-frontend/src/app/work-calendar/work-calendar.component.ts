@@ -1,9 +1,10 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
-import { addHours, addMinutes, isSameDay, isSameMonth, startOfDay } from 'date-fns';
+import { addHours, addMinutes, endOfDay, isSameDay, isSameMonth, startOfDay } from 'date-fns';
 import { Subject } from 'rxjs';
 import { ExaminationService } from '../services/examination.service';
+import { MedicalStuffService } from '../services/medical-stuff.service';
 
 const colors: any = {
   red: {
@@ -55,10 +56,12 @@ export class WorkCalendarComponent implements OnInit {
 
   examinations: any[];
 
+  vacations: any[];
+
   examinationViews = [];
 
   activeDayIsOpen: boolean = true;
-  constructor(private modal: NgbModal, private examinationServ : ExaminationService) {}
+  constructor(private modal: NgbModal, private examinationServ : ExaminationService, private medStuffServ: MedicalStuffService) {}
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -149,6 +152,31 @@ export class WorkCalendarComponent implements OnInit {
       }
       this.events = eventsTmp;
     });
+
+    this.medStuffServ.getMyVacations().subscribe(res => {
+      this.vacations = res;
+      let i = 0;
+      let events = [];
+      for (let vac of this.vacations){
+        i++;
+        let event = {
+          start: startOfDay(new Date(vac.dateRange.startDate)),
+          end: endOfDay(new Date(vac.dateRange.endDate)),
+          title: 'Vacation ' + i,
+          color: colors.red,
+          allDay: true,
+          resizable: {
+            beforeStart: false,
+            afterEnd: false,
+          },
+          draggable: false,
+        };
+        events.push(event);
+        this.events.push(event);
+
+      }
+    });
   }
+
 
 }
