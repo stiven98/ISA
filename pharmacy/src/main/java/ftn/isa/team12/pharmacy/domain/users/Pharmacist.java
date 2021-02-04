@@ -13,7 +13,6 @@ import java.io.Serializable;
 @Entity
 @PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "PHARMACISTS")
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Pharmacist extends MedicalStuff implements Serializable {
     @ManyToOne
     @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id", nullable = false)

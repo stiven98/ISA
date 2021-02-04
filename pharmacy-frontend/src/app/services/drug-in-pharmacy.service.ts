@@ -16,14 +16,14 @@ export class DrugInPharmacyService {
 
 
   getDrugInPharmacy(email:String): Observable<any>{
-    return this.apiService.get('http://localhost:8080/api/drugInPharmacy/all/' + email)
+    return this.apiService.get(this.config.get_all_drug_in_pharmacy + email)
     .pipe(map((response:Response) => {
     return response;}))
   }
 
 
   addDrugInPharmacy(drugInPharmacy:DrugInpharmacyChangeModel){
-    return this.apiService.post('http://localhost:8080/api/drugInPharmacy/add',drugInPharmacy)
+    return this.apiService.post(this.config.drug_in_pharmacy_add,drugInPharmacy)
     .pipe(map(drugOrder =>{
       return drugOrder;
     }))
@@ -31,14 +31,14 @@ export class DrugInPharmacyService {
 
 
   removeDrugInPharmacy(drugInPharmacy:DrugInpharmacyChangeModel){
-    return this.apiService.post('http://localhost:8080/api/drugInPharmacy/remove',drugInPharmacy)
+    return this.apiService.post(this.config.drug_in_pharmacy_remove,drugInPharmacy)
     .pipe(map(drugOrder =>{
       return drugOrder;
     }))
   }
 
   updateDrugInPharmacy(drugInPharmacy:DrugInpharmacyChangeModel){
-    return this.apiService.post('http://localhost:8080/api/drugInPharmacy/update',drugInPharmacy)
+    return this.apiService.post(this.config.drug_in_pharmacy_update,drugInPharmacy)
     .pipe(map(drugOrder =>{
       return drugOrder;
     }))

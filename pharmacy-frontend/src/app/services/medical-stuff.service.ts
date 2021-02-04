@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EmployeesSearchModel } from '../shared/models/EmployeesSearch';
 import { PatientClient } from '../shared/models/patientClient';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
@@ -17,5 +18,28 @@ export class MedicalStuffService {
       return users;
     }));
   }
+
+  getAllDermatologist():Observable<any>{
+    return this.api.get('http://localhost:8080/api/dermatologist/all')
+    .pipe(map((response:Response)=> {
+      return response;
+    }) )
+  }
+
+  getAllDermatologistFromPharmacy(email:String):Observable<any>{
+    return this.api.get('http://localhost:8080/api/dermatologist/all/' + email)
+    .pipe(map((response:Response)=> {
+      return response;
+    }))
+  }
+
+
+  searchDermatologist(searchDto:EmployeesSearchModel): Observable<any>{
+    return this.api.post('http://localhost:8080/api/dermatologist/searchDermatologist',searchDto)
+    .pipe(map((response:Response) => {
+      return response;
+    }));
+  }
+
 
 }

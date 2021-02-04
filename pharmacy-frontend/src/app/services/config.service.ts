@@ -12,6 +12,8 @@ export class ConfigService {
   private _patient_url = this._api_url + '/patient';
   private _drug_url = this._api_url + '/drug'
   private _drug_order_url = this._api_url + '/drugOrder';
+  private _drug_in_pharmacy_url = this._api_url + '/drugInPharmacy';
+  private _search_url = this._api_url + '/search';
 
   private _refresh_token_url = this._api_url + '/refresh';
 
@@ -73,6 +75,38 @@ export class ConfigService {
   get drug_order_create (): string {
     return this._drug_order_create ;
   }
+
+  private _get_all_drug_in_pharmacy = this._drug_in_pharmacy_url + '/all/';
+
+  get get_all_drug_in_pharmacy (): string {
+    return this._get_all_drug_in_pharmacy ;
+  }
+
+  private _drug_in_pharmacy_add = this._drug_in_pharmacy_url + '/add';
+
+  get drug_in_pharmacy_add (): string {
+    return this._drug_in_pharmacy_add ;
+  }
+
+  private _drug_in_pharmacy_remove = this._drug_in_pharmacy_url + '/remove';
+
+  get drug_in_pharmacy_remove (): string {
+    return this._drug_in_pharmacy_remove;
+  }
+
+  private _drug_in_pharmacy_update = this._drug_in_pharmacy_url + '/update';
+
+  get drug_in_pharmacy_update (): string {
+    return this._drug_in_pharmacy_update;
+  }
+
+  private _search_drug_in_pharmacy = this._search_url + '/drug';
+
+  get search_drug_in_pharmacy (): string {
+    return this._search_drug_in_pharmacy;
+  }
+
+  
 
 
 
