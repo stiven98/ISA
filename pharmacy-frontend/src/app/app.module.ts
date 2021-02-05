@@ -35,7 +35,14 @@ import { NewSupplierComponent } from './new-supplier/new-supplier.component';
 import { AuthGuard } from './guard/auth.guard';
 import { DrugInPharmacyComponent } from './ph-admin/drug-in-pharmacy/drug-in-pharmacy.component';
 import { NewDrugComponent } from './new-drug/new-drug.component';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdSortableHeaderDirective } from './shared/utilities/ngbd-sortable-header.directive';
+import { SeeAllDermatologistComponent } from './see-all-dermatologist/see-all-dermatologist.component';
+import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SeeAllPharmacistComponent } from './see-all-pharmacist/see-all-pharmacist.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -51,6 +58,7 @@ const appRoutes: Routes = [
   children : [
     { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
     { path: 'patients', component: MedicalStuffClientsComponent },
+    { path: 'workCalendar', component: WorkCalendarComponent },
     { path: '**', redirectTo: 'changeAccountInfo'}
   ]
   },
@@ -66,6 +74,8 @@ const appRoutes: Routes = [
   { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
   { path: 'drugInPharmacy', component: DrugInPharmacyComponent, canActivate: [PhAdminGuard]},
   { path: 'newDrug', component: NewDrugComponent },
+  { path: 'allDermatologist', component: SeeAllDermatologistComponent},
+  { path: 'allPharmacist', component: SeeAllPharmacistComponent},
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
 
@@ -103,16 +113,24 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NewDermatologistComponent,
     NewSupplierComponent,
     DrugInPharmacyComponent,
-    NewDrugComponent
+    NewDrugComponent,
+    DrugInPharmacyComponent,
+    NgbdSortableHeaderDirective,
+    SeeAllDermatologistComponent,
+    WorkCalendarComponent,
+    SeeAllPharmacistComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
     NgxLoadingXModule.forRoot(ngxLoadingXConfig),
     FormsModule,
+    NgbModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [
     {

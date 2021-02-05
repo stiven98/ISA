@@ -84,7 +84,6 @@ export class DrugInPharmacyComponent implements OnInit {
     this.drugChanges.pharmacyAdminEmail=this.drugInPharmacy.pharmacyAdminEmail;
     this.drugChanges.drugId = drug.id;
     this.drugChanges.quantity = drug.quantity;
-    alert("cao");
     this.drugInPharmacyService.updateDrugInPharmacy(this.drugChanges).subscribe((response)=> {alert(response)})
   }
 

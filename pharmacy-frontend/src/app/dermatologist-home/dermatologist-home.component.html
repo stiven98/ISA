@@ -40,7 +40,7 @@
             <li class="list-inline-item">
                 <div class="col">
                     <div class ="row-10">
-                        <a title="Shows you your work calendar" href="dermatologist#content">
+                        <a title="Shows you your work calendar" (click)="calendar(content)">
                             <img alt="Work calendar" src="/assets/img/medicalstuff_icons/calendar.png" >
                         </a>
                     </div>
@@ -87,11 +87,11 @@
         </div>
         <!--  Fucntionalities -->
         <div id="content" #content>
-        <div class="container mt-5 mb-5">
-            <router-outlet>
-                
-            </router-outlet>
-        </div>
+            <div class="container mt-5 mx-auto mb-5">
+                <router-outlet>
+                    
+                </router-outlet>
+            </div>
         </div>
     </div>
 </div>

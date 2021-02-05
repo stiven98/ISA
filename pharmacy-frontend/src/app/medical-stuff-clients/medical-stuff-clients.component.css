@@ -1,0 +1,30 @@
+  th[sortable] {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  th[sortable].desc:before, th[sortable].asc:before {
+    content: '';
+    display: block;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbwAAAG8B8aLcQwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAADmSURBVDiN1dO7LoRBGIDh51NrrD+OjURDUDlVKo1WvVewN6HWiYZKHFuJGxCX4JAgJBKJQ1ZwDaMZyb/rD5GNwiTTzfskk5kvUko6WV0d1X8KRERPRKxFxHpEFL8CIqKGYxToxklE9FUKKaWWjRpOsY0RjGIDl+j/cr4t7sUZdjCFF7xjPiNXGKgESvEuJtFEA/WMzGXkGoMtQL7rOfYwgWc0Sngdb5jNyA2GPv9QgQvsYxxP5bgCmcnILYbhCAcYw2NV3Ia8Yhqb+aXcYwUP38UVyCruYAmHWP4pLiGL2MJC/P9h+gAFXMZz4pj6CwAAAABJRU5ErkJggg==') no-repeat;
+    background-size: 22px;
+    width: 22px;
+    height: 22px;
+    float: left;
+    margin-left: -22px;
+  }
+  
+  th[sortable].desc:before {
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+
+    .my-scrollbar {
+        position: relative;
+        max-height: 400px;
+        overflow: auto;
+        }
+    .table-wrapper-scroll-y {
+        display: block;
+        }

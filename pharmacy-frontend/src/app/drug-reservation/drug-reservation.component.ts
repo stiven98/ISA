@@ -8,6 +8,7 @@ import {UserService} from '../services/user.service';
 import {Patient} from '../shared/models/patient';
 import {DrugReservation} from '../shared/models/drugreservation';
 import {DrugreservationService} from '../services/drugreservation.service';
+import {PatientService} from '../services/patient.service';
 
 @Component({
   selector: 'app-drug-reservation',
@@ -27,13 +28,18 @@ export class DrugReservationComponent implements OnInit {
   today = new Date();
   patient = new Patient();
   available: number;
+  penalties: number;
   constructor(private route: ActivatedRoute, private drugService: DrugService, private pharmacyService: PharmacyService,
-              private userService: UserService, private drugreservationService: DrugreservationService, private router: Router) { }
+              private userService: UserService, private drugreservationService: DrugreservationService, private router: Router,
+              private patientService: PatientService) { }
 
   ngOnInit(): void {
     this.drugName = this.route.snapshot.params[`drug`];
     this.userService.getMyInfo().subscribe( resUser => {
       this.patient = resUser;
+    });
+    this.patientService.findPenalties(this.patient.email).subscribe( penalty => {
+      this.penalties = penalty;
     });
     this.drugService.findDrugByName(this.drugName).subscribe((drug) =>  {
       this.drug = drug;
@@ -63,15 +69,20 @@ export class DrugReservationComponent implements OnInit {
     this.totalToPay = this.price * this.quantity;
   }
   reserveDrug = () => {
-    alert('Reservation successfully  created');
-    const drugReservation = new DrugReservation();
-    drugReservation.patientEmail = this.patient.email;
-    drugReservation.deadline = this.deadline;
-    drugReservation.pharmacyId = this.pharmacy.id;
-    drugReservation.quantity = this.quantity;
-    drugReservation.drugId = this.drug.drugId;
-    this.drugreservationService.createReservation(drugReservation).subscribe();
-    this.router.navigate(["/patient"]);
-
+    if (this.penalties < 3) {
+      alert('Reservation successfully  created');
+      const drugReservation = new DrugReservation();
+      drugReservation.patientEmail = this.patient.email;
+      drugReservation.deadline = this.deadline;
+      drugReservation.pharmacyId = this.pharmacy.id;
+      drugReservation.quantity = this.quantity;
+      drugReservation.drugId = this.drug.drugId;
+      this.drugreservationService.createReservation(drugReservation).subscribe();
+      this.router.navigate(['/patient']);
+    }
+    else {
+      alert('You have 3 or more penalties and you cant reserve drug!');
+      this.router.navigate(['/patient']);
+    }
   }
 }

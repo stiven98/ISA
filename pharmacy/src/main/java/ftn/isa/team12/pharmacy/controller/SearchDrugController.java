@@ -1,6 +1,4 @@
 package ftn.isa.team12.pharmacy.controller;
-
-
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugSearcDTO;
 import ftn.isa.team12.pharmacy.service.SearchDrugService;

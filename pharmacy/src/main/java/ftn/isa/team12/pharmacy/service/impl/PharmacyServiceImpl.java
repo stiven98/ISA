@@ -1,9 +1,12 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
 import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
 import ftn.isa.team12.pharmacy.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,4 +47,102 @@ public class PharmacyServiceImpl implements PharmacyService {
     public Pharmacy save(Pharmacy pharmacy) {
         return this.pharmacyRepository.save(pharmacy);
     }
+
+    @Override
+    public List<Pharmacy> searchPharmacies(List<Pharmacy> pharmacies, PharmacySearchDTO dto) {
+        List<Pharmacy> searchedPharmacies = new ArrayList<>();
+        if (dto.getPharmacyName() == "" && dto.getPharmacyCity() == "" && dto.getPharmacyMark() == 0.0) {
+            throw new IllegalArgumentException("You must enter a parameter to search");
+        }
+
+        if(dto.getPharmacyName() != "" && dto.getPharmacyCity() != "" && dto.getPharmacyMark() != 0 ) {
+            searchedPharmacies.addAll(combinedSearch(dto.getPharmacyName(), dto.getPharmacyCity(), dto.getPharmacyMark(), pharmacies));
+        }
+        else if( dto.getPharmacyName() != "" && dto.getPharmacyCity() != "" ) {
+            searchedPharmacies.addAll(nameAndCity(dto.getPharmacyName(), dto.getPharmacyCity(), pharmacies));
+        }
+        else if( dto.getPharmacyName() != "" && dto.getPharmacyMark() != 0 ) {
+            searchedPharmacies.addAll(nameAndMark(dto.getPharmacyName(), dto.getPharmacyMark(), pharmacies));
+        }
+        else if( dto.getPharmacyCity() != "" && dto.getPharmacyMark() != 0 ) {
+            searchedPharmacies.addAll(cityAndMark(dto.getPharmacyCity(), dto.getPharmacyMark(), pharmacies));
+        }
+        else if(dto.getPharmacyName() != "") {
+           searchedPharmacies.addAll(searchPharmaciesByName(dto.getPharmacyName(), pharmacies));
+        }
+        else if(dto.getPharmacyCity() != "") {
+            searchedPharmacies.addAll(searchPharmaciesByCity(dto.getPharmacyCity(),pharmacies));
+        }
+        else if(dto.getPharmacyMark() != 0) {
+            searchedPharmacies.addAll(searchPharmaciesByMark(dto.getPharmacyMark(), pharmacies));
+        }
+        return searchedPharmacies;
+    }
+
+    public List<Pharmacy> searchPharmaciesByName(String pharmacyName, List<Pharmacy> pharmacies) {
+        ArrayList<Pharmacy> searched = new ArrayList<>();
+        for(Pharmacy pharmacy : pharmacies) {
+            if(pharmacy.getName().contains(pharmacyName)) {
+                searched.add(pharmacy);
+            }
+        }
+        return searched;
+    }
+
+    public List<Pharmacy> searchPharmaciesByCity(String city, List<Pharmacy> pharmacies) {
+        ArrayList<Pharmacy> searched = new ArrayList<>();
+
+        for(Pharmacy pharmacy : pharmacies) {
+            if(pharmacy.getLocation().getCityName().contains(city)) {
+                searched.add(pharmacy);
+            }
+        }
+        return searched;
+    }
+    public List<Pharmacy> searchPharmaciesByMark(Double mark, List<Pharmacy> pharmacies) {
+        ArrayList<Pharmacy> searched = new ArrayList<>();
+        for(Pharmacy pharmacy : pharmacies) {
+            if(pharmacy.getAverageMark() >= mark) {
+                searched.add(pharmacy);
+            }
+        }
+        return searched;
+    }
+    public List<Pharmacy> combinedSearch(String name, String city,Double mark, List<Pharmacy> pharmacies) {
+        ArrayList<Pharmacy> searched = new ArrayList<>();
+        for(Pharmacy pharmacy : pharmacies) {
+            if(pharmacy.getAverageMark() >= mark && pharmacy.getName().contains(name) && pharmacy.getLocation().getCityName().contains(city)) {
+                searched.add(pharmacy);
+            }
+        }
+        return searched;
+    }
+    public List<Pharmacy> nameAndCity(String name, String city, List<Pharmacy> pharmacies) {
+        ArrayList<Pharmacy> searched = new ArrayList<>();
+        for(Pharmacy pharmacy : pharmacies) {
+            if(pharmacy.getName().contains(name) && pharmacy.getLocation().getCityName().contains(city)) {
+                searched.add(pharmacy);
+            }
+        }
+        return searched;
+    }
+    public List<Pharmacy> nameAndMark(String name,Double mark, List<Pharmacy> pharmacies) {
+        ArrayList<Pharmacy> searched = new ArrayList<>();
+        for(Pharmacy pharmacy : pharmacies) {
+            if(pharmacy.getAverageMark() >= mark && pharmacy.getName().contains(name)) {
+                searched.add(pharmacy);
+            }
+        }
+        return searched;
+    }
+    public List<Pharmacy> cityAndMark(String city,Double mark, List<Pharmacy> pharmacies) {
+        ArrayList<Pharmacy> searched = new ArrayList<>();
+        for(Pharmacy pharmacy : pharmacies) {
+            if(pharmacy.getAverageMark() >= mark && pharmacy.getLocation().getCityName().contains(city)) {
+                searched.add(pharmacy);
+            }
+        }
+        return searched;
+    }
+
 }

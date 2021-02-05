@@ -287,20 +287,73 @@ public class Test {
 
         LoginInfo loginInfo3 = new LoginInfo();
         loginInfo3.setEmail("jovan@gmail.com");
-        loginInfo3.setPassword("");
+        //jovan
+        loginInfo3.setPassword("$2y$10$GDTQteWFlMDi.Oed2hujL.hJwnf.PfZMcHevDtiahWOtIpKcMTTX6 ");
 
+        AccountInfo dermatologistAccountInfoPharmacy1 = new AccountInfo();
+        dermatologistAccountInfoPharmacy1.setPhoneNumber("0622221133");
+        dermatologistAccountInfoPharmacy1.setName("Jovica");
+        dermatologistAccountInfoPharmacy1.setLastName("Jovicic");
+        dermatologistAccountInfoPharmacy1.setActive(false);
+
+        LoginInfo derLogInfPharmacy1 = new LoginInfo();
+        derLogInfPharmacy1.setEmail("jovica@gmail.com");
+        //jovica
+        derLogInfPharmacy1.setPassword("$2y$10$whzNUDqaYDVydkQUYs0QXOUA9ORGd1G7d/Cp4laDVww5y6Lzyhi/K ");
+
+
+        Dermatologist dermatologistPharmacy1 = new Dermatologist();
+        dermatologistPharmacy1.setAverageMark(5.0);
+        dermatologistPharmacy1.setLocation(location2);
+        dermatologistPharmacy1.setAccountInfo(dermatologistAccountInfoPharmacy1);
+        dermatologistPharmacy1.setLoginInfo(derLogInfPharmacy1);
+
+
+        AccountInfo accInfoDer = new AccountInfo();
+        accInfoDer.setLastName("Slavic");
+        accInfoDer.setName("Slavica");
+        accInfoDer.setActive(false);
+        accInfoDer.setPhoneNumber("0611113485");
+
+        LoginInfo logInfDer = new LoginInfo();
+        logInfDer.setEmail("slavica@gmail.com");
+        logInfDer.setPassword("$2y$10$7ItedZVTHIPALTm/poyI.eKQErkFJJbxOd5WcSkKFIZ9QsyN06iFu ");
+
+        Dermatologist der = new Dermatologist();
+        der.setAverageMark(4.0);
+        der.setLocation(location1);
+        der.setAccountInfo(accInfoDer);
+        der.setLoginInfo(logInfDer);
 
 
 
         Dermatologist dermatologist = new Dermatologist();
+        dermatologist.setAverageMark(3.0);
         dermatologist.setLocation(location2);
         dermatologist.setAccountInfo(accountInfo);
         dermatologist.setLoginInfo(loginInfo);
 
         Pharmacist pharmacist = new Pharmacist();
+        pharmacist.setAverageMark(3.0);
         pharmacist.setLocation(location1);
         pharmacist.setLoginInfo(loginInfo2);
         pharmacist.setAccountInfo(accountInfo2);
+
+        Pharmacist pharmacistA = new Pharmacist();
+        pharmacistA.setAverageMark(5.0);
+        pharmacistA.setLocation(location);
+        LoginInfo l = new LoginInfo();
+        l.setEmail("d@gmail.com");
+        //b
+        l.setPassword("$2y$10$eGbL004kbDrfj4GPoK7yQO2yYRYqfyFLHS7UjPmH7tp1ub7fl0vom ");
+        pharmacistA.setLoginInfo(l);
+        AccountInfo g = new AccountInfo();
+        g.setPhoneNumber("0666666666");
+        g.setName("Paja");
+        g.setLastName("Pajic");
+        g.setActive(true);
+        g.setFirstLogin(false);
+        pharmacistA.setAccountInfo(g);
 
 
         Date startDate = new Date();
@@ -331,6 +384,7 @@ public class Test {
         pharmacy3.setLocation(location);
         pharmacy3.setDescription("Kul apoteka");
         pharmacy3.setAverageMark(9.6);
+
 
 
         Pharmacy pharmacy4 = new Pharmacy();
@@ -367,7 +421,15 @@ public class Test {
         pharmacy8.setAverageMark(9.8);
 
         pharmacy.getDermatologists().add(dermatologist);
+        pharmacy.getDermatologists().add(dermatologistPharmacy1);
+        pharmacy.getPharmacists().add(pharmacistA);
+        pharmacy3.getDermatologists().add(der);
+        pharmacy8.getDermatologists().add(dermatologistPharmacy1);
         pharmacist.setPharmacy(pharmacy);
+        pharmacistA.setPharmacy(pharmacy);
+
+
+
 
         DrugInPharmacy drugInPharmacy = new DrugInPharmacy();
         drugInPharmacy.setPharmacy(pharmacy);
@@ -434,28 +496,14 @@ public class Test {
         timeRange.setEndTime(t1);
 
 
-        WorkWeek workWeek = new WorkWeek();
-        workWeek.setSaturday(timeRange);
-        workWeek.setMonday(timeRange);
-        workWeek.setTuesday(timeRange);
-        workWeek.setWednesday(timeRange);
-        workWeek.setThursday(timeRange);
-        workWeek.setFriday(timeRange);
-        workWeek.setSunday(timeRange);
-
-
 
         WorkTime workTime = new WorkTime();
-        workTime.setWorkWeek(workWeek);
         workTime.setPharmacy(pharmacy);
         workTime.setEmployee(dermatologist);
-        workTime.setDateRange(dateRange);
 
         WorkTime workTime1 = new WorkTime();
-        workTime1.setWorkWeek(workWeek);
         workTime1.setPharmacy(pharmacy);
         workTime1.setEmployee(pharmacist);
-        workTime1.setDateRange(dateRange);
 
         pharmacyAdministrator.setPharmacy(pharmacy);
         DrugOrder drugOrder = new DrugOrder();
@@ -545,6 +593,7 @@ public class Test {
         patient.setAuthorities(authorities);
         pharmacyAdministrator.setAuthorities(authorities2);
         dermatologist.setAuthorities(authoritiesDerm);
+        dermatologistPharmacy1.setAuthorities(authoritiesDerm);
 
         em.getTransaction().begin();
         em.persist(a);
@@ -573,6 +622,9 @@ public class Test {
         em.persist(pharmacy);
         em.persist(drugInPharmacy);
         em.persist(dermatologist);
+        em.persist(dermatologistPharmacy1);
+        em.persist(der);
+
 
         em.persist(systemAdministrator);
 
@@ -588,6 +640,7 @@ public class Test {
         em.persist(eRecipe);
         em.persist(drugReservation);
         em.persist(workTime);
+        em.persist(pharmacistA);
         em.persist(pharmacist);
         em.persist(workTime1);
         em.persist(pharmacyAdministrator);
