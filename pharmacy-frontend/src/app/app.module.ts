@@ -40,6 +40,7 @@ import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SeeAllPharmacistComponent } from './see-all-pharmacist/see-all-pharmacist.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -72,6 +73,7 @@ const appRoutes: Routes = [
   { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
   { path: 'drugInPharmacy', component: DrugInPharmacyComponent, canActivate: [PhAdminGuard]},
   { path: 'allDermatologist', component: SeeAllDermatologistComponent},
+  { path: 'allPharmacist', component: SeeAllPharmacistComponent},
 
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
@@ -110,7 +112,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     DrugInPharmacyComponent,
     NgbdSortableHeaderDirective,
     SeeAllDermatologistComponent,
-    WorkCalendarComponent
+    WorkCalendarComponent,
+    SeeAllPharmacistComponent
 
   ],
   imports: [

@@ -25,6 +25,13 @@ export class MedicalStuffService {
       return response;
     }) )
   }
+  getAllPharmacist():Observable<any>{
+    return this.api.get('http://localhost:8080/api/pharmacist/all')
+    .pipe(map((response:Response)=> {
+      return response;
+    }) )
+  }
+
 
   getAllDermatologistFromPharmacy(email:String):Observable<any>{
     return this.api.get(this.configService.get_all_dermatologist + '/' + email)
@@ -33,9 +40,23 @@ export class MedicalStuffService {
     }))
   }
 
+  getAllPharmacistFromPharmacy(email:String):Observable<any>{
+    return this.api.get('http://localhost:8080/api/pharmacist/all/'+ email)
+    .pipe(map((response:Response)=> {
+      return response;
+    }))
+  }
+
 
   searchDermatologist(searchDto:EmployeesSearchModel): Observable<any>{
     return this.api.post(this.configService.search_dermatologist,searchDto)
+    .pipe(map((response:Response) => {
+      return response;
+    }));
+  }
+
+  searchPharmacist(searchDto:EmployeesSearchModel): Observable<any>{
+    return this.api.post('http://localhost:8080/api/pharmacist/searchPharmacist',searchDto)
     .pipe(map((response:Response) => {
       return response;
     }));
