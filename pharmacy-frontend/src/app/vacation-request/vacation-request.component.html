@@ -1,0 +1,37 @@
+<div class="container request">
+    <div class="row">
+      <div class="col-md-3 request-left">
+        <img src="/assets/img/medicalstuff_icons/vacation.png" alt=""/>
+        <h3>Vacation request</h3>
+        <p>Create vacation request in just few seconds</p>
+      </div>
+      <div class="col-md-9 request-right">
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <h3 class="request-heading">Request a vacation</h3>
+            <div class="row request-form ">
+							<div class="col-md-12">
+								<div class="form-group">
+									Select the vacation start date:
+									<input type="date" [(ngModel)]="vacationStart" class="form-control" >
+								</div>
+								<div class="form-group">
+									Select the vacation end date:
+									<input type="date" [(ngModel)]="vacationEnd" class="form-control" >
+								</div>
+								<div class="form-group">
+								<select (change)="onChange($event)" [(ngModel)]="selectedPharmacyName" class="form-control">
+										<option class="hidden" disabled = "true" >Select pharmacy in which you want to request a vacation </option>
+										<option *ngFor="let pharmacy of pharmacies" >{{pharmacy.name}}</option>
+								</select>
+								<input type="submit" class="btnrequest" (click)="sendRequest()"  value="Send request"/>
+								</div>
+							</div>
+            </div>
+        	</div>
+    		</div>
+		</div>
+  </div>
+</div>
+  
+  

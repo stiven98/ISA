@@ -41,6 +41,12 @@ public class DermatologistServiceImpl implements DermatologistService {
     public Dermatologist findById(UUID userId) {
         return this.dermatologistRepository.findDermatologistById(userId);
     }
+
+    @Override
+    public Dermatologist findByEmail(String email) {
+        return this.dermatologistRepository.findByLoginInfoEmail(email);
+    }
+
     @Autowired
     private PharmacyAdministratorService pharmacyAdministratorService;
 
