@@ -3,6 +3,7 @@ import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface DrugService {
@@ -14,4 +15,7 @@ public interface DrugService {
 
     Drug findDrugByName(String drugName);
 
+    Set<Drug> getByIds(List<String> substituteDrug);
+
+    Drug saveAndFlush(Drug drug);
 }

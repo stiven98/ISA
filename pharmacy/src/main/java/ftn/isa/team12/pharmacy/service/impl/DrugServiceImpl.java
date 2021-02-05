@@ -5,9 +5,8 @@ import ftn.isa.team12.pharmacy.repository.DrugRepository;
 import ftn.isa.team12.pharmacy.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+
+import java.util.*;
 
 @Service
 public class DrugServiceImpl implements DrugService {
@@ -25,6 +24,22 @@ public class DrugServiceImpl implements DrugService {
     public Drug findDrugByName(String drugName) {
         return drugRepository.findDrugByName(drugName);
     }
+
+    @Override
+    public Set<Drug> getByIds(List<String> substituteDrugIds) {
+        Set<Drug> substituteDrugs = new HashSet<Drug>();
+        for (String id : substituteDrugIds) {
+            substituteDrugs.add(this.drugRepository.findById(UUID.fromString(id)).get());
+        }
+        return substituteDrugs;
+    }
+
+    @Override
+    public Drug saveAndFlush(Drug drug) {
+        // Add validation
+        return this.drugRepository.saveAndFlush(drug);
+    }
+
     @Override
     public Drug findById(UUID id) {
         return drugRepository.findById(id).orElseGet(null);

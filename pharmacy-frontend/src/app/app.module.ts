@@ -34,6 +34,7 @@ import { NewDermatologistComponent } from './new-dermatologist/new-dermatologist
 import { NewSupplierComponent } from './new-supplier/new-supplier.component';
 import { AuthGuard } from './guard/auth.guard';
 import { DrugInPharmacyComponent } from './ph-admin/drug-in-pharmacy/drug-in-pharmacy.component';
+import { NewDrugComponent } from './new-drug/new-drug.component';
 
 
 const appRoutes: Routes = [
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
   { path: '403', component: ForbiddenComponent},
   { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
   { path: 'drugInPharmacy', component: DrugInPharmacyComponent, canActivate: [PhAdminGuard]},
+  { path: 'newDrug', component: NewDrugComponent },
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
 
@@ -100,7 +102,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     DrugReservationComponent,
     NewDermatologistComponent,
     NewSupplierComponent,
-    DrugInPharmacyComponent
+    DrugInPharmacyComponent,
+    NewDrugComponent
   ],
   imports: [
     BrowserModule,

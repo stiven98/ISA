@@ -145,11 +145,16 @@ public class Test {
         Ingredient drugIngreditent = new Ingredient();
         drugIngreditent.setName("Sastojak01");
 
+        Contraindication contraindication1 = new Contraindication();
+        contraindication1.setName("Headache");
+        Contraindication contraindication2 = new Contraindication();
+        contraindication2.setName("Nausea");
+
         Drug drug = new Drug();
         drug.setName("Aspirin");
         drug.setCode("ASP123XXX123");
-        drug.setTypeOfDrug(TypeOfDrug.herbalMedicine);
-        drug.setFormOfDrug(FormOfDrug.pill);
+        drug.setTypeOfDrug(TypeOfDrug.HerbalMedicine);
+        drug.setFormOfDrug(FormOfDrug.Pill);
         drug.setManufacturer(manufacturer);
         drug.setNote("This is note");
         drug.setIssuanceRegime(IssuanceRegime.withoutRecipe);
@@ -157,16 +162,18 @@ public class Test {
         Drug drug1 = new Drug();
         drug1.setName("Brufen");
         drug1.setCode("BRUF123XXX123");
-        drug1.setTypeOfDrug(TypeOfDrug.herbalMedicine);
-        drug1.setFormOfDrug(FormOfDrug.capsule);
+        drug1.setTypeOfDrug(TypeOfDrug.Antihistamine);
+        drug1.setFormOfDrug(FormOfDrug.Capsule);
         drug1.setManufacturer(manufacturer);
         drug1.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+        drug1.getContraindications().add(contraindication1);
+        drug1.getContraindications().add(contraindication2);
 
         Drug drug2 = new Drug();
         drug2.setName("Paracetamol");
         drug2.setCode("PAR123XXX123");
-        drug2.setTypeOfDrug(TypeOfDrug.herbalMedicine);
-        drug2.setFormOfDrug(FormOfDrug.powder);
+        drug2.setTypeOfDrug(TypeOfDrug.Anesthetic);
+        drug2.setFormOfDrug(FormOfDrug.Powder);
         drug2.setManufacturer(manufacturer);
         drug2.setIssuanceRegime(IssuanceRegime.withoutRecipe);
 
@@ -174,16 +181,16 @@ public class Test {
         Drug drug3 = new Drug();
         drug3.setName("Andol");
         drug3.setCode("AND123XXX123");
-        drug3.setTypeOfDrug(TypeOfDrug.herbalMedicine);
-        drug3.setFormOfDrug(FormOfDrug.pill);
+        drug3.setTypeOfDrug(TypeOfDrug.Anesthetic);
+        drug3.setFormOfDrug(FormOfDrug.Pill);
         drug3.setManufacturer(manufacturer);
         drug3.setIssuanceRegime(IssuanceRegime.withoutRecipe);
 
         Drug drug4 = new Drug();
         drug4.setName("Panadol");
         drug4.setCode("PAND123XXX123");
-        drug4.setTypeOfDrug(TypeOfDrug.herbalMedicine);
-        drug4.setFormOfDrug(FormOfDrug.capsule);
+        drug4.setTypeOfDrug(TypeOfDrug.Antihistamine);
+        drug4.setFormOfDrug(FormOfDrug.Capsule);
         drug4.setManufacturer(manufacturer);
         drug4.setIssuanceRegime(IssuanceRegime.withoutRecipe);
 
@@ -191,8 +198,8 @@ public class Test {
         Drug drug5 = new Drug();
         drug5.setName("Febricet");
         drug5.setCode("FEB123XXX123");
-        drug5.setTypeOfDrug(TypeOfDrug.herbalMedicine);
-        drug5.setFormOfDrug(FormOfDrug.powder);
+        drug5.setTypeOfDrug(TypeOfDrug.Anesthetic);
+        drug5.setFormOfDrug(FormOfDrug.Powder);
         drug5.setManufacturer(manufacturer);
         drug5.setIssuanceRegime(IssuanceRegime.withoutRecipe);
 
@@ -200,8 +207,8 @@ public class Test {
         Drug drug6 = new Drug();
         drug6.setName("Biofrezee");
         drug6.setCode("BF123XXX123");
-        drug6.setTypeOfDrug(TypeOfDrug.herbalMedicine);
-        drug6.setFormOfDrug(FormOfDrug.cream);
+        drug6.setTypeOfDrug(TypeOfDrug.Antihistamine);
+        drug6.setFormOfDrug(FormOfDrug.Cream);
         drug6.setManufacturer(manufacturer);
         drug6.setIssuanceRegime(IssuanceRegime.withoutRecipe);
 
@@ -209,19 +216,32 @@ public class Test {
         Drug drug7 = new Drug();
         drug7.setName("Pantenol");
         drug7.setCode("PAN123XXX123");
-        drug7.setTypeOfDrug(TypeOfDrug.herbalMedicine);
-        drug7.setFormOfDrug(FormOfDrug.cream);
+        drug7.setTypeOfDrug(TypeOfDrug.Antibiotic);
+        drug7.setFormOfDrug(FormOfDrug.Cream);
         drug7.setManufacturer(manufacturer);
         drug7.setIssuanceRegime(IssuanceRegime.withoutRecipe);
 
+        drug7.getSubstituteDrugs().add(drug2);
+
+
         drug1.setCode("321DROGA321");
-        drug1.setTypeOfDrug(TypeOfDrug.herbalMedicine);
-        drug1.setFormOfDrug(FormOfDrug.capsule);
+        drug1.setTypeOfDrug(TypeOfDrug.Anesthetic);
+        drug1.setFormOfDrug(FormOfDrug.Capsule);
         drug1.setManufacturer(manufacturer);
         drug1.setNote("This is note 2");
         drug1.setIssuanceRegime(IssuanceRegime.withRecipe);
 
 
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setName("Silicijum-dioksid");
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setName("Dihidrat");
+        Ingredient ingredient3 = new Ingredient();
+        ingredient3.setName("Kalijum-hidrogen fosfat");
+
+        drug1.getIngredients().add(ingredient1);
+        drug1.getIngredients().add(ingredient2);
+        drug2.getIngredients().add(ingredient3);
 
         AccountInfo accountInfo = new AccountInfo();
         accountInfo.setName("Aca");
@@ -538,6 +558,11 @@ public class Test {
         em.persist(location);
         em.persist(location1);
         em.persist(location2);
+        em.persist(contraindication1);
+        em.persist(contraindication2);
+        em.persist(ingredient1);
+        em.persist(ingredient2);
+        em.persist(ingredient3);
         em.persist(locationSysAdmin);
         em.persist(manufacturer);
         em.persist(drugIngreditent);
