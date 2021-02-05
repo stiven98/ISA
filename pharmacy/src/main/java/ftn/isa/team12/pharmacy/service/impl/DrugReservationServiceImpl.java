@@ -7,10 +7,13 @@ import ftn.isa.team12.pharmacy.domain.enums.ReservationStatus;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.dto.DrugReservationDTO;
+import ftn.isa.team12.pharmacy.email.EmailSender;
 import ftn.isa.team12.pharmacy.repository.DrugInPharmacyRepository;
 import ftn.isa.team12.pharmacy.repository.DrugReservationRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +25,9 @@ public class DrugReservationServiceImpl implements DrugReservationService {
 
     @Autowired
     private DrugReservationRepository drugReservationRepository;
+
+    @Autowired
+    private EmailSender sender;
 
     @Autowired
     private PharmacyService pharmacyService;
@@ -56,13 +62,19 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         drugReservation.setReservationStatus(ReservationStatus.created);
         drugReservation.setReservationDateRange(dateRange);
         drugReservation.setDrug(drug);
-        this.drugReservationRepository.save(drugReservation);
+        drugReservation = this.drugReservationRepository.save(drugReservation);
 
         DrugInPharmacy drugInPharmacy = this.drugInPharmacyRepository.findDrugInPharmacy(drug.getDrugId(),pharmacy.getId());
         int beforeRes = drugInPharmacy.getQuantity();
         int newQuantity = beforeRes - drugReservationDTO.getQuantity();
         drugInPharmacy.setQuantity(newQuantity);
         this.drugInPharmacyRepository.save(drugInPharmacy);
+        try {
+            sender.sendDrugReservationEmail(drugReservation.getDrug_reservation_id(), patient.getLoginInfo().getEmail(), pharmacy.getName(), drugReservationDTO.getDeadline().toString(),
+                    drug.getName());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return drugReservation;
     }
 
