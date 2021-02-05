@@ -44,6 +44,11 @@ public class PharmacyServiceImpl implements PharmacyService {
     }
 
     @Override
+    public Pharmacy save(Pharmacy pharmacy) {
+        return this.pharmacyRepository.save(pharmacy);
+    }
+
+    @Override
     public List<Pharmacy> searchPharmacies(List<Pharmacy> pharmacies, PharmacySearchDTO dto) {
         List<Pharmacy> searchedPharmacies = new ArrayList<>();
         if (dto.getPharmacyName() == "" && dto.getPharmacyCity() == "" && dto.getPharmacyMark() == 0.0) {

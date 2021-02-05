@@ -43,9 +43,6 @@ public class Drug implements Serializable {
    @Column(name = "formofdrug", nullable = false)
    private FormOfDrug formOfDrug;
 
-   @ManyToMany(mappedBy = "drugs")
-   private Set<Ingredient> ingredients = new HashSet<Ingredient>();
-
    @ManyToMany(mappedBy = "allergies")
    @JsonIgnore
    private Set<Patient> patientsAllergies = new HashSet<Patient>();
@@ -63,8 +60,24 @@ public class Drug implements Serializable {
    @JoinColumn(name = "manufacturer_id", referencedColumnName = "manufacturer_id", nullable = false )
    private Manufacturer manufacturer;
 
+
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "drug")
    private Set<DrugPrice> priceList = new HashSet<DrugPrice>();
+
+   @ManyToMany
+   @JoinTable(name = "substitute_drugs", joinColumns = @JoinColumn(name="drug_id" ,  referencedColumnName  = "drug_id"),
+           inverseJoinColumns = @JoinColumn(name = "substitute_drug_id", referencedColumnName = "drug_id"))
+   private Set<Drug> substituteDrugs = new HashSet<Drug>();
+
+   @ManyToMany
+   @JoinTable(name = "drugs_contraindications", joinColumns = @JoinColumn(name="drug_id" ,  referencedColumnName  = "drug_id"),
+           inverseJoinColumns = @JoinColumn(name = "contraindication_id", referencedColumnName = "contraindication_id"))
+   private Set<Contraindication> contraindications = new HashSet<Contraindication>();
+
+   @ManyToMany
+   @JoinTable(name = "ingredients_in_drugs", joinColumns = @JoinColumn(name="drug_id" ,  referencedColumnName  = "drug_id"),
+           inverseJoinColumns = @JoinColumn(name = "ingredient_id", referencedColumnName = "ingredient_id"))
+   private Set<Ingredient> ingredients = new HashSet<Ingredient>();
 
 
    @Override

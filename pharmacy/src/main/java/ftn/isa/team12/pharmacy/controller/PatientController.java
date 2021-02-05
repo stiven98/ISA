@@ -94,11 +94,7 @@ public class PatientController {
     public ResponseEntity<Patient> savePatient(@RequestBody Patient patientRequest,
                                                HttpServletResponse response) {
 
-        User user = patientService.findUserByEmail(patientRequest.getLoginInfo().getEmail());
-
-
-
-
+        User user = userService.findUserByEmail(patientRequest.getLoginInfo().getEmail());
 
         if (user == null) {
 

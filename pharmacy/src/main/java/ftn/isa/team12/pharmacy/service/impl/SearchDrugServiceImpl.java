@@ -95,7 +95,7 @@ public class SearchDrugServiceImpl implements SearchDrugService {
         if(manufactureName.equals("")) return this.searchList;
         Set<DrugInPharmacy> list = new HashSet<>();
         for (DrugInPharmacy drugInPharmacy: this.searchList)
-            if(drugInPharmacy.getDrug().getManufacturer().getName().equals(manufactureName))
+            if(drugInPharmacy.getDrug().getManufacturer().equals(manufactureName))
                 list.add(drugInPharmacy);
         return list;
     }

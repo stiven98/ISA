@@ -20,4 +20,5 @@ public interface PharmacyService {
     List<Pharmacy> searchPharmacies(List<Pharmacy> pharmacies, PharmacySearchDTO dto);
 
 
+    Pharmacy save(Pharmacy pharmacy);
 }

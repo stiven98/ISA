@@ -46,4 +46,56 @@ export class DrugService {
         return drugs;
       }));
   }
+
+  findAllContraindications = () => {
+    return this.http
+      .get(environment.apiUrl + '/api/contraindication/all')
+      .pipe(map(responseData => {
+        const contraindications = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            contraindications.push(responseData[key]);
+          }
+        }
+        return contraindications;
+    }));
+  }
+
+  addContraindication = (contraindication) => {
+     return this.http.post(environment.apiUrl + '/api/contraindication/add', contraindication);
+  }
+
+  findAllIngredients = () => {
+    return this.http.get(environment.apiUrl + '/api/ingredient/all')
+      .pipe(map(responseData => {
+        const ingredients = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            ingredients.push(responseData[key]);
+          }
+        }
+        return ingredients;
+      }));
+  }
+
+  addIngredient = (ingredient) => {
+    return this.http.post(environment.apiUrl + '/api/ingredient/add', ingredient);
+  }
+
+  addDrug = (drug) => {
+    return this.http.post(environment.apiUrl + '/api/drug/add', drug);
+  }
+
+  findAllManufacturers = () => {
+    return this.http.get(environment.apiUrl + '/api/manufacturer/all')
+      .pipe(map(responseData => {
+        const manufacturers = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            manufacturers.push(responseData[key]);
+          }
+        }
+        return manufacturers;
+      }));
+  }
 }

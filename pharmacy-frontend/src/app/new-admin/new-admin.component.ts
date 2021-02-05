@@ -285,6 +285,7 @@ export class NewAdminComponent implements OnInit {
   }
 
   onChangePharmacy = (event) => {
+    this.validationModel = new ValidationModel();
     this.selectedPharmacyId = event.target.value;
   }
 
