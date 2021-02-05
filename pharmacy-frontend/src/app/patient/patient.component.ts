@@ -18,6 +18,9 @@ export class PatientComponent implements OnInit {
   allergies: Drug [];
   drugs: Drug [];
   reservations = [];
+  filter;
+  erecepies = [];
+  erecepiesFilter = [];
   drugList = [];
   addAllergies: string;
   accountCategory = new AccountCategory();
@@ -30,6 +33,10 @@ export class PatientComponent implements OnInit {
       this.patient = resUser;
       this.patientService.findReservations(this.patient.email).subscribe((reservation) => {
         this.reservations = reservation;
+      });
+      this.patientService.findERecepies(this.patient.email).subscribe((erecepie) => {
+        this.erecepies = erecepie;
+        this.erecepiesFilter = erecepie;
       });
       this.patientService.findAccountCategory(this.patient.email).subscribe( accountCat => {
         this.accountCategory = accountCat;
@@ -59,6 +66,19 @@ export class PatientComponent implements OnInit {
     });
 
   }
+  filterERecepies = () => {
+    const filtered = [];
+    for (let i = 0; i < this.erecepiesFilter.length; i++ ) {
+      if ( this.erecepiesFilter[i].erecipeStatus === this.filter ) {
+          filtered.push(this.erecepiesFilter[i]);
+      }
+    }
+    this.erecepies = filtered;
+    if (this.filter === "Choose filter") {
+      this.erecepies = this.erecepiesFilter;
+    }
+
+  }
   addAllergy(): void {
     console.log(this.addAllergies);
     console.log(this.patient.email);
@@ -67,6 +87,17 @@ export class PatientComponent implements OnInit {
     });
     window.location.reload();
 
+  }
+  sortERecepies = () => {
+    for (let i = 0; i < this.erecepies.length - 1; i++ ) {
+      for ( let j = 0; j < this.erecepies.length - i - 1; j++ ) {
+        if ( this.erecepies[j].dateOfIssuing > this.erecepies[j + 1].dateOfIssuing){
+          const temp = this.erecepies[j];
+          this.erecepies[j] = this.erecepies[j + 1];
+          this.erecepies[j + 1] = temp;
+        }
+      }
+    }
   }
   onSelect = (event) => {
     this.addAllergies = event.target.value.toString();

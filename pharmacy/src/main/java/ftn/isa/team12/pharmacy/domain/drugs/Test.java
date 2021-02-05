@@ -464,10 +464,19 @@ public class Test {
         patient.setAccountInfo(accountInfo1);
         patient.setCategory(accounCategory);
         patient.getAllergies().add(drug);
+
         ERecipe eRecipe = new ERecipe();
         eRecipe.setPatient(patient);
         eRecipe.setDateOfIssuing(startDate);
         eRecipe.setCode("123456675");
+        eRecipe.setERecipeStatus(ERecipeStatus.newErecipe);
+
+
+        ERecipe eRecipe1 = new ERecipe();
+        eRecipe1.setPatient(patient);
+        eRecipe1.setDateOfIssuing(endDate);
+        eRecipe1.setCode("1234566752");
+        eRecipe1.setERecipeStatus(ERecipeStatus.processed);
 
 
         ERecipeItem eRecipeItem = new ERecipeItem();
@@ -477,11 +486,19 @@ public class Test {
 
         ERecipeItem eRecipeItem1 = new ERecipeItem();
         eRecipeItem1.setQuantity(14);
-        eRecipeItem1.setDrug(drug);
+        eRecipeItem1.setDrug(drug1);
         eRecipeItem1.setERecipe(eRecipe);
+
+
+        ERecipeItem eRecipeItem2 = new ERecipeItem();
+        eRecipeItem2.setQuantity(4);
+        eRecipeItem2.setDrug(drug3);
+        eRecipeItem2.setERecipe(eRecipe1);
+
 
         eRecipe.getERecipeItems().add(eRecipeItem);
         eRecipe.getERecipeItems().add(eRecipeItem1);
+        eRecipe1.getERecipeItems().add(eRecipeItem2);
 
 
         DrugReservation drugReservation = new DrugReservation();
@@ -636,6 +653,7 @@ public class Test {
         em.persist(drugIngreditent);
         em.persist(drug);
         em.persist(drug1);
+        em.persist(drug3);
         em.persist(examinationType);
         em.persist(examinationPrice);
         em.persist(pharmacy);
@@ -643,10 +661,7 @@ public class Test {
         em.persist(dermatologist);
         em.persist(dermatologistPharmacy1);
         em.persist(der);
-
-
         em.persist(systemAdministrator);
-
         em.persist(drugPrice);
         em.persist(patient);
         em.persist(pharmacy2);
@@ -657,6 +672,7 @@ public class Test {
         em.persist(pharmacy7);
         em.persist(pharmacy8);
         em.persist(eRecipe);
+        em.persist(eRecipe1);
         em.persist(drugReservation);
        // em.persist(workTime);
         em.persist(pharmacistA);
@@ -666,9 +682,7 @@ public class Test {
         em.persist(drugOrder);
         em.persist(supplier);
         em.persist(offer);
-        em.persist(drug1);
         em.persist(drug2);
-        em.persist(drug3);
         em.persist(drug4);
         em.persist(drug5);
         em.persist(drug6);
