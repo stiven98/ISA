@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+
 import ftn.isa.team12.pharmacy.domain.common.*;
 import ftn.isa.team12.pharmacy.domain.enums.*;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
@@ -6,12 +7,11 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +33,9 @@ public class Test {
         Authority a = new Authority();
         a.setRole("ROLE_PH_ADMIN");
 
+        Authority role_pharmacist = new Authority();
+        role_pharmacist.setRole("ROLE_PHARMACIST");
+
         Authority derm = new Authority();
         derm.setRole("ROLE_DERMATOLOGIST");
 
@@ -46,11 +49,13 @@ public class Test {
         List<Authority> authorities2 = new ArrayList<Authority>();
         List<Authority> authoritiesDerm = new ArrayList<>();
         List<Authority> authoritiesSysAdmin = new ArrayList<>();
+        List<Authority> authoritiPharmacist = new ArrayList<>();
 
         authorities.add(pa);
         authorities2.add(a);
         authoritiesDerm.add(derm);
         authoritiesSysAdmin.add(sa);
+        authoritiPharmacist.add(role_pharmacist);
 
         Address addressSysAdmin = new Address();
         addressSysAdmin.setStreet("Bulevar Despota Stefana");
@@ -496,14 +501,25 @@ public class Test {
         timeRange.setEndTime(t1);
 
 
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         WorkTime workTime = new WorkTime();
+        Date date2 = sdf.parse("2021-03-05");
+        workTime.setDate(date2);
+        workTime.setStartTime( LocalTime.of(8,0,0));
+        workTime.setEndTime( LocalTime.of(16,0,0));
         workTime.setPharmacy(pharmacy);
         workTime.setEmployee(dermatologist);
+        dermatologist.getWorkTime().add(workTime);
+
 
         WorkTime workTime1 = new WorkTime();
+        Date date1 = sdf.parse("2021-03-03");
+        workTime1.setDate(date1);
+        workTime1.setEndTime( LocalTime.of(10,0,0));
+        workTime1.setStartTime( LocalTime.of(14,0,0));
         workTime1.setPharmacy(pharmacy);
         workTime1.setEmployee(pharmacist);
+        pharmacist.getWorkTime().add(workTime1);
 
         pharmacyAdministrator.setPharmacy(pharmacy);
         DrugOrder drugOrder = new DrugOrder();
@@ -594,12 +610,15 @@ public class Test {
         pharmacyAdministrator.setAuthorities(authorities2);
         dermatologist.setAuthorities(authoritiesDerm);
         dermatologistPharmacy1.setAuthorities(authoritiesDerm);
+        pharmacist.setAuthorities(authoritiPharmacist);
+        pharmacistA.setAuthorities(authoritiPharmacist);
 
         em.getTransaction().begin();
         em.persist(a);
         em.persist(pa);
         em.persist(derm);
         em.persist(sa);
+        em.persist(role_pharmacist);
 
         em.persist(country);
         em.persist(city);
@@ -639,10 +658,10 @@ public class Test {
         em.persist(pharmacy8);
         em.persist(eRecipe);
         em.persist(drugReservation);
-        em.persist(workTime);
+       // em.persist(workTime);
         em.persist(pharmacistA);
         em.persist(pharmacist);
-        em.persist(workTime1);
+       // em.persist(workTime1);
         em.persist(pharmacyAdministrator);
         em.persist(drugOrder);
         em.persist(supplier);

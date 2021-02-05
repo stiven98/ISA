@@ -1,6 +1,8 @@
 package ftn.isa.team12.pharmacy.controller;
 
 
+import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
+import ftn.isa.team12.pharmacy.dto.EmployeesCreateDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
 import ftn.isa.team12.pharmacy.service.PharmacistService;
@@ -36,6 +38,17 @@ public class PharmacistController {
     public ResponseEntity<List<EmployeesDTO>> searchDermatologist(@RequestBody EmployeesSearchDTO dto) {
         return new ResponseEntity<>(pharmacistService.searchPharmacist(dto), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/add")
+    public ResponseEntity<Pharmacist> createPharmacist(@RequestBody EmployeesCreateDTO dto) {
+        Pharmacist pharmacist = pharmacistService.createPharmacist(dto);
+        if(pharmacist!= null)
+            return new ResponseEntity<>(pharmacist, HttpStatus.OK);
+        return new ResponseEntity<>(pharmacist, HttpStatus.BAD_REQUEST);
+    }
+
+
 
 
 }
