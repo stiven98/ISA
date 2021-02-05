@@ -13,6 +13,7 @@ export class SeeAllPharmacistComponent implements OnInit {
   fetchData = false;
   dermatologist = []
   list = [];
+  role = true;
   filter = [];
   pharmacyName:String;
   cityName:String;
@@ -36,6 +37,7 @@ export class SeeAllPharmacistComponent implements OnInit {
         this.search.email = user.email;
         this.medicalStuffService.getAllPharmacistFromPharmacy(user.email).subscribe((list)=> {this.dermatologist = list;
           this.list = list;
+          this.role = false;
         });
       });
     }

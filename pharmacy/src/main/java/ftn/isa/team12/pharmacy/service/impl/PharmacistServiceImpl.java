@@ -117,8 +117,12 @@ public class PharmacistServiceImpl implements PharmacistService {
         if(userService.findUserByEmail(dto.getUser().getEmail()) != null)
             throw new IllegalArgumentException("Email already exists");
 
-        System.out.println(dto);
+        Country country = countryService.saveAndFlush(new Country(dto.getUser().getCountryName()));
 
+        City city = cityService.saveAndFlush(new City(dto.getUser().getCityName(), country, dto.getUser().getZipCode()));
+
+        Address address = new Address(dto.getUser().getStreet(), dto.getUser().getStreetNumber());
+        Location location = locationService.saveAndFlush(new Location(city, address));
 
         Pharmacy ph = pharmacyAdministratorService.findAdminByEmail(dto.getEmailPhAdmin()).getPharmacy();
         Pharmacist pharmacist = new Pharmacist();
@@ -130,37 +134,36 @@ public class PharmacistServiceImpl implements PharmacistService {
         pharmacist.getLoginInfo().setEmail(dto.getUser().getEmail());
         pharmacist.setWorkTime(this.createWorkTime(dto,ph,pharmacist));
         pharmacist.setAuthorities(authorityService.findByRole("ROLE_PHARMACIST"));
-        pharmacist.setLocation(new Location());
-        pharmacist.getLocation().setCity(new City());
-        pharmacist.getLocation().setAddress(new Address());
-        pharmacist.getLocation().getCity().setCountry(new Country());
-        Country country = countryService.saveAndFlush(new Country(dto.getUser().getCountryName()));
-        pharmacist.getLocation().getCity().setCountry(country);
-
-        City city = cityService.saveAndFlush(new City(dto.getUser().getCityName(), country, dto.getUser().getZipCode()));
-        pharmacist.getLocation().setCity(city);
-
-        Address address = new Address(dto.getUser().getStreet(), dto.getUser().getStreetNumber());
-        Location location = locationService.saveAndFlush(new Location(city, address));
+        pharmacist.setAverageMark(0.0);
         pharmacist.setLocation(location);
-
         pharmacist = pharmacistRepository.save(pharmacist);
         return pharmacist;
+
     }
 
     @Override
     public Set<WorkTime> createWorkTime(EmployeesCreateDTO dto, Pharmacy pharmacy, Pharmacist pharmacist) {
         Set<WorkTime> list = new HashSet<>();
+        if(dto.getWorkTimes().isEmpty())
+            throw new IllegalArgumentException("Need to add work day");
+
         for (WorkTimeDTO wtd : dto.getWorkTimes()){
             if(wtd.getEndTime().isAfter(wtd.getStartTime()) && (wtd.getDate().after(new Date()))){
-                System.out.println(wtd);
                 WorkTime w = new WorkTime();
                 w.setStartTime(wtd.getStartTime());
                 w.setEndTime(wtd.getEndTime());
                 w.setDate(wtd.getDate());
                 w.setPharmacy(pharmacy);
                 w.setEmployee(pharmacist);
-                list.add(w);
+                if(!list.isEmpty()) {
+                    for (WorkTime workTime : list) {
+                        if (workTime.getDate().equals(w.getDate()))
+                            throw new IllegalArgumentException("Day already add");
+                    }
+                    list.add(w);
+                }
+                else
+                    list.add(w);
             }else
                 throw new IllegalArgumentException("Bad workTime");
         }
