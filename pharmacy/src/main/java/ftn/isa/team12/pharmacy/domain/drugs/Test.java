@@ -567,7 +567,7 @@ public class Test {
         Vacation vacation = new Vacation();
         vacation.setEmployee(pharmacist);
         vacation.setDateRange(dateRange);
-
+        vacation.setPharmacy(pharmacist.getPharmacy());
         pharmacist.getVacations().add(vacation);
 
         DrugInPharmacy drugInPharmacy1 = new DrugInPharmacy();
