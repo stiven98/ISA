@@ -139,10 +139,19 @@ export class ConfigService {
   }
 
 
-  private _search_pharmacist = this._dermatologist_url + '/searchPharmacist';
+  private _search_pharmacist = this._pharmacist_url + '/searchPharmacist';
 
   get search_pharmacist (): string {
     return this._search_pharmacist ;
   }
+
+  private _add_pharmacist = this._pharmacist_url + '/add';
+
+  get add_pharmacist (): string {
+    return this._add_pharmacist ;
+  }
+
+
+  
 
 }

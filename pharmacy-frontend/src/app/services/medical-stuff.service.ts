@@ -72,7 +72,7 @@ export class MedicalStuffService {
 
 
   savePharmacist(pharmacist:PharmacistCreateModel){
-    return this.api.post('http://localhost:8080/api/pharmacist/add',pharmacist).pipe(map((response:Response) => {
+    return this.api.post(this.configService.add_pharmacist,pharmacist).pipe(map((response:Response) => {
       return response;
     }));
   }
