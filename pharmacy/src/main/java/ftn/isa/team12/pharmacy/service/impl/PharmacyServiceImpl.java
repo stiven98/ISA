@@ -51,26 +51,26 @@ public class PharmacyServiceImpl implements PharmacyService {
     @Override
     public List<Pharmacy> searchPharmacies(List<Pharmacy> pharmacies, PharmacySearchDTO dto) {
         List<Pharmacy> searchedPharmacies = new ArrayList<>();
-        if (dto.getPharmacyName() == "" && dto.getPharmacyCity() == "" && dto.getPharmacyMark() == 0.0) {
+        if (dto.getPharmacyName().equals("") && dto.getPharmacyCity().equals("")  && dto.getPharmacyMark() == 0.0) {
             throw new IllegalArgumentException("You must enter a parameter to search");
         }
 
-        if(dto.getPharmacyName() != "" && dto.getPharmacyCity() != "" && dto.getPharmacyMark() != 0 ) {
+        if(!dto.getPharmacyName().equals("") && !dto.getPharmacyCity().equals("") && dto.getPharmacyMark() != 0 ) {
             searchedPharmacies.addAll(combinedSearch(dto.getPharmacyName(), dto.getPharmacyCity(), dto.getPharmacyMark(), pharmacies));
         }
-        else if( dto.getPharmacyName() != "" && dto.getPharmacyCity() != "" ) {
+        else if( !dto.getPharmacyName().equals("")  && !dto.getPharmacyCity().equals("") ) {
             searchedPharmacies.addAll(nameAndCity(dto.getPharmacyName(), dto.getPharmacyCity(), pharmacies));
         }
-        else if( dto.getPharmacyName() != "" && dto.getPharmacyMark() != 0 ) {
+        else if( !dto.getPharmacyName().equals("") && dto.getPharmacyMark() != 0 ) {
             searchedPharmacies.addAll(nameAndMark(dto.getPharmacyName(), dto.getPharmacyMark(), pharmacies));
         }
-        else if( dto.getPharmacyCity() != "" && dto.getPharmacyMark() != 0 ) {
+        else if( !dto.getPharmacyCity().equals("") && dto.getPharmacyMark() != 0 ) {
             searchedPharmacies.addAll(cityAndMark(dto.getPharmacyCity(), dto.getPharmacyMark(), pharmacies));
         }
-        else if(dto.getPharmacyName() != "") {
+        else if( !dto.getPharmacyName().equals("")) {
            searchedPharmacies.addAll(searchPharmaciesByName(dto.getPharmacyName(), pharmacies));
         }
-        else if(dto.getPharmacyCity() != "") {
+        else if( !dto.getPharmacyCity().equals("")) {
             searchedPharmacies.addAll(searchPharmaciesByCity(dto.getPharmacyCity(),pharmacies));
         }
         else if(dto.getPharmacyMark() != 0) {

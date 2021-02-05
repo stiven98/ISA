@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,13 +21,14 @@ public class ERecipeItem implements Serializable {
    @Column(name = "item_id", nullable = false, unique = true)
    private UUID itemId;
 
-   @Id
+
    @ManyToOne
    @JoinColumn(name = "drug_id", referencedColumnName = "drug_id", nullable = false)
    private Drug drug;
 
-   @Id
+
    @ManyToOne
+   @JsonIgnore
    @JoinColumn(name = "erecipe_id", referencedColumnName = "erecipe_id", nullable = false)
    private ERecipe eRecipe;
 
