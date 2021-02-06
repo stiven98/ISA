@@ -45,6 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SeeAllPharmacistComponent } from './see-all-pharmacist/see-all-pharmacist.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { CreatePharmacistComponent } from './ph-admin/create-pharmacist/create-pharmacist.component';
+import { StartExaminationPageComponent } from './start-examination-page/start-examination-page.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -125,7 +126,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     WorkCalendarComponent,
     SeeAllPharmacistComponent,
     VacationRequestComponent,
-    CreatePharmacistComponent
+    CreatePharmacistComponent,
+    StartExaminationPageComponent
   ],
   imports: [
     BrowserModule,
