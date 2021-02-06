@@ -4,13 +4,15 @@ import { map } from 'rxjs/operators';
 import { DrugOrderModel } from '../drug-order/drugOrderModel';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DrugOrderService {
 
-  constructor( private apiService: ApiService, private config:ConfigService ) { }
+  constructor(private http: HttpClient, private apiService: ApiService, private config:ConfigService ) { }
 
 
 
@@ -24,11 +26,24 @@ export class DrugOrderService {
 
   createOrder(order:DrugOrderModel){
     return this.apiService.post(this.config.drug_order_create,order)
-    .pipe(map(drugOrder =>{ 
+    .pipe(map(drugOrder =>{
       return drugOrder;
     }))
   }
 
+
+  getAllOrders = () => {
+    return this.http.get(environment.apiUrl + '/api/drugOrder/all')
+      .pipe(map(response => {
+        const orders = [];
+        for (const key in response) {
+          if (response.hasOwnProperty(key)){
+            orders.push(response[key]);
+          }
+        }
+        return orders;
+      }));
+  }
 
 
 

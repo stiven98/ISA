@@ -42,6 +42,9 @@ public class SupplierController {
     @Autowired
     private EmailSender sender;
 
+    @Autowired
+    private AuthorityService authorityService;
+
 
     @PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
     @PostMapping("/add")
@@ -52,6 +55,8 @@ public class SupplierController {
         if (user == null) {
             ResponseEntity.unprocessableEntity();
 
+
+
             Country country = this.countryService.saveAndFlush(supplierRequest.getLocation().getCity().getCountry());
             supplierRequest.getLocation().getCity().setCountry(country);
 
@@ -61,8 +66,15 @@ public class SupplierController {
             Location location = this.locationService.saveAndFlush(supplierRequest.getLocation());
             supplierRequest.setLocation(location);
 
-
+            supplierRequest.setAuthorities(authorityService.findByRole("ROLE_SUPPLIER"));
             Supplier supplier = this.supplierService.saveAndFlush(supplierRequest);
+
+            try {
+                sender.sendVerificationEmail(supplier.getLoginInfo().getEmail(), supplier.getUserId().toString());
+            } catch (Exception e) {
+                return new ResponseEntity<>(supplierRequest, HttpStatus.NO_CONTENT);
+            }
+
             return new ResponseEntity<>(supplier, HttpStatus.CREATED);
 
         } else {

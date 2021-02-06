@@ -37,13 +37,14 @@ export class AuthService {
           if (firstLogin){
             this.router.navigate(['/changePassword']);
           }else{
-            if (authority == 'ROLE_DERMATOLOGIST'){
+            if (authority === 'ROLE_DERMATOLOGIST'){
               this.router.navigate(['/dermatologist']);
-            }
-             else if (authority == 'ROLE_PATIENT'){
+            } else if (authority === 'ROLE_PATIENT'){
               this.router.navigate(['/patient']);
-            }else if(authority == 'ROLE_PH_ADMIN'){
+            } else if (authority === 'ROLE_PH_ADMIN'){
               this.router.navigate(['/phAdmin']);
+            } else if (authority === 'ROLE_SUPPLIER') {
+              this.router.navigate(['allOrders']);
             }
           }
         });

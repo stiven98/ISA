@@ -7,10 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/drugOrder", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,4 +25,14 @@ public class DrugOrderController {
         DrugOrder order = drugOrderService.createDrugOrder(drugOrder);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_SUPPLIER')")
+    @GetMapping("/all")
+    public ResponseEntity<List<DrugOrder>> findAll() {
+        return new ResponseEntity<>(this.drugOrderService.findAll(), HttpStatus.OK);
+    }
+
+
+
+
 }
