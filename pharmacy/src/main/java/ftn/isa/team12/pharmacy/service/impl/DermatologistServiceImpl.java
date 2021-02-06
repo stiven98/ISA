@@ -6,20 +6,14 @@ import ftn.isa.team12.pharmacy.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
-import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
 import ftn.isa.team12.pharmacy.dto.PharmacyDTO;
-import ftn.isa.team12.pharmacy.repository.DermatologistRepository;
-import ftn.isa.team12.pharmacy.service.DermatologistService;
 import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +51,7 @@ public class DermatologistServiceImpl implements DermatologistService {
     }
 
     @Override
-    public List<EmployeesDTO> findAllByPhADmin(String email) {
+    public List<EmployeesDTO> findAllByPhAdmin(String email) {
         PharmacyAdministrator phAdmin = pharmacyAdministratorService.findAdminByEmail(email);
         List<EmployeesDTO> list = new ArrayList<>();
         for(Dermatologist der : phAdmin.getPharmacy().getDermatologists()){
@@ -78,9 +72,9 @@ public class DermatologistServiceImpl implements DermatologistService {
             throw new IllegalArgumentException("Bad input for search");
 
         if(searchDTO.getRole().equals("ROLE_PATIENT"))
-            list = this.serachByPatient(searchDTO);
+            list = this.searchByPatient(searchDTO);
         else
-            list = this.serachByPhAdmin(searchDTO);
+            list = this.searchByPhAdmin(searchDTO);
 
         for(Dermatologist der : list){
             List<PharmacyDTO> phList = new ArrayList<>();
@@ -93,13 +87,13 @@ public class DermatologistServiceImpl implements DermatologistService {
     }
 
     @Override
-    public List<Dermatologist> serachByPatient(EmployeesSearchDTO searchDTO) {
+    public List<Dermatologist> searchByPatient(EmployeesSearchDTO searchDTO) {
         List<Dermatologist> list = dermatologistRepository.findAll();
         return this.search(searchDTO,list);
     }
 
     @Override
-    public List<Dermatologist> serachByPhAdmin(EmployeesSearchDTO searchDTO) {
+    public List<Dermatologist> searchByPhAdmin(EmployeesSearchDTO searchDTO) {
         PharmacyAdministrator phAdmin = pharmacyAdministratorService.findAdminByEmail(searchDTO.getEmail());
         return this.search(searchDTO, new ArrayList<>(phAdmin.getPharmacy().getDermatologists()));
     }
