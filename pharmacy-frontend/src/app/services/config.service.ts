@@ -175,6 +175,15 @@ export class ConfigService {
     return this._add_pharmacist ;
   }
 
+  
+  private _delete_pharmacist = this._pharmacist_url + '/delete';
+
+  get delete_pharmacist (): string {
+    return this._delete_pharmacist ;
+  }
+
+
+
 
   
 
