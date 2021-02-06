@@ -63,6 +63,7 @@ const appRoutes: Routes = [
     { path: 'patients', component: MedicalStuffClientsComponent },
     { path: 'workCalendar', component: WorkCalendarComponent },
     { path: 'vacationRequest', component: VacationRequestComponent },
+    { path: 'examination', component: StartExaminationPageComponent },
     { path: '**', redirectTo: 'changeAccountInfo'}
   ]
   },

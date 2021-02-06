@@ -22,6 +22,7 @@ export class VacationRequestComponent implements OnInit {
   inputsValid = false;
 
   onChange(event){
+    this.selectedPharmacy = null;
     this.selectedPharmacyName = event.target.value.toString();
     for (let pharmacy of this.pharmacies) {
       if ( this.selectedPharmacyName === pharmacy.name) {
