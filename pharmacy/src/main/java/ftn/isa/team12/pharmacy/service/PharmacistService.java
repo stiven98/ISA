@@ -25,6 +25,7 @@ public interface PharmacistService {
     boolean validation(EmployeesCreateDTO dto);
 
     boolean deletePharmacist(DeleteEmployeeDTO dto);
+    boolean checkForDeletePharmacist(DeleteEmployeeDTO dto);
 
 
 }

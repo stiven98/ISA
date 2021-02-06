@@ -22,7 +22,7 @@ export class SeeAllPharmacistComponent implements OnInit {
   search:EmployeesSearchModel = new EmployeesSearchModel();
 
   constructor(private medicalStuffService:MedicalStuffService, private modalService:NgbModal, 
-    private userService:UserService ) { }
+    private userService:UserService) { }
 
   ngOnInit(): void {
     this.fetchData = true;
@@ -56,7 +56,7 @@ export class SeeAllPharmacistComponent implements OnInit {
   }
 
 
-  filterByMark(event){
+  filterByMark(){
     this.pharmacyName= '';
     this.cityName = '';
     this.filter = [];
@@ -76,7 +76,7 @@ export class SeeAllPharmacistComponent implements OnInit {
 
   }
 
-  filterByName(event){
+  filterByName(){
     this.averageMark= 0;
     this.cityName = '';
     this.filter = [];
@@ -94,7 +94,7 @@ export class SeeAllPharmacistComponent implements OnInit {
       this.dermatologist = this.list;
   }
 
-  filterByCityName(event){
+  filterByCityName(){
     this.pharmacyName= '';
     this.averageMark = 0;
     this.filter = [];
@@ -112,11 +112,22 @@ export class SeeAllPharmacistComponent implements OnInit {
       this.dermatologist = this.list;
   }
 
+  delete(der){
+    let pharmacist = {
+      emailPhAdmin:this.search.email,
+      email:der.email
+    }
+   
+    this.medicalStuffService.deletePharmacist(pharmacist).subscribe((res) => {  this.dermatologist = this.dermatologist.filter(obj => obj !== der);
+       alert(res.result);
+  });
+  }
+
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
+    }, () => {
       this.closeResult = `Dismissed`;
     });
   }

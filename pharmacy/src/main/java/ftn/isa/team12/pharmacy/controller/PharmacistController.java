@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/pharmacist", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,13 +51,16 @@ public class PharmacistController {
         return new ResponseEntity<>(pharmacist, HttpStatus.BAD_REQUEST);
     }
 
-
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @PostMapping("/delete")
     public ResponseEntity<?> deletePharmacy(@RequestBody DeleteEmployeeDTO dto) {
-
-        if(pharmacistService.deletePharmacist(dto))
-            return new ResponseEntity<>("Successfuly delete pharmacist with email: " + dto.getEmployeeEmail(),HttpStatus.OK);
-        return new ResponseEntity<>("Can't delte pharmacist with email: " + dto.getEmployeeEmail(),HttpStatus.BAD_REQUEST);
+        Map<String, String> result = new HashMap<>();
+        if(pharmacistService.deletePharmacist(dto)) {
+            result.put("result","Successfuly delete pharmacist with email: " + dto.getEmployeeEmail());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        result.put("result","Can't delte pharmacist with email: " + dto.getEmployeeEmail());
+        return new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
 
     }
 

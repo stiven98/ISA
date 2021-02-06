@@ -92,6 +92,11 @@ export class MedicalStuffService {
       return response;
     }));
   }
+
+  deletePharmacist(pharmacist){
+    return this.api.post('http://localhost:8080/api/pharmacist/delete',{"phAdminEmail":pharmacist.emailPhAdmin, "employeeEmail":pharmacist.email})
+    .pipe(map((response:Response) => {return response;}));
+  }
   
 
 

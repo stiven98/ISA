@@ -36,7 +36,7 @@
                     <p>Email: {{derm.email}}</p>
                     <p>Average mark: {{derm.averageMark}}</p>
                     <button  class="btn btn-dark mt-3 w-100" (click)="open(content)">See all pharmacies</button>
-                    <button  class="btn btn-dark mt-3 w-100"  [hidden]="role">Delete</button>
+                    <button  class="btn btn-dark mt-3 w-100" (click)="delete(derm)"  [hidden]="role">Delete</button>
                     <ng-template #content let-modal>
                         <div class="modal-header">
                           <h4 class="modal-title" id="modal-basic-title">Works in pharamacies</h4>
