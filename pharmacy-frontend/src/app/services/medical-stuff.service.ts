@@ -98,6 +98,11 @@ export class MedicalStuffService {
     .pipe(map((response) => {return response;}));
   }
   
+  deleteDErmatologist(dermatologist){
+    return this.api.post(this.configService.delete_dermatologist,{"phAdminEmail":dermatologist.emailPhAdmin, "employeeEmail":dermatologist.email})
+    .pipe(map((response) => {return response;}));
+  }
+  
 
 
 

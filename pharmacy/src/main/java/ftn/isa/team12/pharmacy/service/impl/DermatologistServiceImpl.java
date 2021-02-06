@@ -1,11 +1,15 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
+import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
+import ftn.isa.team12.pharmacy.dto.DeleteEmployeeDTO;
 import ftn.isa.team12.pharmacy.repository.DermatologistRepository;
+import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
 import ftn.isa.team12.pharmacy.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
 
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
@@ -25,6 +29,8 @@ public class DermatologistServiceImpl implements DermatologistService {
     @Autowired
     private DermatologistRepository dermatologistRepository;
 
+    @Autowired
+    private ExaminationRepository examinationRepository;
 
     @Override
     public Dermatologist saveAndFlush(Dermatologist dermatologistRequest) {
@@ -48,10 +54,12 @@ public class DermatologistServiceImpl implements DermatologistService {
     public List<EmployeesDTO> findAllDermatologist() {
         List<EmployeesDTO> list = new ArrayList<>();
         for(Dermatologist der : dermatologistRepository.findAll()){
-            List<PharmacyDTO> phList = new ArrayList<>();
-            for(Pharmacy ph : der.getPharmacies())
+            if(!der.getPharmacies().isEmpty()) {
+                List<PharmacyDTO> phList = new ArrayList<>();
+                for (Pharmacy ph : der.getPharmacies())
                     phList.add(new PharmacyDTO(ph));
-            list.add(new EmployeesDTO(der,phList));
+                list.add(new EmployeesDTO(der, phList));
+            }
         }
         return list;
     }
@@ -119,6 +127,63 @@ public class DermatologistServiceImpl implements DermatologistService {
                     list.add(der);
         }
         return list;
+    }
 
+
+    @Override
+    public boolean deleteDermatologist(DeleteEmployeeDTO dto) {
+        this.checkForDeleteDermatologist(dto);
+        Dermatologist dermatologist = dermatologistRepository.findByLoginInfoEmail(dto.getEmployeeEmail());
+        Pharmacy pharmacy = pharmacyAdministratorService.findAdminByEmail(dto.getPhAdminEmail()).getPharmacy();
+        if(!dermatologist.getExaminations().isEmpty()) {
+            List<Examination> ex = examinationRepository.findAllByEmployeeAndPharmacy(dermatologist, pharmacy);
+            if (ex != null) {
+                for (Examination examination : ex) {
+                    if (examination.getDateOfExamination().after(new Date())) {
+                        examination.setPharmacy(null);
+                        examination.setPatient(null);
+                        examination.setEmployee(null);
+                        examination.getExaminationPrice().setPharmacy(null);
+                        examination.setExaminationPrice(null);
+                        dermatologist.getExaminations().remove(examination);
+                        examinationRepository.delete(examination);
+                    }
+                }
+            }
+        }
+
+        dermatologist.getPharmacies().remove(pharmacy);
+        pharmacy.getDermatologists().remove(dermatologist);
+        dermatologistRepository.save(dermatologist);
+
+        return true;
+    }
+
+    @Override
+    public boolean checkForDeleteDermatologist(DeleteEmployeeDTO dto) {
+        Dermatologist dermatologist = dermatologistRepository.findByLoginInfoEmail(dto.getEmployeeEmail());
+        PharmacyAdministrator pharmacyAdministrator = pharmacyAdministratorService.findAdminByEmail(dto.getPhAdminEmail());
+
+        boolean flag = true;
+        if(dermatologist == null || pharmacyAdministrator == null)
+            throw new IllegalArgumentException("bad input");
+
+        for(Pharmacy ph : dermatologist.getPharmacies()) {
+            if (ph.getId() == pharmacyAdministrator.getPharmacy().getId()) {
+                flag = false;
+                break;
+            }
+        }
+        if(flag)
+            throw new IllegalArgumentException("No dermatologist with: " + dto.getEmployeeEmail() + " in pharmacy " + pharmacyAdministrator.getPharmacy().getName());
+
+        if(!dermatologist.getExaminations().isEmpty()) {
+            List<Examination> ex = examinationRepository.findAllByEmployeeAndPharmacy(dermatologist,pharmacyAdministrator.getPharmacy());
+            for(Examination examination: ex){
+                if (examination.getPatient() != null && examination.getDateOfExamination().after(new Date()))
+                    throw new IllegalArgumentException("Pharmacist have examination " + examination.getDateOfExamination().toString());
+            }
+        }
+        return true;
     }
 }

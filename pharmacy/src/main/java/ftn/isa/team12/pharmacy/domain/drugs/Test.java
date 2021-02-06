@@ -585,6 +585,12 @@ public class Test {
         examinationPrice.setPharmacy(pharmacy);
         examinationPrice.setDateOfValidity(dateRange);
 
+        ExaminationPrice examinationPrice2 = new ExaminationPrice();
+        examinationPrice2.setPrice(3000.0);
+        examinationPrice2.setExaminationType(examinationType);
+        examinationPrice2.setPharmacy(pharmacy);
+        examinationPrice2.setDateOfValidity(dateRange);
+
         Examination examination = new Examination();
         examination.setEmployee(pharmacist);
         examination.setPatient(patient);
@@ -594,8 +600,21 @@ public class Test {
         examination.setDuration(45);
         examination.setPharmacy(pharmacy);
 
+        Examination examination2 = new Examination();
+        examination2.setEmployee(dermatologist);
+        examination2.setPatient(patient);
+        examination2.setExaminationPrice(examinationPrice2);
+        examination2.setDateOfExamination(sdf.parse("2021-10-05"));
+        examination2.setTimeOfExamination(LocalTime.of(13,45));
+        examination2.setDuration(45);
+        examination2.setPharmacy(pharmacy);
+
+
+
+        pharmacy.getExaminationPriceList().add(examinationPrice2);
         pharmacy.getExaminationPriceList().add(examinationPrice);
         pharmacy.getExaminations().add(examination);
+        pharmacy.getExaminations().add(examination2);
 
         Vacation vacation = new Vacation();
         vacation.setEmployee(pharmacist);

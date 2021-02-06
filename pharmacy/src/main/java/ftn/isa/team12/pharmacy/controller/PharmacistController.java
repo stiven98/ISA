@@ -36,7 +36,7 @@ public class PharmacistController {
     public ResponseEntity<List<EmployeesDTO>> findAllDermatologistInPharmacyByAdmin(@PathVariable String email) {
         return new ResponseEntity<>(pharmacistService.findAllByPhADmin(email), HttpStatus.OK);
     }
-    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN')") // Dodati ostale role
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN')") // Add other role
     @PostMapping("/searchPharmacist")
     public ResponseEntity<List<EmployeesDTO>> searchDermatologist(@RequestBody EmployeesSearchDTO dto) {
         return new ResponseEntity<>(pharmacistService.searchPharmacist(dto), HttpStatus.OK);
@@ -56,10 +56,10 @@ public class PharmacistController {
     public ResponseEntity<?> deletePharmacy(@RequestBody DeleteEmployeeDTO dto) {
         Map<String, String> result = new HashMap<>();
         if(pharmacistService.deletePharmacist(dto)) {
-            result.put("result","Successfuly delete pharmacist with email: " + dto.getEmployeeEmail());
+            result.put("result","Successfully delete pharmacist with email: " + dto.getEmployeeEmail());
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
-        result.put("result","Can't delte pharmacist with email: " + dto.getEmployeeEmail());
+        result.put("result","Can't delete pharmacist with email: " + dto.getEmployeeEmail());
         return new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
 
     }

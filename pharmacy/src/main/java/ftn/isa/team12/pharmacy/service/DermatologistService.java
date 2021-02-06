@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.service;
 
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
+import ftn.isa.team12.pharmacy.dto.DeleteEmployeeDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
 
@@ -20,6 +21,11 @@ public interface DermatologistService {
     List<Dermatologist> searchByPatient(EmployeesSearchDTO searchDTO);
     List<Dermatologist> searchByPhAdmin(EmployeesSearchDTO searchDTO);
     List<Dermatologist> search(EmployeesSearchDTO searchDTO , List<Dermatologist> dermatologists);
+
+    boolean deleteDermatologist(DeleteEmployeeDTO dto);
+    boolean checkForDeleteDermatologist(DeleteEmployeeDTO dto);
+
+
 }
 
 
