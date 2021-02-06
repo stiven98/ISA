@@ -13,6 +13,7 @@ public interface DermatologistService {
 
     Dermatologist saveAndFlush(Dermatologist dermatologistRequest);
     Dermatologist findById(UUID userId);
+    Dermatologist findByEmail(String email);
     List<EmployeesDTO> findAllDermatologist();
     List<EmployeesDTO> findAllByPhAdmin(String email);
     List<EmployeesDTO> searchDermatologist(EmployeesSearchDTO searchDTO);

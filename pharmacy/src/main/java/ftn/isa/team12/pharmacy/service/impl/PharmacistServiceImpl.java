@@ -36,6 +36,11 @@ public class PharmacistServiceImpl implements PharmacistService {
     private CityService cityService;
 
     @Override
+    public Pharmacist findByEmail(String email) {
+        return this.pharmacistRepository.findByLoginInfoEmail(email);
+    }
+
+    @Override
     public List<EmployeesDTO> findAllPharmacist() {
         List<EmployeesDTO> list = new ArrayList<>();
         for(Pharmacist pharmacist : pharmacistRepository.findAll()){

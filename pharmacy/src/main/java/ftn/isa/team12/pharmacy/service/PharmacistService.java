@@ -12,6 +12,7 @@ import java.util.Set;
 
 public interface PharmacistService {
 
+    Pharmacist findByEmail(String email);
     List<EmployeesDTO> findAllPharmacist();
     List<EmployeesDTO> findAllByPhADmin(String email);
     List<EmployeesDTO> searchPharmacist(EmployeesSearchDTO searchDTO);
