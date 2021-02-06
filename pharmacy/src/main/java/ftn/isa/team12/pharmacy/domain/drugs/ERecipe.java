@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+import ftn.isa.team12.pharmacy.domain.enums.ERecipeStatus;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,9 @@ public class ERecipe implements Serializable {
 
    @Column(name = "code", nullable = false, unique = true)
    private String code;
+
+   @Column(name = "e_recipe_status", nullable = false)
+   private ERecipeStatus eRecipeStatus;
 
    @Basic
    @Temporal(TemporalType.DATE)
