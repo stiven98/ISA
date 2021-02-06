@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public interface DermatologistRepository extends JpaRepository<Dermatologist, UUID> {
 
+    Dermatologist findByLoginInfoEmail(String email);
 
     @Query("select p from Dermatologist p where p.id= ?1")
     Dermatologist findDermatologistById(UUID id);
-
 }

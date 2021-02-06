@@ -10,6 +10,22 @@ import {AccountCategory} from '../shared/models/accountCategory';
 export class PatientService {
   constructor(private http: HttpClient) {
   }
+
+  findERecepies = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/erecepie/getPatientERecepies/' + email)
+      .pipe(map(responseData => {
+        const erecepies = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            const tmp = responseData[key];
+            tmp.dateOfIssuing = new Date(tmp.dateOfIssuing).toLocaleDateString();
+            erecepies.push(tmp);
+          }
+        }
+        return erecepies;
+      }));
+  }
   cancelReservation = (reservation) => {
     return this.http
       .get(environment.apiUrl + '/api/drugReservation/cancel/' + reservation)

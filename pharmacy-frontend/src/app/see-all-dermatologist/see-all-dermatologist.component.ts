@@ -14,6 +14,7 @@ export class SeeAllDermatologistComponent implements OnInit {
   dermatologist = []
   list = [];
   filter = [];
+  role = true;
   pharmacyName:String;
   cityName:String;
   averageMark:number= 0;
@@ -36,6 +37,7 @@ export class SeeAllDermatologistComponent implements OnInit {
         this.search.email = user.email;
         this.medicalStuffService.getAllDermatologistFromPharmacy(user.email).subscribe((list)=> {this.dermatologist = list;
           this.list = list;
+          this.role = false;
         });
       });
     }
@@ -65,7 +67,7 @@ export class SeeAllDermatologistComponent implements OnInit {
         }
       }
     }
-    if(this.pharmacyName !='')
+    if(this.averageMark >0)
       this.dermatologist = this.filter;
     else
       this.dermatologist = this.list;
@@ -107,6 +109,20 @@ export class SeeAllDermatologistComponent implements OnInit {
       this.dermatologist = this.filter;
     else
       this.dermatologist = this.list;
+  }
+
+
+  delete(der){
+    let dermatologist = {
+      emailPhAdmin:this.search.email,
+      email:der.email
+    }
+   
+    this.medicalStuffService.deleteDErmatologist(dermatologist).subscribe((res) => {  
+       alert(res.result);
+       this.dermatologist = this.dermatologist.filter(obj => obj !== der);
+       this.list = this.list.filter(obj => obj !== der);
+  });
   }
 
 

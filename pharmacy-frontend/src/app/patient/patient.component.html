@@ -90,30 +90,25 @@
           <!--  ERECEPIES -->
           <div id="erecepies" style="margin-top: 50px" class="section-title">
             <h2>ERecepies</h2>
+            <button style="width: 200px" class="btn-outline-secondary" (click)="sortERecepies()" >Sort by date</button>
+            <select [(ngModel)]="filter" (change)="filterERecepies()" style="width: 200px; margin-left: 5px" class="custom-select form-control">
+              <option>Choose filter</option>
+              <option>processed</option>
+              <option>newErecipe</option>
+              <option>declined</option>
+
+            </select>
           </div>
           <div class="container mt-5 mb-5">
             <div class="d-flex justify-content-center row">
-              <div class="col-md-10">
+              <div class="col-md-10" *ngFor="let erecepie of erecepies">
                 <div class="row p-2 bg-white border rounded">
                   <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/recipe.png"></div>
                   <div class="col-md-6 mt-1">
-                    <h5>ERecipe 1</h5>
-                    <div class="mt-1 mb-1 spec-1"><span></span>Date of Issuing: <span class="dot"></span><span> 11.01.2021.</span><span class="dot"></span><span><br></span></div>
-                    <div class="mt-1 mb-1 spec-1"><span>Drugs: </span><span class="dot"></span><span> Aspirin </span><span class="dot"></span><span> Brufen <br></span></div>
-                    <p class="text-justify text-truncate para mb-0">Quantity: 3<br><br></p>
-                  </div>
-                  <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                    <h6 class="text">Actions</h6>
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
-                  </div>
-                </div>
-                <div class="row p-2 bg-white border rounded">
-                  <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/recipe.png"></div>
-                  <div class="col-md-6 mt-1">
-                    <h5>ERecipe 2</h5>
-                    <div class="mt-1 mb-1 spec-1"><span></span>Date of Issuing: <span class="dot"></span><span> 11.01.2021.</span><span class="dot"></span><span><br></span></div>
-                    <div class="mt-1 mb-1 spec-1"><span>Drugs: </span><span class="dot"></span><span> Aspirin </span><span class="dot"></span><span> Brufen <br></span></div>
-                    <p class="text-justify text-truncate para mb-0">Quantity: 3<br><br></p>
+                    <h5> <b>ERecepie code: </b> {{erecepie.erecipeId}}</h5>
+                    <div class="mt-1 mb-1 spec-1"><span></span>ERecipe status: <span class="dot"></span><span> {{erecepie.erecipeStatus}}</span><span class="dot"></span><span><br></span></div>
+                    <div class="mt-1 mb-1 spec-1"><span></span>Date of Issuing: <span class="dot"></span><span> {{erecepie.dateOfIssuing}}</span><span class="dot"></span><span><br></span></div>
+                    <div class="mt-1 mb-1 spec-1"><span>Drugs: </span><span class="dot"></span><span *ngFor="let item of erecepie.erecipeItems"><br> {{item.drug.name}}, Quantity: {{item.quantity}} </span></div>
                   </div>
                   <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                     <h6 class="text">Actions</h6>

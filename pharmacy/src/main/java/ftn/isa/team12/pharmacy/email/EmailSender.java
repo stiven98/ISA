@@ -2,7 +2,7 @@ package ftn.isa.team12.pharmacy.email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;;
+import org.springframework.stereotype.Component;;import java.util.UUID;
 
 @Component
 public class EmailSender {
@@ -20,4 +20,18 @@ public class EmailSender {
         System.out.println(body);
         emailSender.send(message);
     }
+
+    public void sendDrugReservationEmail(UUID id, String patientEmail, String pharmacyName, String deadline, String drugName) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Your reservation is succsessfully created with code: " + id.toString() + "\nYou can pick up your " + drugName + " in pharmacy " + pharmacyName +
+                " until the " + deadline;
+        message.setTo(patientEmail);
+        message.setSubject("Drug reservation email");
+        message.setText(body);
+        System.out.println(body);
+        emailSender.send(message);
+    }
+
+
+
 }

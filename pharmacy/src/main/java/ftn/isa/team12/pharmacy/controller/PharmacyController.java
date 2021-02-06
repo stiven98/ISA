@@ -4,6 +4,8 @@ import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
+import ftn.isa.team12.pharmacy.repository.PharmacistRepository;
+import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
 import ftn.isa.team12.pharmacy.service.CityService;
 import ftn.isa.team12.pharmacy.service.CountryService;
 import ftn.isa.team12.pharmacy.service.LocationService;
@@ -84,5 +86,8 @@ public class PharmacyController {
         List<Pharmacy> searched =  this.pharmacyService.searchPharmacies(pharmacies, dto);
         return new ResponseEntity<>(searched, HttpStatus.OK);
     }
+
+
+
 
 }

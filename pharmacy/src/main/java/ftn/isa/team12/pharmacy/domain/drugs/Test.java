@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+
 import ftn.isa.team12.pharmacy.domain.common.*;
 import ftn.isa.team12.pharmacy.domain.enums.*;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
@@ -6,12 +7,11 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +33,9 @@ public class Test {
         Authority a = new Authority();
         a.setRole("ROLE_PH_ADMIN");
 
+        Authority role_pharmacist = new Authority();
+        role_pharmacist.setRole("ROLE_PHARMACIST");
+
         Authority derm = new Authority();
         derm.setRole("ROLE_DERMATOLOGIST");
 
@@ -49,13 +52,18 @@ public class Test {
         List<Authority> authorities2 = new ArrayList<Authority>();
         List<Authority> authoritiesDerm = new ArrayList<>();
         List<Authority> authoritiesSysAdmin = new ArrayList<>();
+
         List<Authority> authoritiesPatient = new ArrayList<>();
+
+        List<Authority> authoritiPharmacist = new ArrayList<>();
 
         authorities.add(pa);
         authorities2.add(a);
         authoritiesDerm.add(derm);
         authoritiesSysAdmin.add(sa);
+
         authoritiesPatient.add(su);
+        authoritiPharmacist.add(role_pharmacist);
 
         Address addressSysAdmin = new Address();
         addressSysAdmin.setStreet("Bulevar Despota Stefana");
@@ -464,10 +472,19 @@ public class Test {
         patient.setAccountInfo(accountInfo1);
         patient.setCategory(accounCategory);
         patient.getAllergies().add(drug);
+
         ERecipe eRecipe = new ERecipe();
         eRecipe.setPatient(patient);
         eRecipe.setDateOfIssuing(startDate);
         eRecipe.setCode("123456675");
+        eRecipe.setERecipeStatus(ERecipeStatus.newErecipe);
+
+
+        ERecipe eRecipe1 = new ERecipe();
+        eRecipe1.setPatient(patient);
+        eRecipe1.setDateOfIssuing(endDate);
+        eRecipe1.setCode("1234566752");
+        eRecipe1.setERecipeStatus(ERecipeStatus.processed);
 
 
         ERecipeItem eRecipeItem = new ERecipeItem();
@@ -477,11 +494,19 @@ public class Test {
 
         ERecipeItem eRecipeItem1 = new ERecipeItem();
         eRecipeItem1.setQuantity(14);
-        eRecipeItem1.setDrug(drug);
+        eRecipeItem1.setDrug(drug1);
         eRecipeItem1.setERecipe(eRecipe);
+
+
+        ERecipeItem eRecipeItem2 = new ERecipeItem();
+        eRecipeItem2.setQuantity(4);
+        eRecipeItem2.setDrug(drug3);
+        eRecipeItem2.setERecipe(eRecipe1);
+
 
         eRecipe.getERecipeItems().add(eRecipeItem);
         eRecipe.getERecipeItems().add(eRecipeItem1);
+        eRecipe1.getERecipeItems().add(eRecipeItem2);
 
 
         DrugReservation drugReservation = new DrugReservation();
@@ -501,14 +526,25 @@ public class Test {
         timeRange.setEndTime(t1);
 
 
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         WorkTime workTime = new WorkTime();
+        Date date2 = sdf.parse("2021-03-05");
+        workTime.setDate(date2);
+        workTime.setStartTime( LocalTime.of(8,0,0));
+        workTime.setEndTime( LocalTime.of(16,0,0));
         workTime.setPharmacy(pharmacy);
         workTime.setEmployee(dermatologist);
+        dermatologist.getWorkTime().add(workTime);
+
 
         WorkTime workTime1 = new WorkTime();
+        Date date1 = sdf.parse("2021-03-03");
+        workTime1.setDate(date1);
+        workTime1.setEndTime( LocalTime.of(10,0,0));
+        workTime1.setStartTime( LocalTime.of(14,0,0));
         workTime1.setPharmacy(pharmacy);
         workTime1.setEmployee(pharmacist);
+        pharmacist.getWorkTime().add(workTime1);
 
         pharmacyAdministrator.setPharmacy(pharmacy);
         DrugOrder drugOrder = new DrugOrder();
@@ -571,22 +607,41 @@ public class Test {
         examinationPrice.setPharmacy(pharmacy);
         examinationPrice.setDateOfValidity(dateRange);
 
+        ExaminationPrice examinationPrice2 = new ExaminationPrice();
+        examinationPrice2.setPrice(3000.0);
+        examinationPrice2.setExaminationType(examinationType);
+        examinationPrice2.setPharmacy(pharmacy);
+        examinationPrice2.setDateOfValidity(dateRange);
+
         Examination examination = new Examination();
         examination.setEmployee(pharmacist);
         examination.setPatient(patient);
         examination.setExaminationPrice(examinationPrice);
-        examination.setDateOfExamination(new Date());
+        examination.setDateOfExamination(sdf.parse("2021-05-05"));
         examination.setTimeOfExamination(LocalTime.of(13,45));
         examination.setDuration(45);
         examination.setPharmacy(pharmacy);
 
+        Examination examination2 = new Examination();
+        examination2.setEmployee(dermatologist);
+        examination2.setPatient(patient);
+        examination2.setExaminationPrice(examinationPrice2);
+        examination2.setDateOfExamination(sdf.parse("2021-10-05"));
+        examination2.setTimeOfExamination(LocalTime.of(13,45));
+        examination2.setDuration(45);
+        examination2.setPharmacy(pharmacy);
+
+
+
+        pharmacy.getExaminationPriceList().add(examinationPrice2);
         pharmacy.getExaminationPriceList().add(examinationPrice);
         pharmacy.getExaminations().add(examination);
+        pharmacy.getExaminations().add(examination2);
 
         Vacation vacation = new Vacation();
         vacation.setEmployee(pharmacist);
         vacation.setDateRange(dateRange);
-
+        vacation.setPharmacy(pharmacist.getPharmacy());
         pharmacist.getVacations().add(vacation);
 
         DrugInPharmacy drugInPharmacy1 = new DrugInPharmacy();
@@ -613,6 +668,8 @@ public class Test {
         pharmacyAdministrator.setAuthorities(authorities2);
         dermatologist.setAuthorities(authoritiesDerm);
         dermatologistPharmacy1.setAuthorities(authoritiesDerm);
+        pharmacist.setAuthorities(authoritiPharmacist);
+        pharmacistA.setAuthorities(authoritiPharmacist);
 
         em.getTransaction().begin();
         em.persist(a);
@@ -620,7 +677,7 @@ public class Test {
         em.persist(derm);
         em.persist(sa);
         em.persist(su);
-
+        em.persist(role_pharmacist);
         em.persist(country);
         em.persist(city);
         em.persist(city1);
@@ -637,6 +694,7 @@ public class Test {
         em.persist(drugIngreditent);
         em.persist(drug);
         em.persist(drug1);
+        em.persist(drug3);
         em.persist(examinationType);
         em.persist(examinationPrice);
         em.persist(pharmacy);
@@ -644,10 +702,7 @@ public class Test {
         em.persist(dermatologist);
         em.persist(dermatologistPharmacy1);
         em.persist(der);
-
-
         em.persist(systemAdministrator);
-
         em.persist(drugPrice);
         em.persist(patient);
         em.persist(pharmacy2);
@@ -658,19 +713,18 @@ public class Test {
         em.persist(pharmacy7);
         em.persist(pharmacy8);
         em.persist(eRecipe);
+        em.persist(eRecipe1);
         em.persist(drugReservation);
-        em.persist(workTime);
+       // em.persist(workTime);
         em.persist(pharmacistA);
         em.persist(pharmacist);
-        em.persist(workTime1);
+       // em.persist(workTime1);
         em.persist(pharmacyAdministrator);
         em.persist(drugOrder);
         em.persist(drugOrder1);
         em.persist(supplier);
         em.persist(offer);
-        em.persist(drug1);
         em.persist(drug2);
-        em.persist(drug3);
         em.persist(drug4);
         em.persist(drug5);
         em.persist(drug6);

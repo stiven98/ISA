@@ -56,11 +56,21 @@ export class WorkCalendarComponent implements OnInit {
 
   events: CalendarEvent[] = [];
 
+  workCalendarVisibility = false;
+
   examinations: any[];
 
   vacations: any[];
 
+  inputsValid = false;
+
   examinationViews = [];
+
+  selectedPharmacyName : string;
+
+  selectedPharmacy: any;
+
+  pharmacies = [];
 
   activeDayIsOpen: boolean = true;
   constructor(private modal: NgbModal, private examinationServ : ExaminationService, private medStuffServ: MedicalStuffService) {}
@@ -113,8 +123,30 @@ export class WorkCalendarComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
 
+  showWorkCalendar(){
+    this.getData(this.selectedPharmacy.id);
+    this.workCalendarVisibility = true;
+  }
+  onChange(event){
+    this.inputsValid = false;
+    this.selectedPharmacyName = event.target.value.toString();
+    for (let pharmacy of this.pharmacies) {
+      if ( this.selectedPharmacyName === pharmacy.name) {
+        this.selectedPharmacy = pharmacy;
+        this.inputsValid = true;
+        break;
+      }
+    }
+  }
+
   ngOnInit(): void {
-    this.examinationServ.getAllByEmployee().subscribe(res =>{
+    this.medStuffServ.getMyPharmacies().subscribe(res =>{
+      this.pharmacies = res;
+    });
+  }
+
+  getData(id){
+    this.examinationServ.getAllByEmployeeAndPharmacy(id).subscribe(res =>{
       this.examinations = res;
       let i = 0;
       let exams = [];
@@ -156,7 +188,7 @@ export class WorkCalendarComponent implements OnInit {
       }
       this.eventMaxId = i;
       i = -1;
-      this.medStuffServ.getMyVacations().subscribe(res => {
+      this.medStuffServ.getMyVacationsByPharmacy(id).subscribe(res => {
         this.vacations = res;
         for (let vac of this.vacations){
           i++;
@@ -178,8 +210,6 @@ export class WorkCalendarComponent implements OnInit {
         this.events = exams;
       });
     });
-
   }
-
 
 }
