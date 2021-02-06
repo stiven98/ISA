@@ -55,16 +55,28 @@
     border: none;
     border-radius: 1.5rem;
     padding: 2%;
-    background: #ff1a5a;
+    background: #d81e46;
     color: #fff;
     font-weight: 600;
     width: 50%;
     cursor: pointer;
   }
+  .btnrequest:disabled{
+    float: right;
+    margin-top: 10%;
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    background: rgb(117, 117, 117);
+    color: #fff;
+    font-weight: 600;
+    width: 50%;
+    cursor: no-drop;
+  }
   .request .nav-tabs{
     margin-top: 3%;
     border: none;
-    background: #ff1a5a;
+    background: #d81e46;
     border-radius: 1.5rem;
     width: 28%;
     float: right;
@@ -82,8 +94,8 @@
   }
   .request .nav-tabs .nav-link.active{
     width: 100px;
-    color: #ff1a5a;
-    border: 2px solid #ff1a5a;
+    color: #d81e46;
+    border: 2px solid #d81e46;
     border-top-left-radius: 1.5rem;
     border-bottom-left-radius: 1.5rem;
   }

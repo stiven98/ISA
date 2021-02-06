@@ -7,11 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class VacationRequestDTO {
-    private Pharmacy pharmacy;
+    private UUID pharmacy;
     private DateRange dateRange;
 }

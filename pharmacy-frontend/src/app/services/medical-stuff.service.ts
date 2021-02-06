@@ -69,4 +69,16 @@ export class MedicalStuffService {
     }));
   }
 
+  getMyPharmacies() : Observable<any[]>{
+    return this.api.get(this.configService.get_my_pharmacies).pipe(map(pharmacies => {
+      return pharmacies;
+    }));
+  }
+
+  sendVacationRequest(request){
+    return this.api.post(this.configService.request_vacation, request).pipe(map(response => {
+      return response;
+    }));
+  }
+
 }

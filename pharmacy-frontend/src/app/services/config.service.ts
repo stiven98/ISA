@@ -131,4 +131,16 @@ export class ConfigService {
     return this._search_dermatologist ;
   }
 
+  private _get_my_pharmacies = this._medical_stuff_url + '/myPharmacies';
+
+  get get_my_pharmacies (): string {
+    return this._get_my_pharmacies ;
+  }
+
+  private _request_vacation = this._medical_stuff_url + '/requestVacation';
+
+  get request_vacation (): string {
+    return this._request_vacation ;
+  }
+  
 }
