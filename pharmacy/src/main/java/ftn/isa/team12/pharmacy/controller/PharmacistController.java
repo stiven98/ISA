@@ -2,6 +2,7 @@ package ftn.isa.team12.pharmacy.controller;
 
 
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
+import ftn.isa.team12.pharmacy.dto.DeleteEmployeeDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesCreateDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
@@ -49,6 +50,14 @@ public class PharmacistController {
     }
 
 
+    @PostMapping("/delete")
+    public ResponseEntity<?> deletePharmacy(@RequestBody DeleteEmployeeDTO dto) {
+
+        if(pharmacistService.deletePharmacist(dto))
+            return new ResponseEntity<>("Successfuly delete pharmacist with email: " + dto.getEmployeeEmail(),HttpStatus.OK);
+        return new ResponseEntity<>("Can't delte pharmacist with email: " + dto.getEmployeeEmail(),HttpStatus.BAD_REQUEST);
+
+    }
 
 
 }

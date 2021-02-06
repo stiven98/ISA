@@ -182,4 +182,25 @@ public class PharmacistServiceImpl implements PharmacistService {
             return true;
         return false;
     }
+
+
+    @Override
+    public boolean deletePharmacist(DeleteEmployeeDTO dto) {
+        Pharmacist pharmacist = pharmacistRepository.findByLoginInfoEmail(dto.getEmployeeEmail());
+        PharmacyAdministrator ph = pharmacyAdministratorService.findAdminByEmail(dto.getPhAdminEmail());
+        if(pharmacist == null || ph == null)
+            throw new IllegalArgumentException("No pharmacist with email:");
+
+        pharmacist.setPharmacy(null);
+        pharmacist.setLocation(null);
+        for (WorkTime w : pharmacist.getWorkTime()){
+            w.setPharmacy(null);
+        }
+        pharmacist.setExaminations(null);
+        pharmacist.setAuthorities(null);
+
+        pharmacistRepository.delete(pharmacist);
+
+        return true;
+    }
 }
