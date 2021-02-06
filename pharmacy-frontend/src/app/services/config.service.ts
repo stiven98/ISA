@@ -113,10 +113,22 @@ export class ConfigService {
     return this._examinations_by_employee ;
   }
 
+  private _examinations_by_employee_and_pharmacy = this._examination_url + '/allByEmployeeAndPharmacy/';
+
+  get examinations_by_employee_and_pharmacy (): string {
+    return this._examinations_by_employee_and_pharmacy ;
+  }
+
   private _vacations = this._medical_stuff_url + '/vacations';
 
   get vacations (): string {
     return this._vacations ;
+  }
+
+  private _vacations_by_pharmacy = this._medical_stuff_url + '/vacationsByPharmacy/';
+
+  get vacations_by_pharmacy (): string {
+    return this._vacations_by_pharmacy ;
   }
 
   private _get_all_dermatologist = this._dermatologist_url + '/all';

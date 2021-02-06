@@ -10,6 +10,11 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class MedicalStuffService {
+  getMyVacationsByPharmacy(id: any) : Observable<any[]>{
+    return this.api.get(this.configService.vacations_by_pharmacy + id).pipe(map(vacations => {
+      return vacations;
+    }));
+  }
 
   constructor(private api : ApiService, private configService : ConfigService) { }
   

@@ -39,6 +39,17 @@ public class MedicalStuffController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @GetMapping("/vacationsByPharmacy/{id}")
+    public ResponseEntity<?> findEmployeeVacationsByPharmacy(@PathVariable UUID id, Principal user){
+        MedicalStuff medicalStuff = medicalStuffService.findByEmail(user.getName());
+        Set<Vacation> allVacations = medicalStuff.getVacations();
+        Set<Vacation> vacations = new HashSet<>();
+        allVacations.forEach(vacation -> {if(vacation.getPharmacy().getId() == id){vacations.add(vacation);}});
+        return new ResponseEntity<>(vacations, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @PostMapping("/requestVacation")
     public ResponseEntity<?> createVacationRequest(Principal user, @RequestBody VacationRequestDTO request){
         MedicalStuff medicalStuff = medicalStuffService.findByEmail(user.getName());
