@@ -1,0 +1,18 @@
+.btnrequest{
+    float: right;
+    border: none;
+    border-radius: 0.5rem;
+    background: #2076ff;
+    color: #fff;
+    width: 20%;
+    cursor: pointer;
+  }
+  .btnrequest:disabled{
+    float: right;
+    border: none;
+    border-radius: 0.5rem;
+    background: rgb(117, 117, 117);
+    color: #fff;
+    width: 20%;
+    cursor: no-drop;
+  }

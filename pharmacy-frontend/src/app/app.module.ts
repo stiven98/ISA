@@ -43,6 +43,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SeeAllPharmacistComponent } from './see-all-pharmacist/see-all-pharmacist.component';
+import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { CreatePharmacistComponent } from './ph-admin/create-pharmacist/create-pharmacist.component';
 
 const appRoutes: Routes = [
@@ -60,6 +61,7 @@ const appRoutes: Routes = [
     { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
     { path: 'patients', component: MedicalStuffClientsComponent },
     { path: 'workCalendar', component: WorkCalendarComponent },
+    { path: 'vacationRequest', component: VacationRequestComponent },
     { path: '**', redirectTo: 'changeAccountInfo'}
   ]
   },
@@ -122,6 +124,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     SeeAllDermatologistComponent,
     WorkCalendarComponent,
     SeeAllPharmacistComponent,
+    VacationRequestComponent,
     CreatePharmacistComponent
   ],
   imports: [

@@ -8,5 +8,6 @@ import java.util.UUID;
 public interface PharmacistRepository extends JpaRepository<Pharmacist, UUID> {
 
     Pharmacist findByLoginInfoEmail(String email);
+    Pharmacist findByUserId(UUID id);
 
 }
