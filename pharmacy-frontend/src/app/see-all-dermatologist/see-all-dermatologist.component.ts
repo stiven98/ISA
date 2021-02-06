@@ -65,7 +65,7 @@ export class SeeAllDermatologistComponent implements OnInit {
         }
       }
     }
-    if(this.pharmacyName !='')
+    if(this.averageMark >0)
       this.dermatologist = this.filter;
     else
       this.dermatologist = this.list;

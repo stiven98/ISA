@@ -56,7 +56,7 @@ export class SeeAllPharmacistComponent implements OnInit {
   }
 
 
-  filterByMark(){
+  filterByMark(event){
     this.pharmacyName= '';
     this.cityName = '';
     this.filter = [];
@@ -68,7 +68,7 @@ export class SeeAllPharmacistComponent implements OnInit {
         }
       }
     }
-    if(this.pharmacyName !='')
+    if(this.averageMark > 0)
       this.dermatologist = this.filter;
     else
       this.dermatologist = this.list;
@@ -76,7 +76,7 @@ export class SeeAllPharmacistComponent implements OnInit {
 
   }
 
-  filterByName(){
+  filterByName(event){
     this.averageMark= 0;
     this.cityName = '';
     this.filter = [];
@@ -94,7 +94,7 @@ export class SeeAllPharmacistComponent implements OnInit {
       this.dermatologist = this.list;
   }
 
-  filterByCityName(){
+  filterByCityName(event){
     this.pharmacyName= '';
     this.averageMark = 0;
     this.filter = [];
@@ -118,8 +118,10 @@ export class SeeAllPharmacistComponent implements OnInit {
       email:der.email
     }
    
-    this.medicalStuffService.deletePharmacist(pharmacist).subscribe((res) => {  this.dermatologist = this.dermatologist.filter(obj => obj !== der);
+    this.medicalStuffService.deletePharmacist(pharmacist).subscribe((res) => {  
        alert(res.result);
+       this.dermatologist = this.dermatologist.filter(obj => obj !== der);
+       this.list = this.list.filter(obj => obj !== der);
   });
   }
 
