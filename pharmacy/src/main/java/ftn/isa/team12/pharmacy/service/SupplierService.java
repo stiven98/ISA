@@ -7,4 +7,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public interface SupplierService {
 
     Supplier saveAndFlush(Supplier supplierRequest);
+    Supplier findByEmail(String email);
 }

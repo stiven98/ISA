@@ -1,0 +1,84 @@
+<div class="container p-5" >
+  <div>
+    <h1 class="d-flex justify-content-center font-weight-bold text-dark m-4">All active orders</h1>
+  </div>
+
+  <div class="border border-dark rounded m-3"  *ngFor="let item of orders">
+    <div class="d-flex">
+      <div class="p-3 w-50">
+        <h6 class="font-weight-bold text-dark pb-3">Pharmacy:</h6>
+        <div class="row">
+          <div class="col-6">
+            <label class="text-dark"> Name:</label>
+          </div>
+          <div class="col-6">
+            <label class="text-dark">{{item.pharmacyObject.name}}</label>
+          </div>
+
+          <div class="col-6">
+            <label class="text-dark"> Mark:</label>
+          </div>
+          <div class="col-6">
+            <label class="text-dark">{{item.pharmacyObject.averageMark}}</label>
+          </div>
+
+          <div class="col-6">
+            <label class="text-dark"> Description:</label>
+          </div>
+          <div class="col-6">
+            <label class="text-dark">{{item.pharmacyObject.description}}</label>
+          </div>
+
+          <div class="col-6">
+            <label class="text-dark"> Deadline:</label>
+          </div>
+          <div class="col-6">
+            <label class="text-dark">{{getDate(item.deadline)}}</label>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="p-3 ml-5">
+        <h6 class="font-weight-bold text-dark pb-3">List of drugs:</h6>
+        <div *ngFor="let drugItem of item.drugOrderItems">
+          <div class="row">
+            <div class="col-8"><p>{{drugItem.drug.name}}</p></div>
+            <div class="col-4"><p>{{drugItem.quantity}}</p></div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <div class="border-left border-dark ml-auto p-3" *ngIf="item.drugOrderStatus === 'waitingForOffers'">
+        <form>
+          <div>
+            <label for="price" class="text-dark" >Price:</label>
+            <input type="text" id="price" class="form-control" [ngClass]="item.offerValidation.validPrice" [(ngModel)]="item.price" [ngModelOptions]="{standalone: true}"/>
+            <div class="invalid-feedback">
+                  Input price!
+            </div>
+          </div>
+          <div>
+            <label for="deliveryTime" class="text-dark mt-2" >Delivery time:</label>
+            <input id="deliveryTime" type="date" class="form-control" [ngClass]="item.offerValidation.validDeliveryTime"  [(ngModel)]="item.deliveryTime" [ngModelOptions]="{standalone: true}">
+            <div class="invalid-feedback">
+              Input date!
+            </div>
+          </div>
+
+
+          <input class="btn btn-success w-100 mt-2" type="button" value="Create offer" (click)="createOffer(item)"/>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+</div>

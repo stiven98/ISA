@@ -13,5 +13,6 @@ public interface UserService extends UserDetailsService {
     boolean changePassword(User user, String newPassword);
     boolean checkCurrentUserCredentials(String password);
     User findByUserId(UUID id);
+    User updateStatus(UUID id);
 
 }

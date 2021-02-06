@@ -42,15 +42,20 @@ public class Test {
         Authority sa = new Authority();
         sa.setRole("ROLE_SYSTEM_ADMINISTRATOR");
 
+        Authority su = new Authority();
+        su.setRole("ROLE_SUPPLIER");
+
         List<Authority> authorities = new ArrayList<Authority>();
         List<Authority> authorities2 = new ArrayList<Authority>();
         List<Authority> authoritiesDerm = new ArrayList<>();
         List<Authority> authoritiesSysAdmin = new ArrayList<>();
+        List<Authority> authoritiesPatient = new ArrayList<>();
 
         authorities.add(pa);
         authorities2.add(a);
         authoritiesDerm.add(derm);
         authoritiesSysAdmin.add(sa);
+        authoritiesPatient.add(su);
 
         Address addressSysAdmin = new Address();
         addressSysAdmin.setStreet("Bulevar Despota Stefana");
@@ -507,10 +512,16 @@ public class Test {
 
         pharmacyAdministrator.setPharmacy(pharmacy);
         DrugOrder drugOrder = new DrugOrder();
-        drugOrder.setDrugOrderStatus(DrugOrderStatus.processed);
+        drugOrder.setDrugOrderStatus(DrugOrderStatus.waitingForOffers);
         drugOrder.setPharmacy(pharmacy);
         drugOrder.setDeadline(new Date());
         drugOrder.setPharmacyAdministrator(pharmacyAdministrator);
+
+        DrugOrder drugOrder1 = new DrugOrder();
+        drugOrder1.setDrugOrderStatus(DrugOrderStatus.waitingForOffers);
+        drugOrder1.setPharmacy(pharmacy);
+        drugOrder1.setDeadline(new Date());
+        drugOrder1.setPharmacyAdministrator(pharmacyAdministrator);
 
         DrugOrderItem drugOrderItem = new DrugOrderItem();
         drugOrderItem.setQuantity(5);
@@ -525,6 +536,13 @@ public class Test {
         drugOrder.getDrugOrderItems().add(drugOrderItem);
         drugOrder.getDrugOrderItems().add(drugOrderItem1);
 
+        DrugOrderItem drugOrderItem2 = new DrugOrderItem();
+        drugOrderItem2.setQuantity(20);
+        drugOrderItem2.setDrug(drug);
+        drugOrderItem2.setDrugOrder(drugOrder1);
+
+        drugOrder1.getDrugOrderItems().add(drugOrderItem2);
+
         LoginInfo suplierInfo = new LoginInfo();
         suplierInfo.setEmail("sup@sup.com");
         suplierInfo.setPassword("$2y$10$dGToolHjytPEch4CJNuVP.yEulslPNB0Dsyy.JmTYLE68fyqNz1MC");
@@ -535,6 +553,7 @@ public class Test {
         supplier.setAccountInfo(accountInfo4);
         supplier.setLoginInfo(suplierInfo);
         supplier.getAvailableDrugs().add(drug);
+        supplier.setAuthorities(authoritiesPatient);
 
         Offer offer = new Offer();
         offer.setStatus(OfferStatus.accepted);
@@ -600,6 +619,7 @@ public class Test {
         em.persist(pa);
         em.persist(derm);
         em.persist(sa);
+        em.persist(su);
 
         em.persist(country);
         em.persist(city);
@@ -645,6 +665,7 @@ public class Test {
         em.persist(workTime1);
         em.persist(pharmacyAdministrator);
         em.persist(drugOrder);
+        em.persist(drugOrder1);
         em.persist(supplier);
         em.persist(offer);
         em.persist(drug1);

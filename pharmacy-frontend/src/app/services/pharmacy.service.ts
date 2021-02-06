@@ -92,5 +92,9 @@ export class PharmacyService {
       .post(environment.apiUrl + '/api/pharmacy/add', pharmacy);
   }
 
+  findById = (id: String) => {
+    return this.http.get(environment.apiUrl + '/api/pharmacy/id/' + id);
+  }
+
 
 }
