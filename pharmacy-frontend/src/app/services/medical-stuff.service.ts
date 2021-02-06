@@ -92,6 +92,16 @@ export class MedicalStuffService {
       return response;
     }));
   }
+
+  deletePharmacist(pharmacist){
+    return this.api.post(this.configService.delete_pharmacist,{"phAdminEmail":pharmacist.emailPhAdmin, "employeeEmail":pharmacist.email})
+    .pipe(map((response) => {return response;}));
+  }
+  
+  deleteDErmatologist(dermatologist){
+    return this.api.post(this.configService.delete_dermatologist,{"phAdminEmail":dermatologist.emailPhAdmin, "employeeEmail":dermatologist.email})
+    .pipe(map((response) => {return response;}));
+  }
   
 
 

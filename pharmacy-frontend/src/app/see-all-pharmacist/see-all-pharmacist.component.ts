@@ -22,7 +22,7 @@ export class SeeAllPharmacistComponent implements OnInit {
   search:EmployeesSearchModel = new EmployeesSearchModel();
 
   constructor(private medicalStuffService:MedicalStuffService, private modalService:NgbModal, 
-    private userService:UserService ) { }
+    private userService:UserService) { }
 
   ngOnInit(): void {
     this.fetchData = true;
@@ -68,7 +68,7 @@ export class SeeAllPharmacistComponent implements OnInit {
         }
       }
     }
-    if(this.pharmacyName !='')
+    if(this.averageMark > 0)
       this.dermatologist = this.filter;
     else
       this.dermatologist = this.list;
@@ -112,11 +112,24 @@ export class SeeAllPharmacistComponent implements OnInit {
       this.dermatologist = this.list;
   }
 
+  delete(der){
+    let pharmacist = {
+      emailPhAdmin:this.search.email,
+      email:der.email
+    }
+   
+    this.medicalStuffService.deletePharmacist(pharmacist).subscribe((res) => {  
+       alert(res.result);
+       this.dermatologist = this.dermatologist.filter(obj => obj !== der);
+       this.list = this.list.filter(obj => obj !== der);
+  });
+  }
+
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
+    }, () => {
       this.closeResult = `Dismissed`;
     });
   }

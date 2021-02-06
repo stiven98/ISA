@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ExaminationRepository extends JpaRepository<Examination, UUID> {
+
     List<Examination> findAll();
     List<Examination> findAllByEmployee(MedicalStuff employee);
     List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy);
