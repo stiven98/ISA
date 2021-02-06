@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PharmacistCreateModel } from '../ph-admin/create-pharmacist/PharmacistCreater';
 import { EmployeesSearchModel } from '../shared/models/EmployeesSearch';
 import { PatientClient } from '../shared/models/patientClient';
 import { ApiService } from './api.service';
@@ -31,7 +32,7 @@ export class MedicalStuffService {
     }) )
   }
   getAllPharmacist():Observable<any>{
-    return this.api.get('http://localhost:8080/api/pharmacist/all')
+    return this.api.get(this.configService.get_all_pharmacist)
     .pipe(map((response:Response)=> {
       return response;
     }) )
@@ -46,7 +47,7 @@ export class MedicalStuffService {
   }
 
   getAllPharmacistFromPharmacy(email:String):Observable<any>{
-    return this.api.get('http://localhost:8080/api/pharmacist/all/'+ email)
+    return this.api.get(this.configService.get_all_pharmacist + '/'+ email)
     .pipe(map((response:Response)=> {
       return response;
     }))
@@ -61,7 +62,7 @@ export class MedicalStuffService {
   }
 
   searchPharmacist(searchDto:EmployeesSearchModel): Observable<any>{
-    return this.api.post('http://localhost:8080/api/pharmacist/searchPharmacist',searchDto)
+    return this.api.post(this.configService.search_pharmacist,searchDto)
     .pipe(map((response:Response) => {
       return response;
     }));
@@ -85,5 +86,15 @@ export class MedicalStuffService {
       return response;
     }));
   }
+
+  savePharmacist(pharmacist:PharmacistCreateModel){
+    return this.api.post(this.configService.add_pharmacist,pharmacist).pipe(map((response:Response) => {
+      return response;
+    }));
+  }
+  
+
+
+
 
 }

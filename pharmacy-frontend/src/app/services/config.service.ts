@@ -15,6 +15,7 @@ export class ConfigService {
   private _drug_in_pharmacy_url = this._api_url + '/drugInPharmacy';
   private _search_url = this._api_url + '/search';
   private _dermatologist_url = this._api_url + '/dermatologist'
+  private _pharmacist_url = this._api_url + '/pharmacist'
 
   private _examination_url = this._api_url + '/examination';
   private _medical_stuff_url = this._api_url + '/medicalStuff';
@@ -137,6 +138,12 @@ export class ConfigService {
     return this._get_all_dermatologist ;
   }
 
+  private _get_all_pharmacist = this._pharmacist_url + '/all';
+
+  get get_all_pharmacist (): string {
+    return this._get_all_pharmacist ;
+  }
+
   private _search_dermatologist = this._dermatologist_url + '/searchDermatologist';
 
   get search_dermatologist (): string {
@@ -155,4 +162,20 @@ export class ConfigService {
     return this._request_vacation ;
   }
   
+
+  private _search_pharmacist = this._pharmacist_url + '/searchPharmacist';
+
+  get search_pharmacist (): string {
+    return this._search_pharmacist ;
+  }
+
+  private _add_pharmacist = this._pharmacist_url + '/add';
+
+  get add_pharmacist (): string {
+    return this._add_pharmacist ;
+  }
+
+
+  
+
 }

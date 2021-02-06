@@ -15,10 +15,10 @@ public interface DermatologistService {
     Dermatologist findById(UUID userId);
     Dermatologist findByEmail(String email);
     List<EmployeesDTO> findAllDermatologist();
-    List<EmployeesDTO> findAllByPhADmin(String email);
+    List<EmployeesDTO> findAllByPhAdmin(String email);
     List<EmployeesDTO> searchDermatologist(EmployeesSearchDTO searchDTO);
-    List<Dermatologist> serachByPatient(EmployeesSearchDTO searchDTO);
-    List<Dermatologist> serachByPhAdmin(EmployeesSearchDTO searchDTO);
+    List<Dermatologist> searchByPatient(EmployeesSearchDTO searchDTO);
+    List<Dermatologist> searchByPhAdmin(EmployeesSearchDTO searchDTO);
     List<Dermatologist> search(EmployeesSearchDTO searchDTO , List<Dermatologist> dermatologists);
 }
 

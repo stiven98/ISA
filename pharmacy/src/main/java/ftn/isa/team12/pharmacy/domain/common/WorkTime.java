@@ -25,19 +25,19 @@ public class WorkTime implements Serializable  {
     private UUID id;
     @Basic
     @Temporal(TemporalType.DATE)
-    @Column(name = "date", nullable = true)
+    @Column(name = "date", nullable = false)
     private Date date;
     @Basic
-    @Column(name = "starttime", nullable = true)
+    @Column(name = "starttime", nullable = false)
     private LocalTime startTime;
     @Basic
-    @Column(name = "endtime", nullable = true)
+    @Column(name = "endtime", nullable = false)
     private LocalTime endTime;
     @ManyToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "user_id", nullable = true)
+    @JoinColumn(name = "employee_id", referencedColumnName = "user_id", nullable = false)
     private MedicalStuff employee;
     @ManyToOne
-    @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id", nullable = true)
+    @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id", nullable = false)
     private Pharmacy pharmacy;
 
 }
