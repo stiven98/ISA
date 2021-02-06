@@ -63,7 +63,6 @@ const appRoutes: Routes = [
     { path: 'patients', component: MedicalStuffClientsComponent },
     { path: 'workCalendar', component: WorkCalendarComponent },
     { path: 'vacationRequest', component: VacationRequestComponent },
-    { path: 'examination', component: StartExaminationPageComponent },
     { path: '**', redirectTo: 'changeAccountInfo'}
   ]
   },
@@ -82,7 +81,7 @@ const appRoutes: Routes = [
   { path: 'allDermatologist', component: SeeAllDermatologistComponent},
   { path: 'allPharmacist', component: SeeAllPharmacistComponent},
   { path: 'createPharmacist', component: CreatePharmacistComponent, canActivate: [PhAdminGuard]},
-
+  { path: 'examination/:examinationId', component: StartExaminationPageComponent, canActivate: [DermatologistsGuard]},
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
 

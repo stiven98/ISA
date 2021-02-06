@@ -114,6 +114,18 @@ export class ConfigService {
     return this._examinations_by_employee ;
   }
 
+  private _examination_by_id = this._examination_url + '/getCurrentExamination/';
+
+  get examination_by_id (): string {
+    return this._examination_by_id ;
+  }
+
+  private _give_penalty = this._examination_url + '/givePenalty/';
+
+  get give_penalty (): string {
+    return this._give_penalty ;
+  }
+
   private _examinations_by_employee_and_pharmacy = this._examination_url + '/allByEmployeeAndPharmacy/';
 
   get examinations_by_employee_and_pharmacy (): string {

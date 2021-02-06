@@ -10,5 +10,5 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
     List<Examination> findAll();
     List<Examination> findAllByEmployee(MedicalStuff employee);
     List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy);
-
+    Examination findExaminationByExaminationId(UUID examinationId);
 }

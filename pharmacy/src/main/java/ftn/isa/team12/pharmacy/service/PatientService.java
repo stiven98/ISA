@@ -19,4 +19,5 @@ public interface PatientService {
     User findUserByEmail(String email);
     Patient updateStatus(UUID id);
 
+    Patient givePenalty(UUID id);
 }

@@ -26,4 +26,18 @@ export class ExaminationService {
       }));
   }
 
+  getCurrentExaminationById(id){
+    return this.apiService.get(this.config.examination_by_id + id)
+      .pipe(map(examination => {
+        return examination;
+      }));
+  }
+
+  givePenaltyToPatient(id){
+    return this.apiService.post(this.config.give_penalty + id, {penalty: 1})
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+
 }
