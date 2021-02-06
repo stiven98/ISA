@@ -6,6 +6,9 @@ import {Patient} from '../shared/models/patient';
 import {Drug} from '../shared/models/drug';
 import {AccountCategory} from '../shared/models/accountCategory';
 import {DrugService} from '../services/drug.service';
+import {PharmacymarkService} from '../services/pharmacymark.service';
+import {Mark} from '../shared/models/mark';
+import {Markdto} from '../shared/models/markdto';
 
 @Component({
   selector: 'app-patient',
@@ -18,15 +21,19 @@ export class PatientComponent implements OnInit {
   allergies: Drug [];
   drugs: Drug [];
   reservations = [];
+  nmr = 0;
   filter;
+  currentMark = new Mark();
   erecepies = [];
   erecepiesFilter = [];
   drugList = [];
+  pharmacyMarks = [];
   addAllergies: string;
   accountCategory = new AccountCategory();
   penalties: number;
   constructor(private userService: UserService, private patientService: PatientService,
-              private drugService: DrugService, private router: Router) { }
+              private drugService: DrugService, private router: Router,
+              private markService: PharmacymarkService) { }
 
   ngOnInit(): void {
     this.userService.getMyInfo().subscribe( resUser => {
@@ -43,6 +50,9 @@ export class PatientComponent implements OnInit {
       });
       this.patientService.findPenalties(this.patient.email).subscribe( penalty => {
         this.penalties = penalty;
+      });
+      this.patientService.findMarksByPatient(this.patient.email).subscribe((marks) => {
+        this.pharmacyMarks = marks;
       });
       this.patientService.findAllergies(this.patient.email).subscribe((aller) => {
        this.allergies = aller;
@@ -78,6 +88,9 @@ export class PatientComponent implements OnInit {
       this.erecepies = this.erecepiesFilter;
     }
 
+  }
+  goToAddMarks = () => {
+    this.router.navigate(['/patient-marks']);
   }
   addAllergy(): void {
     console.log(this.addAllergies);
@@ -125,5 +138,20 @@ export class PatientComponent implements OnInit {
      alert('You cant cancel reservation 24h before deadline');
     }
   }
+
+  changeMark = () => {
+    const markdto = new Markdto();
+    markdto.pharmacyMarksId = this.currentMark.pharmacyMarksId;
+    markdto.newMark = this.nmr;
+    if (this.nmr !== 0) {
+      this.markService.changeMark(markdto).subscribe();
+    }else {
+      alert('You must enter a number 1-10');
+    }
+  }
+  current = (mark) => {
+    this.currentMark = mark;
+  }
 }
+
 

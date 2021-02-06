@@ -11,6 +11,45 @@ export class PatientService {
   constructor(private http: HttpClient) {
   }
 
+  findPharmaciesToMark = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/pharmacyMarks/pharmaciesForPatient/' + email)
+      .pipe(map(responseData => {
+        const pharmacies = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            pharmacies.push(responseData[key]);
+          }
+        }
+        return pharmacies ;
+      }));
+  }
+  findMarksByPatient = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/pharmacyMarks/marksFor/' + email)
+      .pipe(map(responseData => {
+        const marks = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            marks.push(responseData[key]);
+          }
+        }
+        return marks ;
+      }));
+  }
+  findDrugsToMark = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/drugMarks/drugsForPatient/' + email)
+      .pipe(map(responseData => {
+        const drugs = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            drugs.push(responseData[key]);
+          }
+        }
+        return drugs ;
+      }));
+  }
   findERecepies = (email) => {
     return this.http
       .get(environment.apiUrl + '/api/erecepie/getPatientERecepies/' + email)
