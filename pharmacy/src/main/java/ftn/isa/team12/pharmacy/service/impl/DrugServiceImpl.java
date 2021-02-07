@@ -1,7 +1,12 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
+import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
+import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
+import ftn.isa.team12.pharmacy.dto.ExaminationDataRequestDTO;
+import ftn.isa.team12.pharmacy.repository.DrugInPharmacyRepository;
 import ftn.isa.team12.pharmacy.repository.DrugRepository;
+import ftn.isa.team12.pharmacy.repository.PatientRepository;
 import ftn.isa.team12.pharmacy.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +18,12 @@ public class DrugServiceImpl implements DrugService {
 
     @Autowired
     private DrugRepository drugRepository;
-    
+
+    @Autowired
+    private PatientRepository patientRepository;
+
+    @Autowired
+    private DrugInPharmacyRepository drugInPharmacyRepository;
     
     @Override
     public List<Drug> findAll() {
@@ -38,6 +48,32 @@ public class DrugServiceImpl implements DrugService {
     public Drug saveAndFlush(Drug drug) {
         // Add validation
         return this.drugRepository.saveAndFlush(drug);
+    }
+
+    @Override
+    public List<Drug> findAllByPharmacyAndPatient(ExaminationDataRequestDTO dto) {
+        List<Drug> drugs = new ArrayList<>();
+        Patient patient = patientRepository.getOne(dto.getPatientId());
+        if (patient == null){
+            return null;
+        }
+        List<DrugInPharmacy> drugsInPharmacy = drugInPharmacyRepository.findDrugInPharmacyByPharmacyId(dto.getPharmacyId());
+        List<Drug> available = new ArrayList<>();
+        drugsInPharmacy.forEach(drugInPharmacy -> available.add(drugInPharmacy.getDrug()));
+        Set<Drug> allergies = patient.getAllergies();
+        for(Drug drug : available){
+            boolean containedInAllergies = false;
+            for(Drug allergy : allergies){
+                if(drug.getDrugId() == allergy.getDrugId()) {
+                    containedInAllergies = true;
+                    break;
+                }
+            }
+            if(!containedInAllergies){
+                drugs.add(drug);
+            }
+        }
+        return drugs;
     }
 
     @Override

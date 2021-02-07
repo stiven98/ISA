@@ -44,6 +44,6 @@ public class Examination implements Serializable {
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "user_id")
     private MedicalStuff employee;
-
-
+    @Column(name = "note")
+    private String note;
 }

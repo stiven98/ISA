@@ -31,6 +31,11 @@ export class ConfigService {
     return this._login_url;
   }
 
+  private _drugs_examination_data = this._drug_url + '/getAllByPatientAndPharmacy';
+  get drugs_examination_data(): string {
+    return this._drugs_examination_data;
+  }
+
   private _change_password_url = this._user_url + '/changePassword';
 
   get change_password_url(): string {

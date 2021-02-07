@@ -58,7 +58,7 @@
               </div>
             </div>
             <div class="col-lg-6">
-                <div class="member d-flex align-items-center" (click) = "startAppointment()">
+                <div class="member d-flex align-items-center"  [routerLink]="startAppointmentURL" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                   <div class="pic"><img src="assets/img/medicalstuff_icons/stethoscope.png" class="img-fluid" alt=""></div>
                   <div class="member-info">
                     <h4>Start appointment</h4>

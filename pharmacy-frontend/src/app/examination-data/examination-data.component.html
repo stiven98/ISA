@@ -1,0 +1,41 @@
+<section id="examination" class="d-flex align-items-center">
+    <div class="container">
+      <h1> Performing an examination </h1>
+    </div>
+</section>
+<main id="main">
+    <section id="examinationInfo" class="examinationInfo">
+        <div class="container">
+            <div id="chooseAction" name="chooseAction" class="section-title">
+                <h2>Perform an examination</h2>
+                <p>Enter your opinion</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 m-5">
+                  <div class="member">
+                    <div class="form-group">
+                        <label for="textAreaNote">Give your opinion about patient health state: </label>
+                        <textarea class="form-control" [(ngModel)]="note" [ngModelOptions]="{standalone: true}" id="textAreaNote" rows="12"></textarea>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="medicines" class="examinationInfo">
+        <div class="container">
+            <div id="prescribeMedicines" name="prescribeMedicines" class="section-title">
+                <h2>Medicines</h2>
+                <p>Prescribe therapy to patient</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
