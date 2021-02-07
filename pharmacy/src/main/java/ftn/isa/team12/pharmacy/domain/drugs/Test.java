@@ -466,6 +466,7 @@ public class Test {
         accounCategory.setCategory(UserCategory.gold);
         accounCategory.setPoints(12);
 
+
         Patient patient = new Patient();
         patient.setLocation(location1);
         patient.setLoginInfo(loginInfo1);
