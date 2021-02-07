@@ -6,13 +6,13 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import static javax.persistence.CascadeType.ALL;
 
 
 @Getter
