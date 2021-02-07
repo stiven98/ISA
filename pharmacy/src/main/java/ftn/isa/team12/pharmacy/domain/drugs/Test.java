@@ -473,6 +473,9 @@ public class Test {
         patient.setCategory(accounCategory);
         patient.getAllergies().add(drug);
 
+        patient.getSubscribedPharmacies().add(pharmacy);
+        patient.getSubscribedPharmacies().add(pharmacy3);
+
         ERecipe eRecipe = new ERecipe();
         eRecipe.setPatient(patient);
         eRecipe.setDateOfIssuing(startDate);

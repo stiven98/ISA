@@ -1,0 +1,47 @@
+<div class="container">
+
+
+  <div *ngIf="pharmacies.length ==  0">
+    <h3 class="text-dark">No have subscribed pharmacy!</h3>
+  </div>
+
+  <div *ngIf="pharmacies.length > 0">
+    <h2 class="d-flex justify-content-center font-weight-bold text-dark m-4">Subscribed pharmacy</h2>
+    <div class="border border-dark rounded" *ngFor="let item of pharmacies">
+      <div class="d-flex border">
+        <div class="p-3 w-50">
+          <div class="row">
+
+            <div class="col-6">
+              <label class="text-dark"> Name:</label>
+            </div>
+            <div class="col-6">
+              <label class="text-dark">{{item.name}}</label>
+            </div>
+
+            <div class="col-6">
+              <label class="text-dark"> Mark:</label>
+            </div>
+            <div class="col-6">
+              <label class="text-dark">{{item.averageMark}}</label>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="border-left border-dark ml-auto p-3">
+            <input class="btn btn-danger w-100 mt-3" type="button" value="Unsubscribe" (click)="unfollowPharmacy(item.id)"/>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+</div>
