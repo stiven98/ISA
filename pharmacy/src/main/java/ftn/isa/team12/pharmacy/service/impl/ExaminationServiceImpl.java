@@ -7,6 +7,8 @@ import ftn.isa.team12.pharmacy.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +41,11 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public List<MedicalStuff> findAllMedicalStuffThatTreatedPatient(UUID patientId) {
         return this.examinationRepository.findAllMedicalStuffThatTreatedPatient(patientId);
+    }
+
+    @Override
+    public List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time) {
+        return this.examinationRepository.findPharmaciesWithFreeTerm(date, time);
     }
 
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PharmacyService} from '../services/pharmacy.service';
+import {FreeTermDTO} from '../shared/models/FreeTermDTO';
+
 
 @Component({
   selector: 'app-pharmacist-consultation',
@@ -7,7 +9,7 @@ import {PharmacyService} from '../services/pharmacy.service';
   styleUrls: ['./pharmacist-consultation.component.css']
 })
 export class PharmacistConsultationComponent implements OnInit {
-  date = null;
+  date = new Date();
   time = null;
   pharmacies = [];
   constructor(private pharmacyService: PharmacyService) { }
@@ -16,10 +18,11 @@ export class PharmacistConsultationComponent implements OnInit {
   }
 
   showPharmacies = () => {
-    const dat = new Date();
-    alert(dat);
     if ( this.date !== null && this.time != null) {
-        this.pharmacyService.findAll().subscribe((response) => {
+        const dto = new FreeTermDTO();
+        dto.date = this.date;
+        dto.time = this.time;
+        this.pharmacyService.findAllWithFreeTerm(dto).subscribe((response) => {
           this.pharmacies = response;
         });
     }

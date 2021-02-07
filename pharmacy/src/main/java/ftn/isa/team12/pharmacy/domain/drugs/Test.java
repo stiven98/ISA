@@ -636,7 +636,6 @@ public class Test {
 
         Examination examination = new Examination();
         examination.setEmployee(pharmacist);
-        examination.setPatient(patient);
         examination.setExaminationPrice(examinationPrice);
         examination.setDateOfExamination(sdf.parse("2021-05-05"));
         examination.setTimeOfExamination(LocalTime.of(13,45));
@@ -645,7 +644,6 @@ public class Test {
 
         Examination examination2 = new Examination();
         examination2.setEmployee(dermatologist);
-        examination2.setPatient(patient);
         examination2.setExaminationPrice(examinationPrice2);
         examination2.setDateOfExamination(sdf.parse("2021-10-05"));
         examination2.setTimeOfExamination(LocalTime.of(13,45));

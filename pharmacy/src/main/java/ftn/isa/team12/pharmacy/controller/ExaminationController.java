@@ -1,28 +1,22 @@
 package ftn.isa.team12.pharmacy.controller;
-
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
-import ftn.isa.team12.pharmacy.domain.users.User;
+import ftn.isa.team12.pharmacy.dto.FreeTermDTO;
 import ftn.isa.team12.pharmacy.service.ExaminationService;
 import ftn.isa.team12.pharmacy.service.MedicalStuffService;
 import ftn.isa.team12.pharmacy.service.PharmacyService;
-import ftn.isa.team12.pharmacy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/examination", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,5 +53,9 @@ public class ExaminationController {
         List<Examination> examinations = examinationService.findAllByEmployeeAndPharmacy(medicalStuff, pharmacy);
         return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
-
+    @PostMapping("/pharmaciesWithFreeTerms/")
+    public ResponseEntity<List<Pharmacy>> findPharmaciesWithFreeTerms(@RequestBody FreeTermDTO dto) throws ParseException {
+        List<Pharmacy> pharmacies = this.examinationService.findPharmaciesWithFreeTerm(dto.getDate(),dto.getTime());
+        return new ResponseEntity<>(pharmacies, HttpStatus.OK);
+    }
 }
