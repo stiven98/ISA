@@ -62,7 +62,6 @@ public class DrugController {
     public ResponseEntity<Drug> findByName(@PathVariable String name){
         Drug drug = drugService.findDrugByName(name);
         return new ResponseEntity<>(drug,HttpStatus.OK);
-
     }
 
 
