@@ -2,6 +2,8 @@ package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugOrder;
 import ftn.isa.team12.pharmacy.dto.DrugOrderDTO;
 import ftn.isa.team12.pharmacy.service.DrugOrderService;
+import ftn.isa.team12.pharmacy.service.OfferService;
+import ftn.isa.team12.pharmacy.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +20,12 @@ public class DrugOrderController {
     @Autowired
     private DrugOrderService drugOrderService;
 
+    @Autowired
+    private SupplierService supplierService;
+
+    @Autowired
+    private OfferService offerService;
+
 
     @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @PostMapping("/createOrder")
@@ -27,9 +35,10 @@ public class DrugOrderController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SUPPLIER')")
-    @GetMapping("/all")
-    public ResponseEntity<List<DrugOrder>> findAll() {
-        return new ResponseEntity<>(this.drugOrderService.findAll(), HttpStatus.OK);
+    @GetMapping("/all/{email}")
+    public ResponseEntity<List<DrugOrder>> findAllForSupplier(@PathVariable String email) {
+
+        return new ResponseEntity<>(this.drugOrderService.findAllForSupplier(email), HttpStatus.OK);
     }
 
 

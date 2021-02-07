@@ -467,6 +467,7 @@ public class Test {
         accounCategory.setCategory(UserCategory.gold);
         accounCategory.setPoints(12);
 
+
         Patient patient = new Patient();
         patient.setLocation(location1);
         patient.setLoginInfo(loginInfo1);
@@ -474,10 +475,15 @@ public class Test {
         patient.setCategory(accounCategory);
         patient.getAllergies().add(drug);
 
+
+        patient.getSubscribedPharmacies().add(pharmacy);
+        patient.getSubscribedPharmacies().add(pharmacy3);
+
         DrugMarks drugMarks = new DrugMarks();
         drugMarks.setDrug(drug);
         drugMarks.setMark(8.1);
         drugMarks.setPatient(patient);
+
 
         ERecipe eRecipe = new ERecipe();
         eRecipe.setPatient(patient);

@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -40,8 +42,6 @@ public class Pharmacy implements Serializable {
    @Column(name = "averagemark", nullable = false)
    private Double averageMark;
    @OneToOne
- //  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "locationId")
-   //@JsonIdentityReference(alwaysAsId = true)
    @JoinColumn(name = "location_id", referencedColumnName = "location_id", nullable = false)
    private Location location;
 
@@ -49,11 +49,13 @@ public class Pharmacy implements Serializable {
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
    private Set<DrugInPharmacy> drugs = new HashSet<DrugInPharmacy>();
 
+
+
    @JsonIgnore
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
    private Set<PharmacyMarks> pharmcyMarks = new HashSet<PharmacyMarks>();
 
-   @ManyToMany
+   @ManyToMany(fetch = FetchType.EAGER)
    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId")
    @JsonIdentityReference(alwaysAsId = true)
    @JoinTable(name = "dermatologists_in_pharmacies", joinColumns = @JoinColumn(name="pharmacy_id" ,  referencedColumnName  = "pharmacy_id"),

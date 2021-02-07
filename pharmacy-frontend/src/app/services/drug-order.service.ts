@@ -24,16 +24,16 @@ export class DrugOrderService {
   }
 
 
-  createOrder(order:DrugOrderModel){
-    return this.apiService.post(this.config.drug_order_create,order)
-    .pipe(map(drugOrder =>{
+  createOrder(order: DrugOrderModel){
+    return this.apiService.post(this.config.drug_order_create, order)
+    .pipe(map(drugOrder => {
       return drugOrder;
     }))
   }
 
 
-  getAllOrders = () => {
-    return this.http.get(environment.apiUrl + '/api/drugOrder/all')
+  getAllOrders = (email: string) => {
+    return this.http.get(environment.apiUrl + '/api/drugOrder/all/' + email)
       .pipe(map(response => {
         const orders = [];
         for (const key in response) {

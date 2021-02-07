@@ -161,4 +161,30 @@ export class PatientService {
         return responseData;
       }));
   }
+
+  findAllSubscribedPharmacy = (email) => {
+    return this.http.post(environment.apiUrl + '/api/patient/subscribedPharmacies', email)
+      .pipe(map(response => {
+        const pharmacies = [];
+        for (const key in response) {
+          if (response.hasOwnProperty(key)) {
+            pharmacies.push(response[key]);
+          }
+        }
+        console.log(pharmacies);
+        return pharmacies;
+      }));
+  }
+
+  unsubscribePharmacy = (email: string, id: string) => {
+    return this.http.get(environment.apiUrl + '/api/patient/unsubscribePharmacy/' + email + '/' + id);
+  }
+
+  isSubscribedPharmacy = (email, id) => {
+    return this.http.get(environment.apiUrl + '/api/patient/isSubscribed/' + email + '/' + id);
+  }
+
+  subscribePharmacy = (email: string, id: string) => {
+    return this.http.get(environment.apiUrl + '/api/patient/subscribe/' + email + '/' + id);
+  }
 }

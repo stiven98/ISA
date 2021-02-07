@@ -14,5 +14,4 @@ export class SupplierService {
     return this.http.post(environment.apiUrl + '/api/supplier/add', supplier);
   }
 
-
 }
