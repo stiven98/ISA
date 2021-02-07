@@ -1,8 +1,10 @@
 package ftn.isa.team12.pharmacy.domain.users;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
+import ftn.isa.team12.pharmacy.domain.marks.MedicalStuffMarks;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,5 +39,8 @@ public abstract class MedicalStuff extends User implements Serializable {
    @JsonIdentityReference(alwaysAsId = true)
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "employee")
    private Set<Vacation> vacations = new HashSet<Vacation>();
+   @JsonIgnore
+   @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "medicalStuff")
+   private Set<MedicalStuffMarks> medicalStuffMarks = new HashSet<>();
 
 }

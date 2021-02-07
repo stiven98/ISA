@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
+import java.time.DayOfWeek;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -155,6 +156,13 @@ public class PatientController {
 
     @GetMapping("/penalty/{email}")
     public ResponseEntity<Integer> findPenalty(@PathVariable String email) {
+        Patient patient = this.patientService.findByEmail(email);
+        Calendar calendar = Calendar.getInstance();
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        if(dayOfMonth == 1) {
+            patient.setPenalties(0);
+            this.patientService.saveAndFlush(patient);
+        }
         Integer penalty = patientService.findPenalty(email);
         return new ResponseEntity<>(penalty, HttpStatus.OK);
     }

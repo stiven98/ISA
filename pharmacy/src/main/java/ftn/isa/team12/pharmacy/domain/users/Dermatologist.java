@@ -2,7 +2,6 @@ package ftn.isa.team12.pharmacy.domain.users;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import ftn.isa.team12.pharmacy.domain.marks.DermatologistMarks;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +29,5 @@ public class Dermatologist extends MedicalStuff implements Serializable {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<Pharmacy> pharmacies = new HashSet<>();
 
-    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "dermatologist")
-    private Set<DermatologistMarks> dermatologistMarks = new HashSet<DermatologistMarks>();
+
 }

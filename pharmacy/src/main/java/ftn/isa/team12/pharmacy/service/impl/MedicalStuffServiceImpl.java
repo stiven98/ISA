@@ -69,4 +69,9 @@ public class MedicalStuffServiceImpl implements MedicalStuffService {
         return pharmacies;
     }
 
+    @Override
+    public MedicalStuff save(MedicalStuff medicalStuff) {
+        return this.medicalStuffRepository.save(medicalStuff);
+    }
+
 }

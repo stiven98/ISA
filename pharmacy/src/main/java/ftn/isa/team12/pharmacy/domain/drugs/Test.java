@@ -642,7 +642,6 @@ public class Test {
 
         Examination examination = new Examination();
         examination.setEmployee(pharmacist);
-        examination.setPatient(patient);
         examination.setExaminationPrice(examinationPrice);
         examination.setDateOfExamination(sdf.parse("2021-05-05"));
         examination.setTimeOfExamination(LocalTime.of(13,45));
@@ -651,12 +650,11 @@ public class Test {
 
         Examination examination2 = new Examination();
         examination2.setEmployee(dermatologist);
-        examination2.setPatient(patient);
         examination2.setExaminationPrice(examinationPrice2);
         examination2.setDateOfExamination(sdf.parse("2021-10-05"));
         examination2.setTimeOfExamination(LocalTime.of(13,45));
         examination2.setDuration(45);
-        examination2.setPharmacy(pharmacy);
+        examination2.setPharmacy(pharmacy3);
 
 
 
@@ -727,6 +725,7 @@ public class Test {
         em.persist(examinationType);
         em.persist(examinationPrice);
         em.persist(pharmacy);
+        em.persist(pharmacy3);
         em.persist(drugInPharmacy);
         em.persist(dermatologist);
         em.persist(dermatologistPharmacy1);
@@ -736,7 +735,6 @@ public class Test {
         em.persist(patient);
         em.persist(drugMarks);
         em.persist(pharmacy2);
-        em.persist(pharmacy3);
         em.persist(pharmacy4);
         em.persist(pharmacy5);
         em.persist(pharmacy6);

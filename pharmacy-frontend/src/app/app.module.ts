@@ -43,11 +43,13 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SeeAllPharmacistComponent } from './see-all-pharmacist/see-all-pharmacist.component';
-import { PatientMarksComponent } from './patient-marks/patient-marks.component';
 import { AllOrdersComponent } from './all-orders/all-orders.component';
 import { MyOffersComponent } from './my-offers/my-offers.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { CreatePharmacistComponent } from './ph-admin/create-pharmacist/create-pharmacist.component';
+import {PatientMarksComponent} from './patient-marks/patient-marks.component';
+import { PharmacistConsultationComponent } from './pharmacist-consultation/pharmacist-consultation.component';
+import { AvailablePharmacistsComponent } from './pharmacist-consultation/available-pharmacists/available-pharmacists.component';
 import { SubscribedPharmacyComponent } from './subscribed-pharmacy/subscribed-pharmacy.component';
 import { AddDermatologistInPharmacyComponent } from './ph-admin/add-dermatologist-in-pharmacy/add-dermatologist-in-pharmacy.component';
 
@@ -57,6 +59,7 @@ const appRoutes: Routes = [
   { path: 'registration', component: SingUpComponent },
   { path: 'pharmacy', component: PharmacyComponent },
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
+  { path: 'available-pharmacists/:name/:date/:time', component: AvailablePharmacistsComponent },
   { path: 'drug-reservation/:drug', component: DrugReservationComponent},
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent, canActivate: [AuthGuard] },
@@ -88,6 +91,7 @@ const appRoutes: Routes = [
   { path: 'newDrug', component: NewDrugComponent },
   { path: 'allDermatologist', component: SeeAllDermatologistComponent},
   { path: 'allPharmacist', component: SeeAllPharmacistComponent},
+  { path: 'pharmacist-consultation', component: PharmacistConsultationComponent},
   { path: 'createPharmacist', component: CreatePharmacistComponent, canActivate: [PhAdminGuard]},
   { path: 'addDermatologistInPharmacy', component: AddDermatologistInPharmacyComponent, canActivate: [PhAdminGuard]},
 
@@ -140,6 +144,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     MyOffersComponent,
     VacationRequestComponent,
     CreatePharmacistComponent,
+    PharmacistConsultationComponent,
+    AvailablePharmacistsComponent,
     SubscribedPharmacyComponent,
     AddDermatologistInPharmacyComponent
   ],
