@@ -12,7 +12,7 @@ public class EmailSender {
 
     public void sendVerificationEmail(String to,  String id) {
         SimpleMailMessage message = new SimpleMailMessage();
-        String url = "http://localhost:8080/api/patient/activateAccount/" + id;
+        String url = "http://localhost:8080/api/user/activateAccount/" + id;
         String body = "We are excited to tell you that your account is successfully created. Please click on the below link to verify your account: " + url;
         message.setTo(to);
         message.setSubject("Verification email!");

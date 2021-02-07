@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.service;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.dto.PatientExaminationDTO;
 
@@ -10,4 +11,5 @@ public interface MedicalStuffService {
     MedicalStuff findById(UUID id);
     MedicalStuff findByEmail(String email);
     Set<PatientExaminationDTO> findPatientsByMedicalStuff(MedicalStuff medicalStuff);
+    Set<Pharmacy> findMyPharmacies(String email);
 }

@@ -10,6 +10,7 @@ import ftn.isa.team12.pharmacy.domain.users.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,9 @@ public class Test {
         Authority a = new Authority();
         a.setRole("ROLE_PH_ADMIN");
 
+        Authority role_pharmacist = new Authority();
+        role_pharmacist.setRole("ROLE_PHARMACIST");
+
         Authority derm = new Authority();
         derm.setRole("ROLE_DERMATOLOGIST");
 
@@ -40,15 +44,25 @@ public class Test {
         Authority sa = new Authority();
         sa.setRole("ROLE_SYSTEM_ADMINISTRATOR");
 
+        Authority su = new Authority();
+        su.setRole("ROLE_SUPPLIER");
+
         List<Authority> authorities = new ArrayList<Authority>();
         List<Authority> authorities2 = new ArrayList<Authority>();
         List<Authority> authoritiesDerm = new ArrayList<>();
         List<Authority> authoritiesSysAdmin = new ArrayList<>();
 
+        List<Authority> authoritiesPatient = new ArrayList<>();
+
+        List<Authority> authoritiPharmacist = new ArrayList<>();
+
         authorities.add(pa);
         authorities2.add(a);
         authoritiesDerm.add(derm);
         authoritiesSysAdmin.add(sa);
+
+        authoritiesPatient.add(su);
+        authoritiPharmacist.add(role_pharmacist);
 
         Address addressSysAdmin = new Address();
         addressSysAdmin.setStreet("Bulevar Despota Stefana");
@@ -533,21 +547,38 @@ public class Test {
         timeRange.setEndTime(t1);
 
 
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         WorkTime workTime = new WorkTime();
+        Date date2 = sdf.parse("2021-03-05");
+        workTime.setDate(date2);
+        workTime.setStartTime( LocalTime.of(8,0,0));
+        workTime.setEndTime( LocalTime.of(16,0,0));
         workTime.setPharmacy(pharmacy);
         workTime.setEmployee(dermatologist);
+        dermatologist.getWorkTime().add(workTime);
+
 
         WorkTime workTime1 = new WorkTime();
+        Date date1 = sdf.parse("2021-03-03");
+        workTime1.setDate(date1);
+        workTime1.setEndTime( LocalTime.of(10,0,0));
+        workTime1.setStartTime( LocalTime.of(14,0,0));
         workTime1.setPharmacy(pharmacy);
         workTime1.setEmployee(pharmacist);
+        pharmacist.getWorkTime().add(workTime1);
 
         pharmacyAdministrator.setPharmacy(pharmacy);
         DrugOrder drugOrder = new DrugOrder();
-        drugOrder.setDrugOrderStatus(DrugOrderStatus.processed);
+        drugOrder.setDrugOrderStatus(DrugOrderStatus.waitingForOffers);
         drugOrder.setPharmacy(pharmacy);
         drugOrder.setDeadline(new Date());
         drugOrder.setPharmacyAdministrator(pharmacyAdministrator);
+
+        DrugOrder drugOrder1 = new DrugOrder();
+        drugOrder1.setDrugOrderStatus(DrugOrderStatus.waitingForOffers);
+        drugOrder1.setPharmacy(pharmacy);
+        drugOrder1.setDeadline(new Date());
+        drugOrder1.setPharmacyAdministrator(pharmacyAdministrator);
 
         DrugOrderItem drugOrderItem = new DrugOrderItem();
         drugOrderItem.setQuantity(5);
@@ -562,6 +593,13 @@ public class Test {
         drugOrder.getDrugOrderItems().add(drugOrderItem);
         drugOrder.getDrugOrderItems().add(drugOrderItem1);
 
+        DrugOrderItem drugOrderItem2 = new DrugOrderItem();
+        drugOrderItem2.setQuantity(20);
+        drugOrderItem2.setDrug(drug);
+        drugOrderItem2.setDrugOrder(drugOrder1);
+
+        drugOrder1.getDrugOrderItems().add(drugOrderItem2);
+
         LoginInfo suplierInfo = new LoginInfo();
         suplierInfo.setEmail("sup@sup.com");
         suplierInfo.setPassword("$2y$10$dGToolHjytPEch4CJNuVP.yEulslPNB0Dsyy.JmTYLE68fyqNz1MC");
@@ -572,6 +610,7 @@ public class Test {
         supplier.setAccountInfo(accountInfo4);
         supplier.setLoginInfo(suplierInfo);
         supplier.getAvailableDrugs().add(drug);
+        supplier.setAuthorities(authoritiesPatient);
 
         Offer offer = new Offer();
         offer.setStatus(OfferStatus.accepted);
@@ -589,22 +628,41 @@ public class Test {
         examinationPrice.setPharmacy(pharmacy);
         examinationPrice.setDateOfValidity(dateRange);
 
+        ExaminationPrice examinationPrice2 = new ExaminationPrice();
+        examinationPrice2.setPrice(3000.0);
+        examinationPrice2.setExaminationType(examinationType);
+        examinationPrice2.setPharmacy(pharmacy);
+        examinationPrice2.setDateOfValidity(dateRange);
+
         Examination examination = new Examination();
         examination.setEmployee(pharmacist);
         examination.setPatient(patient);
         examination.setExaminationPrice(examinationPrice);
-        examination.setDateOfExamination(new Date());
+        examination.setDateOfExamination(sdf.parse("2021-05-05"));
         examination.setTimeOfExamination(LocalTime.of(13,45));
         examination.setDuration(45);
         examination.setPharmacy(pharmacy);
 
+        Examination examination2 = new Examination();
+        examination2.setEmployee(dermatologist);
+        examination2.setPatient(patient);
+        examination2.setExaminationPrice(examinationPrice2);
+        examination2.setDateOfExamination(sdf.parse("2021-10-05"));
+        examination2.setTimeOfExamination(LocalTime.of(13,45));
+        examination2.setDuration(45);
+        examination2.setPharmacy(pharmacy);
+
+
+
+        pharmacy.getExaminationPriceList().add(examinationPrice2);
         pharmacy.getExaminationPriceList().add(examinationPrice);
         pharmacy.getExaminations().add(examination);
+        pharmacy.getExaminations().add(examination2);
 
         Vacation vacation = new Vacation();
         vacation.setEmployee(pharmacist);
         vacation.setDateRange(dateRange);
-
+        vacation.setPharmacy(pharmacist.getPharmacy());
         pharmacist.getVacations().add(vacation);
 
         DrugInPharmacy drugInPharmacy1 = new DrugInPharmacy();
@@ -631,12 +689,16 @@ public class Test {
         pharmacyAdministrator.setAuthorities(authorities2);
         dermatologist.setAuthorities(authoritiesDerm);
         dermatologistPharmacy1.setAuthorities(authoritiesDerm);
+        pharmacist.setAuthorities(authoritiPharmacist);
+        pharmacistA.setAuthorities(authoritiPharmacist);
 
         em.getTransaction().begin();
         em.persist(a);
         em.persist(pa);
         em.persist(derm);
         em.persist(sa);
+        em.persist(su);
+        em.persist(role_pharmacist);
         em.persist(country);
         em.persist(city);
         em.persist(city1);
@@ -678,12 +740,13 @@ public class Test {
         em.persist(eRecipe1);
         em.persist(eRecipe2);
         em.persist(drugReservation);
-        em.persist(workTime);
+       // em.persist(workTime);
         em.persist(pharmacistA);
         em.persist(pharmacist);
-        em.persist(workTime1);
+       // em.persist(workTime1);
         em.persist(pharmacyAdministrator);
         em.persist(drugOrder);
+        em.persist(drugOrder1);
         em.persist(supplier);
         em.persist(offer);
         em.persist(drug2);

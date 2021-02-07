@@ -32,7 +32,6 @@ public class CityServiceImpl implements CityService {
         if(!commonValidation.regexValidation("[A-Za-z ]+"))
             throw new IllegalArgumentException("Bad input city!");
         City existsCity = this.cityRepository.findByNameAndCountryId(city.getName(), city.getCountry().getCountryId());
-
         if (existsCity == null) {
             existsCity = this.cityRepository.saveAndFlush(city);
         }

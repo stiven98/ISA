@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 @RestController
@@ -125,13 +124,7 @@ public class PatientController {
         }
     }
 
-    @GetMapping("/activateAccount/{id}")
-    public void activateAccount(@PathVariable String id, HttpServletResponse httpServletResponse) {
 
-        Patient patient = this.patientService.updateStatus(UUID.fromString(id));
-        httpServletResponse.setHeader("Location", "http://localhost:4200/login");
-        httpServletResponse.setStatus(302);
-    }
 
     @GetMapping("/allergies/{email}")
     public ResponseEntity<List<Drug>> findPatientAllergies(@PathVariable String email) {

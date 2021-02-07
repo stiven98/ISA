@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DrugOrderServiceImpl implements DrugOrderService {
@@ -69,6 +71,17 @@ public class DrugOrderServiceImpl implements DrugOrderService {
         order = drugOrderRepository.save(order);
         return order;
     }
+
+    @Override
+    public List<DrugOrder> findAll() {
+        return this.drugOrderRepository.findAll();
+    }
+
+    @Override
+    public DrugOrder findById(UUID id) {
+        return this.drugOrderRepository.findById(id).get();
+    }
+
     boolean checkIfDrugExistInPharmacy(Pharmacy pharmacy, Drug drug){
         for (DrugInPharmacy drugInPharmacy : pharmacy.getDrugs())
             if(drugInPharmacy.getDrug().getDrugId() == drug.getDrugId())

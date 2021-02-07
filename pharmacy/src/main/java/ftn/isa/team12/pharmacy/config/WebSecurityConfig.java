@@ -84,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .antMatchers("/api/drug/name/{name}").permitAll()
                 .antMatchers("/api/drugOrder/createOrder").permitAll()
                 .antMatchers("/api/patient/sendEmail").permitAll()
-                .antMatchers("/api/patient/activateAccount/{id}").permitAll()
+                .antMatchers("/api/user/activateAccount/{id}").permitAll()
                 .antMatchers("/api/drugReservation/**").permitAll()
                 .antMatchers("/api/systemAdministrator/add").permitAll()
                 .antMatchers("/api/phadmin/add/{id}").permitAll()
@@ -92,6 +92,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .antMatchers("/api/drugPrice/**").permitAll()
                 .antMatchers("/api/pharmacyMarks/**").permitAll()
                 .antMatchers("/api/drugMarks/**").permitAll()
+                .antMatchers("/api/dermatologist/**").permitAll()
+
+
+
+
 
 
 

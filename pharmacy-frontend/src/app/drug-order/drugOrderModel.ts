@@ -1,7 +1,7 @@
 
 export class DrugOrderModel {
-    pharmacyAdminEmail:String;
-    deadline:Date;
+    pharmacyAdminEmail: String;
+    deadline: Date;
     drugOrderItems;
 
     constructor() {
