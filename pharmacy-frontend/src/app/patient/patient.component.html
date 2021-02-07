@@ -4,7 +4,9 @@
     <div class="bg-white shadow rounded overflow-hidden">
       <div class="px-4 pt-0 pb-4 cover">
         <div class="media align-items-end profile-head">
-          <div class="profile mr-3"><img src="assets/img/doctors/doctors-4.jpg" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="/changeAccountInfo" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a></div>
+          <div class="profile mr-3"><img style="margin-bottom: 150px" src="assets/img/doctors/doctors-4.jpg" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+            <a href="/changeAccountInfo" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+          </div>
           <div class="media-body mb-5 text-white" >
             <h4 class="mt-0 mb-0">{{patient.name}} {{patient.lastName}} </h4>
             <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{{patient.cityName}}, {{patient.countryName}}</p>
@@ -28,6 +30,9 @@
           <li class="list-inline-item">
             <a title="See your Pharmacies" href="/patient#pharmacies"> <img alt="See your Pharmacies" src="/assets/img/pharmacy.png" ></a>
           </li>
+          <li class="list-inline-item">
+            <a title="See your Pharmacies" href="/patient#marks"> <img alt="See your marks" src="/assets/img/like.png" ></a>
+          </li>
         </ul>
       </div>
     </div>
@@ -44,7 +49,7 @@
           <p class="font-italic mb-0">Address: {{patient.street}} {{patient.streetNumber}} </p>
           <p class="font-italic mb-0">Email: {{patient.email}}</p>
           <p class="font-italic mb-0">Phone number: {{patient.phoneNumber}}</p>
-
+          <a href="" class="btn btn-outline-dark btn-sm btn-block">Write a complaint</a>
         </div>
       </div>
       <!--  APPOINTMENTS -->
@@ -107,7 +112,8 @@
                   <div class="col-md-6 mt-1">
                     <h5> <b>ERecepie code: </b> {{erecepie.erecipeId}}</h5>
                     <div class="mt-1 mb-1 spec-1"><span></span>ERecipe status: <span class="dot"></span><span> {{erecepie.erecipeStatus}}</span><span class="dot"></span><span><br></span></div>
-                    <div class="mt-1 mb-1 spec-1"><span></span>Date of Issuing: <span class="dot"></span><span> {{erecepie.dateOfIssuing}}</span><span class="dot"></span><span><br></span></div>
+                    <div class="mt-1 mb-1 spec-1"><span></span>Date of issuing: <span class="dot"></span><span> {{erecepie.dateOfIssuing}}</span><span class="dot"></span><span><br></span></div>
+                    <div class="mt-1 mb-1 spec-1"><span></span>ERecipe issued in: <span class="dot"></span><span> {{erecepie.pharmacy.name}}</span><span class="dot"></span><span><br></span></div>
                     <div class="mt-1 mb-1 spec-1"><span>Drugs: </span><span class="dot"></span><span *ngFor="let item of erecepie.erecipeItems"><br> {{item.drug.name}}, Quantity: {{item.quantity}} </span></div>
                   </div>
                   <div class="align-items-center align-content-center col-md-3 border-left mt-1">
@@ -201,7 +207,7 @@
       <div id="pharmacies" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
         <h2>Pharmacies</h2>
       </div>
-      <div class = "row main-row row-cols-1 row-cols-sm-3 g-4" >
+      <div class = "row main-row row-cols-1 row-cols-sm-3 g-4"  >
         <div lass = "col-12">
           <div class = "card p-1 text-center" style = "width: 20rem">
             <img src="/assets/img/pharmacy.jpg" class = "card-img-top shadow bg-white rounded">
@@ -213,8 +219,87 @@
           </div>
         </div>
       </div>
+      <div class = "container" >
+        <div id="marks" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
+          <h2>Pharmacy marks</h2>
+        </div>
+        <div class = "row main-row row-cols-1 row-cols-sm-3 g-3" >
+          <div lass = "col-12" *ngFor="let mark of pharmacyMarks">
+            <div  class = "card p-1 text-center"  >
+              <img src="/assets/img/pharmacy.jpg" class = "card-img-top shadow bg-white rounded">
+              <h5 class ="card-title>">{{mark.pharmacy.name}}</h5>
+              <div class = "card-body">
+                <p class = "card-text">Your mark {{mark.mark}} </p>
+                <a class="btn-secondary" data-toggle="modal" data-target = "#changeMark" (click)="current(mark)" class = "btn btn-outline-dark">Change</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+      <button style="margin-top: 20px; margin-left: 15px" class="btn" (click)="goToAddMarks()" >Add mark<img style="margin-left: 5px" src="assets/img/add.png"></button>
+  </div>
+    <div class = "container" >
+      <div id="drugMarks" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
+        <h2>Drug marks</h2>
+      </div>
+      <div class = "row main-row row-cols-1 row-cols-sm-3 g-3" >
+        <div lass = "col-12" *ngFor="let mark of drugMarks">
+          <div  class = "card p-1 text-center"  >
+            <img src="/assets/img/drugPatient.jpg" class = "card-img-top shadow bg-white rounded">
+            <h5 class ="card-title>">{{mark.drug.name}}</h5>
+            <div class = "card-body">
+              <p class = "card-text">Your mark {{mark.mark}} </p>
+              <a class="btn-secondary" data-toggle="modal" data-target = "#changeDrugMark" (click)="currentDrug(mark)" class = "btn btn-outline-dark">Change</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button style="margin-top: 20px; margin-left: 15px" class="btn" (click)="goToAddMarks()" >Add mark<img style="margin-left: 5px" src="assets/img/add.png"></button>
+  </div>
+</div>
+<div class="modal fade" id="changeMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Change your mark for {{currentMark.pharmacy.name}} </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group"  >
+           <input style="width: 400px;" min ="1" [(ngModel)]="nmr" max = "10" type="number" placeholder="Enter new mark for this pharmacy" >
+          </div>
+          <input  class = "btn btn-secondary"  data-dismiss="modal" (click)="changeMark()"  type="submit">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>
+<div class="modal fade" id="changeDrugMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Change your mark for {{currentDrugMark.drug.name}} </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"  >
+          <input style="width: 400px;" min ="1" [(ngModel)]="nmrDrug" max = "10" type="number" placeholder="Enter new mark for this drug" >
+        </div>
+        <input  class = "btn btn-secondary"  data-dismiss="modal" (click)="changeDrugMark()"  type="submit">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 

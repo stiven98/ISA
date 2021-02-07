@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
 import ftn.isa.team12.pharmacy.domain.enums.ERecipeStatus;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,10 @@ public class ERecipe implements Serializable {
    @ManyToOne
    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
    private Patient patient;
+
+   @ManyToOne
+   @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id", nullable = false)
+   private Pharmacy pharmacy;
 
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "eRecipe")
    private Set<ERecipeItem> eRecipeItems = new HashSet<ERecipeItem>();

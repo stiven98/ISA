@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.controller;
-
 import ftn.isa.team12.pharmacy.domain.drugs.Contraindication;
 import ftn.isa.team12.pharmacy.service.ContraindicationService;
 import org.springframework.beans.factory.annotation.Autowired;

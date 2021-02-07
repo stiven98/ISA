@@ -3,7 +3,6 @@ import {RegistrationPatientModel} from '../sing-up/registrationPatient.model';
 import {ValidationModel} from '../validation-model/validation.model';
 import {CityService} from '../services/city.service';
 import {CountryService} from '../services/country.service';
-import {CreateAccountService} from '../services/createAccount.service';
 import {Router} from '@angular/router';
 import {SupplierService} from '../services/supplier.service';
 

@@ -1,0 +1,84 @@
+<div class="container register">
+  <div class="row">
+    <div class="col-md-3 register-left">
+      <img src="assets/img/thumb-up.png" alt=""/>
+      <h3>Ratings</h3>
+      <p>Here you can leave a mark for pharmacies, drugs or medical stuff whose services you have used</p>
+    </div>
+    <div class="col-md-9 register-right">
+      <ul class="nav nav-tabs nav-justified" style="width: 300px" id="myTab" role="tablist">
+        <li style="width: 200px" class="nav-item">
+          <a  style="width: 170px"  class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Pharmacies & drugs</a>
+        </li>
+        <li style="width: 170px" class="nav-item">
+          <a  style="width: 130px"class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"  aria-selected="false">Medical stuff</a>
+        </li>
+
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <h3 class="register-heading">Leave your mark for pharmacies or drugs</h3>
+          <div class="row register-form">
+            <div class="col-md-6">
+              <div class="form-group">
+                <select class="form-control" [(ngModel)]="pharmacy" >
+                  <option class="hidden">Choose pharmacy you interacted with</option>
+                  <option  *ngFor="let pharmacy of finalPharmaciesToMark">{{pharmacy.name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select class="form-control" [(ngModel)]="drug" >
+                  <option class="hidden"  >Choose drug you used</option>
+                  <option *ngFor="let drug of finalDrugsToMark">{{drug.name}}</option>
+                </select>
+              </div>
+
+              </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="number" [(ngModel)]="pharmacyMark" min="1"  max="10" class="form-control" placeholder="Enter your mark for services" value="" />
+              </div>
+              <div class="form-group">
+                <input type="number" min="1" max="10" [(ngModel)]="drugMark" name="txtEmpPhone" class="form-control" placeholder="Enter your mark for drug" value="" />
+              </div>
+              <input type="submit" class="btnRegister" (click)="markDrugOrPharmacy()"  value="Submit your marks"/>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <h3  class="register-heading">Leave your mark for medical stuff</h3>
+          <div class="row register-form">
+            <div class="col-md-6">
+              <div class="form-group">
+                <select class="form-control">
+                  <option class="hidden"  selected disabled>Choose pharmacist with which you have consulted</option>
+                  <option>Aca Simic</option>
+                  <option>Pera Peric</option>
+                  <option>Jova Jovic</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select class="form-control">
+                  <option class="hidden"  selected disabled>Choose dermatologist with which you have consulted</option>
+                  <option>Mica Micic</option>
+                  <option>Stefa Stefic</option>
+                  <option>Djoka Djokic</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="number" min="1"  max="10" class="form-control" placeholder="Enter your mark for services" value="" />
+              </div>
+              <div class="form-group">
+                <input type="number" min="1"  max="10" class="form-control" placeholder="Enter your mark for services" value="" />
+              </div>
+              <input type="submit" class="btnRegister"  value="Submit your marks"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

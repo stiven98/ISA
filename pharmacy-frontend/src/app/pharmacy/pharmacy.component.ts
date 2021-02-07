@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {PharmacyService} from '../services/pharmacy.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-pharmacy',

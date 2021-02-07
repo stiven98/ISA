@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -50,13 +49,13 @@ public class DrugController {
             dto.add(new DrugDTO(d));
         }
 
-        return new ResponseEntity<List<DrugDTO>>(dto, HttpStatus.OK);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
 
     @GetMapping("/drugForOrder")
     public ResponseEntity<List<DrugForOrderDTO>> getAll(){
-        return new ResponseEntity<List<DrugForOrderDTO>>(drugService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(drugService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/name/{name}")

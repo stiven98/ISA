@@ -1,6 +1,5 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, Directive, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
-import { Observable } from 'rxjs';
 import { MedicalStuffService } from '../services/medical-stuff.service';
 import { PatientClient } from '../shared/models/patientClient';
 import { NgbdSortableHeaderDirective, SortColumn, SortEvent } from '../shared/utilities/ngbd-sortable-header.directive';
@@ -26,7 +25,7 @@ function sort(clients: PatientClient[], starter: PatientClient[], column: SortCo
 })
 export class MedicalStuffClientsComponent implements OnInit {
 
-  constructor(private medicalStuffServ : MedicalStuffService) { 
+  constructor(private medicalStuffServ : MedicalStuffService) {
   }
   patients: PatientClient[];
   starter: PatientClient[];
@@ -42,8 +41,8 @@ export class MedicalStuffClientsComponent implements OnInit {
     this.patients = sort(this.patients, this.starter, column, direction);
 
   }
-  
-  
+
+
   ngOnInit(): void {
     this.medicalStuffServ.getMyPatients().subscribe(res => {
       let tmp = res;
