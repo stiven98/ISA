@@ -58,7 +58,7 @@ public class PharmacistServiceImpl implements PharmacistService {
         List<EmployeesDTO> list = new ArrayList<>();
         for(Pharmacist pharmacist : phAdmin.getPharmacy().getPharmacists()){
             List<PharmacyDTO> phList = new ArrayList<>();
-                phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
+            phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
             list.add(new EmployeesDTO(pharmacist,phList));
         }
         return list;
@@ -79,7 +79,7 @@ public class PharmacistServiceImpl implements PharmacistService {
 
         for(Pharmacist pharmacist : list){
             List<PharmacyDTO> phList = new ArrayList<>();
-                phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
+            phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
             dto.add(new EmployeesDTO(pharmacist,phList));
         }
         return dto;

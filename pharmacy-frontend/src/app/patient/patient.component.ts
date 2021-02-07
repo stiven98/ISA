@@ -6,6 +6,14 @@ import {Patient} from '../shared/models/patient';
 import {Drug} from '../shared/models/drug';
 import {AccountCategory} from '../shared/models/accountCategory';
 import {DrugService} from '../services/drug.service';
+import {PharmacymarkService} from '../services/pharmacymark.service';
+import {Mark} from '../shared/models/mark';
+import {Markdto} from '../shared/models/markdto';
+import {DrugMarkDto} from '../shared/models/drugMarkDto';
+import {DrugMark} from '../shared/models/drugMark';
+import {DrugMarksService} from '../services/drug-marks.service';
+
+
 
 @Component({
   selector: 'app-patient',
@@ -18,15 +26,22 @@ export class PatientComponent implements OnInit {
   allergies: Drug [];
   drugs: Drug [];
   reservations = [];
+  nmr = 0;
+  nmrDrug = 0;
   filter;
+  currentMark = new Mark();
+  currentDrugMark = new DrugMark();
   erecepies = [];
   erecepiesFilter = [];
   drugList = [];
+  pharmacyMarks = [];
+  drugMarks = [];
   addAllergies: string;
   accountCategory = new AccountCategory();
   penalties: number;
   constructor(private userService: UserService, private patientService: PatientService,
-              private drugService: DrugService, private router: Router) { }
+              private drugService: DrugService, private router: Router,
+              private markService: PharmacymarkService, private drugMarkService: DrugMarksService) { }
 
   ngOnInit(): void {
     this.userService.getMyInfo().subscribe( resUser => {
@@ -43,6 +58,12 @@ export class PatientComponent implements OnInit {
       });
       this.patientService.findPenalties(this.patient.email).subscribe( penalty => {
         this.penalties = penalty;
+      });
+      this.patientService.findMarksByPatient(this.patient.email).subscribe((marks) => {
+        this.pharmacyMarks = marks;
+      });
+      this.patientService.findDrugMarksByPatient(this.patient.email).subscribe((mark) => {
+        this.drugMarks = mark;
       });
       this.patientService.findAllergies(this.patient.email).subscribe((aller) => {
        this.allergies = aller;
@@ -78,6 +99,9 @@ export class PatientComponent implements OnInit {
       this.erecepies = this.erecepiesFilter;
     }
 
+  }
+  goToAddMarks = () => {
+    this.router.navigate(['/patient-marks']);
   }
   addAllergy(): void {
     console.log(this.addAllergies);
@@ -125,5 +149,35 @@ export class PatientComponent implements OnInit {
      alert('You cant cancel reservation 24h before deadline');
     }
   }
+
+  changeMark = () => {
+    const markdto = new Markdto();
+    markdto.pharmacyMarksId = this.currentMark.pharmacyMarksId;
+    markdto.newMark = this.nmr;
+    if (this.nmr !== 0) {
+      this.markService.changeMark(markdto).subscribe();
+    }else {
+      alert('You must enter a number 1-10');
+    }
+    window.location.reload();
+  }
+  changeDrugMark = () => {
+    const drugMarkdto = new DrugMarkDto();
+    drugMarkdto.drugMarksId = this.currentDrugMark.drugMarksId;
+    drugMarkdto.newMark = this.nmrDrug;
+    if (this.nmrDrug !== 0) {
+     this.drugMarkService.changeMark(drugMarkdto).subscribe();
+    }else {
+      alert('You must enter a number 1-10');
+    }
+    window.location.reload();
+  }
+  current = (mark) => {
+    this.currentMark = mark;
+  }
+  currentDrug = (mark) => {
+    this.currentDrugMark = mark;
+  }
 }
+
 

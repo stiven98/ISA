@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.service;
-
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;

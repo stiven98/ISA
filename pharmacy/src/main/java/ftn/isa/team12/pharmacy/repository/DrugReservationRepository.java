@@ -1,5 +1,7 @@
 package ftn.isa.team12.pharmacy.repository;
+import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import  ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,4 +14,11 @@ public interface DrugReservationRepository extends JpaRepository<DrugReservation
 
     @Query("select reservation from DrugReservation  reservation where reservation.drug_reservation_id = ?1")
     DrugReservation findDrugReservationByDrug_reservation_id(UUID drug_reservation_id);
+
+    @Query("select reservation.pharmacy from DrugReservation reservation where reservation.patient.userId=?1")
+    List<Pharmacy> findPharmaciesWherePatientReservedDrugs(UUID patientId);
+
+    @Query("select reservation.drug from DrugReservation reservation where reservation.patient.userId=?1")
+    List<Drug> findDrugsPatientReserved(UUID patientId);
+
 }

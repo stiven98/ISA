@@ -5,5 +5,4 @@ public enum ReservationStatus {
    checked,
    closed,
    cancelled;
-
 }

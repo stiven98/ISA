@@ -1,13 +1,12 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
-
 import ftn.isa.team12.pharmacy.domain.common.*;
 import ftn.isa.team12.pharmacy.domain.enums.*;
+import ftn.isa.team12.pharmacy.domain.marks.DrugMarks;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -171,6 +170,8 @@ public class Test {
         drug.setManufacturer(manufacturer);
         drug.setNote("This is note");
         drug.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+
 
         Drug drug1 = new Drug();
         drug1.setName("Brufen");
@@ -474,14 +475,22 @@ public class Test {
         patient.setCategory(accounCategory);
         patient.getAllergies().add(drug);
 
+
         patient.getSubscribedPharmacies().add(pharmacy);
         patient.getSubscribedPharmacies().add(pharmacy3);
+
+        DrugMarks drugMarks = new DrugMarks();
+        drugMarks.setDrug(drug);
+        drugMarks.setMark(8.1);
+        drugMarks.setPatient(patient);
+
 
         ERecipe eRecipe = new ERecipe();
         eRecipe.setPatient(patient);
         eRecipe.setDateOfIssuing(startDate);
         eRecipe.setCode("123456675");
         eRecipe.setERecipeStatus(ERecipeStatus.newErecipe);
+        eRecipe.setPharmacy(pharmacy);
 
 
         ERecipe eRecipe1 = new ERecipe();
@@ -489,12 +498,24 @@ public class Test {
         eRecipe1.setDateOfIssuing(endDate);
         eRecipe1.setCode("1234566752");
         eRecipe1.setERecipeStatus(ERecipeStatus.processed);
+        eRecipe1.setPharmacy(pharmacy4);
 
+        ERecipe eRecipe2 = new ERecipe();
+        eRecipe2.setPatient(patient);
+        eRecipe2.setDateOfIssuing(endDate);
+        eRecipe2.setCode("123456675452");
+        eRecipe2.setERecipeStatus(ERecipeStatus.declined);
+        eRecipe2.setPharmacy(pharmacy6);
 
         ERecipeItem eRecipeItem = new ERecipeItem();
         eRecipeItem.setQuantity(12);
         eRecipeItem.setDrug(drug);
         eRecipeItem.setERecipe(eRecipe);
+
+        ERecipeItem eRecipeItem3 = new ERecipeItem();
+        eRecipeItem3.setQuantity(2);
+        eRecipeItem3.setDrug(drug5);
+        eRecipeItem3.setERecipe(eRecipe2);
 
         ERecipeItem eRecipeItem1 = new ERecipeItem();
         eRecipeItem1.setQuantity(14);
@@ -511,6 +532,8 @@ public class Test {
         eRecipe.getERecipeItems().add(eRecipeItem);
         eRecipe.getERecipeItems().add(eRecipeItem1);
         eRecipe1.getERecipeItems().add(eRecipeItem2);
+        eRecipe2.getERecipeItems().add(eRecipeItem3);
+
 
 
         DrugReservation drugReservation = new DrugReservation();
@@ -699,6 +722,8 @@ public class Test {
         em.persist(drug);
         em.persist(drug1);
         em.persist(drug3);
+        em.persist(drug5);
+        em.persist(drug6);
         em.persist(examinationType);
         em.persist(examinationPrice);
         em.persist(pharmacy);
@@ -709,6 +734,7 @@ public class Test {
         em.persist(systemAdministrator);
         em.persist(drugPrice);
         em.persist(patient);
+        em.persist(drugMarks);
         em.persist(pharmacy2);
         em.persist(pharmacy3);
         em.persist(pharmacy4);
@@ -718,6 +744,7 @@ public class Test {
         em.persist(pharmacy8);
         em.persist(eRecipe);
         em.persist(eRecipe1);
+        em.persist(eRecipe2);
         em.persist(drugReservation);
        // em.persist(workTime);
         em.persist(pharmacistA);
@@ -730,8 +757,7 @@ public class Test {
         em.persist(offer);
         em.persist(drug2);
         em.persist(drug4);
-        em.persist(drug5);
-        em.persist(drug6);
+
         em.persist(drug7);
         em.persist(drugInPharmacy1);
         em.persist(drugInPharmacy4);
