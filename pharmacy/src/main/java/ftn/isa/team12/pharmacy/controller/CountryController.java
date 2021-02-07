@@ -20,6 +20,6 @@ public class CountryController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Country>> findAll() {
-        return new ResponseEntity<List<Country>>(countryService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(countryService.findAll(), HttpStatus.OK);
     }
 }

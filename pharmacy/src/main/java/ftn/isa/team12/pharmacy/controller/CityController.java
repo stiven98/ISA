@@ -26,7 +26,7 @@ public class CityController {
     @GetMapping("/byCountry")
     @ResponseBody
     public ResponseEntity<List<City>> findByCountry(@RequestParam String name){
-        return new ResponseEntity<List<City>>(this.cityService.findByCountry(name), HttpStatus.OK);
+        return new ResponseEntity<>(this.cityService.findByCountry(name), HttpStatus.OK);
     }
 
 }

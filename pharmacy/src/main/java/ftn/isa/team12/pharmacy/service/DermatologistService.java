@@ -1,10 +1,7 @@
 package ftn.isa.team12.pharmacy.service;
-
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
-
-
 import java.util.List;
 import java.util.UUID;
 

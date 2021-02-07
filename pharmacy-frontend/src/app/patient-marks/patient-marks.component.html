@@ -29,7 +29,7 @@
               <div class="form-group">
                 <select class="form-control" [(ngModel)]="drug" >
                   <option class="hidden"  >Choose drug you used</option>
-                  <option *ngFor="let drug of drugs">{{drug.name}}</option>
+                  <option *ngFor="let drug of finalDrugsToMark">{{drug.name}}</option>
                 </select>
               </div>
 

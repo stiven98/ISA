@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -107,10 +106,12 @@ public class PharmacyMarksController {
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/changeMark")
     public ResponseEntity<PharmacyMarks> changeMark(@RequestBody PharmacyMarkChangeDTO dto) {
-        System.out.println(dto.getNewMark());
         PharmacyMarks pharmacyMarks = this.pharmacyMarksService.findByPharmacyMarksId((dto.getPharmacyMarksId()));
         Pharmacy pharmacy = this.pharmacyService.findPharmacyByName(pharmacyMarks.getPharmacy().getName());
-        pharmacyMarks.setMark(dto.getNewMark());
+        Double mark = dto.getNewMark();
+        BigDecimal bd1 = new BigDecimal(mark).setScale(2, RoundingMode.HALF_UP);
+        mark = bd1.doubleValue();
+        pharmacyMarks.setMark(mark);
         this.pharmacyMarksService.save(pharmacyMarks);
 
         List<Double> marks = this.pharmacyMarksService.findPharmacyMarksByPharmacy(pharmacy.getId());
@@ -124,7 +125,6 @@ public class PharmacyMarksController {
         averageMark = bd.doubleValue();
         pharmacy.setAverageMark(averageMark);
         this.pharmacyService.save(pharmacy);
-
         return  new ResponseEntity<>(pharmacyMarks, HttpStatus.OK);
 
     }

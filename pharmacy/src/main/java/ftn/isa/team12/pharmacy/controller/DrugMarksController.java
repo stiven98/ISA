@@ -2,19 +2,23 @@ package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.ERecipe;
 import ftn.isa.team12.pharmacy.domain.drugs.ERecipeItem;
-import ftn.isa.team12.pharmacy.service.DrugMarksService;
-import ftn.isa.team12.pharmacy.service.DrugReservationService;
-import ftn.isa.team12.pharmacy.service.ERecipeService;
+import ftn.isa.team12.pharmacy.domain.marks.DrugMarks;
+import ftn.isa.team12.pharmacy.domain.marks.PharmacyMarks;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.dto.DrugMarkDTO;
+import ftn.isa.team12.pharmacy.dto.DrugMarksChangeDTO;
+import ftn.isa.team12.pharmacy.dto.PharmacyMarkChangeDTO;
+import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,12 +34,92 @@ public class DrugMarksController {
     private DrugReservationService drugReservationService;
 
     @Autowired
+    private DrugService drugService;
+
+    @Autowired
     private ERecipeService eRecipeService;
+    @Autowired
+    private PatientService patientService;
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @PostMapping("/createMark")
+    public ResponseEntity<DrugMarks> createDrugMark(@RequestBody DrugMarkDTO dto) {
+        Drug drug = this.drugService.findDrugByName(dto.getDrugName());
+        Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        DrugMarks drugMarks = new DrugMarks();
+        drugMarks.setPatient(patient);
+        drugMarks.setMark(dto.getMark());
+        drugMarks.setDrug(drug);
+
+        this.drugMarksService.save(drugMarks);
+
+        List<Double> marks = this.drugMarksService.findDrugMarksByDrug(drug.getDrugId());
+        marks.add(dto.getMark());
+        double averageMark = 0;
+        for(double d : marks) {
+            averageMark = averageMark + d;
+        }
+        averageMark = averageMark / marks.size();
+        BigDecimal bd = new BigDecimal(averageMark).setScale(2, RoundingMode.HALF_UP);
+        averageMark = bd.doubleValue();
+        drug.setAverageMark(averageMark);
+        this.drugService.save(drug);
+
+        return  new ResponseEntity<>(drugMarks, HttpStatus.OK);
+
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @PostMapping("/changeMark")
+    public ResponseEntity<DrugMarks> changeMark(@RequestBody DrugMarksChangeDTO dto) {
+        DrugMarks drugMarks = this.drugMarksService.findByDrugMarksId((dto.getDrugMarksId()));
+        Drug drug = this.drugService.findDrugByName(drugMarks.getDrug().getName());
+        Double mark = dto.getNewMark();
+        BigDecimal bd1 = new BigDecimal(mark).setScale(2, RoundingMode.HALF_UP);
+        mark = bd1.doubleValue();
+        drugMarks.setMark(mark);
+        this.drugMarksService.save(drugMarks);
+
+        List<Double> marks = this.drugMarksService.findDrugMarksByDrug(drug.getDrugId());
+        marks.add(dto.getNewMark());
+        double averageMark = 0;
+        for(double d : marks) {
+            averageMark = averageMark + d;
+        }
+        averageMark = averageMark / marks.size();
+        BigDecimal bd = new BigDecimal(averageMark).setScale(2, RoundingMode.HALF_UP);
+        averageMark = bd.doubleValue();
+        System.out.println(averageMark);
+        drug.setAverageMark(averageMark);
+        this.drugService.save(drug);
+        return  new ResponseEntity<>(drugMarks, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/marksFor/{email}")
+    public ResponseEntity<List<DrugMarks>> findMarksByPatient(@PathVariable String email) {
+        Patient patient = this.patientService.findByEmail(email);
+        List<DrugMarks> drugMarks = this.drugMarksService.findDrugMarksByPatientId(patient.getUserId());
+        return  new ResponseEntity<>(drugMarks, HttpStatus.OK);
+    }
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/marksForPatient/{email}")
+    public ResponseEntity<List<Drug>> findDrugsMarkedByPatient(@PathVariable String email) {
+        Patient patient = this.patientService.findByEmail(email);
+        List<DrugMarks> drugMarks = this.drugMarksService.findDrugMarksByPatientId(patient.getUserId());
+        List<Drug> drugList = new ArrayList<>();
+        for(DrugMarks dm : drugMarks) {
+            drugList.add(dm.getDrug());
+        }
+
+        return  new ResponseEntity<>(drugList, HttpStatus.OK);
+    }
 
 
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/drugsForPatient/{email}")
-    public ResponseEntity<List<Drug>> cancelReservation(@PathVariable String email) {
+    public ResponseEntity<List<Drug>> findDrugsForPatient(@PathVariable String email) {
         List<Drug> drugs = this.drugReservationService.findDrugsPatientReserved(email);
         List<ERecipe> eRecipes = this.eRecipeService.findAllERecipesByPatient(email);
         Set<ERecipeItem> eRecipeItems = new HashSet<>();

@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
 import ftn.isa.team12.pharmacy.domain.users.Supplier;
 import ftn.isa.team12.pharmacy.repository.SupplierRepository;
 import ftn.isa.team12.pharmacy.service.SupplierService;

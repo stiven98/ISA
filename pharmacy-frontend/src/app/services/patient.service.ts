@@ -37,6 +37,20 @@ export class PatientService {
         return marks ;
       }));
   }
+
+  findDrugMarksByPatient = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/drugMarks/marksFor/' + email)
+      .pipe(map(responseData => {
+        const marks = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            marks.push(responseData[key]);
+          }
+        }
+        return marks ;
+      }));
+  }
   findDrugsToMark = (email) => {
     return this.http
       .get(environment.apiUrl + '/api/drugMarks/drugsForPatient/' + email)

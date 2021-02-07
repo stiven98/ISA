@@ -1,6 +1,4 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
-import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;

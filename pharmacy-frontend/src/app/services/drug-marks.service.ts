@@ -1,42 +1,43 @@
 import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
+import {DrugMarkDto} from '../shared/models/drugMarkDto';
 import {Markdto} from '../shared/models/markdto';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PharmacymarkService {
+export class DrugMarksService {
 
-  constructor( private http: HttpClient ) { }
+  constructor(private http: HttpClient) { }
 
-  addPharmacyMark = (pharmacyName, patientEmail, mark) => {
+  addDrugMark = (drugName, patientEmail, mark) => {
     return this.http
-      .post(environment.apiUrl + '/api/pharmacyMarks/createMark/',
-        { "pharmacyName" : pharmacyName, "patientEmail" : patientEmail, "mark" : mark})
+      .post(environment.apiUrl + '/api/drugMarks/createMark/',
+        { "drugName" : drugName, "patientEmail" : patientEmail, "mark" : mark})
       .pipe(map(responseData => {
         return responseData;
       }));
   }
   findMarksByPatient = (email) => {
     return this.http
-      .get(environment.apiUrl + '/api/pharmacyMarks/marksForPatient/' + email)
+      .get(environment.apiUrl + '/api/drugMarks/marksForPatient/' + email)
       .pipe(map(responseData => {
-        const pharmacies = [];
+        const drugs = [];
         for (const key in responseData) {
           if (responseData.hasOwnProperty(key)) {
-            pharmacies.push(responseData[key]);
+            drugs.push(responseData[key]);
           }
         }
-        return pharmacies ;
+        return drugs ;
       }));
   }
 
-  changeMark = (markdto: Markdto) => {
+  changeMark = (markdto: DrugMarkDto) => {
     const dto = markdto;
     return this.http
-      .post(environment.apiUrl + '/api/pharmacyMarks/changeMark/', dto)
+      .post(environment.apiUrl + '/api/drugMarks/changeMark/', dto)
       .pipe(map(responseData => {
         return responseData;
       }));

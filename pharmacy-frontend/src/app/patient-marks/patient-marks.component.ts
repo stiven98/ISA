@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {PatientService} from '../services/patient.service';
 import {UserService} from '../services/user.service';
 import {Patient} from '../shared/models/patient';
-import {PharmacyService} from '../services/pharmacy.service';
 import {PharmacymarkService} from '../services/pharmacymark.service';
 import {Router} from '@angular/router';
+import {DrugMarksService} from '../services/drug-marks.service';
 
 @Component({
   selector: 'app-patient-marks',
@@ -18,13 +18,16 @@ export class PatientMarksComponent implements OnInit {
   drugs = [];
   pharmacy = '';
   marksPharmacies = [];
+  marksDrugs = [];
   finalPharmaciesToMark = [];
+  finalDrugsToMark = [];
   drug = '';
   pharmacyMark = 0;
   drugMark = 0;
 
   constructor(private patientService: PatientService, private userService: UserService,
-              private pharmacyMarkService: PharmacymarkService, private router: Router) {
+              private pharmacyMarkService: PharmacymarkService, private router: Router,
+              private drugMarkService: DrugMarksService) {
   }
 
   ngOnInit(): void {
@@ -36,29 +39,45 @@ export class PatientMarksComponent implements OnInit {
           this.drugs = drugs;
           this.pharmacyMarkService.findMarksByPatient(this.patient.email).subscribe((pharmaices) => {
               this.marksPharmacies = pharmaices;
-            for (let i = 0; i < this.pharmacies.length; i++) {
-              let flag = true;
-              for (let j = 0; j < this.marksPharmacies.length; j++) {
-                if ( this.pharmacies[i].name === this.marksPharmacies[j].name ) {
-                  flag = false;
-                  break;
+              this.drugMarkService.findMarksByPatient(this.patient.email).subscribe((drug) => {
+                this.marksDrugs = drug;
+                for (let i = 0; i < this.pharmacies.length; i++) {
+                  let flag = true;
+                  for (let j = 0; j < this.marksPharmacies.length; j++) {
+                    if (this.pharmacies[i].name === this.marksPharmacies[j].name) {
+                      flag = false;
+                      break;
+                    }
+                  }
+                  if (flag) {
+                    this.finalPharmaciesToMark.push(this.pharmacies[i]);
+                  }
                 }
-              }
-              if (flag) {
-                this.finalPharmaciesToMark.push(this.pharmacies[i]);
-              }
-            }
+                for (let i = 0; i < this.drugs.length; i++) {
+                  let flag = true;
+                  for (let j = 0; j < this.marksDrugs.length; j++) {
+                    if (this.drugs[i].name === this.marksDrugs[j].name) {
+                      flag = false;
+                      break;
+                    }
+                  }
+                  if (flag) {
+                    this.finalDrugsToMark.push(this.drugs[i]);
+                  }
+                }
+              });
           });
         });
       });
     });
   }
+
   markDrugOrPharmacy = () => {
     if (this.drug !== '' && this.drug !== 'Choose drug you used' && this.drugMark !== 0) {
-      alert('usao lek');
+      this.drugMarkService.addDrugMark(this.drug, this.patient.email, this.drugMark).subscribe();
+      this.router.navigate(['/patient']);
     }
     if (this.pharmacy !== '' && this.pharmacy !== 'Choose pharmacy you interacted with' && this.pharmacyMark !== 0) {
-      alert('usao');
       this.pharmacyMarkService.addPharmacyMark(this.pharmacy, this.patient.email, this.pharmacyMark).subscribe();
       this.router.navigate(['/patient']);
     }

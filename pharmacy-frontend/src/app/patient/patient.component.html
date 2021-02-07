@@ -30,6 +30,9 @@
           <li class="list-inline-item">
             <a title="See your Pharmacies" href="/patient#pharmacies"> <img alt="See your Pharmacies" src="/assets/img/pharmacy.png" ></a>
           </li>
+          <li class="list-inline-item">
+            <a title="See your Pharmacies" href="/patient#marks"> <img alt="See your marks" src="/assets/img/like.png" ></a>
+          </li>
         </ul>
       </div>
     </div>
@@ -217,7 +220,7 @@
         </div>
       </div>
       <div class = "container" >
-        <div id="grades" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
+        <div id="marks" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
           <h2>Pharmacy marks</h2>
         </div>
         <div class = "row main-row row-cols-1 row-cols-sm-3 g-3" >
@@ -234,9 +237,26 @@
         </div>
     </div>
       <button style="margin-top: 20px; margin-left: 15px" class="btn" (click)="goToAddMarks()" >Add mark<img style="margin-left: 5px" src="assets/img/add.png"></button>
-
   </div>
-</div>
+    <div class = "container" >
+      <div id="drugMarks" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
+        <h2>Drug marks</h2>
+      </div>
+      <div class = "row main-row row-cols-1 row-cols-sm-3 g-3" >
+        <div lass = "col-12" *ngFor="let mark of drugMarks">
+          <div  class = "card p-1 text-center"  >
+            <img src="/assets/img/drugPatient.jpg" class = "card-img-top shadow bg-white rounded">
+            <h5 class ="card-title>">{{mark.drug.name}}</h5>
+            <div class = "card-body">
+              <p class = "card-text">Your mark {{mark.mark}} </p>
+              <a class="btn-secondary" data-toggle="modal" data-target = "#changeDrugMark" (click)="currentDrug(mark)" class = "btn btn-outline-dark">Change</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button style="margin-top: 20px; margin-left: 15px" class="btn" (click)="goToAddMarks()" >Add mark<img style="margin-left: 5px" src="assets/img/add.png"></button>
+  </div>
 </div>
 <div class="modal fade" id="changeMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -259,5 +279,27 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="changeDrugMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Change your mark for {{currentDrugMark.drug.name}} </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"  >
+          <input style="width: 400px;" min ="1" [(ngModel)]="nmrDrug" max = "10" type="number" placeholder="Enter new mark for this drug" >
+        </div>
+        <input  class = "btn btn-secondary"  data-dismiss="modal" (click)="changeDrugMark()"  type="submit">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 

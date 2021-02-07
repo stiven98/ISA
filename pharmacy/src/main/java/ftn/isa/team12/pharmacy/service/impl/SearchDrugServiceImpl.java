@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
@@ -8,7 +7,6 @@ import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
 import ftn.isa.team12.pharmacy.service.SearchDrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

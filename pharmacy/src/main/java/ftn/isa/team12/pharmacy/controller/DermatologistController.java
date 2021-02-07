@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.controller;
-
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;

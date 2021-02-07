@@ -1,26 +1,16 @@
 package ftn.isa.team12.pharmacy.service.impl;
-
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.repository.DermatologistRepository;
 import ftn.isa.team12.pharmacy.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 import java.util.UUID;
-
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
-import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
 import ftn.isa.team12.pharmacy.dto.PharmacyDTO;
-import ftn.isa.team12.pharmacy.repository.DermatologistRepository;
-import ftn.isa.team12.pharmacy.service.DermatologistService;
 import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 

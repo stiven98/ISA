@@ -1,4 +1,3 @@
-import {Mark} from './mark';
 
 export class Markdto {
   pharmacyMarksId;

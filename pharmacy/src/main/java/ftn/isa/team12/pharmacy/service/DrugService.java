@@ -11,6 +11,8 @@ public interface DrugService {
     List<Drug> findAll();
     Drug findById(UUID id);
 
+    Drug save(Drug drug);
+
     List<DrugForOrderDTO> getAll();
 
     Drug findDrugByName(String drugName);
