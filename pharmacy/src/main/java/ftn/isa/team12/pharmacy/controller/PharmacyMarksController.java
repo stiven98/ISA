@@ -96,8 +96,10 @@ public class PharmacyMarksController {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
         PharmacyMarks pharmacyMarks = new PharmacyMarks();
         pharmacyMarks.setPatient(patient);
-        pharmacyMarks.setMark(dto.getMark());
         pharmacyMarks.setPharmacy(pharmacy);
+        BigDecimal bd1 = new BigDecimal(dto.getMark()).setScale(2, RoundingMode.HALF_UP);
+        double mark = bd1.doubleValue();
+        pharmacyMarks.setMark(mark);
         this.pharmacyMarksService.save(pharmacyMarks);
 
         List<Double> marks = this.pharmacyMarksService.findPharmacyMarksByPharmacy(pharmacy.getId());

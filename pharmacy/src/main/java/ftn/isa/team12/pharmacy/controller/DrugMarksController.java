@@ -49,9 +49,10 @@ public class DrugMarksController {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
         DrugMarks drugMarks = new DrugMarks();
         drugMarks.setPatient(patient);
-        drugMarks.setMark(dto.getMark());
         drugMarks.setDrug(drug);
-
+        BigDecimal bd1 = new BigDecimal(dto.getMark()).setScale(2, RoundingMode.HALF_UP);
+        double mark = bd1.doubleValue();
+        drugMarks.setMark(mark);
         this.drugMarksService.save(drugMarks);
 
         List<Double> marks = this.drugMarksService.findDrugMarksByDrug(drug.getDrugId());

@@ -56,9 +56,10 @@ public class MedicalStuffMarksController {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
         MedicalStuffMarks medicalStuffMarks = new MedicalStuffMarks();
         medicalStuffMarks.setPatient(patient);
-        medicalStuffMarks.setMark(dto.getMark());
         medicalStuffMarks.setMedicalStuff(medicalStuff);
-
+        BigDecimal bd1 = new BigDecimal(dto.getMark()).setScale(2, RoundingMode.HALF_UP);
+        double mark = bd1.doubleValue();
+        medicalStuffMarks.setMark(mark);
         this.medicalStuffMarksService.save(medicalStuffMarks);
 
         List<Double> marks = this.medicalStuffMarksService.findMedicalStuffMarksByMedicalStuff(medicalStuff.getUserId());
@@ -75,24 +76,6 @@ public class MedicalStuffMarksController {
 
         return  new ResponseEntity<>(medicalStuffMarks, HttpStatus.OK);
 
-    }
-    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
-    @GetMapping("/marksForPatient/{email}")
-    public ResponseEntity<List<MedicalStuff>> findMedicalStuffMarkedByPatient(@PathVariable String email) {
-        Patient patient = this.patientService.findByEmail(email);
-        List<MedicalStuffMarks> medicalStuffMarks = this.medicalStuffMarksService.findMedicalStuffMarksByPatientId(patient.getUserId());
-        List<MedicalStuff> medicalStuffs = new ArrayList<>();
-        for(MedicalStuffMarks mm : medicalStuffMarks) {
-            medicalStuffs.add(mm.getMedicalStuff());
-        }
-
-        return  new ResponseEntity<>(medicalStuffs, HttpStatus.OK);
-    }
-    @GetMapping("/marksFor/{email}")
-    public ResponseEntity<List<MedicalStuffMarks>> findMarksByPatient(@PathVariable String email) {
-        Patient patient = this.patientService.findByEmail(email);
-        List<MedicalStuffMarks> ms = this.medicalStuffMarksService.findMedicalStuffMarksByPatientId(patient.getUserId());
-        return  new ResponseEntity<>(ms, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
@@ -122,6 +105,25 @@ public class MedicalStuffMarksController {
         this.medicalStuffService.save(ms);
         return  new ResponseEntity<>(medMarks, HttpStatus.OK);
 
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/marksForPatient/{email}")
+    public ResponseEntity<List<MedicalStuff>> findMedicalStuffMarkedByPatient(@PathVariable String email) {
+        Patient patient = this.patientService.findByEmail(email);
+        List<MedicalStuffMarks> medicalStuffMarks = this.medicalStuffMarksService.findMedicalStuffMarksByPatientId(patient.getUserId());
+        List<MedicalStuff> medicalStuffs = new ArrayList<>();
+        for(MedicalStuffMarks mm : medicalStuffMarks) {
+            medicalStuffs.add(mm.getMedicalStuff());
+        }
+
+        return  new ResponseEntity<>(medicalStuffs, HttpStatus.OK);
+    }
+    @GetMapping("/marksFor/{email}")
+    public ResponseEntity<List<MedicalStuffMarks>> findMarksByPatient(@PathVariable String email) {
+        Patient patient = this.patientService.findByEmail(email);
+        List<MedicalStuffMarks> ms = this.medicalStuffMarksService.findMedicalStuffMarksByPatientId(patient.getUserId());
+        return  new ResponseEntity<>(ms, HttpStatus.OK);
     }
 
 
