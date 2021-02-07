@@ -32,6 +32,15 @@ public class EmailSender {
         emailSender.send(message);
     }
 
+    public void sendDrugQuantityNotificationToPhAdmin(String to,  String drugName) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "The drug: " + drugName + " is out of stock in your pharmacy. Please take attention.";
+        message.setTo(to);
+        message.setSubject("Drug out of stock");
+        message.setText(body);
+        System.out.println(body);
+        emailSender.send(message);
+    }
 
 
 }

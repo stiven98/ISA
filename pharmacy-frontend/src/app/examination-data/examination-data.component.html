@@ -30,12 +30,89 @@
             </div>
             <div class="row">
                 <div class="col-lg-6">
-
+                    <div class="row d-flex justify-content-center border pt-4" *ngFor="let drug of drugList"> 
+                        <div class="col-3  ">
+                            <img src="/assets/img/medicalstuff_icons/medicine.png" class="img-responsive fit-image " style="max-width: 100%;" alt="orderIcon">
+                        </div>
+                        <div class="col-5 ">
+                            <div class="row">
+                                <label>Name: {{drug.name}} </label>
+                                <div>
+                                    <label>Type of drug: {{drug.typeOfDrug}} </label>
+                                    <label>Manufacturer: {{drug.manufacturer.name}} </label>
+                                 </div>
+                                 <label>Issuance regime: {{drug.issuanceRegime}} </label>
+                                <p> {{drug.note}}</p>
+                            </div>
+                        </div>
+                        <div class="col-3 align-items-center">
+                            <button class="btn btn-dark mt-3 w-100" (click)="prescribeDrug(drug.name, content)">Prescribe</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6">
-
+                    <div class="row d-flex justify-content-center border pt-4" *ngFor="let drug of prescribedDrugs"> 
+                        <div class="col-3  ">
+                            <img src="/assets/img/medicalstuff_icons/medicine.png" class="img-responsive fit-image " style="max-width: 100%;" alt="orderIcon">
+                        </div>
+                        <div class="col-5">
+                            <div class="row">
+                                <label>Name: {{drug.name}} </label>
+                                <div>
+                                    <label>Type of drug: {{drug.typeOfDrug}} </label>
+                                    <label>Manufacturer: {{drug.manufacturer.name}} </label>
+                                 </div>
+                                 <label>Issuance regime: {{drug.issuanceRegime}} </label>
+                                <p> {{drug.note}}</p>
+                            </div>
+                        </div>
+                        <div class="col-3 align-items-center">
+                            <button class="btn btn-dark mt-3 w-100"(click)="removeDrug(drug.name, content)">Remove </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class = "row d-flex flex-row-reverse">
+                <div class ="col-auto">
+                    <label for="duration">Choose therapy duration in days</label>
+                    <input type="number" min="1" id="duration" [(ngModel)]="therapyDuration" [ngModelOptions]="{standalone: true}"  class="form-control"/>
+                </div>
+                
             </div>
         </div>
     </section>
 </main>
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Substitute medicaments</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('close')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <h4 *ngIf="substituteDrugs.length == 0">Sorry, there are no substitute medicament in this moment</h4>
+        <h4 *ngIf="substituteDrugs.length != 0">Sorry, the requested medicament is not available there are few substitute:</h4>
+        <div class="row d-flex justify-content-center border pt-4" *ngFor="let drug of substituteDrugs"> 
+            <div class="col-3  ">
+                <img src="/assets/img/medicalstuff_icons/medicine.png" class="img-responsive fit-image " style="max-width: 100%;" alt="orderIcon">
+            </div>
+            <div class="col-5 ">
+                <div class="row">
+                    <label>Name: {{drug.name}} </label>
+                    <div>
+                        <label>Type of drug: {{drug.typeOfDrug}} </label>
+                        <label>Manufacturer: {{drug.manufacturer.name}} </label>
+                     </div>
+                     <label>Issuance regime: {{drug.issuanceRegime}} </label>
+                    <p> {{drug.note}}</p>
+                </div>
+            </div>
+            <div class="col-3 align-items-center">
+                <button class="btn btn-dark mt-3 w-100" (click)="prescribeDrug(drug.name, content)">Prescribe</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('close')">Close</button>
+    </div>
+  </ng-template>

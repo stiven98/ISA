@@ -29,6 +29,9 @@ public class ERecipe implements Serializable {
    @Column(name = "e_recipe_status", nullable = false)
    private ERecipeStatus eRecipeStatus;
 
+   @Column(name = "therapy_duration", nullable = false)
+   private int duration;
+
    @Basic
    @Temporal(TemporalType.DATE)
    @Column(name = "dateofissuing", nullable = false)

@@ -1,9 +1,15 @@
 package ftn.isa.team12.pharmacy.controller;
 
+import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.dto.ExaminationDrugQuantityDTO;
+import ftn.isa.team12.pharmacy.dto.GetDrugQuantityDTO;
+import ftn.isa.team12.pharmacy.email.EmailSender;
+import ftn.isa.team12.pharmacy.repository.DrugInPharmacyRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/examination", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +36,15 @@ public class ExaminationController {
 
     @Autowired
     PatientService patientService;
+
+    @Autowired
+    DrugInPharmacyService drugInPharmacyService;
+
+    @Autowired
+    DrugService drugService;
+
+    @Autowired
+    EmailSender sender;
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @GetMapping("/allByEmployee")
@@ -74,6 +86,48 @@ public class ExaminationController {
         result.put("result", "Successfully given penalty!");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @GetMapping("/drugAvailability")
+    public ResponseEntity<?> getDrugAvailability(ExaminationDrugQuantityDTO drugQuantityDTO) {
+        Map<String, Integer> result = new HashMap<>();
+        Map<String, List<Drug>> resultAlternative = new HashMap<>();
+        Drug drug = drugService.findById(drugQuantityDTO.getDrugId());
+        String drugName = drug.getName();
+        Pharmacy pharmacy = pharmacyService.findPharmacyById(drugQuantityDTO.getPharmacyId());
+        Set<PharmacyAdministrator> admins = pharmacy.getPhAdmins();
+        int quantity = this.drugInPharmacyService.findDrugQuantity(drugQuantityDTO.getDrugId(), drugQuantityDTO.getPharmacyId());
+        System.out.println(quantity);
+        if(quantity <= 0){
+            for(PharmacyAdministrator phAdmin : admins){
+                sender.sendDrugQuantityNotificationToPhAdmin(phAdmin.getUsername(), drugName);
+            }
+            List<Drug> retVal = new ArrayList<>();
+            Set<Drug> substitute = drug.getSubstituteDrugs();
+            List<Drug> allergies = patientService.findAllergiesById(drugQuantityDTO.getPatientId());
+            for(Drug subDrug : substitute){
+                boolean isInAllergies = false;
+                for(Drug allergy : allergies){
+                    if(subDrug.getDrugId() == allergy.getDrugId()){
+                        isInAllergies = true;
+                        break;
+                    }
+                }
+                if(!isInAllergies){
+                    Integer quant = this.drugInPharmacyService.findDrugQuantity(subDrug.getDrugId(), drugQuantityDTO.getPharmacyId());
+                    System.out.println(quant);
+                    if(quant != null){
+                        retVal.add(subDrug);
+                    }
+                }
+            }
+            resultAlternative.put("result", retVal);
+            return new ResponseEntity<>(resultAlternative, HttpStatus.OK);
+        }
+
+        result.put("result", quantity);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @GetMapping("/allByEmployeeAndPharmacy/{id}")
@@ -88,6 +142,8 @@ public class ExaminationController {
         List<Examination> examinations = examinationService.findAllByEmployeeAndPharmacy(medicalStuff, pharmacy);
         return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
+
+
 
     static class PenaltyReq{
         private int penalty;

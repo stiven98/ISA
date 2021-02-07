@@ -45,6 +45,11 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public List<Drug> findAllergiesById(UUID id) {
+        return this.patientRepository.findPatientAllergiesById(id);
+    }
+
+    @Override
     public Patient saveAndFlush(Patient patient) {
 
         patient.getAccountInfo().setActive(false);

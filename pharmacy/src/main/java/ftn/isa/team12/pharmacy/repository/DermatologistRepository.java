@@ -11,6 +11,6 @@ public interface DermatologistRepository extends JpaRepository<Dermatologist, UU
 
     Dermatologist findByLoginInfoEmail(String email);
 
-    @Query("select p from Dermatologist p where p.id= ?1")
+    @Query("select p from Dermatologist p where p.userId= ?1")
     Dermatologist findDermatologistById(UUID id);
 }

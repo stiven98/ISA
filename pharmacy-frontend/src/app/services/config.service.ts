@@ -131,6 +131,12 @@ export class ConfigService {
     return this._give_penalty ;
   }
 
+  private _check_drug_availability = this._examination_url + '/drugAvailability';
+
+  get check_drug_availability (): string {
+    return this._check_drug_availability;
+  }
+
   private _examinations_by_employee_and_pharmacy = this._examination_url + '/allByEmployeeAndPharmacy/';
 
   get examinations_by_employee_and_pharmacy (): string {

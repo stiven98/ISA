@@ -40,4 +40,11 @@ export class ExaminationService {
       }));
   }
 
+  checkDrugAvailability(data){
+    return this.apiService.get(this.config.check_drug_availability, data)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+
 }
