@@ -48,6 +48,7 @@ import { AllOrdersComponent } from './all-orders/all-orders.component';
 import { MyOffersComponent } from './my-offers/my-offers.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { CreatePharmacistComponent } from './ph-admin/create-pharmacist/create-pharmacist.component';
+import { AddDermatologistInPharmacyComponent } from './ph-admin/add-dermatologist-in-pharmacy/add-dermatologist-in-pharmacy.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -86,6 +87,7 @@ const appRoutes: Routes = [
   { path: 'allDermatologist', component: SeeAllDermatologistComponent},
   { path: 'allPharmacist', component: SeeAllPharmacistComponent},
   { path: 'createPharmacist', component: CreatePharmacistComponent, canActivate: [PhAdminGuard]},
+  { path: 'addDermatologistInPharmacy', component: AddDermatologistInPharmacyComponent, canActivate: [PhAdminGuard]},
 
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
@@ -134,7 +136,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     AllOrdersComponent,
     MyOffersComponent,
     VacationRequestComponent,
-    CreatePharmacistComponent
+    CreatePharmacistComponent,
+    AddDermatologistInPharmacyComponent
   ],
   imports: [
     BrowserModule,

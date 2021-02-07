@@ -189,6 +189,20 @@ export class ConfigService {
   }
 
 
+  private _add_dermatologist_in_pharmacy = this._dermatologist_url + '/addInPharmacy';
+
+  get add_dermatologist_in_pharmacy (): string {
+    return this._add_dermatologist_in_pharmacy ;
+  }
+
+  private _get_dermatologist_from_other_pharmacy = this._dermatologist_url + '/allFromOtherPharmacy';
+
+  get get_dermatologist_from_other_pharmacy (): string {
+    return this._get_dermatologist_from_other_pharmacy ;
+  }
+
+
+
   
 
 }

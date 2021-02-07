@@ -104,6 +104,20 @@ export class MedicalStuffService {
   }
   
 
+  getAllDermatologistFromOtherPharmacy():Observable<any>{
+    return this.api.get(this.configService.get_dermatologist_from_other_pharmacy)
+    .pipe(map((response:Response)=> {
+      return response;
+    }) )
+  }
+
+  addDermatologistInPharmacy(pharmacist:PharmacistCreateModel){
+    return this.api.post(this.configService.add_dermatologist_in_pharmacy,pharmacist)
+    .pipe(map((response)=> {
+      return response;
+    }) )
+  }
+
 
 
 

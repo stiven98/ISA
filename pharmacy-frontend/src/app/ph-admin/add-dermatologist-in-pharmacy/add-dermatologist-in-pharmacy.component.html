@@ -1,0 +1,83 @@
+<div class=" container ">
+    
+    <div class="row d-flex justify-content-center "> 
+        <h1 class="font-weight-bold text-dark">Add dermatologist in pharmacy</h1>
+    </div>    
+
+    <section id="doctors" class="doctors">
+        <div class="container">
+            <div class="row row d-flex justify-content-center "  >
+            <div class="col-lg-8"  *ngFor="let derm of dermatologist">
+                <div class="member d-flex align-items-start">
+                <div class="pic"><img src="assets/img/doctor.png" class="img-fluid" alt=""></div>
+                <div class="member-info">
+                    <h4>{{derm.name}} {{derm.lastName}}</h4>
+                    <span>Dermatologist</span>
+                    <p>Phone number: {{derm.nummber}}</p>
+                    <p>Email: {{derm.email}}</p>
+                    <p>Average mark: {{derm.averageMark}}</p>
+                    <button  class="btn btn-dark mt-3 w-100" (click)="open(content)"  [hidden]="role">See all pharmacies</button>
+                    <button  class="btn btn-dark mt-3 w-100" (click)="change(derm)"  [hidden]="role">Add</button>
+                    <ng-template #content let-modal>
+                        <div class="modal-header">
+                          <h4 class="modal-title" id="modal-basic-title">Works in pharamacies</h4>
+                          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row" >
+                                <div class="col-6" *ngFor="let ph of derm.pharmacies">
+                                    <a class="btn-secondary"  (click)="modal.close('Save click')"  class = "btn btn-outline-dark" [routerLink]="['/pharmacy-home/',ph.name]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                        <img src="assets/img/pharmacy.png" class="img-fluid" alt="">
+                                        <p>{{ph.name}}</p>
+                                        <p>{{ph.averageMarke}} </p>
+                                        <p>{{ph.cityName}}</p>
+                                        <p>{{ph.description}} </p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          
+                        </div>
+                    </ng-template>
+                </div>
+                
+                <div class="pl-5"  [hidden]="!role">
+                  
+                    <div>
+                        <label>Start tie</label>
+                        <ngb-timepicker [(ngModel)]="startTime" [ngModelOptions]="{standalone: true}" ></ngb-timepicker>
+                    </div>
+                    <div class="pb-3">
+                        <form class="form-inline">
+                            <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd"
+                                    name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+                                <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                                </div>
+                            </div>
+                            </div>
+                        </form>  
+                    </div>
+                    <div class="pt-5">
+                        <button  class="btn btn-dark mt-3 w-100" (click)="addWorkTime()">Add work time</button>
+                        <button  class="btn btn-dark mt-3 w-100" (click)="save(derm)">Save all</button>
+                    </div>
+                </div>
+                <div  [hidden]="!role">
+                    <label>End time</label>
+                    <ngb-timepicker [(ngModel)]="endTime"[ngModelOptions]="{standalone: true}" ></ngb-timepicker>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+
+    <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
+</div>
