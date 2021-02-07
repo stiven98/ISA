@@ -43,6 +43,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SeeAllPharmacistComponent } from './see-all-pharmacist/see-all-pharmacist.component';
+import { PatientMarksComponent } from './patient-marks/patient-marks.component';
 import { AllOrdersComponent } from './all-orders/all-orders.component';
 import { MyOffersComponent } from './my-offers/my-offers.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
@@ -58,6 +59,7 @@ const appRoutes: Routes = [
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent, canActivate: [AuthGuard] },
   { path: 'changePassword' , component: ChangePasswordComponent},
+  { path: 'patient-marks', component: PatientMarksComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard],
   children : [
     { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
@@ -128,6 +130,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     SeeAllDermatologistComponent,
     WorkCalendarComponent,
     SeeAllPharmacistComponent,
+    PatientMarksComponent,
     AllOrdersComponent,
     MyOffersComponent,
     VacationRequestComponent,

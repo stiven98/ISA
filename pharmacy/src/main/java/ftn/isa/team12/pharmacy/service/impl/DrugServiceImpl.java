@@ -45,6 +45,11 @@ public class DrugServiceImpl implements DrugService {
         return drugRepository.findById(id).orElseGet(null);
     }
 
+    @Override
+    public Drug save(Drug drug) {
+        return this.drugRepository.save(drug);
+    }
+
 
     @Override
     public List<DrugForOrderDTO> getAll() {

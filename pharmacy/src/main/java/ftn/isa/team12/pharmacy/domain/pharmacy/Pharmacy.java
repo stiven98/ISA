@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
+import ftn.isa.team12.pharmacy.domain.marks.PharmacyMarks;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
@@ -47,6 +48,10 @@ public class Pharmacy implements Serializable {
    @JsonIgnore
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
    private Set<DrugInPharmacy> drugs = new HashSet<DrugInPharmacy>();
+
+   @JsonIgnore
+   @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
+   private Set<PharmacyMarks> pharmcyMarks = new HashSet<PharmacyMarks>();
 
    @ManyToMany
    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId")
