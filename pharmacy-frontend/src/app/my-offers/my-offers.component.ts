@@ -5,6 +5,7 @@ import {OfferValidation} from '../validation-model/offer-validation';
 import {PharmacyService} from '../services/pharmacy.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
+import {fakeAsync} from '@angular/core/testing';
 
 @Component({
   selector: 'app-my-offers',
@@ -12,9 +13,13 @@ import {AuthService} from '../services/auth.service';
   styleUrls: ['./my-offers.component.css']
 })
 export class MyOffersComponent implements OnInit {
-
+  showOffers: any [];
   offers: any [];
   offerValidation: OfferValidation;
+  waitingChecked: boolean;
+  acceptedChecked: boolean;
+  declinedChecked: boolean;
+  filtering: boolean;
 
   constructor(private offerService: OfferService,
               private userService: UserService,
@@ -23,7 +28,12 @@ export class MyOffersComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.waitingChecked = true;
+    this.acceptedChecked = true;
+    this.declinedChecked = true;
+    this.filtering = false;
     this.offers = [];
+    this.showOffers = [];
     this.offerValidation = new OfferValidation();
     this.userService.getMyInfo().subscribe((user) => {
       if (this.authService.getRole() === 'ROLE_SUPPLIER') {
@@ -32,8 +42,7 @@ export class MyOffersComponent implements OnInit {
           for (const item of response) {
             this.pharmacyService.findById(item.drugOrder.pharmacy).subscribe(answer => {
               this.offers.push({...item, pharmacyObject: answer, newPrice: ''});
-              console.log(this.offers);
-
+              this.showOffers.push({...item, pharmacyObject: answer, newPrice: ''});
             });
           }
         });
@@ -59,5 +68,29 @@ export class MyOffersComponent implements OnInit {
       });
     }
 
+  }
+
+  onChangeCheckBox = () => {
+    this.filtering = true;
+    this.showOffers = [];
+    for (const offer of this.offers) {
+      if (this.isAccepted(offer) || this.isDeclined(offer) || this.onWaiting(offer)) {
+        this.showOffers.push(offer);
+      }
+    }
+    this.filtering = false;
+
+  }
+
+  isAccepted = (offer) => {
+    return (this.acceptedChecked && (offer.status === 'accepted'));
+  }
+
+  isDeclined = (offer) => {
+    return (this.declinedChecked && (offer.status === 'declined'));
+  }
+
+  onWaiting = (offer) => {
+    return (this.waitingChecked && (offer.status === 'waiting'));
   }
 }
