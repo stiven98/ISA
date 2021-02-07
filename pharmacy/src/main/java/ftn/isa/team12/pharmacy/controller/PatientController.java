@@ -2,6 +2,7 @@ package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
 import ftn.isa.team12.pharmacy.dto.PatientDTO;
 import ftn.isa.team12.pharmacy.dto.PatientExaminationDTO;
@@ -62,16 +63,20 @@ public class PatientController {
     @Autowired
     private EmailSender sender;
 
+    @Autowired
+    private PharmacyService pharmacyService;
+
     @PreAuthorize("hasRole('ROLE_PH_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<PatientDTO>> findAll() {
         List<Patient> patients = patientService.findAll();
         List<PatientDTO> dto = new ArrayList<>();
-        for (Patient p: patients) {
+        for (Patient p : patients) {
             dto.add(new PatientDTO(p));
         }
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST','ROLE_PHARMACIST')")
     @GetMapping("/getPatientsByMedicalStuffId")
     public ResponseEntity<?> findPatientsByMedicalStuff() {
@@ -79,7 +84,7 @@ public class PatientController {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String email = currentUser.getName();
         User user = userService.findUserByEmail(email);
-        if(user == null){
+        if (user == null) {
             result.put("result", "Please log in first!");
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
@@ -125,12 +130,12 @@ public class PatientController {
     }
 
 
-
     @GetMapping("/allergies/{email}")
     public ResponseEntity<List<Drug>> findPatientAllergies(@PathVariable String email) {
         List<Drug> allergies = patientService.findPatientAllergies(email);
         return new ResponseEntity<List<Drug>>(allergies, HttpStatus.OK);
     }
+
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')") // Dodati ostale role
     @PostMapping("/addAllergy")
     public ResponseEntity<?> addAllergy(@RequestBody AddAllergyDTO addAllergy) {
@@ -139,17 +144,85 @@ public class PatientController {
         patient.getAllergies().add(allergy);
         patientService.addAllergy(patient);
         return new ResponseEntity<>("Successfully added allergy", HttpStatus.OK);
-       }
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/accountCategory/{email}")
     public ResponseEntity<AccountCategory> findAccountCategory(@PathVariable String email) {
         AccountCategory category = patientService.findAccountCategory(email);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
+
     @GetMapping("/penalty/{email}")
     public ResponseEntity<Integer> findPenalty(@PathVariable String email) {
         Integer penalty = patientService.findPenalty(email);
         return new ResponseEntity<>(penalty, HttpStatus.OK);
     }
 
-   }
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @PostMapping("/subscribedPharmacies")
+    public ResponseEntity<Set<Pharmacy>> findSubscribedPharmacy(@RequestBody String email) {
+        Patient patient = patientService.findByEmail(email);
+        if (patient == null) {
+            throw new IllegalArgumentException("Patient with email doesn't exist!");
+        }
+        return new ResponseEntity<>(patient.getSubscribedPharmacies(), HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/unsubscribePharmacy/{email}/{id}")
+    public ResponseEntity<Patient> unsubscribePharmacy(@PathVariable String email, @PathVariable String id) {
+        Patient patient = patientService.findByEmail(email);
+        if (patient == null) {
+            throw new IllegalArgumentException("Patient with email doesn't exist!");
+        }
+
+        Pharmacy pharmacy = pharmacyService.findPharmacyById(UUID.fromString(id));
+        if (pharmacy == null) {
+            throw new IllegalArgumentException("Pharmacy doesn't exists!");
+        }
+
+        patient.getSubscribedPharmacies().remove(pharmacy);
+        patient = patientService.saveAndFlush(patient);
+
+        return new ResponseEntity<>(patient, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/isSubscribed/{email}/{id}")
+    public ResponseEntity<Boolean> isSubscribed(@PathVariable String email, @PathVariable String id) {
+        Patient patient = patientService.findByEmail(email);
+        if (patient == null) {
+            throw new IllegalArgumentException("Patient with email doesn't exist!");
+        }
+
+        Pharmacy pharmacy = pharmacyService.findPharmacyById(UUID.fromString(id));
+        if (pharmacy == null) {
+            throw new IllegalArgumentException("Pharmacy doesn't exists!");
+        }
+
+        patient.getSubscribedPharmacies().contains(pharmacy);
+        return new ResponseEntity<>(patient.getSubscribedPharmacies().contains(pharmacy), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/subscribe/{email}/{id}")
+    public ResponseEntity<Patient> subscribePharmacy(@PathVariable String email, @PathVariable String id) {
+        Patient patient = patientService.findByEmail(email);
+        if (patient == null) {
+            throw new IllegalArgumentException("Patient with email doesn't exist!");
+        }
+
+        Pharmacy pharmacy = pharmacyService.findPharmacyById(UUID.fromString(id));
+        if (pharmacy == null) {
+            throw new IllegalArgumentException("Pharmacy doesn't exists!");
+        }
+
+        patient.getSubscribedPharmacies().add(pharmacy);
+        patient = patientService.saveAndFlush(patient);
+
+        return new ResponseEntity<>(patient, HttpStatus.OK);
+    }
+
+}
