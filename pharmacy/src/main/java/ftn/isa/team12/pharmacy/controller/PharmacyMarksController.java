@@ -30,6 +30,9 @@ public class PharmacyMarksController {
     private ERecipeService eRecipeService;
 
     @Autowired
+    private ExaminationService examinationService;
+
+    @Autowired
     private PharmacyService pharmacyService;
 
     @Autowired
@@ -39,8 +42,10 @@ public class PharmacyMarksController {
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/pharmaciesForPatient/{email}")
     public ResponseEntity<List<Pharmacy>> getPharmaciesForPatient(@PathVariable String email) {
+        Patient patient = this.patientService.findByEmail(email);
         List<Pharmacy> pharmacies = this.drugReservationService.findPharmaciesWherePatientReservedDrugs(email);
         List<Pharmacy> pharmacies1 = this.eRecipeService.findPharmaciesWherePatientHasERecipe(email);
+        List<Pharmacy> pharmacies2 = this.examinationService.findAllPharmaciesWherePatientHadExamination(patient.getUserId());
         //dodati i apoteke u kojima je imao preglede
         List<Pharmacy> pharmacyList = new ArrayList<>();
 
@@ -50,6 +55,11 @@ public class PharmacyMarksController {
             }
         }
         for(Pharmacy pharmacy : pharmacies1) {
+            if(!pharmacyList.contains(pharmacy)){
+                pharmacyList.add(pharmacy);
+            }
+        }
+        for(Pharmacy pharmacy : pharmacies2) {
             if(!pharmacyList.contains(pharmacy)){
                 pharmacyList.add(pharmacy);
             }

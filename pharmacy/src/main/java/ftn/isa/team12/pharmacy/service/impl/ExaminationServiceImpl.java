@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
+
 @Service
 public class ExaminationServiceImpl implements ExaminationService {
 
@@ -27,6 +29,11 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy) {
         return examinationRepository.findAllByEmployeeAndPharmacy(employee, pharmacy);
+    }
+
+    @Override
+    public List<Pharmacy> findAllPharmaciesWherePatientHadExamination(UUID patientId) {
+        return this.examinationRepository.findAllPharmaciesWherePatientHadExamination(patientId);
     }
 
 }

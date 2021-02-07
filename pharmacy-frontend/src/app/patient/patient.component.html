@@ -297,8 +297,27 @@
       </div>
     </div>
     <button style="margin-top: 20px; margin-left: 15px" class="btn" (click)="goToAddMarks()" >Add mark<img style="margin-left: 5px" src="assets/img/add.png"></button>
+    <div class = "container" >
+      <div id="medicalStuffMarks" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
+        <h2>Medical stuff marks</h2>
+      </div>
+      <div class = "row main-row row-cols-1 row-cols-sm-3 g-3" >
+        <div lass = "col-12" >
+          <div  class = "card p-1 text-center"  >
+            <img src="/assets/img/d.png" class = "card-img-top shadow bg-white rounded">
+            <h5 class ="card-title>"></h5>
+            <div class = "card-body">
+              <p class = "card-text">Your mark  </p>
+              <a class="btn-secondary" data-toggle="modal" data-target = "#changeDrugMark"  class = "btn btn-outline-dark">Change</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button style="margin-top: 20px; margin-left: 15px" class="btn" (click)="goToAddMarks()" >Add mark<img style="margin-left: 5px" src="assets/img/add.png"></button>
   </div>
 </div>
+
 <div class="modal fade" id="changeMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
