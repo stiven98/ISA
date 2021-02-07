@@ -1,9 +1,26 @@
-<div class="container p-5" >
+<div class="container p-5" *ngIf="offers.length > 0" >
   <div>
     <h1 class="d-flex justify-content-center font-weight-bold text-dark m-4">My offers:</h1>
   </div>
 
-  <div class="border border-dark rounded m-3"  *ngFor="let item of offers">
+  <div class="ml-3">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="waitingForOffers" [(ngModel)]="waitingChecked" [ngModelOptions]="{standalone: true}" [checked]="waitingChecked" (change)="onChangeCheckBox()" />
+      <label class="form-check-label" for="waitingForOffers" >Waiting for offers</label>
+    </div>
+
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="accepted" [(ngModel)]="acceptedChecked" [ngModelOptions]="{standalone: true}" [checked]="acceptedChecked" (change)="onChangeCheckBox()" />
+      <label class="form-check-label" for="accepted">Accepted</label>
+    </div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="declined" [(ngModel)]="declinedChecked" [ngModelOptions]="{standalone: true}" [checked]="declinedChecked" (change)="onChangeCheckBox()" />
+      <label class="form-check-label" for="declined">Declined</label>
+    </div>
+  </div>
+
+
+  <div class="border border-dark rounded m-3"  *ngFor="let item of showOffers">
     <div class="d-flex">
       <div class="p-3 w-50">
         <h6 class="font-weight-bold text-dark pb-3">Pharmacy:</h6>
@@ -71,9 +88,13 @@
     </div>
 
   </div>
-
-
-
-
 </div>
+
+
+<div *ngIf="offers.length == 0">
+  <h1 class="d-flex justify-content-center font-weight-bold text-dark m-4">No offer by this user!</h1>
+</div>
+
+
+<ngx-loading-x  [show]="filtering"></ngx-loading-x>
 
