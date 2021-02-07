@@ -36,4 +36,9 @@ public class ExaminationServiceImpl implements ExaminationService {
         return this.examinationRepository.findAllPharmaciesWherePatientHadExamination(patientId);
     }
 
+    @Override
+    public List<MedicalStuff> findAllMedicalStuffThatTreatedPatient(UUID patientId) {
+        return this.examinationRepository.findAllMedicalStuffThatTreatedPatient(patientId);
+    }
+
 }

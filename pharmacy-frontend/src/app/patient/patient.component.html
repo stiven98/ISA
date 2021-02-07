@@ -247,18 +247,7 @@
     <div class = "container" >
       <div id="pharmacies" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
         <h2>Pharmacies</h2>
-      </div>
-      <div class = "row main-row row-cols-1 row-cols-sm-3 g-4"  >
-        <div lass = "col-12">
-          <div class = "card p-1 text-center" style = "width: 20rem">
-            <img src="/assets/img/pharmacy.jpg" class = "card-img-top shadow bg-white rounded">
-            <h5 class ="card-title>">Apoteka 1</h5>
-            <div class = "card-body">
-              <p class = "card-text">Average mark 8.6 </p>
-              <a class="btn-secondary"  class = "btn btn-outline-dark">See additional info</a>
-            </div>
-          </div>
-        </div>
+        <button class="btn-outline-secondary" (click)="goToPharmacies()" >Go to pharmacies</button>
       </div>
       <div class = "container" >
         <div id="marks" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
@@ -302,13 +291,13 @@
         <h2>Medical stuff marks</h2>
       </div>
       <div class = "row main-row row-cols-1 row-cols-sm-3 g-3" >
-        <div lass = "col-12" >
+        <div lass = "col-12" *ngFor="let mark of medicalStuffMarks" >
           <div  class = "card p-1 text-center"  >
             <img src="/assets/img/d.png" class = "card-img-top shadow bg-white rounded">
-            <h5 class ="card-title>"></h5>
+            <h5 class ="card-title>"> {{mark.medicalStuff.accountInfo.name}} {{mark.medicalStuff.accountInfo.lastName}} </h5>
             <div class = "card-body">
-              <p class = "card-text">Your mark  </p>
-              <a class="btn-secondary" data-toggle="modal" data-target = "#changeDrugMark"  class = "btn btn-outline-dark">Change</a>
+              <p class = "card-text">Your mark {{mark.mark}} </p>
+              <a class="btn-secondary" data-toggle="modal" data-target = "#changeMedicalStuffMark" (click)="currentMedStuff(mark)" class = "btn btn-outline-dark">Change</a>
             </div>
           </div>
         </div>
@@ -360,6 +349,26 @@
     </div>
   </div>
 </div>
-
+<div class="modal fade" id="changeMedicalStuffMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Change your mark for  </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"  >
+          <input style="width: 400px;" min ="1" [(ngModel)]="medStuffNmr" max = "10" type="number" placeholder="Enter new mark for this medical stuff" >
+        </div>
+        <input  class = "btn btn-secondary"  data-dismiss="modal" (click)="changeMedicalStuffMark()"  type="submit">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 

@@ -10,5 +10,6 @@ public interface ExaminationService {
     List<Examination> findAllByEmployee(MedicalStuff employee);
     List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy);
     List<Pharmacy> findAllPharmaciesWherePatientHadExamination(UUID patientId);
+    List<MedicalStuff> findAllMedicalStuffThatTreatedPatient(UUID patientId);
 
 }

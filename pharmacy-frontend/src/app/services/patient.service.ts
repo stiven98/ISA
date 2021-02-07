@@ -10,7 +10,19 @@ import {AccountCategory} from '../shared/models/accountCategory';
 export class PatientService {
   constructor(private http: HttpClient) {
   }
-
+  findMEdicalStuffMarksByPatient = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/medicalStuffMarks/marksFor/' + email)
+      .pipe(map(responseData => {
+        const marks = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            marks.push(responseData[key]);
+          }
+        }
+        return marks ;
+      }));
+  }
   findPharmaciesToMark = (email) => {
     return this.http
       .get(environment.apiUrl + '/api/pharmacyMarks/pharmaciesForPatient/' + email)
@@ -22,6 +34,19 @@ export class PatientService {
           }
         }
         return pharmacies ;
+      }));
+  }
+  findMedicalStuffToMark = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/medicalStuffMarks/medicalStuffToMark/' + email)
+      .pipe(map(responseData => {
+        const medicalStuff = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            medicalStuff.push(responseData[key]);
+          }
+        }
+        return medicalStuff ;
       }));
   }
   findMarksByPatient = (email) => {

@@ -3,12 +3,9 @@ import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.ERecipe;
 import ftn.isa.team12.pharmacy.domain.drugs.ERecipeItem;
 import ftn.isa.team12.pharmacy.domain.marks.DrugMarks;
-import ftn.isa.team12.pharmacy.domain.marks.PharmacyMarks;
-import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.dto.DrugMarkDTO;
 import ftn.isa.team12.pharmacy.dto.DrugMarksChangeDTO;
-import ftn.isa.team12.pharmacy.dto.PharmacyMarkChangeDTO;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +42,9 @@ public class DrugMarksController {
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/createMark")
     public ResponseEntity<DrugMarks> createDrugMark(@RequestBody DrugMarkDTO dto) {
+        if(dto.getMark() > 10) {
+            dto.setMark(10);
+        }
         Drug drug = this.drugService.findDrugByName(dto.getDrugName());
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
         DrugMarks drugMarks = new DrugMarks();
@@ -73,6 +73,9 @@ public class DrugMarksController {
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/changeMark")
     public ResponseEntity<DrugMarks> changeMark(@RequestBody DrugMarksChangeDTO dto) {
+        if(dto.getNewMark() > 10) {
+            dto.setNewMark(10);
+        }
         DrugMarks drugMarks = this.drugMarksService.findByDrugMarksId((dto.getDrugMarksId()));
         Drug drug = this.drugService.findDrugByName(drugMarks.getDrug().getName());
         Double mark = dto.getNewMark();
