@@ -1,21 +1,17 @@
 package ftn.isa.team12.pharmacy.service.impl;
-import ftn.isa.team12.pharmacy.domain.drugs.Drug;
-import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
-import ftn.isa.team12.pharmacy.domain.drugs.DrugOrder;
-import ftn.isa.team12.pharmacy.domain.drugs.DrugOrderItem;
+import ftn.isa.team12.pharmacy.domain.drugs.*;
 import ftn.isa.team12.pharmacy.domain.enums.DrugOrderStatus;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.domain.users.Supplier;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugOrderDTO;
 import ftn.isa.team12.pharmacy.repository.DrugOrderRepository;
-import ftn.isa.team12.pharmacy.service.DrugOrderService;
-import ftn.isa.team12.pharmacy.service.DrugService;
-import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
-import ftn.isa.team12.pharmacy.service.PharmacyService;
+import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +29,13 @@ public class DrugOrderServiceImpl implements DrugOrderService {
     private PharmacyService pharmacyService;
 
     @Autowired
+    private SupplierService supplierService;
+
+    @Autowired
     private PharmacyAdministratorService pharmacyAdministratorService;
+
+    @Autowired
+    private OfferService offerService;
 
 
     @Override
@@ -80,6 +82,22 @@ public class DrugOrderServiceImpl implements DrugOrderService {
     @Override
     public DrugOrder findById(UUID id) {
         return this.drugOrderRepository.findById(id).get();
+    }
+
+    @Override
+    public List<DrugOrder> findAllForSupplier(String email) {
+        List<DrugOrder> drugOrders = this.drugOrderRepository.findAll();
+        Supplier supplier = this.supplierService.findByEmail(email);
+        if (supplier == null ) {
+            throw new IllegalArgumentException("Supplier doesn't exists with email!");
+        }
+        List<Offer> offers = this.offerService.getOfferByIdSupplier(supplier.getUserId());
+        for (Offer offer: offers) {
+            if (drugOrders.contains(offer.getDrugOrder())) {
+                drugOrders.remove(offer.getDrugOrder());
+            }
+        }
+        return drugOrders;
     }
 
     boolean checkIfDrugExistInPharmacy(Pharmacy pharmacy, Drug drug){

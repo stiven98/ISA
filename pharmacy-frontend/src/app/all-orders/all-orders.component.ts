@@ -15,30 +15,47 @@ import {Router} from '@angular/router';
 })
 export class AllOrdersComponent implements OnInit {
 
-  orders = [];
-  email = '';
+  orders: any [];
+  email: string;
 
   constructor(private drugOrderService: DrugOrderService,
               private pharmacyService: PharmacyService,
               private offerService: OfferService,
               private userService: UserService,
-              private router: Router) { }
+              private router: Router,
+              private authService: AuthService
+              ) { }
 
   ngOnInit(): void {
-    this.drugOrderService.getAllOrders().subscribe((response) => {
-      for (const item of response) {
-        if (new Date().getTime() <= new Date(item.deadline).getTime()) {
-          this.pharmacyService.findById(item.pharmacy).subscribe(answer => {
-            this.orders.push({...item, pharmacyObject: answer, offerValidation: new OfferValidation(), price: '', deliveryTime: new Date()});
-          });
-        }
+    this.orders = [];
+    this.email = '';
+    this.userService.getMyInfo().subscribe((user) => {
+      this.email = user.email;
+      if (this.authService.getRole() === 'ROLE_SUPPLIER') {
+        this.drugOrderService.getAllOrders(this.email).subscribe((response) => {
+          for (const item of response) {
+            if (new Date().getTime() <= new Date(item.deadline).getTime()) {
+              this.pharmacyService.findById(item.pharmacy).subscribe(answer => {
+                this.orders.push({
+                  ...item,
+                  pharmacyObject: answer,
+                  offerValidation: new OfferValidation(),
+                  price: '',
+                  deliveryTime: new Date()
+                });
+              });
+            }
+          }
+        });
+
+      } else {
+        this.router.navigate(['403']);
       }
+    }, error => {
+      this.router.navigate(['login']);
     });
 
-    this.userService.getMyInfo().subscribe((response) => {
-      this.email = response.email;
-      console.log(this.email);
-    });
+
 
   }
 
@@ -51,7 +68,11 @@ export class AllOrdersComponent implements OnInit {
     const validatedDeliveryTime = item.offerValidation.isValidDeliveryTime(item.deliveryTime, item.deadline);
 
     if (validatedPrice && validatedDeliveryTime) {
-      this.offerService.saveOffer({...item, email: this.email}).subscribe(response => {
+      const ids = item.drugOrderItems.map(drug => {
+        return drug.itemId;
+      });
+
+      this.offerService.saveOffer({...item, email: this.email, ids}).subscribe(response => {
         alert('Offer success created!');
         this.router.navigate(['myOffers']);
       }, error => {

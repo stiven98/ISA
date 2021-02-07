@@ -1,6 +1,6 @@
 <div class="container p-5" >
   <div>
-    <h2 class="d-flex justify-content-center font-weight-bold text-dark m-4">All active orders</h2>
+    <h1 class="d-flex justify-content-center font-weight-bold text-dark m-4">My offers:</h1>
   </div>
 
   <div class="border border-dark rounded m-3"  *ngFor="let item of offers">
@@ -54,7 +54,7 @@
 
 
 
-      <div class="border-left border-dark ml-auto p-3" *ngIf="item.status === 'waiting'">
+      <div class="border-left border-dark ml-auto p-3" *ngIf="item.status === 'waiting' && canChange(item.drugOrder.deadline)">
         <form>
           <h5 class="font-weight-bold text-success mt-2 mb-2">Current price: {{item.price}}</h5>
           <div>

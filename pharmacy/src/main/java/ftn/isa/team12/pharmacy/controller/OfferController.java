@@ -61,7 +61,6 @@ public class OfferController {
     @PreAuthorize("hasRole('ROLE_SUPPLIER')")
     @PostMapping("/add")
     public ResponseEntity<Offer> saveOffer(@RequestBody OfferDTO offerRequest) {
-        System.out.println(offerRequest);
         Offer offer = offerService.addOffer(offerRequest);
         return new ResponseEntity<>(offer, HttpStatus.CREATED);
     }

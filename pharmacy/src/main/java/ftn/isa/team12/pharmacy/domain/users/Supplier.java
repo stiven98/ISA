@@ -21,4 +21,6 @@ public class Supplier extends User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "drug_id"))
     private Set<Drug> availableDrugs = new HashSet<Drug>();
 
+
+
 }

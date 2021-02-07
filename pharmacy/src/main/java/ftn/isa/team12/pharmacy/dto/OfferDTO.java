@@ -1,11 +1,13 @@
 package ftn.isa.team12.pharmacy.dto;
 
+import ftn.isa.team12.pharmacy.domain.drugs.DrugOrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -18,6 +20,7 @@ public class OfferDTO {
     private Date deliveryTime;
     private UUID orderId;
     private String email;
+    private List<String> ids;
 
     @Override
     public String toString() {

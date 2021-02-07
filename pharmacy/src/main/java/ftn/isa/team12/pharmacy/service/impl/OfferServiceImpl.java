@@ -8,6 +8,7 @@ import ftn.isa.team12.pharmacy.domain.users.Supplier;
 import ftn.isa.team12.pharmacy.dto.OfferDTO;
 import ftn.isa.team12.pharmacy.repository.OfferRepository;
 import ftn.isa.team12.pharmacy.service.DrugOrderService;
+import ftn.isa.team12.pharmacy.service.DrugService;
 import ftn.isa.team12.pharmacy.service.OfferService;
 import ftn.isa.team12.pharmacy.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class OfferServiceImpl implements OfferService {
         return offerRepository.getOfferBySupplier(id);
     }
 
+    @Autowired
+    private DrugService drugService;
+
     @Override
     public Offer addOffer(OfferDTO offerRequest) {
         Offer offer = new Offer();
@@ -43,6 +47,12 @@ public class OfferServiceImpl implements OfferService {
         if (supplier == null) {
             throw new IllegalArgumentException("Bad email of supplier");
         }
+
+
+        // if(!supplier.getAvailableDrugs().containsAll(drugService.getByIds(offerRequest.getIds()))){
+        //     throw new IllegalArgumentException("Supplier don't have all drugs!");
+        // }
+
 
         offer.setSupplier(supplier);
         DrugOrder drugOrder = drugOrderService.findById(offerRequest.getOrderId());
