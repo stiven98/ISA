@@ -178,6 +178,13 @@ export class PatientComponent implements OnInit {
   currentDrug = (mark) => {
     this.currentDrugMark = mark;
   }
+  makeConsultation = () => {
+    this.router.navigate(['/pharmacist-consultation']);
+  }
+  addReservation = () => {
+    alert('Go to drugs page and choose drug wich you want to reserve');
+    this.router.navigate(['/drugs']);
+  }
 }
 
 
