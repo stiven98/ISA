@@ -9,7 +9,7 @@ import {FreeTermDTO} from '../shared/models/FreeTermDTO';
   styleUrls: ['./pharmacist-consultation.component.css']
 })
 export class PharmacistConsultationComponent implements OnInit {
-  date = new Date();
+  date = null;
   time = null;
   pharmacies = [];
   constructor(private pharmacyService: PharmacyService) { }
