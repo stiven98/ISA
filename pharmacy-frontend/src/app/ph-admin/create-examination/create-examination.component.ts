@@ -35,7 +35,8 @@ export class CreateExaminationComponent implements OnInit {
   ngOnInit(): void {
     this.workTimeService.getWorkDay(this.route.snapshot.params['email']).subscribe((days)=>{
       for(let a of days){
-        let s = new Date(a);
+        
+        let s = new Date(a).toLocaleDateString();
         this.days.push(s);
       }
     })
@@ -47,13 +48,13 @@ export class CreateExaminationComponent implements OnInit {
 
   onChangeSelectedDate(event){
     
-    let a = new Date(Date.parse("2021-04-18"));
-    alert(a);
-
+    let a = event.target.value.split("/");
+    let s = a[2] + "-" + a[0] + "-" + a[1];  
     let time = {
-        date : a,
+        date : new Date(Date.parse(s)),
         email : this.route.snapshot.params['email']
     }
+    this.examination.date = time.date;
     this.examinationService.getBusyTime(time).subscribe((res) => {this.busyTime = res.busyDateDTOS;
       this.workStart.hour = res.start[0];
       this.workStart.minute = res.start[1];
@@ -64,7 +65,7 @@ export class CreateExaminationComponent implements OnInit {
   }
 
 
-  addWorkTime(){
+  save(){
 
     if(this.startTime.hour < 10 && this.startTime.minute < 10)
       this.examination.startTime = "0"+this.startTime.hour + ":" +"0"+this.startTime.minute + ":00";
@@ -90,12 +91,11 @@ export class CreateExaminationComponent implements OnInit {
 
     this.examination.duration = hour + minute;
 
-
-
+    this.examinationService.saveExamination(this.examination).subscribe((res) =>
+    {alert(res.result);}
+    );
 
   }
-
-
 
 
 

@@ -17,7 +17,7 @@ public interface ExaminationService {
     List<Examination> findAllByPatient(Patient patient);
     List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy);
 
-
+    void checkExamination(ExaminationCreateDTO dto);
 
     Examination addExaminationForDermatologist(ExaminationCreateDTO dto);
     BusyDateDTO busyTime(String email, Date date);

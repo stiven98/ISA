@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
@@ -75,30 +76,20 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Override
     public Examination addExaminationForDermatologist(ExaminationCreateDTO dto) {
+        this.checkExamination(dto);
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
         Dermatologist dermatologist = dermatologistService.findByEmail(dto.getEmail());
         ExaminationPrice examinationPrice = examinationPriceRepository.findByExaminationPriceId(dto.getPriceId());
-        boolean flag = false;
-        if(dermatologist == null || pharmacyAdministrator == null || examinationPrice == null)
-            throw new IllegalArgumentException("Bad input");
 
-        for (Pharmacy p : dermatologist.getPharmacies()){
-            if(p.getId().toString().equals(pharmacyAdministrator.getPharmacy().getId().toString()) && examinationPrice.getPharmacy().getName().equals(pharmacyAdministrator.getPharmacy().getName())) {
-                flag = true;
-                break;
-            }
-        }
-
-        if(!flag)
-            throw new IllegalArgumentException("Bad input for pharmacy or examinationPrice");
-
+        //setovati cenu
 
         Examination examination = new Examination();
         examination.setDuration(dto.getDuration());
         examination.setDateOfExamination(dto.getDate());
         examination.setTimeOfExamination(dto.getStartTime());
         examination.setPatient(null);
+        examination.setExaminationType(ExaminationType.dermatologistExamination);
         examination.setPharmacy(pharmacyAdministrator.getPharmacy());
         examination.setEmployee(dermatologist);
         examination.setExaminationPrice(examinationPrice);
@@ -111,31 +102,25 @@ public class ExaminationServiceImpl implements ExaminationService {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
         Dermatologist dermatologist = dermatologistService.findByEmail(email);
-        List<Examination> examinations = examinationRepository.findAllByEmployeeAndPharmacy(dermatologist,pharmacyAdministrator.getPharmacy());
+        WorkTime work = workTimeRepository.findByEmployeeAndPharmacyAndDate(dermatologist,pharmacyAdministrator.getPharmacy(),date);
         BusyDateDTO busyDateDTO = new BusyDateDTO();
-
-        for(WorkTime a : workTimeRepository.findAllByEmployeeLoginInfoEmail(email)){
-            a.getDate().setTime(0);
-            date.setTime(0);
-            if(a.getDate().equals(date)) {
-                busyDateDTO.setStart(a.getStartTime());
-                busyDateDTO.setEnd(a.getEndTime());
-                break;
-            }
+        if(work == null){
+            throw new IllegalArgumentException("Dermatologist don't work on " + date.toString());
         }
+
+        busyDateDTO.setStart(work.getStartTime());
+        busyDateDTO.setEnd(work.getEndTime());
+
         if(dermatologist == null || pharmacyAdministrator == null)
             throw new IllegalArgumentException("Bad input");
 
-            for (Examination ex: examinations){
-                ex.getDateOfExamination().setTime(0);
-                date.setTime(0);
-                if(ex.getDateOfExamination().equals(date)){
-                    BusyDateDTO b = new BusyDateDTO();
-                    b.setStart(ex.getTimeOfExamination());
-                    b.setEnd(ex.getTimeOfExamination().plusMinutes(ex.getDuration()));
-                    busyDateDTO.getBusyDateDTOS().add(b);
-                }
-            }
+
+        for (Examination ex: examinationRepository.findAllByEmployeeAndPharmacyAndDateOfExamination(dermatologist,pharmacyAdministrator.getPharmacy(),date)){
+                BusyDateDTO b = new BusyDateDTO();
+                b.setStart(ex.getTimeOfExamination());
+                b.setEnd(ex.getTimeOfExamination().plusMinutes(ex.getDuration()));
+                busyDateDTO.getBusyDateDTOS().add(b);
+        }
 
 
         return busyDateDTO;
@@ -252,4 +237,54 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
 
+    @Override
+    public void checkExamination(ExaminationCreateDTO dto) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        Dermatologist dermatologist = dermatologistService.findByEmail(dto.getEmail());
+        WorkTime workTime = workTimeRepository.findByEmployeeAndPharmacyAndDate(dermatologist, pharmacyAdministrator.getPharmacy(), dto.getDate());
+
+        //proveriti da li je na odmoru
+
+        if(dermatologist == null || pharmacyAdministrator == null)
+            throw new IllegalArgumentException("Bad input");
+
+        boolean flag = false;
+
+        for (Pharmacy p : dermatologist.getPharmacies()){
+            if(p.getId().toString().equals(pharmacyAdministrator.getPharmacy().getId().toString())) {
+                flag = true;
+                break;
+            }
+        }
+
+        if(!flag)
+            throw new IllegalArgumentException("No dermatologist in this pharmacy " + pharmacyAdministrator.getPharmacy().getName());
+
+
+
+        if(workTime == null)
+            throw new IllegalArgumentException("Dermatologist dosen't work on: " + dto.getDate().toString());
+
+        List<Examination> examinations = examinationRepository.findAllByEmployeeAndPharmacyAndDateOfExamination(dermatologist,pharmacyAdministrator.getPharmacy(),dto.getDate());
+        for(Examination examination: examinations){
+            int hourExamination = examination.getTimeOfExamination().getHour();
+            int minuteExamination = examination.getTimeOfExamination().getMinute();
+            int hourNewExamination = dto.getStartTime().getHour();
+            int minuteNewExamination = dto.getStartTime().getMinute();
+
+            if(hourNewExamination == hourExamination && (minuteExamination + examination.getDuration()) >= minuteNewExamination)
+                throw new IllegalArgumentException("Time is overlap 1");
+
+            if(hourNewExamination< workTime.getStartTime().getHour())
+                throw new IllegalArgumentException("Work time start in " + workTime.getStartTime().toString());
+
+            if( (hourNewExamination < hourExamination) && dto.getStartTime().plusMinutes(dto.getDuration()).compareTo(examination.getTimeOfExamination()) > 0)
+                throw new IllegalArgumentException("Time is overlap 2");
+
+            if(dto.getStartTime().compareTo(examination.getTimeOfExamination()) == 0)
+                throw new IllegalArgumentException("Time is busy");
+        }
+
+    }
 }

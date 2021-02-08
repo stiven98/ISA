@@ -10,7 +10,7 @@
             <label>Chose day</label>
             <select class="custom-select" id="day" (change)="onChangeSelectedDate($event)">
                 <option value="Choose..." selected>Choose...</option>
-                <option *ngFor="let day of days" [value]="day">{{day.toLocaleDateString()}}</option>
+                <option *ngFor="let day of days" [value]="day">{{day}}</option>
             </select>
         </div>
     </div>
@@ -36,6 +36,9 @@
             </select>
         </div>
     </div>
+
+
+    <div> <button class="btn " (click)="save()"> Save </button></div>
 
 
 </div>

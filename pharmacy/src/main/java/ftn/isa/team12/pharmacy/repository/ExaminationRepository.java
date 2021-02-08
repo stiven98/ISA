@@ -33,4 +33,9 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
 
     @Query("select ex.pharmacy from Examination ex where ex.dateOfExamination = ?1 and ex.timeOfExamination = ?2 and ex.patient is null")
     List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time);
+
+
+    List<Examination> findAllByEmployeeAndPharmacyAndDateOfExamination(MedicalStuff medicalStuff,Pharmacy ph, Date date );
+
+
 }
