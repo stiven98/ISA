@@ -1,0 +1,67 @@
+<div class="container p-5" >
+  <div>
+    <div>
+      <h1 class="d-flex justify-content-center font-weight-bold text-dark">New complaint:</h1>
+    </div>
+
+    <div class="d-flex justify-content-center pt-4">
+      <form class="form-control-feedback w-50">
+        <div>
+          <label for="typeOfComplaint" class="text-dark mt-3" >Select for what you write complaint:</label>
+
+          <select class="custom-select form-control" id="typeOfComplaint" (change)="onChangeSelect($event)" [ngClass]="complaintValidation.validForWho">
+            <option value="Choose..." selected>Choose...</option>
+            <option value="Pharmacy">Pharmacy</option>
+            <option value="Dermatologist and pharmacist">Dermatologist and pharmacist</option>
+          </select>
+          <div class="invalid-feedback">
+            Select for who you write complaint!
+          </div>
+        </div>
+
+        <div *ngIf="complaintModel.forWho === 'Pharmacy'">
+          <div>
+            <label for="pharmacy" class="text-dark mt-3" >Select for what you write complaint:</label>
+
+            <select class="custom-select form-control" id="pharmacy" (change)="onChangeSelect($event)" [ngClass]="complaintValidation.validPharmacy">
+              <option value="Choose..." selected>Choose...</option>
+            </select>
+            <div class="invalid-feedback">
+              Select pharmacy!
+            </div>
+          </div>
+
+
+        </div>
+
+        <div *ngIf="complaintModel.forWho === 'Dermatologist and pharmacist'">
+          <div>
+            <label for="medicalStaff" class="text-dark mt-3" >Select for what you write complaint:</label>
+
+            <select class="custom-select form-control" id="medicalStaff" (change)="onChangeSelectedMedicalStuff($event)" [ngClass]="complaintValidation.validMedicalStuff">
+              <option value="Choose..." selected>Choose...</option>
+              <option *ngFor="let item of medicalStuff" value="item.userId">{{item.accountInfo.name + ' ' + item.accountInfo.lastName + ' ' + item.loginInfo.email}}</option>
+            </select>
+            <div class="invalid-feedback">
+              Select medical stuff!
+            </div>
+          </div>
+
+
+        </div>
+
+        <div>
+          <label for="note" class="text-dark mt-3" >Note:</label>
+          <textarea id="note" class="form-control" aria-label="note" [(ngModel)]="complaintModel.content" [ngModelOptions]="{standalone: true}"></textarea>
+        </div>
+
+        <input type="button" class="btn btn-dark mt-3 w-100" value="Create" (click)="createComplaint()" />
+
+      </form>
+    </div>
+  </div>
+  <ngx-loading-x  [show]="false"></ngx-loading-x>
+</div>
+
+
+

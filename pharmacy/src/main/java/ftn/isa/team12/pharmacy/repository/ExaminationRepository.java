@@ -24,10 +24,10 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
 
     Examination findExaminationByExaminationId(UUID examinationId);
 
-    @Query("select ex.pharmacy from Examination  ex where ex.patient.userId = ?1")
+    @Query("select ex.pharmacy from Examination  ex where ex.patient.userId = ?1 and ex.examinationStatus = 0")
     List<Pharmacy> findAllPharmaciesWherePatientHadExamination(UUID patientId);
 
-    @Query("select ex.employee from Examination ex where ex.patient.userId = ?1")
+    @Query("select ex.employee from Examination ex where ex.patient.userId = ?1 and ex.examinationStatus = 0")
     List<MedicalStuff> findAllMedicalStuffThatTreatedPatient(UUID patientId);
 
 

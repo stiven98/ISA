@@ -443,7 +443,6 @@ public class Test {
 
 
 
-
         DrugInPharmacy drugInPharmacy = new DrugInPharmacy();
         drugInPharmacy.setPharmacy(pharmacy);
         drugInPharmacy.setDrug(drug);
@@ -698,6 +697,14 @@ public class Test {
         pharmacist.setAuthorities(authoritiPharmacist);
         pharmacistA.setAuthorities(authoritiPharmacist);
 
+        Complaint complaint = new Complaint();
+        complaint.setPatient(patient);
+        complaint.setContent("Very bad man!");
+        complaint.setStatusOfComplaint(StatusOfComplaint.no_answered);
+        complaint.setPharmacy(pharmacy);
+        complaint.setMedicalStuff(null);
+
+
         em.getTransaction().begin();
         em.persist(a);
         em.persist(pa);
@@ -762,6 +769,7 @@ public class Test {
         em.persist(drugInPharmacy4);
         em.persist(drugInPharmacy3);
         em.persist(drugPrice1);
+        em.persist(complaint);
 
         em.getTransaction().commit();
         em.close();
