@@ -94,7 +94,6 @@ export class CreatePharmacistComponent implements OnInit {
     this.medicalStufService.savePharmacist(this.pharmacist).subscribe((user) => {alert("succesfuly add pharmacist");
     this.router.navigate(['/allPharmacist']);
   })
-    alert("cao");
   }
 
   
@@ -111,6 +110,5 @@ export class CreatePharmacistComponent implements OnInit {
     this.changeUser.cityName = this.selectedCity;
     this.disabledCity = this.selectedCity === 'Other city';
   }
-
 
 }

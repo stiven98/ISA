@@ -198,6 +198,33 @@ export class ConfigService {
     return this._add_pharmacist ;
   }
 
+  
+  private _delete_pharmacist = this._pharmacist_url + '/delete';
+
+  get delete_pharmacist (): string {
+    return this._delete_pharmacist ;
+  }
+
+  private _delete_dermatologist = this._dermatologist_url + '/delete';
+
+  get delete_dermatologist (): string {
+    return this._delete_dermatologist ;
+  }
+
+
+  private _add_dermatologist_in_pharmacy = this._dermatologist_url + '/addInPharmacy';
+
+  get add_dermatologist_in_pharmacy (): string {
+    return this._add_dermatologist_in_pharmacy ;
+  }
+
+  private _get_dermatologist_from_other_pharmacy = this._dermatologist_url + '/allFromOtherPharmacy';
+
+  get get_dermatologist_from_other_pharmacy (): string {
+    return this._get_dermatologist_from_other_pharmacy ;
+  }
+
+
 
   
 

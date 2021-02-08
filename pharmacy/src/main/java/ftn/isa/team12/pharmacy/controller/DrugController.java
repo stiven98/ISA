@@ -1,8 +1,6 @@
 package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.drugs.*;
 import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
-import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
-import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.dto.DrugDTO;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationDataRequestDTO;
@@ -19,6 +17,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -48,7 +49,7 @@ public class DrugController {
             dto.add(new DrugDTO(d));
         }
 
-        return new ResponseEntity<List<DrugDTO>>(dto, HttpStatus.OK);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping("/getAllByPatientAndPharmacy")
@@ -64,14 +65,13 @@ public class DrugController {
 
     @GetMapping("/drugForOrder")
     public ResponseEntity<List<DrugForOrderDTO>> getAll(){
-        return new ResponseEntity<List<DrugForOrderDTO>>(drugService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(drugService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/name/{name}")
     public ResponseEntity<Drug> findByName(@PathVariable String name){
         Drug drug = drugService.findDrugByName(name);
         return new ResponseEntity<>(drug,HttpStatus.OK);
-
     }
 
 

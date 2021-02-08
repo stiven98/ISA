@@ -8,10 +8,12 @@ import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.ExaminationDrugQuantityDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
-import ftn.isa.team12.pharmacy.dto.GetDrugQuantityDTO;
 import ftn.isa.team12.pharmacy.email.EmailSender;
-import ftn.isa.team12.pharmacy.repository.DrugInPharmacyRepository;
 import ftn.isa.team12.pharmacy.service.*;
+import ftn.isa.team12.pharmacy.dto.FreeTermDTO;
+import ftn.isa.team12.pharmacy.service.ExaminationService;
+import ftn.isa.team12.pharmacy.service.MedicalStuffService;
+import ftn.isa.team12.pharmacy.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +22,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.*;
 
 @RestController
@@ -163,4 +166,9 @@ public class ExaminationController {
         private int penalty;
     };
 
+    @PostMapping("/pharmaciesWithFreeTerms/")
+    public ResponseEntity<List<Pharmacy>> findPharmaciesWithFreeTerms(@RequestBody FreeTermDTO dto) throws ParseException {
+        List<Pharmacy> pharmacies = this.examinationService.findPharmaciesWithFreeTerm(dto.getDate(),dto.getTime());
+        return new ResponseEntity<>(pharmacies, HttpStatus.OK);
+    }
 }

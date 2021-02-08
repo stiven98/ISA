@@ -100,4 +100,16 @@ public class DrugReservationServiceImpl implements DrugReservationService {
             throw new IllegalArgumentException("You cant cancel reservation 24h before deadline");
         }
     }
+
+    @Override
+    public List<Pharmacy> findPharmaciesWherePatientReservedDrugs(String  patientEmail) {
+        Patient patient = this.patientService.findByEmail(patientEmail);
+        return this.drugReservationRepository.findPharmaciesWherePatientReservedDrugs(patient.getUserId());
+    }
+
+    @Override
+    public List<Drug> findDrugsPatientReserved(String patientEmail) {
+        Patient patient = this.patientService.findByEmail(patientEmail);
+        return this.drugReservationRepository.findDrugsPatientReserved(patient.getUserId());
+    }
 }

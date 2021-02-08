@@ -38,9 +38,9 @@ public class Examination implements Serializable {
     @ManyToOne
     @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id")
     private Pharmacy pharmacy;
-//    @OneToOne
-//    @JoinColumn(name = "examination_price_id", referencedColumnName = "examination_price_id")
-//    private ExaminationPrice examinationPrice;
+    @OneToOne
+    @JoinColumn(name = "examination_price_id", referencedColumnName = "examination_price_id")
+    private ExaminationPrice examinationPrice;
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "user_id")
     private MedicalStuff employee;

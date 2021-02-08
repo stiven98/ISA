@@ -3,6 +3,7 @@ import ftn.isa.team12.pharmacy.domain.common.Address;
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
+import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.User;
 import ftn.isa.team12.pharmacy.dto.UserDTO;
 import ftn.isa.team12.pharmacy.repository.UserRepository;
@@ -91,6 +92,13 @@ public class UserServiceImpl implements UserService {
             }
         }
         return false;
+    }
+
+    @Override
+    public User updateStatus(UUID id) {
+        User user =  this.userRepository.findByUserId(id);
+        user.getAccountInfo().setActive(true);
+        return this.userRepository.save(user);
     }
 
     @Override

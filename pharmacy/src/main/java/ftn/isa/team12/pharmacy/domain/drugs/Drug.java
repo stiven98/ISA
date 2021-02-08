@@ -1,10 +1,9 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;
 import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
 import ftn.isa.team12.pharmacy.domain.enums.TypeOfDrug;
+import ftn.isa.team12.pharmacy.domain.marks.DrugMarks;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,14 +46,18 @@ public class Drug implements Serializable {
    @JsonIgnore
    private Set<Patient> patientsAllergies = new HashSet<Patient>();
 
+   @OneToMany(mappedBy = "drug")
+   @JsonIgnore
+   private Set<DrugMarks> drugMarks = new HashSet<DrugMarks>();
+
    @Column(name = "issuanceregime", nullable = false)
    private IssuanceRegime issuanceRegime;
 
    @Column(name = "note")
    private String note;
 
-//   @Column(name = "grades")
-//   private Set<Integer> grades = new HashSet<Integer>();
+   @Column(name = "AVERAGEMARK")
+   private Double averageMark;
 
    @ManyToOne
    @JoinColumn(name = "manufacturer_id", referencedColumnName = "manufacturer_id", nullable = false )

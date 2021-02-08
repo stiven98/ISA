@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
 import ftn.isa.team12.pharmacy.domain.common.*;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
 import ftn.isa.team12.pharmacy.dto.*;
@@ -57,7 +58,7 @@ public class PharmacistServiceImpl implements PharmacistService {
         List<EmployeesDTO> list = new ArrayList<>();
         for(Pharmacist pharmacist : phAdmin.getPharmacy().getPharmacists()){
             List<PharmacyDTO> phList = new ArrayList<>();
-                phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
+            phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
             list.add(new EmployeesDTO(pharmacist,phList));
         }
         return list;
@@ -78,7 +79,7 @@ public class PharmacistServiceImpl implements PharmacistService {
 
         for(Pharmacist pharmacist : list){
             List<PharmacyDTO> phList = new ArrayList<>();
-                phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
+            phList.add(new PharmacyDTO(pharmacist.getPharmacy()));
             dto.add(new EmployeesDTO(pharmacist,phList));
         }
         return dto;
@@ -163,7 +164,7 @@ public class PharmacistServiceImpl implements PharmacistService {
                 if(!list.isEmpty()) {
                     for (WorkTime workTime : list) {
                         if (workTime.getDate().equals(w.getDate()))
-                            throw new IllegalArgumentException("Day already add");
+                            throw new IllegalArgumentException("Day already added");
                     }
                     list.add(w);
                 }
@@ -186,5 +187,55 @@ public class PharmacistServiceImpl implements PharmacistService {
         else if(dto.getWorkTimes().isEmpty())
             return true;
         return false;
+    }
+
+    @Override
+    public boolean deletePharmacist(DeleteEmployeeDTO dto) {
+        this.checkForDeletePharmacist(dto);
+        Pharmacist pharmacist = pharmacistRepository.findByLoginInfoEmail(dto.getEmployeeEmail());
+        pharmacist.setPharmacy(null);
+        pharmacist.setAuthorities(null);
+        pharmacist.setLocation(null);
+
+        for (WorkTime w : pharmacist.getWorkTime()){
+            w.setPharmacy(null);
+            w.setEmployee(null);
+        }
+        if(!pharmacist.getExaminations().isEmpty()) {
+            for (Examination x : pharmacist.getExaminations()) {
+                x.setEmployee(null);
+                x.setPharmacy(null);
+                x.setPatient(null);
+                x.getExaminationPrice().setPharmacy(null);
+                x.setExaminationPrice(null);
+            }
+        }
+        if(!pharmacist.getVacations().isEmpty()){
+            for(Vacation v: pharmacist.getVacations()){
+                v.setPharmacy(null);
+                v.setEmployee(null);
+            }
+        }
+        pharmacistRepository.delete(pharmacist);
+        return true;
+    }
+
+    @Override
+    public boolean checkForDeletePharmacist(DeleteEmployeeDTO dto) {
+        Pharmacist pharmacist = pharmacistRepository.findByLoginInfoEmail(dto.getEmployeeEmail());
+        PharmacyAdministrator ph = pharmacyAdministratorService.findAdminByEmail(dto.getPhAdminEmail());
+
+        if(pharmacist == null || ph == null)
+            throw new IllegalArgumentException("No pharmacist");
+        if(ph.getPharmacy().getId() !=  pharmacist.getPharmacy().getId())
+            throw new IllegalArgumentException("No pharmacist with:" + pharmacist.getLoginInfo().getEmail() + " in pharmacy " + ph.getPharmacy().getName());
+
+        if(!pharmacist.getExaminations().isEmpty()) {
+            for (Examination x : pharmacist.getExaminations()) {
+                if (x.getPatient() != null && x.getDateOfExamination().after(new Date()))
+                    throw new IllegalArgumentException("Pharmacist have examination " + x.getDateOfExamination().toString());
+            }
+        }
+        return true;
     }
 }

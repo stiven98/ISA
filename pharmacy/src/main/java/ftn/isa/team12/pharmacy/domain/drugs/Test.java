@@ -1,13 +1,12 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
-
 import ftn.isa.team12.pharmacy.domain.common.*;
 import ftn.isa.team12.pharmacy.domain.enums.*;
+import ftn.isa.team12.pharmacy.domain.marks.DrugMarks;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -45,16 +44,24 @@ public class Test {
         Authority sa = new Authority();
         sa.setRole("ROLE_SYSTEM_ADMINISTRATOR");
 
+        Authority su = new Authority();
+        su.setRole("ROLE_SUPPLIER");
+
         List<Authority> authorities = new ArrayList<Authority>();
         List<Authority> authorities2 = new ArrayList<Authority>();
         List<Authority> authoritiesDerm = new ArrayList<>();
         List<Authority> authoritiesSysAdmin = new ArrayList<>();
+
+        List<Authority> authoritiesPatient = new ArrayList<>();
+
         List<Authority> authoritiPharmacist = new ArrayList<>();
 
         authorities.add(pa);
         authorities2.add(a);
         authoritiesDerm.add(derm);
         authoritiesSysAdmin.add(sa);
+
+        authoritiesPatient.add(su);
         authoritiPharmacist.add(role_pharmacist);
 
         Address addressSysAdmin = new Address();
@@ -163,6 +170,8 @@ public class Test {
         drug.setManufacturer(manufacturer);
         drug.setNote("This is note");
         drug.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+
+
 
         Drug drug1 = new Drug();
         drug1.setName("Brufen");
@@ -458,6 +467,7 @@ public class Test {
         accounCategory.setCategory(UserCategory.gold);
         accounCategory.setPoints(12);
 
+
         Patient patient = new Patient();
         patient.setLocation(location1);
         patient.setLoginInfo(loginInfo1);
@@ -465,11 +475,22 @@ public class Test {
         patient.setCategory(accounCategory);
         patient.getAllergies().add(drug);
 
+
+        patient.getSubscribedPharmacies().add(pharmacy);
+        patient.getSubscribedPharmacies().add(pharmacy3);
+
+        DrugMarks drugMarks = new DrugMarks();
+        drugMarks.setDrug(drug);
+        drugMarks.setMark(8.1);
+        drugMarks.setPatient(patient);
+
+
         ERecipe eRecipe = new ERecipe();
         eRecipe.setPatient(patient);
         eRecipe.setDateOfIssuing(startDate);
         eRecipe.setCode("123456675");
         eRecipe.setERecipeStatus(ERecipeStatus.newErecipe);
+        eRecipe.setPharmacy(pharmacy);
 
 
         ERecipe eRecipe1 = new ERecipe();
@@ -477,12 +498,24 @@ public class Test {
         eRecipe1.setDateOfIssuing(endDate);
         eRecipe1.setCode("1234566752");
         eRecipe1.setERecipeStatus(ERecipeStatus.processed);
+        eRecipe1.setPharmacy(pharmacy4);
 
+        ERecipe eRecipe2 = new ERecipe();
+        eRecipe2.setPatient(patient);
+        eRecipe2.setDateOfIssuing(endDate);
+        eRecipe2.setCode("123456675452");
+        eRecipe2.setERecipeStatus(ERecipeStatus.declined);
+        eRecipe2.setPharmacy(pharmacy6);
 
         ERecipeItem eRecipeItem = new ERecipeItem();
         eRecipeItem.setQuantity(12);
         eRecipeItem.setDrug(drug);
         eRecipeItem.setERecipe(eRecipe);
+
+        ERecipeItem eRecipeItem3 = new ERecipeItem();
+        eRecipeItem3.setQuantity(2);
+        eRecipeItem3.setDrug(drug5);
+        eRecipeItem3.setERecipe(eRecipe2);
 
         ERecipeItem eRecipeItem1 = new ERecipeItem();
         eRecipeItem1.setQuantity(14);
@@ -499,6 +532,8 @@ public class Test {
         eRecipe.getERecipeItems().add(eRecipeItem);
         eRecipe.getERecipeItems().add(eRecipeItem1);
         eRecipe1.getERecipeItems().add(eRecipeItem2);
+        eRecipe2.getERecipeItems().add(eRecipeItem3);
+
 
 
         DrugReservation drugReservation = new DrugReservation();
@@ -540,10 +575,16 @@ public class Test {
 
         pharmacyAdministrator.setPharmacy(pharmacy);
         DrugOrder drugOrder = new DrugOrder();
-        drugOrder.setDrugOrderStatus(DrugOrderStatus.processed);
+        drugOrder.setDrugOrderStatus(DrugOrderStatus.waitingForOffers);
         drugOrder.setPharmacy(pharmacy);
         drugOrder.setDeadline(new Date());
         drugOrder.setPharmacyAdministrator(pharmacyAdministrator);
+
+        DrugOrder drugOrder1 = new DrugOrder();
+        drugOrder1.setDrugOrderStatus(DrugOrderStatus.waitingForOffers);
+        drugOrder1.setPharmacy(pharmacy);
+        drugOrder1.setDeadline(new Date());
+        drugOrder1.setPharmacyAdministrator(pharmacyAdministrator);
 
         DrugOrderItem drugOrderItem = new DrugOrderItem();
         drugOrderItem.setQuantity(5);
@@ -558,6 +599,13 @@ public class Test {
         drugOrder.getDrugOrderItems().add(drugOrderItem);
         drugOrder.getDrugOrderItems().add(drugOrderItem1);
 
+        DrugOrderItem drugOrderItem2 = new DrugOrderItem();
+        drugOrderItem2.setQuantity(20);
+        drugOrderItem2.setDrug(drug);
+        drugOrderItem2.setDrugOrder(drugOrder1);
+
+        drugOrder1.getDrugOrderItems().add(drugOrderItem2);
+
         LoginInfo suplierInfo = new LoginInfo();
         suplierInfo.setEmail("sup@sup.com");
         suplierInfo.setPassword("$2y$10$dGToolHjytPEch4CJNuVP.yEulslPNB0Dsyy.JmTYLE68fyqNz1MC");
@@ -568,6 +616,7 @@ public class Test {
         supplier.setAccountInfo(accountInfo4);
         supplier.setLoginInfo(suplierInfo);
         supplier.getAvailableDrugs().add(drug);
+        supplier.setAuthorities(authoritiesPatient);
 
         Offer offer = new Offer();
         offer.setStatus(OfferStatus.accepted);
@@ -585,17 +634,37 @@ public class Test {
         examinationPrice.setPharmacy(pharmacy);
         examinationPrice.setDateOfValidity(dateRange);
 
+        ExaminationPrice examinationPrice2 = new ExaminationPrice();
+        examinationPrice2.setPrice(3000.0);
+        examinationPrice2.setExaminationType(examinationType);
+        examinationPrice2.setPharmacy(pharmacy);
+        examinationPrice2.setDateOfValidity(dateRange);
+
         Examination examination = new Examination();
         examination.setEmployee(pharmacist);
         examination.setPatient(patient);
         //examination.setExaminationPrice(examinationPrice);
         examination.setDateOfExamination(new Date());
+        examination.setExaminationPrice(examinationPrice);
+//        examination.setDateOfExamination(sdf.parse("2021-05-05"));
         examination.setTimeOfExamination(LocalTime.of(13,45));
         examination.setDuration(45);
         examination.setPharmacy(pharmacy);
 
+        Examination examination2 = new Examination();
+        examination2.setEmployee(dermatologist);
+        examination2.setExaminationPrice(examinationPrice2);
+        examination2.setDateOfExamination(sdf.parse("2021-10-05"));
+        examination2.setTimeOfExamination(LocalTime.of(13,45));
+        examination2.setDuration(45);
+        examination2.setPharmacy(pharmacy3);
+
+
+
+        pharmacy.getExaminationPriceList().add(examinationPrice2);
         pharmacy.getExaminationPriceList().add(examinationPrice);
         pharmacy.getExaminations().add(examination);
+        pharmacy.getExaminations().add(examination2);
 
         Vacation vacation = new Vacation();
         vacation.setEmployee(pharmacist);
@@ -635,8 +704,8 @@ public class Test {
         em.persist(pa);
         em.persist(derm);
         em.persist(sa);
+        em.persist(su);
         em.persist(role_pharmacist);
-
         em.persist(country);
         em.persist(city);
         em.persist(city1);
@@ -654,9 +723,12 @@ public class Test {
         em.persist(drug);
         em.persist(drug1);
         em.persist(drug3);
+        em.persist(drug5);
+        em.persist(drug6);
         em.persist(examinationType);
         em.persist(examinationPrice);
         em.persist(pharmacy);
+        em.persist(pharmacy3);
         em.persist(drugInPharmacy);
         em.persist(dermatologist);
         em.persist(dermatologistPharmacy1);
@@ -664,8 +736,8 @@ public class Test {
         em.persist(systemAdministrator);
         em.persist(drugPrice);
         em.persist(patient);
+        em.persist(drugMarks);
         em.persist(pharmacy2);
-        em.persist(pharmacy3);
         em.persist(pharmacy4);
         em.persist(pharmacy5);
         em.persist(pharmacy6);
@@ -673,6 +745,7 @@ public class Test {
         em.persist(pharmacy8);
         em.persist(eRecipe);
         em.persist(eRecipe1);
+        em.persist(eRecipe2);
         em.persist(drugReservation);
        // em.persist(workTime);
         em.persist(pharmacistA);
@@ -680,12 +753,12 @@ public class Test {
        // em.persist(workTime1);
         em.persist(pharmacyAdministrator);
         em.persist(drugOrder);
+        em.persist(drugOrder1);
         em.persist(supplier);
         em.persist(offer);
         em.persist(drug2);
         em.persist(drug4);
-        em.persist(drug5);
-        em.persist(drug6);
+
         em.persist(drug7);
         em.persist(drugInPharmacy1);
         em.persist(drugInPharmacy4);

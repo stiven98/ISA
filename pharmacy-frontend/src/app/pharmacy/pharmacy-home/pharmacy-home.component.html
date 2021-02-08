@@ -18,6 +18,17 @@
             <p>
               {{pharmacy.description}}
             </p>
+            <div *ngIf="authService.getRole() === 'ROLE_PATIENT'">
+              <div *ngIf="!isSubscribed">
+                <input type="button" class="btn btn-success w-100" value="Subscribe" (click)="subscribeOnPharmacy()"/>
+              </div>
+
+              <div *ngIf="isSubscribed">
+                <input type="button" class="btn btn-danger w-100" value="Unsubscribe" (click)="unSubscribeOnPharmacy()"/>
+              </div>
+
+            </div>
+
           </div>
         </div>
         <div class="col-lg-8 d-flex align-items-stretch">
@@ -196,3 +207,6 @@
     </div>
   </section><!-- End Contact Section -->
 </main>
+
+
+<ngx-loading-x  [show]="fetchData"></ngx-loading-x>

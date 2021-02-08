@@ -11,7 +11,6 @@ import ftn.isa.team12.pharmacy.service.PatientService;
 import ftn.isa.team12.pharmacy.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
@@ -52,7 +51,6 @@ public class ExaminationServiceImpl implements ExaminationService {
     public List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy) {
         return examinationRepository.findAllByEmployeeAndPharmacy(employee, pharmacy);
     }
-
 
     @Override
     public Examination findById(UUID id) {
@@ -118,21 +116,35 @@ public class ExaminationServiceImpl implements ExaminationService {
         return saved;
     }
 
-    private boolean checkIfTimeOverlapping(LocalTime examinationTime, Date examinationDate, LocalTime newTime, Date newDate){
+    private boolean checkIfTimeOverlapping(LocalTime examinationTime, Date examinationDate, LocalTime newTime, Date newDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         boolean sameDate = sdf.format(examinationDate).equals(sdf.format(newDate));
-        if(!sameDate){
+        if (!sameDate) {
             return false;
         }
         LocalTime examinationEnd = examinationTime.plusMinutes(45);
         LocalTime newEnd = newTime.plusMinutes(45);
-        if(newTime.compareTo(examinationTime) >= 0 && newTime.compareTo(examinationEnd) <= 0){
+        if (newTime.compareTo(examinationTime) >= 0 && newTime.compareTo(examinationEnd) <= 0) {
             return true;
         }
-        if(newEnd.compareTo(examinationTime) >= 0 && newEnd.compareTo(examinationEnd) <= 0){
+        if (newEnd.compareTo(examinationTime) >= 0 && newEnd.compareTo(examinationEnd) <= 0) {
             return true;
         }
         return false;
+    }
+    @Override
+    public List<Pharmacy> findAllPharmaciesWherePatientHadExamination(UUID patientId) {
+        return this.examinationRepository.findAllPharmaciesWherePatientHadExamination(patientId);
+    }
+
+    @Override
+    public List<MedicalStuff> findAllMedicalStuffThatTreatedPatient(UUID patientId) {
+        return this.examinationRepository.findAllMedicalStuffThatTreatedPatient(patientId);
+    }
+
+    @Override
+    public List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time) {
+        return this.examinationRepository.findPharmaciesWithFreeTerm(date, time);
     }
 
 }

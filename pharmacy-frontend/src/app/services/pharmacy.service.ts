@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {Pharmacy} from '../shared/models/Pharmacy';
+import {FreeTermDTO} from '../shared/models/FreeTermDTO';
 
 
 @Injectable({
@@ -12,6 +13,20 @@ export class PharmacyService {
   pharmacies = [];
   constructor(private http: HttpClient) { }
 
+  findAllWithFreeTerm = (dto: FreeTermDTO) => {
+    return this.http
+      .post(environment.apiUrl + '/api/examination/pharmaciesWithFreeTerms/', dto)
+      .pipe(map(responseData => {
+        const pharmacies = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            pharmacies.push(responseData[key]);
+          }
+        }
+        return pharmacies;
+      }));
+  }
+
   searchPharmacies = (pharmacyName, pharmacyCity, pharmacyMark) => {
     return this.http
       .post(environment.apiUrl + '/api/pharmacy/search/',
@@ -20,8 +35,6 @@ export class PharmacyService {
         const pharmacies = [];
         for (const key in responseData) {
           if (responseData.hasOwnProperty(key)) {
-            console.log(responseData[key]);
-            console.log('Aca');
             pharmacies.push(responseData[key]);
           }
         }
@@ -90,6 +103,10 @@ export class PharmacyService {
   saveAndFlush = (pharmacy) => {
     return this.http
       .post(environment.apiUrl + '/api/pharmacy/add', pharmacy);
+  }
+
+  findById = (id: String) => {
+    return this.http.get(environment.apiUrl + '/api/pharmacy/id/' + id);
   }
 
 

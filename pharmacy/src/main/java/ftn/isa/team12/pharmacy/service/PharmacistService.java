@@ -1,8 +1,8 @@
 package ftn.isa.team12.pharmacy.service;
-
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
+import ftn.isa.team12.pharmacy.dto.DeleteEmployeeDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesCreateDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
@@ -22,6 +22,9 @@ public interface PharmacistService {
     Pharmacist createPharmacist(EmployeesCreateDTO dto);
     Set<WorkTime> createWorkTime(EmployeesCreateDTO dto, Pharmacy pharmacy, Pharmacist pharmacist);
     boolean validation(EmployeesCreateDTO dto);
+
+    boolean deletePharmacist(DeleteEmployeeDTO dto);
+    boolean checkForDeletePharmacist(DeleteEmployeeDTO dto);
 
 
 }

@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.drugs.ERecipe;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.repository.ERecipeRepository;
 import ftn.isa.team12.pharmacy.repository.PatientRepository;
@@ -21,5 +22,12 @@ public class ERecipeServiceImpl implements ERecipeService {
     public List<ERecipe> findAllERecipesByPatient(String email) {
         Patient patient = this.patientRepository.findByEmail(email);
         return eRecipeRepository.findAllERecipesByPatient(patient.getUserId());
+    }
+
+    @Override
+    public List<Pharmacy> findPharmaciesWherePatientHasERecipe(String patientEmail) {
+        Patient patient = this.patientRepository.findByEmail(patientEmail);
+
+        return this.eRecipeRepository.findPharmaciesWherePatientHasERecipe(patient.getUserId());
     }
 }

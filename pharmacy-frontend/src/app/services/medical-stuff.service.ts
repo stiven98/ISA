@@ -92,7 +92,31 @@ export class MedicalStuffService {
       return response;
     }));
   }
+
+  deletePharmacist(pharmacist){
+    return this.api.post(this.configService.delete_pharmacist,{"phAdminEmail":pharmacist.emailPhAdmin, "employeeEmail":pharmacist.email})
+    .pipe(map((response) => {return response;}));
+  }
   
+  deleteDErmatologist(dermatologist){
+    return this.api.post(this.configService.delete_dermatologist,{"phAdminEmail":dermatologist.emailPhAdmin, "employeeEmail":dermatologist.email})
+    .pipe(map((response) => {return response;}));
+  }
+  
+
+  getAllDermatologistFromOtherPharmacy():Observable<any>{
+    return this.api.get(this.configService.get_dermatologist_from_other_pharmacy)
+    .pipe(map((response:Response)=> {
+      return response;
+    }) )
+  }
+
+  addDermatologistInPharmacy(pharmacist:PharmacistCreateModel){
+    return this.api.post(this.configService.add_dermatologist_in_pharmacy,pharmacist)
+    .pipe(map((response)=> {
+      return response;
+    }) )
+  }
 
 
 

@@ -1,22 +1,23 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
+import ftn.isa.team12.pharmacy.domain.common.WorkTime;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
+import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.dto.*;
 import ftn.isa.team12.pharmacy.repository.DermatologistRepository;
+import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
+import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
+import ftn.isa.team12.pharmacy.repository.WorkTimeRepository;
 import ftn.isa.team12.pharmacy.service.DermatologistService;
+import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
-import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
-import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
-import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
-import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
-import ftn.isa.team12.pharmacy.dto.PharmacyDTO;
-import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -25,6 +26,14 @@ public class DermatologistServiceImpl implements DermatologistService {
     @Autowired
     private DermatologistRepository dermatologistRepository;
 
+    @Autowired
+    private ExaminationRepository examinationRepository;
+
+    @Autowired
+    private WorkTimeRepository workTimeRepository;
+
+    @Autowired
+    private PharmacyRepository pharmacyRepository;
 
     @Override
     public Dermatologist saveAndFlush(Dermatologist dermatologistRequest) {
@@ -48,10 +57,12 @@ public class DermatologistServiceImpl implements DermatologistService {
     public List<EmployeesDTO> findAllDermatologist() {
         List<EmployeesDTO> list = new ArrayList<>();
         for(Dermatologist der : dermatologistRepository.findAll()){
-            List<PharmacyDTO> phList = new ArrayList<>();
-            for(Pharmacy ph : der.getPharmacies())
+            if(!der.getPharmacies().isEmpty()) {
+                List<PharmacyDTO> phList = new ArrayList<>();
+                for (Pharmacy ph : der.getPharmacies())
                     phList.add(new PharmacyDTO(ph));
-            list.add(new EmployeesDTO(der,phList));
+                list.add(new EmployeesDTO(der, phList));
+            }
         }
         return list;
     }
@@ -119,6 +130,160 @@ public class DermatologistServiceImpl implements DermatologistService {
                     list.add(der);
         }
         return list;
-
     }
+
+
+    @Override
+    public boolean deleteDermatologist(DeleteEmployeeDTO dto) {
+        this.checkForDeleteDermatologist(dto);
+        Dermatologist dermatologist = dermatologistRepository.findByLoginInfoEmail(dto.getEmployeeEmail());
+        Pharmacy pharmacy = pharmacyAdministratorService.findAdminByEmail(dto.getPhAdminEmail()).getPharmacy();
+        if(!dermatologist.getExaminations().isEmpty()) {
+            List<Examination> ex = examinationRepository.findAllByEmployeeAndPharmacy(dermatologist, pharmacy);
+            if (ex != null) {
+                for (Examination examination : ex) {
+                    if (examination.getDateOfExamination().after(new Date())) {
+                        examination.setPharmacy(null);
+                        examination.setPatient(null);
+                        examination.setEmployee(null);
+                        examination.getExaminationPrice().setPharmacy(null);
+                        examination.setExaminationPrice(null);
+                        dermatologist.getExaminations().remove(examination);
+                        examinationRepository.delete(examination);
+                    }
+                }
+            }
+        }
+
+        dermatologist.getPharmacies().remove(pharmacy);
+        pharmacy.getDermatologists().remove(dermatologist);
+        dermatologistRepository.save(dermatologist);
+
+        return true;
+    }
+
+    @Override
+    public boolean checkForDeleteDermatologist(DeleteEmployeeDTO dto) {
+        Dermatologist dermatologist = dermatologistRepository.findByLoginInfoEmail(dto.getEmployeeEmail());
+        PharmacyAdministrator pharmacyAdministrator = pharmacyAdministratorService.findAdminByEmail(dto.getPhAdminEmail());
+
+        boolean flag = true;
+        if(dermatologist == null || pharmacyAdministrator == null)
+            throw new IllegalArgumentException("bad input");
+
+        for(Pharmacy ph : dermatologist.getPharmacies()) {
+            if (ph.getId() == pharmacyAdministrator.getPharmacy().getId()) {
+                flag = false;
+                break;
+            }
+        }
+        if(flag)
+            throw new IllegalArgumentException("No dermatologist with: " + dto.getEmployeeEmail() + " in pharmacy " + pharmacyAdministrator.getPharmacy().getName());
+
+        if(!dermatologist.getExaminations().isEmpty()) {
+            List<Examination> ex = examinationRepository.findAllByEmployeeAndPharmacy(dermatologist,pharmacyAdministrator.getPharmacy());
+            for(Examination examination: ex){
+                if (examination.getPatient() != null && examination.getDateOfExamination().after(new Date()))
+                    throw new IllegalArgumentException("Pharmacist have examination " + examination.getDateOfExamination().toString());
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Dermatologist addDermatologist(EmployeesCreateDTO dto) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        Dermatologist dermatologist = dermatologistRepository.findByLoginInfoEmail(dto.getEmailPhAdmin());
+        Pharmacy pharmacy = pharmacyAdministrator.getPharmacy();
+        if(dermatologist == null || pharmacyAdministrator == null)
+            throw new IllegalArgumentException("Bad input");
+
+        for(Pharmacy ph : dermatologist.getPharmacies()){
+            if(ph.getId().toString().equals(pharmacy.getId().toString()))
+                throw new IllegalArgumentException("Already exist in pharmacy " + ph.getName());
+        }
+
+        if(!dermatologist.getWorkTime().isEmpty()){
+            for(WorkTime w: this.createWorkTime(dto,pharmacyAdministrator.getPharmacy(),dermatologist)){
+                dermatologist.getWorkTime().add(w);
+            }
+        }else
+            dermatologist.setWorkTime(this.createWorkTime(dto,pharmacyAdministrator.getPharmacy(),dermatologist));
+
+
+
+        dermatologist.getPharmacies().add(pharmacy);
+        pharmacy.getDermatologists().add(dermatologist);
+        pharmacyRepository.save(pharmacy);
+        dermatologist = dermatologistRepository.save(dermatologist);
+
+        return dermatologist;
+    }
+
+    @Override
+    public Set<WorkTime> createWorkTime(EmployeesCreateDTO dto, Pharmacy pharmacy, Dermatologist dermatologist) {
+        List<WorkTime> workTimes = workTimeRepository.findAllByEmployeeUserId(dermatologist.getUserId());
+        Set<WorkTime> list = new HashSet<>();
+        if(dto.getWorkTimes().isEmpty())
+            throw new IllegalArgumentException("Need to add work day");
+
+        for (WorkTimeDTO wtd : dto.getWorkTimes()){
+            if(wtd.getEndTime().isAfter(wtd.getStartTime()) && (wtd.getDate().after(new Date()))){
+                WorkTime w = new WorkTime();
+                w.setStartTime(wtd.getStartTime());
+                w.setEndTime(wtd.getEndTime());
+                w.setDate(wtd.getDate());
+                w.setPharmacy(pharmacy);
+                w.setEmployee(dermatologist);
+                for(WorkTime work: workTimes){
+                    if(work.getDate().equals(w.getDate()))
+                        throw new IllegalArgumentException("On " + w.getDate().toString() + " dermatologist work in " + w.getPharmacy().getName());
+                }
+                if(!list.isEmpty()) {
+                    for (WorkTime workTime : list) {
+                        if (workTime.getDate().equals(w.getDate()))
+                            throw new IllegalArgumentException("Day already added");
+                    }
+                    list.add(w);
+                }
+                else
+                    list.add(w);
+            }else
+                throw new IllegalArgumentException("Bad workTime");
+        }
+
+        return list;
+    }
+
+
+
+
+    @Override
+    public List<EmployeesDTO> findAllFromOtherPharmacy() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        List<EmployeesDTO> list = new ArrayList<>();
+        boolean flag = false;
+        for(Dermatologist der : dermatologistRepository.findAll()){
+            List<PharmacyDTO> phList = new ArrayList<>();
+            for (Pharmacy ph : der.getPharmacies()) {
+                if(!ph.getId().toString().equals(pharmacyAdministrator.getPharmacy().getId().toString())) {
+                    phList.add(new PharmacyDTO(ph));
+                    flag = true;
+                }
+            }
+            if(flag)
+                list.add(new EmployeesDTO(der, phList));
+            else{
+                if(der.getPharmacies().isEmpty()){
+                    list.add(new EmployeesDTO(der, phList));
+                }
+            }
+
+        }
+        return list;
+    }
+
+
 }

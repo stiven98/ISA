@@ -5,6 +5,8 @@ import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
 
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +17,9 @@ public interface ExaminationService {
     List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy);
     Examination findById(UUID id);
     Examination findCurrentById(UUID id);
-
     Examination scheduleNewMedStuff(ExaminationScheduleMedStuffDTO dto);
+    List<Pharmacy> findAllPharmaciesWherePatientHadExamination(UUID patientId);
+    List<MedicalStuff> findAllMedicalStuffThatTreatedPatient(UUID patientId);
+    List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time);
+
 }

@@ -43,10 +43,17 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SeeAllPharmacistComponent } from './see-all-pharmacist/see-all-pharmacist.component';
+import { AllOrdersComponent } from './all-orders/all-orders.component';
+import { MyOffersComponent } from './my-offers/my-offers.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { CreatePharmacistComponent } from './ph-admin/create-pharmacist/create-pharmacist.component';
 import { StartExaminationPageComponent } from './start-examination-page/start-examination-page.component';
 import { ExaminationDataComponent } from './examination-data/examination-data.component';
+import {PatientMarksComponent} from './patient-marks/patient-marks.component';
+import { PharmacistConsultationComponent } from './pharmacist-consultation/pharmacist-consultation.component';
+import { AvailablePharmacistsComponent } from './pharmacist-consultation/available-pharmacists/available-pharmacists.component';
+import { SubscribedPharmacyComponent } from './subscribed-pharmacy/subscribed-pharmacy.component';
+import { AddDermatologistInPharmacyComponent } from './ph-admin/add-dermatologist-in-pharmacy/add-dermatologist-in-pharmacy.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -54,10 +61,12 @@ const appRoutes: Routes = [
   { path: 'registration', component: SingUpComponent },
   { path: 'pharmacy', component: PharmacyComponent },
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
+  { path: 'available-pharmacists/:name/:date/:time', component: AvailablePharmacistsComponent },
   { path: 'drug-reservation/:drug', component: DrugReservationComponent},
   { path: 'phAdmin', component: PhAdminComponent},
   { path: 'changeAccountInfo' , component: ChangeAccountInfoComponent, canActivate: [AuthGuard] },
   { path: 'changePassword' , component: ChangePasswordComponent},
+  { path: 'patient-marks', component: PatientMarksComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard],
   children : [
     { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
@@ -73,6 +82,9 @@ const appRoutes: Routes = [
   { path: 'newPharmacy', component: NewPharmacyComponent},
   { path: 'newAdmin', component: NewAdminComponent},
   { path: 'administrators', component: AdministratorsComponent},
+  { path: 'allOrders', component: AllOrdersComponent},
+  { path: 'subscribedPharmacy', component: SubscribedPharmacyComponent },
+  { path: 'myOffers', component: MyOffersComponent},
   { path: 'drugs', component: DrugsComponent},
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
@@ -81,9 +93,13 @@ const appRoutes: Routes = [
   { path: 'newDrug', component: NewDrugComponent },
   { path: 'allDermatologist', component: SeeAllDermatologistComponent},
   { path: 'allPharmacist', component: SeeAllPharmacistComponent},
+  { path: 'pharmacist-consultation', component: PharmacistConsultationComponent},
   { path: 'createPharmacist', component: CreatePharmacistComponent, canActivate: [PhAdminGuard]},
   { path: 'examination/:examinationId', component: StartExaminationPageComponent, canActivate: [DermatologistsGuard]},
   { path: 'examinationData/:examinationId', component: ExaminationDataComponent, canActivate: [DermatologistsGuard]},
+  { path: 'addDermatologistInPharmacy', component: AddDermatologistInPharmacyComponent, canActivate: [PhAdminGuard]},
+
+
   //ovo mora da bude poslednje!!!!!!!
   { path: '**', redirectTo: '/404'}
 
@@ -127,10 +143,17 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     SeeAllDermatologistComponent,
     WorkCalendarComponent,
     SeeAllPharmacistComponent,
+    PatientMarksComponent,
+    AllOrdersComponent,
+    MyOffersComponent,
     VacationRequestComponent,
     CreatePharmacistComponent,
     StartExaminationPageComponent,
-    ExaminationDataComponent
+    ExaminationDataComponent,
+    PharmacistConsultationComponent,
+    AvailablePharmacistsComponent,
+    SubscribedPharmacyComponent,
+    AddDermatologistInPharmacyComponent
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,6 @@ public interface MedicalStuffService {
     MedicalStuff findByEmail(String email);
     Set<PatientExaminationDTO> findPatientsByMedicalStuff(MedicalStuff medicalStuff);
     Set<Pharmacy> findMyPharmacies(String email);
-
     MedicalStuff saveAndFlush(MedicalStuff medicalStuff);
+    MedicalStuff save(MedicalStuff medicalStuff);
 }
