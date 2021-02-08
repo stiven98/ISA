@@ -1,13 +1,21 @@
 package ftn.isa.team12.pharmacy.service.impl;
+import ftn.isa.team12.pharmacy.domain.common.DateRange;
+import ftn.isa.team12.pharmacy.domain.drugs.Drug;
+import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.dto.DrugPriceDTO;
 import ftn.isa.team12.pharmacy.repository.DrugPriceRepository;
+import ftn.isa.team12.pharmacy.repository.DrugRepository;
+import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
 import ftn.isa.team12.pharmacy.service.DrugPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -18,11 +26,17 @@ public class DrugPriceServiceImp implements DrugPriceService {
     @Autowired
     private DrugPriceRepository drugPriceRepository;
 
+    @Autowired
+    DrugRepository drugRepository;
+
+    @Autowired
+    PharmacyRepository pharmacyRepository;
+
+
     @Override
     public double getPriceForDrug(UUID pharmacyId, UUID drugId) {
         return this.drugPriceRepository.getPriceForDrug(pharmacyId, drugId);
     }
-
 
     @Override
     public List<DrugPrice> getAllDrugPrice() {
@@ -31,5 +45,64 @@ public class DrugPriceServiceImp implements DrugPriceService {
         List<DrugPrice> list = drugPriceRepository.getAll(pharmacyAdministrator.getPharmacy(),new Date());
 
         return list;
+    }
+
+
+    @Override
+    public DrugPrice createDrugPrice(DrugPriceDTO dto) {
+        this.validationDrugPrice(dto);
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        Drug drug = drugRepository.findByDrugId(dto.getIdDrug());
+        Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyAdministrator.getPharmacy().getId());
+
+        System.out.println(dto);
+
+        DrugPrice drugPrice = new DrugPrice();
+        drugPrice.setValidityPeriod(new DateRange());
+        drugPrice.getValidityPeriod().setStartDate(dto.getStartDate());
+        drugPrice.getValidityPeriod().setEndDate(dto.getEndDate());
+        drugPrice.setPrice(dto.getPrice());
+        drugPrice.setPharmacy(pharmacy);
+        drugPrice.setDrug(drug);
+
+        drugPrice = drugPriceRepository.save(drugPrice);
+
+        return drugPrice;
+    }
+
+
+    @Override
+    public void validationDrugPrice(DrugPriceDTO dto) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        Drug drug = drugRepository.findByDrugId(dto.getIdDrug());
+        Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyAdministrator.getPharmacy().getId());
+
+        if(dto.getPrice() <= 0)
+            throw new IllegalArgumentException("Bad input price");
+
+
+        if(drug == null || pharmacy == null)
+            throw new IllegalArgumentException("Bad input");
+
+
+        boolean flag =false;
+        for(DrugInPharmacy d : pharmacy.getDrugs()) {
+            if (d.getDrug().getDrugId() == drug.getDrugId()){
+                flag = true;
+                break;
+            }
+        }
+
+        if(!flag)
+            throw new IllegalArgumentException("No drug in pharmacy");
+
+        List<DrugPrice> drugPriceList = drugPriceRepository.getAllByDrug(pharmacy , dto.getStartDate(),drug.getDrugId());
+        System.out.println(drugPriceList.size());
+        if(!drugPriceList.isEmpty()){
+            throw new IllegalArgumentException("For this period already set price for " + drug.getName());
+        }
+
     }
 }

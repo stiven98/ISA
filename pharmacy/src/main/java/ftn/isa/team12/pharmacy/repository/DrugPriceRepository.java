@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.repository;
+import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,9 @@ public interface DrugPriceRepository extends JpaRepository<DrugPrice, UUID> {
 
     @Query("select d from DrugPrice d where d.pharmacy= ?1 and d.validityPeriod.startDate < ?2 and d.validityPeriod.endDate > ?2")
     List<DrugPrice> getAll(Pharmacy pharmacy, Date date);
+
+
+    @Query("select d from DrugPrice d where d.pharmacy= ?1 and d.validityPeriod.startDate <= ?2 and d.drug.drugId = ?3")
+    List<DrugPrice> getAllByDrug(Pharmacy pharmacy,Date  date,UUID drug);
 
 }

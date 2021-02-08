@@ -48,14 +48,7 @@ export class CreateExaminationComponent implements OnInit {
     this.examinationPriceService.getAllExaminationByValideDate().subscribe((list) => {
       this.examinatioPriceLIst = list;
     })
-
-
-
   }
-
-
-
-
 
   onChangeSelectedDate(event){
     this.onButtonClick = false;
@@ -75,7 +68,6 @@ export class CreateExaminationComponent implements OnInit {
     })
 
   }
-
 
   save(){
 
