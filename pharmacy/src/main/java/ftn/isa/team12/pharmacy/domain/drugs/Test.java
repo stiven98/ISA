@@ -369,12 +369,12 @@ public class Test {
         g.setFirstLogin(false);
         pharmacistA.setAccountInfo(g);
 
-
+        SimpleDateFormat sdfa = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = new Date();
         Date endDate = new Date(2021,01,25);
         DateRange dateRange = new DateRange();
-        dateRange.setStartDate(startDate);
-        dateRange.setEndDate(endDate);
+        dateRange.setStartDate(sdfa.parse("2021-02-01"));
+        dateRange.setEndDate(sdfa.parse("2021-03-01"));
 
 
 
@@ -620,18 +620,21 @@ public class Test {
         offer.setDrugOrder(drugOrder);
 
         ExaminationType examinationType = new ExaminationType();
-        examinationType.setName("Consulting");
+        examinationType.setName("examination");
 
         ExaminationPrice examinationPrice = new ExaminationPrice();
         examinationPrice.setPrice(3000.0);
         examinationPrice.setExaminationType(examinationType);
-        examinationPrice.setPharmacy(pharmacy);
+        examinationPrice.setPharmacy(pharmacy2);
         examinationPrice.setDateOfValidity(dateRange);
 
         ExaminationPrice examinationPrice2 = new ExaminationPrice();
         examinationPrice2.setPrice(3000.0);
         examinationPrice2.setExaminationType(examinationType);
         examinationPrice2.setPharmacy(pharmacy);
+        DateRange d = new DateRange();
+        d.setStartDate(sdf.parse("2021-10-01"));
+        d.setEndDate(sdf.parse("2021-11-01"));
         examinationPrice2.setDateOfValidity(dateRange);
 
         Examination examination = new Examination();

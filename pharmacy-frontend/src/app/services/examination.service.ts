@@ -26,4 +26,14 @@ export class ExaminationService {
       }));
   }
 
+
+  getBusyTime(time){
+    return this.apiService.post('http://localhost:8080/api/examination/busyTime',time)
+    .pipe(map(res => {return res;}));
+     
+  }
+
+
+
+
 }
