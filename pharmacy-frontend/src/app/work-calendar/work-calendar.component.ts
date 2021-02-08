@@ -22,6 +22,7 @@ const colors: any = {
 };
 
 interface ExaminationView{
+  examinationId : string;
   patientName : string;
   examinationDate: string;
   startTime: string;
@@ -68,6 +69,8 @@ export class WorkCalendarComponent implements OnInit {
 
   selectedPharmacyName : string;
 
+  examinationPage = "";
+
   selectedPharmacy: any;
 
   pharmacies = [];
@@ -110,6 +113,8 @@ export class WorkCalendarComponent implements OnInit {
   handleEvent(action: string, calEvent: CalendarEvent): void {
     if(calEvent.id < this.eventMaxId){
       let examination = this.examinationViews[calEvent.id];
+      this.examinationPage = "/examination/"+ examination.examinationId;
+      console.log(this.examinationPage);
       this.modalData = { examination, action };
       this.modal.open(this.modalContent, { size: 'lg' });
     }
@@ -174,8 +179,10 @@ export class WorkCalendarComponent implements OnInit {
           draggable: false,
         };
         exams.push(event);
+        
         let pharmacy = exam.pharmacy;
         let viewExam = {
+          examinationId: exam.examinationId,
           patientName : patientName,
           examinationDate: dateOfExamination.toLocaleDateString(),
           startTime: startTime.toLocaleTimeString(),

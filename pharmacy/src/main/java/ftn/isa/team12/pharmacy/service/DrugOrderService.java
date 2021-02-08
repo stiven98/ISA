@@ -10,4 +10,6 @@ public interface DrugOrderService {
 
     List<DrugOrder> findAll();
     DrugOrder findById(UUID id);
+
+    List<DrugOrder> findAllForSupplier(String email);
 }

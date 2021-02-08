@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.service;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
+import ftn.isa.team12.pharmacy.dto.ExaminationDataRequestDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -20,4 +21,6 @@ public interface DrugService {
     Set<Drug> getByIds(List<String> substituteDrug);
 
     Drug saveAndFlush(Drug drug);
+
+    List<Drug> findAllByPharmacyAndPatient(ExaminationDataRequestDTO dto);
 }

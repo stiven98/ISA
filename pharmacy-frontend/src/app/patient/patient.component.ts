@@ -12,6 +12,9 @@ import {Markdto} from '../shared/models/markdto';
 import {DrugMarkDto} from '../shared/models/drugMarkDto';
 import {DrugMark} from '../shared/models/drugMark';
 import {DrugMarksService} from '../services/drug-marks.service';
+import {MedicalstuffMarkService} from '../services/medicalstuff-mark.service';
+import {MedicalStuffMarkDto} from '../shared/models/MedicalStuffMarkDto';
+import {MedicalStuffMark} from '../shared/models/MedicalStuffMark';
 
 
 
@@ -35,13 +38,17 @@ export class PatientComponent implements OnInit {
   erecepiesFilter = [];
   drugList = [];
   pharmacyMarks = [];
+  medicalStuffMarks = [];
+  currentMedicalStuff;
+  medStuffNmr = 0;
   drugMarks = [];
   addAllergies: string;
   accountCategory = new AccountCategory();
   penalties: number;
   constructor(private userService: UserService, private patientService: PatientService,
               private drugService: DrugService, private router: Router,
-              private markService: PharmacymarkService, private drugMarkService: DrugMarksService) { }
+              private markService: PharmacymarkService, private drugMarkService: DrugMarksService,
+              private medicalStuffMarksService: MedicalstuffMarkService) { }
 
   ngOnInit(): void {
     this.userService.getMyInfo().subscribe( resUser => {
@@ -61,6 +68,9 @@ export class PatientComponent implements OnInit {
       });
       this.patientService.findMarksByPatient(this.patient.email).subscribe((marks) => {
         this.pharmacyMarks = marks;
+      });
+      this.patientService.findMEdicalStuffMarksByPatient(this.patient.email).subscribe((marks) => {
+        this.medicalStuffMarks = marks;
       });
       this.patientService.findDrugMarksByPatient(this.patient.email).subscribe((mark) => {
         this.drugMarks = mark;
@@ -161,6 +171,17 @@ export class PatientComponent implements OnInit {
     }
     window.location.reload();
   }
+  changeMedicalStuffMark = () => {
+    const medicalStuffMarkdto  = new MedicalStuffMarkDto();
+    medicalStuffMarkdto.medicalStuffMarksId = this.currentMedicalStuff.medicalStuffMarksId;
+    medicalStuffMarkdto.newMark = this.medStuffNmr;
+    if (this.medStuffNmr !== 0) {
+      this.medicalStuffMarksService.changeMark(medicalStuffMarkdto).subscribe();
+    }else {
+      alert('You must enter a number 1-10');
+    }
+    window.location.reload();
+  }
   changeDrugMark = () => {
     const drugMarkdto = new DrugMarkDto();
     drugMarkdto.drugMarksId = this.currentDrugMark.drugMarksId;
@@ -177,6 +198,20 @@ export class PatientComponent implements OnInit {
   }
   currentDrug = (mark) => {
     this.currentDrugMark = mark;
+  }
+  currentMedStuff = (mark) => {
+    this.currentMedicalStuff = mark;
+  }
+  makeConsultation = () => {
+    this.router.navigate(['/pharmacist-consultation']);
+  }
+  addReservation = () => {
+    alert('Go to drugs page and choose drug wich you want to reserve');
+    this.router.navigate(['/drugs']);
+  }
+
+  goToPharmacies = () => {
+    this.router.navigate(['/pharmacy']);
   }
 }
 

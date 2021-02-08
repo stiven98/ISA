@@ -10,7 +10,19 @@ import {AccountCategory} from '../shared/models/accountCategory';
 export class PatientService {
   constructor(private http: HttpClient) {
   }
-
+  findMEdicalStuffMarksByPatient = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/medicalStuffMarks/marksFor/' + email)
+      .pipe(map(responseData => {
+        const marks = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            marks.push(responseData[key]);
+          }
+        }
+        return marks ;
+      }));
+  }
   findPharmaciesToMark = (email) => {
     return this.http
       .get(environment.apiUrl + '/api/pharmacyMarks/pharmaciesForPatient/' + email)
@@ -22,6 +34,19 @@ export class PatientService {
           }
         }
         return pharmacies ;
+      }));
+  }
+  findMedicalStuffToMark = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/medicalStuffMarks/medicalStuffToMark/' + email)
+      .pipe(map(responseData => {
+        const medicalStuff = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            medicalStuff.push(responseData[key]);
+          }
+        }
+        return medicalStuff ;
       }));
   }
   findMarksByPatient = (email) => {
@@ -135,5 +160,31 @@ export class PatientService {
       .pipe(map((responseData: number) => {
         return responseData;
       }));
+  }
+
+  findAllSubscribedPharmacy = (email) => {
+    return this.http.post(environment.apiUrl + '/api/patient/subscribedPharmacies', email)
+      .pipe(map(response => {
+        const pharmacies = [];
+        for (const key in response) {
+          if (response.hasOwnProperty(key)) {
+            pharmacies.push(response[key]);
+          }
+        }
+        console.log(pharmacies);
+        return pharmacies;
+      }));
+  }
+
+  unsubscribePharmacy = (email: string, id: string) => {
+    return this.http.get(environment.apiUrl + '/api/patient/unsubscribePharmacy/' + email + '/' + id);
+  }
+
+  isSubscribedPharmacy = (email, id) => {
+    return this.http.get(environment.apiUrl + '/api/patient/isSubscribed/' + email + '/' + id);
+  }
+
+  subscribePharmacy = (email: string, id: string) => {
+    return this.http.get(environment.apiUrl + '/api/patient/subscribe/' + email + '/' + id);
   }
 }

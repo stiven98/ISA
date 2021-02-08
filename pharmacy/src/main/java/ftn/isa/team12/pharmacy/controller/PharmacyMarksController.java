@@ -30,6 +30,9 @@ public class PharmacyMarksController {
     private ERecipeService eRecipeService;
 
     @Autowired
+    private ExaminationService examinationService;
+
+    @Autowired
     private PharmacyService pharmacyService;
 
     @Autowired
@@ -39,9 +42,10 @@ public class PharmacyMarksController {
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/pharmaciesForPatient/{email}")
     public ResponseEntity<List<Pharmacy>> getPharmaciesForPatient(@PathVariable String email) {
+        Patient patient = this.patientService.findByEmail(email);
         List<Pharmacy> pharmacies = this.drugReservationService.findPharmaciesWherePatientReservedDrugs(email);
         List<Pharmacy> pharmacies1 = this.eRecipeService.findPharmaciesWherePatientHasERecipe(email);
-        //dodati i apoteke u kojima je imao preglede
+        List<Pharmacy> pharmacies2 = this.examinationService.findAllPharmaciesWherePatientHadExamination(patient.getUserId());
         List<Pharmacy> pharmacyList = new ArrayList<>();
 
         for(Pharmacy pharmacy : pharmacies) {
@@ -50,6 +54,11 @@ public class PharmacyMarksController {
             }
         }
         for(Pharmacy pharmacy : pharmacies1) {
+            if(!pharmacyList.contains(pharmacy)){
+                pharmacyList.add(pharmacy);
+            }
+        }
+        for(Pharmacy pharmacy : pharmacies2) {
             if(!pharmacyList.contains(pharmacy)){
                 pharmacyList.add(pharmacy);
             }
@@ -80,12 +89,17 @@ public class PharmacyMarksController {
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/createMark")
     public ResponseEntity<PharmacyMarks> createPharmacyMark(@RequestBody PharmacyMarkDTO dto) {
+        if(dto.getMark() > 10 ) {
+            dto.setMark(10);
+        }
         Pharmacy pharmacy = this.pharmacyService.findPharmacyByName(dto.getPharmacyName());
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
         PharmacyMarks pharmacyMarks = new PharmacyMarks();
         pharmacyMarks.setPatient(patient);
-        pharmacyMarks.setMark(dto.getMark());
         pharmacyMarks.setPharmacy(pharmacy);
+        BigDecimal bd1 = new BigDecimal(dto.getMark()).setScale(2, RoundingMode.HALF_UP);
+        double mark = bd1.doubleValue();
+        pharmacyMarks.setMark(mark);
         this.pharmacyMarksService.save(pharmacyMarks);
 
         List<Double> marks = this.pharmacyMarksService.findPharmacyMarksByPharmacy(pharmacy.getId());
@@ -106,6 +120,9 @@ public class PharmacyMarksController {
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/changeMark")
     public ResponseEntity<PharmacyMarks> changeMark(@RequestBody PharmacyMarkChangeDTO dto) {
+        if(dto.getNewMark() > 10 ) {
+            dto.setNewMark(10);
+        }
         PharmacyMarks pharmacyMarks = this.pharmacyMarksService.findByPharmacyMarksId((dto.getPharmacyMarksId()));
         Pharmacy pharmacy = this.pharmacyService.findPharmacyByName(pharmacyMarks.getPharmacy().getName());
         Double mark = dto.getNewMark();

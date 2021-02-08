@@ -17,6 +17,9 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
     @Query("select patient.allergies from Patient patient where patient.loginInfo.email = ?1")
     List<Drug> findPatientAllergies(String email);
 
+    @Query("select patient.allergies from Patient patient where patient.userId = ?1")
+    List<Drug> findPatientAllergiesById(UUID id);
+
     @Query("select patient.category from Patient patient where patient.loginInfo.email = ?1")
     AccountCategory findAccountCategory(String email);
 

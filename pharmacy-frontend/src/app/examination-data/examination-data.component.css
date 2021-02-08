@@ -1,0 +1,551 @@
+.fit-image{
+  width: 80%;
+  object-fit: cover;
+  height: auto; /* only if you want fixed height */
+}
+
+#examination {
+    width: 100%;
+    height: 90vh;
+    background: url("src/assets/img/stethoscope.jpg") top center;
+    background-size: cover;
+    position: relative;
+    margin-bottom: -200px;
+  }
+  #examination .container {
+    position: relative;
+  }
+  #examination h1 {
+    margin: 0px;
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 56px;
+    text-transform: uppercase;
+    color: #003488;
+  }
+  
+  #examination h3 {
+    color: #003488;
+    margin: 10px 0px 0 0;
+    font-size: 24px;
+  }
+  
+  #examination .btn-get-started {
+    font-family: "Raleway", sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 12px 35px;
+    margin-top: 30px;
+    border-radius: 50px;
+    transition: 0.5s;
+    color: #fff;
+    background: dimgray;
+  }
+  
+  #examination .btn-get-started:hover {
+    background: gray;
+  }
+  
+  @media (min-width: 1024px) {
+    #examination {
+      background-attachment: fixed;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    #examination {
+      margin-bottom: 0;
+      height: 100vh;
+    }
+    #examination .container {
+      padding-bottom: 63px;
+    }
+    #examination h1 {
+      font-size: 28px;
+      line-height: 36px;
+    }
+    #examination h2 {
+      font-size: 18px;
+      line-height: 24px;
+      margin-bottom: 30px;
+    }
+  }
+  
+  @media (max-height: 500px) {
+    #examination {
+      height: auto;
+    }
+  }
+
+  .button-div{
+    width: 25%;
+  }
+
+  .examination-input-div{
+    width: 74%;
+  }
+
+  .actions {
+    background: #fff;
+  }
+  
+  .actions .member {
+    position: relative;
+    box-shadow: 0px 2px 15px rgba(44, 73, 100, 0.08);
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .actions .member .pic {
+    overflow: hidden;
+    width: 180px;
+  }
+  
+  .actions .member .pic img {
+    transition: ease-in-out 0.3s;
+  }
+  
+  .actions .member:hover {
+    transform: scale(1.05);
+  }
+  
+  .actions .member .member-info {
+    padding-left: 30px;
+  }
+  
+  .actions .member h4 {
+    font-weight: 700;
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #003488;
+  }
+  
+  .actions .member span {
+    display: block;
+    font-size: 15px;
+    padding-bottom: 10px;
+    position: relative;
+    font-weight: 500;
+  }
+  
+  .actions .member span::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 50px;
+    height: 1px;
+    background: #b2c8dd;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .actions .member p {
+    margin: 10px 0 0 0;
+    font-size: 14px;
+    
+  }
+  
+  .actions .member .social {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .actions .member .social a {
+    transition: ease-in-out 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    width: 32px;
+    height: 32px;
+    background: #a0bcd5;
+  }
+  
+  .actions .member .social a i {
+    color: #fff;
+    font-size: 16px;
+    margin: 0 2px;
+  }
+  
+  .actions .member .social a:hover {
+    background: #1977cc;
+  }
+  
+  .actions .member .social a + a {
+    margin-left: 8px;
+  }
+
+  section {
+    padding: 60px 0;
+    overflow: hidden;
+  }
+  
+  .section-bg {
+    background-color: #f1f7fd;
+  }
+  
+  .section-title {
+    text-align: center;
+    padding-bottom: 30px;
+  }
+  
+  .section-title h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    color: #003488;
+  }
+  
+  .section-title h2::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 120px;
+    height: 1px;
+    background: #ddd;
+    bottom: 1px;
+    left: calc(50% - 60px);
+  }
+  
+  .section-title h2::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: #1977cc;
+    bottom: 0;
+    left: calc(50% - 20px);
+  }
+  
+  .section-title p {
+    margin-bottom: 0;
+  }
+
+  .wrapper {
+    margin-top: 30px
+  }
+  
+  .card {
+    border: 1px solid #eee;
+    cursor: pointer
+  }
+  
+  .weight {
+    margin-top: -65px;
+    transition: all 0.5s
+  }
+  
+  .weight small {
+    color: #e2dede
+  }
+  
+  .buttons {
+    padding: 10px;
+    background-color: lightgray;
+    border-radius: 4px;
+    position: relative;
+    margin-top: 7px;
+    opacity: 0;
+    transition: all 0.8s
+  }
+  
+  .dot {
+    height: 14px;
+    width: 14px;
+    background-color: dimgray;
+    border-radius: 50%;
+    position: absolute;
+    left: 27%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8px;
+    color: dimgray;
+    opacity: 0
+  }
+  
+  .cart-button {
+    height: 48px;
+    background-color: dimgray;
+    border: 1px solid dimgray;
+  }
+  
+  .cart-button:focus {
+    box-shadow: none
+  }
+  
+  .cart {
+    position: relative;
+    height: 48px !important;
+    width: 50px;
+    margin-right: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 11px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 1s ease-in-out;
+    overflow: hidden
+  }
+  
+  .cart-button.clicked span.dot {
+    animation: item 0.3s ease-in forwards
+  }
+
+  .examinationInfo {
+    background: #fff;
+  }
+  
+  .examinationInfo .member {
+    position: relative;
+    box-shadow: 0px 2px 15px rgba(44, 73, 100, 0.08);
+    padding: 30px;
+    border-radius: 10px;
+  }
+  
+  .examinationInfo .member .pic {
+    overflow: hidden;
+    width: 180px;
+  }
+  
+  .examinationInfo .member .pic img {
+    transition: ease-in-out 0.3s;
+  }
+  
+  .examinationInfo .member .member-info {
+    padding-left: 30px;
+  }
+  
+  .examinationInfo .member h4 {
+    font-weight: 700;
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #003488;
+  }
+  
+  .examinationInfo .member span {
+    display: block;
+    font-size: 15px;
+    padding-bottom: 10px;
+    position: relative;
+    font-weight: 500;
+  }
+  
+  .examinationInfo .member span::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 50px;
+    height: 1px;
+    background: #b2c8dd;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .examinationInfo .member p {
+    margin: 10px 0 0 0;
+    font-size: 14px;
+  }
+
+  .examinationInfo .member label {
+    margin: 10px 0 0 0;
+    font-size: 14px;
+  }
+  
+  .examinationInfo .member .social {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .examinationInfo .member .social a {
+    transition: ease-in-out 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    width: 32px;
+    height: 32px;
+    background: #a0bcd5;
+  }
+  
+  .examinationInfo .member .social a i {
+    color: #fff;
+    font-size: 16px;
+    margin: 0 2px;
+  }
+  
+  .examinationInfo .member .social a:hover {
+    background: #1977cc;
+  }
+  
+  .examinationInfo .member .social a + a {
+    margin-left: 8px;
+  }
+  
+  @keyframes item {
+    0% {
+      opacity: 1;
+      top: 30%;
+      left: 30%
+    }
+  
+    25% {
+      opacity: 1;
+      left: 26%;
+      top: 0%
+    }
+  
+    50% {
+      opacity: 1;
+      left: 23%;
+      top: -22%
+    }
+  
+    75% {
+      opacity: 1;
+      left: 19%;
+      top: -18%
+    }
+  
+    100% {
+      opacity: 1;
+      left: 14%;
+      top: 28%
+    }
+  }
+  
+  .card:hover .buttons {
+    opacity: 1
+  }
+  
+  .card:hover .weight {
+    margin-top: 10px
+  }
+  
+  .card:hover {
+    transform: scale(1.04);
+    z-index: 2;
+    overflow: hidden
+  }
+
+  .request{
+    background: linear-gradient(to right, #ff1a5a 50%, #d81e46 50%);
+    margin-top: 3%;
+    padding: 3%;
+  }
+  .request-left{
+    text-align: center;
+    color: #fff;
+    margin-top: 4%;
+  }
+  .request-left input{
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    width: 60%;
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #383d41;
+    margin-top: 30%;
+    margin-bottom: 3%;
+    cursor: pointer;
+  }
+  .request-right{
+    background: #f8f9fa;
+    border-top-left-radius: 10% 50%;
+    border-bottom-left-radius: 10% 50%;
+  }
+  .request-left img{
+    margin-top: 15%;
+    margin-bottom: 5%;
+    width: 25%;
+    -webkit-animation: mover 2s infinite  alternate;
+    animation: mover 1s infinite  alternate;
+  }
+  @-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+  }
+  @keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+  }
+  .request-left p{
+    font-weight: lighter;
+    padding: 12%;
+    margin-top: -9%;
+  }
+  .request .request-form{
+    padding: 10%;
+    margin-top: 10%;
+  }
+  .btnrequest{
+    float: right;
+    margin-top: 10%;
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    background: #d81e46;
+    color: #fff;
+    font-weight: 600;
+    width: 50%;
+    cursor: pointer;
+  }
+  .btnrequest:disabled{
+    float: right;
+    margin-top: 10%;
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    background: rgb(117, 117, 117);
+    color: #fff;
+    font-weight: 600;
+    width: 50%;
+    cursor: no-drop;
+  }
+  .request .nav-tabs{
+    margin-top: 3%;
+    border: none;
+    background: #d81e46;
+    border-radius: 1.5rem;
+    width: 28%;
+    float: right;
+  }
+  .request .nav-tabs .nav-link{
+    padding: 2%;
+    height: 34px;
+    font-weight: 600;
+    color: #fff;
+    border-top-right-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+  }
+  .request .nav-tabs .nav-link:hover{
+    border: none;
+  }
+  .request .nav-tabs .nav-link.active{
+    width: 100px;
+    color: #d81e46;
+    border: 2px solid #d81e46;
+    border-top-left-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+  }
+  .request-heading{
+    text-align: center;
+    margin-top: 8%;
+    margin-bottom: -15%;
+    color: #495057;
+  }
+  

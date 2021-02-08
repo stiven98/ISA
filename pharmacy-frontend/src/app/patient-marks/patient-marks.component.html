@@ -50,30 +50,18 @@
           <div class="row register-form">
             <div class="col-md-6">
               <div class="form-group">
-                <select class="form-control">
-                  <option class="hidden"  selected disabled>Choose pharmacist with which you have consulted</option>
-                  <option>Aca Simic</option>
-                  <option>Pera Peric</option>
-                  <option>Jova Jovic</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <select class="form-control">
-                  <option class="hidden"  selected disabled>Choose dermatologist with which you have consulted</option>
-                  <option>Mica Micic</option>
-                  <option>Stefa Stefic</option>
-                  <option>Djoka Djokic</option>
+                <select [(ngModel)]="selectedMs" class="form-control">
+                  <option class="hidden" >Choose medical stuff you interacted with</option>
+                  <option *ngFor="let ms of finalMedicalStuffToMark"> {{ms.accountInfo.name}} {{ms.accountInfo.lastName}} email: {{ms.loginInfo.email}}</option>
+
                 </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <input type="number" min="1"  max="10" class="form-control" placeholder="Enter your mark for services" value="" />
+                <input type="number" min="1" [(ngModel)]="medicalStuffMark"  max="10" class="form-control" placeholder="Enter your mark for services" value="" />
               </div>
-              <div class="form-group">
-                <input type="number" min="1"  max="10" class="form-control" placeholder="Enter your mark for services" value="" />
-              </div>
-              <input type="submit" class="btnRegister"  value="Submit your marks"/>
+              <input type="submit" class="btnRegister" (click)="markMedicalStuff()"  value="Submit your marks"/>
             </div>
           </div>
         </div>
