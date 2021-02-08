@@ -66,8 +66,10 @@ export class AddDermatologistInPharmacyComponent implements OnInit {
 
   addWorkTime(){
     let time = new WorkTimeModel();
-    if(this.model != undefined)
-      time.date = new Date(this.model.year,this.model.month,this.model.day);
+    if(this.model != undefined){
+      let d = this.model.year + "-" + this.model.month + "-" + this.model.day;
+      time.date = new Date(d);
+    }
     else{
       alert("Choose day");
       return;

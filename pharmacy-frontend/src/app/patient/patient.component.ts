@@ -43,6 +43,8 @@ export class PatientComponent implements OnInit {
   medStuffNmr = 0;
   drugMarks = [];
   addAllergies: string;
+  today = new Date();
+  consultations = [];
   accountCategory = new AccountCategory();
   penalties: number;
   constructor(private userService: UserService, private patientService: PatientService,
@@ -55,6 +57,9 @@ export class PatientComponent implements OnInit {
       this.patient = resUser;
       this.patientService.findReservations(this.patient.email).subscribe((reservation) => {
         this.reservations = reservation;
+      });
+      this.patientService.findPatientConsulations(this.patient.email).subscribe((consultations) => {
+        this.consultations = consultations;
       });
       this.patientService.findERecepies(this.patient.email).subscribe((erecepie) => {
         this.erecepies = erecepie;

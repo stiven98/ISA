@@ -1,5 +1,7 @@
 package ftn.isa.team12.pharmacy.controller;
+import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
@@ -9,12 +11,11 @@ import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.ExaminationDrugQuantityDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
 import ftn.isa.team12.pharmacy.dto.ScheduleExaminationDTO;
+import ftn.isa.team12.pharmacy.dto.*;
 import ftn.isa.team12.pharmacy.email.EmailSender;
+import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
+import ftn.isa.team12.pharmacy.repository.WorkTimeRepository;
 import ftn.isa.team12.pharmacy.service.*;
-import ftn.isa.team12.pharmacy.dto.FreeTermDTO;
-import ftn.isa.team12.pharmacy.service.ExaminationService;
-import ftn.isa.team12.pharmacy.service.MedicalStuffService;
-import ftn.isa.team12.pharmacy.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,8 +23,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
-import java.time.LocalTime;
+import java.text.ParseException;
 import java.util.*;
+
 
 @RestController
 @RequestMapping(value = "/api/examination", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,6 +41,12 @@ public class ExaminationController {
     PharmacyService pharmacyService;
 
     @Autowired
+    WorkTimeRepository workTimeRepository;
+
+    @Autowired
+    ExaminationRepository examinationRepository;
+
+    @Autowired
     PatientService patientService;
 
     @Autowired
@@ -52,6 +60,7 @@ public class ExaminationController {
 
     @Autowired
     EmailSender sender;
+
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @GetMapping("/allByEmployee")
@@ -163,6 +172,25 @@ public class ExaminationController {
         return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/createExamination")
+    public ResponseEntity<?> createExaminationForDermatologist(@RequestBody ExaminationCreateDTO dto){
+        Map<String, String> result = new HashMap<>();
+        Examination examination = examinationService.addExaminationForDermatologist(dto);
+        if(examination == null) {
+            result.put("result", "Can't create examination");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("result","Successfully create examination");
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/busyTime")
+    public ResponseEntity<BusyDateDTO> busyTime(@RequestBody TimeDTO dto) throws ParseException {
+        return new ResponseEntity<>(examinationService.busyTime(dto.getEmail(),dto.getDate()),HttpStatus.OK);
+    }
 
 
     static class PenaltyReq{
@@ -189,6 +217,8 @@ public class ExaminationController {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
         Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
         examination.setPatient(patient);
+        examination.setExaminationType(ExaminationType.pharmacistConsultations);
+        examination.setWasHeld(false);
         this.examinationService.save(examination);
         return new ResponseEntity<>(examination, HttpStatus.OK);
     }
@@ -205,5 +235,11 @@ public class ExaminationController {
         }
 
         return new ResponseEntity<>(pharmacists, HttpStatus.OK);
+    }
+    @GetMapping("/getPatientConsulatitons/{patientEmail}")
+    public ResponseEntity<List<Examination>> findPatientConsulatitons(@PathVariable String patientEmail)  {
+        Patient patient = this.patientService.findByEmail(patientEmail);
+        List<Examination> consultations = this.examinationService.findPharmacistConsultationsForPatient(patient.getUserId());
+        return new ResponseEntity<>(consultations, HttpStatus.OK);
     }
 }

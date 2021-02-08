@@ -23,6 +23,21 @@ export class PatientService {
         return marks ;
       }));
   }
+  findPatientConsulations = (email) => {
+    return this.http
+      .get(environment.apiUrl + '/api/examination/getPatientConsulatitons/' + email)
+      .pipe(map(responseData => {
+        const examinations = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            const tmp = responseData[key];
+            tmp.dateOfExamination = new Date(tmp.dateOfExamination).toLocaleDateString();
+            examinations.push(tmp);
+          }
+        }
+        return examinations ;
+      }));
+  }
   findPharmaciesToMark = (email) => {
     return this.http
       .get(environment.apiUrl + '/api/pharmacyMarks/pharmaciesForPatient/' + email)

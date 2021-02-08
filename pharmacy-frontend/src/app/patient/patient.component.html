@@ -58,39 +58,27 @@
       </div>
       <div class="container mt-5 mb-5">
         <div class="d-flex justify-content-center row">
-          <div class="col-md-10">
+          <div class="col-md-10" *ngFor="let consultation of consultations">
             <div class="row p-2 bg-white border rounded">
               <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/appointment.png"></div>
               <div class="col-md-6 mt-1">
                 <h5>Pharmacist Consultation</h5>
-                <div class="mt-1 mb-1 spec-1"><span></span>Finished<span class="dot"></span><span> 11.01.2021.</span><span class="dot"></span><span><br></span></div>
-                <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> Aca</span><span class="dot"></span><span> Simic<br></span></div>
-                <p class="text-justify text-truncate para mb-0">Description<br><br></p>
-              </div>
-              <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                <h6 class="text">Actions</h6>
-                <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
-              </div>
-            </div>
-            <div class="row p-2 bg-white border rounded">
-              <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/appointment.png"></div>
-              <div class="col-md-6 mt-1">
-                <h5>Dermatologist Examination</h5>
-                <div class="mt-1 mb-1 spec-1"><span></span>Unfinished<span class="dot"></span><span> 21.02.2021.</span><span class="dot"></span><span><br></span></div>
-                <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> Aca</span><span class="dot"></span><span> Simic<br></span></div>
-                <p class="text-justify text-truncate para mb-0">Description<br><br></p>
-              </div>
-              <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                <h6 class="text">Actions</h6>
-                <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button style="margin-top: 20px; margin-left: 55px" class="btn" (click)="makeConsultation()" >Make new appointment<img style="margin-left: 5px" src="assets/img/add.png"></button>
+                <div class="mt-1 mb-1 spec-1"><span></span>Date: <span class="dot"></span><span>{{consultation.dateOfExamination}}</span><span class="dot"></span><span><br></span></div>
+                <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> {{consultation.employee.accountInfo.name}}</span><span class="dot"></span><span> {{consultation.employee.accountInfo.lastName}}<br></span></div>
+                <p class="text-justify text-truncate para mb-0">Duration: {{consultation.duration}} min <br></p>
+                <p class="text-justify text-truncate para mb-0">Price: {{consultation.examinationPrice.price}}</p>
 
+              </div>
+              <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                <h6 class="text">Actions</h6>
+                <div class="d-flex flex-column mt-4"><button *ngIf="!consultation.wasHeld" class="btn btn-secondary btn-sm" type="button">Cancel</button>
+                  <button *ngIf="consultation.wasHeld" class="btn btn-outline-secondary btn-sm mt-2" type="button">Done</button></div>
+              </div>
+            </div>
       </div>
     </div>
+        <button style="margin-top: 20px; margin-left: 55px" class="btn" (click)="makeConsultation()" >Make new appointment<img style="margin-left: 5px" src="assets/img/add.png"></button>
+
       <!--  APPOINTMENTS -->
       <div >
         <div class="section-title">
