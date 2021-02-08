@@ -19,4 +19,15 @@ public class ExaminationScheduleMedStuffDTO {
     private UUID medStuffId;
     private Date date;
     private LocalTime time;
+
+    @Override
+    public String toString() {
+        return "ExaminationScheduleMedStuffDTO{" +
+                "patientId=" + patientId +
+                ", pharmacyId=" + pharmacyId +
+                ", medStuffId=" + medStuffId +
+                ", date=" + date +
+                ", time=" + time +
+                '}';
+    }
 }

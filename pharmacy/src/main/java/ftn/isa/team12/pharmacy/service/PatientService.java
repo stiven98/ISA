@@ -21,4 +21,6 @@ public interface PatientService {
 
     Patient givePenalty(UUID id);
     List<Drug> findAllergiesById(UUID id);
+
+    Patient findById(UUID patientId);
 }

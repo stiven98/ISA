@@ -2,8 +2,13 @@ package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
+import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
 import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
 import ftn.isa.team12.pharmacy.service.ExaminationService;
+import ftn.isa.team12.pharmacy.service.MedicalStuffService;
+import ftn.isa.team12.pharmacy.service.PatientService;
+import ftn.isa.team12.pharmacy.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +24,15 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     ExaminationRepository examinationRepository;
 
+    @Autowired
+    MedicalStuffService medicalStuffService;
+
+    @Autowired
+    PatientService patientService;
+
+    @Autowired
+    PharmacyService pharmacyService;
+
     @Override
     public List<Examination> findAll() {
         return null;
@@ -30,9 +44,15 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public List<Examination> findAllByPatient(Patient patient) {
+        return examinationRepository.findAllByPatient(patient);
+    }
+
+    @Override
     public List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy) {
         return examinationRepository.findAllByEmployeeAndPharmacy(employee, pharmacy);
     }
+
 
     @Override
     public Examination findById(UUID id) {
@@ -62,6 +82,57 @@ public class ExaminationServiceImpl implements ExaminationService {
             }
             return examination;
         }
+    }
+
+    @Override
+    public Examination scheduleNewMedStuff(ExaminationScheduleMedStuffDTO dto) {
+        MedicalStuff medicalStuff = medicalStuffService.findById(dto.getMedStuffId());
+        Pharmacy pharmacy = pharmacyService.findPharmacyById(dto.getPharmacyId());
+        Patient patient = patientService.findById(dto.getPatientId());
+        List<Examination> medStuffExaminations = findAllByEmployee(medicalStuff);
+        List<Examination> patientExaminations = findAllByPatient(patient);
+        for(Examination e : medStuffExaminations){
+            if(checkIfTimeOverlapping(e.getTimeOfExamination(), e.getDateOfExamination(), dto.getTime(), dto.getDate())){
+                return null;
+            }
+        }
+        for(Examination e : patientExaminations){
+            if(checkIfTimeOverlapping(e.getTimeOfExamination(), e.getDateOfExamination(), dto.getTime(), dto.getDate())){
+                return null;
+            }
+        }
+        Examination examination = new Examination();
+        Date date = dto.getDate();
+        LocalTime time = dto.getTime();
+        examination.setDateOfExamination(date);
+        examination.setTimeOfExamination(time);
+        examination.setDuration(45);
+        examination.setEmployee(medicalStuff);
+        examination.setPatient(patient);
+        examination.setPharmacy(pharmacy);
+        Examination saved = examinationRepository.save(examination);
+        patient.getExaminations().add(saved);
+        medicalStuff.getExaminations().add(saved);
+        patientService.saveAndFlush(patient);
+        medicalStuffService.saveAndFlush(medicalStuff);
+        return saved;
+    }
+
+    private boolean checkIfTimeOverlapping(LocalTime examinationTime, Date examinationDate, LocalTime newTime, Date newDate){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        boolean sameDate = sdf.format(examinationDate).equals(sdf.format(newDate));
+        if(!sameDate){
+            return false;
+        }
+        LocalTime examinationEnd = examinationTime.plusMinutes(45);
+        LocalTime newEnd = newTime.plusMinutes(45);
+        if(newTime.compareTo(examinationTime) >= 0 && newTime.compareTo(examinationEnd) <= 0){
+            return true;
+        }
+        if(newEnd.compareTo(examinationTime) >= 0 && newEnd.compareTo(examinationEnd) <= 0){
+            return true;
+        }
+        return false;
     }
 
 }

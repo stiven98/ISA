@@ -7,6 +7,7 @@ import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.ExaminationDrugQuantityDTO;
+import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
 import ftn.isa.team12.pharmacy.dto.GetDrugQuantityDTO;
 import ftn.isa.team12.pharmacy.email.EmailSender;
 import ftn.isa.team12.pharmacy.repository.DrugInPharmacyRepository;
@@ -53,6 +54,21 @@ public class ExaminationController {
         MedicalStuff medicalStuff = medicalStuffService.findByEmail(user.getName());
         List<Examination> examinations = examinationService.findAllByEmployee(medicalStuff);
         return new ResponseEntity<>(examinations, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @PostMapping("/scheduleNewMedStuff")
+    public ResponseEntity<?> scheduleNewMedStuff(@RequestBody ExaminationScheduleMedStuffDTO dto){
+        System.out.println(dto.toString());
+        Map<String, String> res = new HashMap<>();
+        Examination examination = examinationService.scheduleNewMedStuff(dto);
+        if(examination == null){
+            res.put("result", "You can't schedule examination in desired time!");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        res.put("result", "Examination successfully scheduled!");
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")

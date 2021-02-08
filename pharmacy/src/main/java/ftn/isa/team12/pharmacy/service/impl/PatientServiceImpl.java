@@ -50,6 +50,11 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public Patient findById(UUID patientId) {
+        return this.patientRepository.getOne(patientId);
+    }
+
+    @Override
     public Patient saveAndFlush(Patient patient) {
 
         patient.getAccountInfo().setActive(false);

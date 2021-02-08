@@ -118,7 +118,7 @@ export class ExaminationDataComponent implements OnInit {
   }
 
   scheduleAppointment(){
-
+    
   }
 
   changeDate(event){
