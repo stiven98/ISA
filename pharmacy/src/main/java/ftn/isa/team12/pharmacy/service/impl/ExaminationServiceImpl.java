@@ -189,6 +189,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         examination.setEmployee(medicalStuff);
         examination.setPatient(patient);
         examination.setPharmacy(pharmacy);
+        List<ExaminationPrice> prices = examinationPriceRepository.findLatestByPharmacy(pharmacy, date);
+        if(prices != null && !prices.isEmpty()){
+            ExaminationPrice examinationPrice = prices.get(0);
+            examination.setExaminationPrice(examinationPrice);
+        }
         Examination saved = examinationRepository.save(examination);
         patient.getExaminations().add(saved);
         medicalStuff.getExaminations().add(saved);
