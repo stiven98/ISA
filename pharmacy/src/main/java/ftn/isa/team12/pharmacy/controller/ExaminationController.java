@@ -1,19 +1,17 @@
 package ftn.isa.team12.pharmacy.controller;
 
+import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
-import ftn.isa.team12.pharmacy.dto.ExaminationDrugQuantityDTO;
-import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
+import ftn.isa.team12.pharmacy.dto.*;
 import ftn.isa.team12.pharmacy.email.EmailSender;
+import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
+import ftn.isa.team12.pharmacy.repository.WorkTimeRepository;
 import ftn.isa.team12.pharmacy.service.*;
-import ftn.isa.team12.pharmacy.dto.FreeTermDTO;
-import ftn.isa.team12.pharmacy.service.ExaminationService;
-import ftn.isa.team12.pharmacy.service.MedicalStuffService;
-import ftn.isa.team12.pharmacy.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.*;
+
 
 @RestController
 @RequestMapping(value = "/api/examination", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,6 +38,12 @@ public class ExaminationController {
     PharmacyService pharmacyService;
 
     @Autowired
+    private WorkTimeRepository workTimeRepository;
+
+    @Autowired
+    private ExaminationRepository examinationRepository;
+
+
     PatientService patientService;
 
     @Autowired
@@ -49,6 +54,7 @@ public class ExaminationController {
 
     @Autowired
     EmailSender sender;
+
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @GetMapping("/allByEmployee")
@@ -160,6 +166,34 @@ public class ExaminationController {
         return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/createExamination")
+    public ResponseEntity<?> createExaminationForDermatologist(@RequestBody ExaminationCreateDTO dto){
+        Map<String, String> result = new HashMap<>();
+        Examination examination = examinationService.addExaminationForDermatologist(dto);
+        if(examination == null) {
+            result.put("result", "Can't create examination");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("result","Successfully create examination");
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/a")
+    public ResponseEntity<List<WorkTime>> sada(){
+
+
+        return new ResponseEntity<>(workTimeRepository.findAllByEmployeeLoginInfoEmail("aca@faca.com"),HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/busyTime")
+    public ResponseEntity<BusyDateDTO> busyTime(@RequestBody TimeDTO dto) throws ParseException {
+        return new ResponseEntity<>(examinationService.busyTime(dto.getEmail(),dto.getDate()),HttpStatus.OK);
+    }
 
 
     static class PenaltyReq{
@@ -171,4 +205,5 @@ public class ExaminationController {
         List<Pharmacy> pharmacies = this.examinationService.findPharmaciesWithFreeTerm(dto.getDate(),dto.getTime());
         return new ResponseEntity<>(pharmacies, HttpStatus.OK);
     }
+
 }

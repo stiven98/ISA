@@ -12,5 +12,7 @@ import java.util.UUID;
 public interface WorkTimeRepository extends JpaRepository<WorkTime,UUID> {
 
     List<WorkTime> findAllByEmployeeUserId(UUID id);
+    List<WorkTime> findAllByEmployeeLoginInfoEmail(String email);
     WorkTime findByEmployeeAndPharmacyAndDate(MedicalStuff employee, Pharmacy pharmacy, Date date);
+
 }

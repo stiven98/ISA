@@ -1,0 +1,44 @@
+<div class=" container ">
+    
+    <div class="row d-flex justify-content-center "> 
+        <h1 class="font-weight-bold text-dark">Create examination</h1>
+    </div>    
+
+
+    <div class="row">
+        <div class="col-4">
+            <label>Chose day</label>
+            <select class="custom-select" id="day" (change)="onChangeSelectedDate($event)">
+                <option value="Choose..." selected>Choose...</option>
+                <option *ngFor="let day of days" [value]="day">{{day}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-3">
+           <h3>Dermatologist work from {{workStart.hour}}:{{workStart.minute}} to {{workEnd.hour}}:{{workEnd.minute}}  </h3>
+           <h4>Busy time </h4>
+           <div *ngFor="let date of busyTime">
+                <p >from {{date.start[0]}}:{{date.start[1]}} to {{date.end[0]}}:{{date.end[1]}} </p>
+            </div>
+        </div>
+        <div class="col-5">
+            <label>Start time</label>
+            <ngb-timepicker [(ngModel)]="startTime" [ngModelOptions]="{standalone: true}" ></ngb-timepicker>
+            <label>End time</label>
+            <ngb-timepicker [(ngModel)]="endTime"[ngModelOptions]="{standalone: true}" ></ngb-timepicker>
+        </div>
+        <div class="col-5">
+            <label>Chose price</label>
+            <select class="custom-select" id="city" (change)="onChangeSelectedDate($event)">
+                <option value="Choose..." selected>Choose...</option>
+                <option *ngFor="let date of days" [value]="date">{{city}}</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div> <button class="btn " (click)="save()"> Save </button></div>
+
+
+</div>

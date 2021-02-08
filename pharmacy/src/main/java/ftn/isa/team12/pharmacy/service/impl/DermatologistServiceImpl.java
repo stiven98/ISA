@@ -146,7 +146,8 @@ public class DermatologistServiceImpl implements DermatologistService {
                         examination.setPharmacy(null);
                         examination.setPatient(null);
                         examination.setEmployee(null);
-                        examination.getExaminationPrice().setPharmacy(null);
+                        if(examination.getExaminationPrice() != null)
+                            examination.getExaminationPrice().setPharmacy(null);
                         examination.setExaminationPrice(null);
                         dermatologist.getExaminations().remove(examination);
                         examinationRepository.delete(examination);

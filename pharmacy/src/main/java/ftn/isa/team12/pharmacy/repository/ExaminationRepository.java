@@ -17,6 +17,11 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
     List<Examination> findAllByEmployee(MedicalStuff employee);
     List<Examination> findAllByPatient(Patient patient);
     List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy);
+
+    List<Examination> findAllByPharmacyId(UUID id);
+    List<Examination> findAllByDateOfExaminationAndEmployeeUserId(Date date, UUID userID);
+
+
     Examination findExaminationByExaminationId(UUID examinationId);
 
     @Query("select ex.pharmacy from Examination  ex where ex.patient.userId = ?1")
@@ -25,6 +30,12 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
     @Query("select ex.employee from Examination ex where ex.patient.userId = ?1")
     List<MedicalStuff> findAllMedicalStuffThatTreatedPatient(UUID patientId);
 
+
     @Query("select ex.pharmacy from Examination ex where ex.dateOfExamination = ?1 and ex.timeOfExamination = ?2 and ex.patient is null")
     List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time);
+
+
+    List<Examination> findAllByEmployeeAndPharmacyAndDateOfExamination(MedicalStuff medicalStuff,Pharmacy ph, Date date );
+
+
 }

@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.domain.pharmacy;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import lombok.Getter;
@@ -46,5 +47,7 @@ public class Examination implements Serializable {
     private MedicalStuff employee;
     @Column(name = "note")
     private String note;
+    @Column(name="examination_type")
+    private ExaminationType examinationType;
 
 }
