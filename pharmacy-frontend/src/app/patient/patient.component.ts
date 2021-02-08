@@ -31,6 +31,7 @@ export class PatientComponent implements OnInit {
   nmr = 0;
   nmrDrug = 0;
   filter;
+  choosenFilterConsultations;
   currentMark = new Mark();
   currentDrugMark = new DrugMark();
   erecepies = [];
@@ -40,6 +41,7 @@ export class PatientComponent implements OnInit {
   medicalStuffMarks = [];
   currentMedicalStuff;
   medStuffNmr = 0;
+  consutlFilter = [];
   drugMarks = [];
   addAllergies: string;
   today = new Date();
@@ -59,6 +61,7 @@ export class PatientComponent implements OnInit {
       });
       this.patientService.findPatientConsulations(this.patient.email).subscribe((consultations) => {
         this.consultations = consultations;
+        this.consutlFilter = consultations;
       });
       this.patientService.findERecepies(this.patient.email).subscribe((erecepie) => {
         this.erecepies = erecepie;
@@ -101,11 +104,24 @@ export class PatientComponent implements OnInit {
     });
 
   }
-  filterERecepies = () => {
+  filterConsultations = () => {
+    const filtered = [];
+    for (let i = 0; i < this.consutlFilter.length; i++ ) {
+      if ( this.consutlFilter[i].examinationStatus === this.choosenFilterConsultations ) {
+          filtered.push(this.consutlFilter[i]);
+      }
+    }
+    this.consultations = filtered;
+    if (this.choosenFilterConsultations === "Choose filter") {
+      this.consultations = this.consutlFilter;
+    }
+
+  }
+  filterERecipes = () => {
     const filtered = [];
     for (let i = 0; i < this.erecepiesFilter.length; i++ ) {
       if ( this.erecepiesFilter[i].erecipeStatus === this.filter ) {
-          filtered.push(this.erecepiesFilter[i]);
+        filtered.push(this.erecepiesFilter[i]);
       }
     }
     this.erecepies = filtered;

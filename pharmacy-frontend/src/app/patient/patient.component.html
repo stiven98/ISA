@@ -58,7 +58,11 @@
         <button style="width: 200px" class="btn-outline-secondary" (click)="sortConsultationsByDate()" >Sort by date</button>
         <button style="width: 200px; margin-left: 10px" class="btn-outline-secondary" (click)="sortConsultationsByDuration()" >Sort by duration</button>
         <button style="width: 200px; margin-left: 10px" class="btn-outline-secondary" (click)="sortConsultationsByPrice()" >Sort by price</button>
-
+        <select [(ngModel)]="choosenFilterConsultations" (change)="filterConsultations()" style="width: 200px; margin-left: 5px" class="custom-select form-control">
+          <option>Choose filter</option>
+          <option>held</option>
+          <option>scheduled</option>
+        </select>
       </div>
       <div class="container mt-5 mb-5">
         <div class="d-flex justify-content-center row">
