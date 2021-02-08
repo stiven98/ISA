@@ -98,32 +98,9 @@ public class PatientController {
     @PostMapping("/add")
     public ResponseEntity<Patient> savePatient(@RequestBody Patient patientRequest,
                                                HttpServletResponse response) {
-
         User user = userService.findUserByEmail(patientRequest.getLoginInfo().getEmail());
-
         if (user == null) {
-
-            ResponseEntity.unprocessableEntity();
-
-            Country country = this.countryService.saveAndFlush(patientRequest.getLocation().getCity().getCountry());
-            patientRequest.getLocation().getCity().setCountry(country);
-
-            City city = this.cityService.saveAndFlush(patientRequest.getLocation().getCity());
-            patientRequest.getLocation().setCity(city);
-
-            Location location = this.locationService.saveAndFlush(patientRequest.getLocation());
-            patientRequest.setLocation(location);
-
-
             Patient patient = this.patientService.saveAndFlush(patientRequest);
-
-            try {
-                sender.sendVerificationEmail(patient.getLoginInfo().getEmail(), patient.getUserId().toString());
-            } catch (Exception e) {
-                System.out.println(e);
-                return new ResponseEntity<>(patientRequest, HttpStatus.NO_CONTENT);
-            }
-
             return new ResponseEntity<>(patient, HttpStatus.CREATED);
         } else {
             throw new IllegalArgumentException("Email already exist!");

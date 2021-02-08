@@ -5,6 +5,7 @@ import {RegistrationPatientModel} from './registrationPatient.model';
 import {ValidationModel} from '../validation-model/validation.model';
 import {CreateAccountService} from '../services/createAccount.service';
 import {Router} from '@angular/router';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-sing-up',
@@ -32,20 +33,24 @@ export class SingUpComponent implements OnInit {
   constructor(private cityService: CityService,
               private countryService: CountryService,
               private createAccountService: CreateAccountService,
-              private router: Router) { }
+              private router: Router,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.addedCountry = '';
-    this.addedCity = '';
-    this.zipCode = '';
-    this.fetchData = true;
-    this.registration = true;
+    if (this.authService.getRole() == null) {
+      this.addedCountry = '';
+      this.addedCity = '';
+      this.zipCode = '';
+      this.fetchData = true;
+      this.registration = true;
 
-    this.countryService.findAll().subscribe((response) => {
-      this.countries = response;
-      this.fetchData = false;
-    });
-
+      this.countryService.findAll().subscribe((response) => {
+        this.countries = response;
+        this.fetchData = false;
+      });
+    } else {
+      this.router.navigate(['403']);
+    }
   }
 
   createAccount = () => {
@@ -65,17 +70,13 @@ export class SingUpComponent implements OnInit {
       this.fetchData = true;
 
       this.createAccountService.register(this.registrationPatient).subscribe((response) => {
-        console.log(response);
         this.fetchData = false;
         this.registration = false;
-        this.router.navigate(['administrators']);
       }, (error) => {
         this.fetchData = false;
         this.validationModel.validEmail = 'is-invalid';
       });
 
-    } else {
-      console.log('Nije dobro');
     }
 
   }
@@ -114,7 +115,7 @@ export class SingUpComponent implements OnInit {
   }
 
   isValidPassword = () => {
-    var regex = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{6,}/g;
+    const regex = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{6,}/g;
     const isPasswordValidFlag = regex.test(this.registrationPatient.loginInfo.password);
     if (!isPasswordValidFlag) {this.validationModel.validPassword = 'is-invalid'; return false; }
     return true;
