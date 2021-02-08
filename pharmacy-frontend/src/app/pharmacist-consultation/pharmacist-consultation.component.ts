@@ -46,4 +46,16 @@ export class PharmacistConsultationComponent implements OnInit {
       }
     }
   }
+  sortByPrice = () => {
+    for (let i = 0; i < this.pharmacies.length - 1; i++ ) {
+      for ( let j = 0; j < this.pharmacies.length - i - 1; j++ ) {
+        if ( this.pharmacies[j].consulationPrice < this.pharmacies[j + 1].consulationPrice){
+          const temp = this.pharmacies[j];
+          this.pharmacies[j] = this.pharmacies[j + 1];
+          this.pharmacies[j + 1] = temp;
+        }
+      }
+    }
+  }
+
 }

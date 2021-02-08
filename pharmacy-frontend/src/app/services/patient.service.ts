@@ -126,6 +126,13 @@ export class PatientService {
         return responseData;
       }));
   }
+  cancelConsultations = (consultations) => {
+    return this.http
+      .get(environment.apiUrl + '/api/examination/cancelConsultations/' + consultations)
+      .pipe(map(responseData => {
+        return responseData;
+      }));
+  }
   findReservations = (email) => {
     return this.http
       .get(environment.apiUrl + '/api/drugReservation/getPatientReservations/' + email)

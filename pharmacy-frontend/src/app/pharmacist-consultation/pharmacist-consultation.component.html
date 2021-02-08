@@ -29,7 +29,7 @@
   </div>
 <div class = "container" >
   <button *ngIf="pharmacies.length > 0" type="button" (click)="sortByAverageMark()" style="margin-top: 5px; margin-left:0px;" class="btn btn-outline-primary">Sort by average mark</button>
-  <button *ngIf="pharmacies.length > 0" type="button" (click)="sortByAverageMark()" style="margin-top: 5px; margin-left:0px;" class="btn btn-outline-primary">Sort by price</button>
+  <button *ngIf="pharmacies.length > 0" type="button" (click)="sortByPrice()" style="margin-top: 5px; margin-left:0px;" class="btn btn-outline-primary">Sort by price</button>
 
   <div class = "row main-row row-cols-1 row-cols-md-3 g-4" >
     <div lass = "col-12"  *ngFor="let pharmacy of pharmacies">
@@ -40,7 +40,7 @@
           <p class = "card-text">Average mark {{pharmacy.averageMark}}</p>
           <p class = "card-text">City {{pharmacy.location.city.name}}</p>
           <p class = "card-text">Address {{pharmacy.location.address.street}} {{pharmacy.location.address.number}} </p>
-          <p class = "card-text">Price 100$</p>
+          <p class = "card-text">Price {{pharmacy.consulationPrice}}</p>
           <a class="btn-secondary"  class = "btn btn-outline-dark" [routerLink]="['/available-pharmacists/',pharmacy.name, date, time]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Choose</a>
         </div>
       </div>

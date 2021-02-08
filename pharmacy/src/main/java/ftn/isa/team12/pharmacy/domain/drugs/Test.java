@@ -625,9 +625,9 @@ public class Test {
         offer.setDrugOrder(drugOrder);
 
         ExaminationPrice examinationPrice = new ExaminationPrice();
-        examinationPrice.setPrice(3000.0);
-        examinationPrice.setExaminationType(ExaminationType.dermatologistExamination);
-        examinationPrice.setPharmacy(pharmacy2);
+        examinationPrice.setPrice(2500);
+        examinationPrice.setExaminationType(ExaminationType.pharmacistConsultations);
+        examinationPrice.setPharmacy(pharmacy);
         examinationPrice.setDateOfValidity(dateRange);
 
         ExaminationPrice examinationPrice2 = new ExaminationPrice();
@@ -664,6 +664,7 @@ public class Test {
         pharmacy.getExaminationPriceList().add(examinationPrice);
         pharmacy.getExaminations().add(examination);
         pharmacy.getExaminations().add(examination2);
+
 
         Vacation vacation = new Vacation();
         vacation.setEmployee(pharmacist);

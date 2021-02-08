@@ -31,6 +31,16 @@ public class EmailSender {
         System.out.println(body);
         emailSender.send(message);
     }
+    public void sendPharmacistConsultationsMail(UUID id, String patientEmail, String pharmacyName, String deadline, String doctorName, String doctorLastName, String time) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Your consultations with pharmacist " + doctorName + " " + doctorLastName + "\n" +  "in pharmacy " + pharmacyName
+        + " on " + deadline + " at " + "time " + time +  " is succsessfully scheduled with code: " + "\n" + id.toString();
+        message.setTo(patientEmail);
+        message.setSubject("Pharmacist consultations email");
+        message.setText(body);
+        System.out.println(body);
+        emailSender.send(message);
+    }
 
     public void sendDrugQuantityNotificationToPhAdmin(String to,  String drugName) {
         SimpleMailMessage message = new SimpleMailMessage();

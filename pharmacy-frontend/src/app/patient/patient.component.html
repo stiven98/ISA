@@ -28,10 +28,10 @@
             <a title="See your Reservations" href="/patient#reservations"> <img alt="See your medications" src="/assets/img/calendar.png" ></a>
           </li>
           <li class="list-inline-item">
-            <a title="See your Pharmacies" href="/patient#pharmacies"> <img alt="See your Pharmacies" src="/assets/img/pharmacy.png" ></a>
+            <a title="See pharmacies you subscribed to" href="/subscribedPharmacy"> <img alt="See your Pharmacies" src="/assets/img/pharmacy.png" ></a>
           </li>
           <li class="list-inline-item">
-            <a title="See your Pharmacies" href="/patient#marks"> <img alt="See your marks" src="/assets/img/like.png" ></a>
+            <a title="See your marks" href="/patient#marks"> <img alt="See your marks" src="/assets/img/like.png" ></a>
           </li>
         </ul>
       </div>
@@ -71,9 +71,9 @@
               </div>
               <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                 <h6 class="text">Actions</h6>
-                <div class="d-flex flex-column mt-4"><button *ngIf="!consultation.wasHeld" class="btn btn-secondary btn-sm" type="button">Cancel</button>
-                  <button *ngIf="consultation.wasHeld" class="btn btn-outline-secondary btn-sm mt-2" type="button">Finished</button></div>
-              </div>
+                <div class="d-flex flex-column mt-4"><button *ngIf="consultation.examinationStatus == 'scheduled'" (click)="cancelConsulatation(consultation)" class="btn btn-secondary btn-sm" type="button">Cancel</button>
+                  <button *ngIf="consultation.examinationStatus == 'held'" class="btn btn-outline-secondary btn-sm mt-2" type="button">Finished</button></div>
+            </div>
             </div>
       </div>
     </div>

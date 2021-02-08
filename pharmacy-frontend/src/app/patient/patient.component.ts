@@ -164,6 +164,23 @@ export class PatientComponent implements OnInit {
      alert('You cant cancel reservation 24h before deadline');
     }
   }
+  cancelConsulatation = (consultation) => {
+    const deadline = new Date(consultation.dateOfExamination).toLocaleDateString();
+    const parts = deadline.split('/');
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const day: number = +dd;
+    const month: number = +mm;
+    const deadlineday: number = +parts[1];
+    const deadlinemonth: number = +parts[0];
+    if (deadlinemonth > month || (deadlinemonth === month && deadlineday > day + 1)) {
+      this.patientService.cancelConsultations(consultation.examinationId).subscribe();
+      window.location.reload();
+    } else {
+      alert('You cant cancel consultations 24h before consultations');
+    }
+  }
 
   changeMark = () => {
     const markdto = new Markdto();

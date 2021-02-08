@@ -1,6 +1,8 @@
 package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
+import ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
@@ -45,6 +47,7 @@ public class ExaminationController {
 
     @Autowired
     ExaminationRepository examinationRepository;
+
 
     @Autowired
     PatientService patientService;
@@ -215,11 +218,26 @@ public class ExaminationController {
     @PostMapping("/scheduleNew/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
+        for(Examination ex : examinations) {
+            if(ex.getDateOfExamination().equals(examination.getDateOfExamination())){
+                throw new IllegalArgumentException("You cant schedule more than 1 consultations for same day");
+            }
+        }
+        if(patient.getPenalties() > 2) {
+            throw new IllegalArgumentException("You have 3 or more penalties and you cant schedule consultations");
+        }
         examination.setPatient(patient);
         examination.setExaminationType(ExaminationType.pharmacistConsultations);
-        examination.setWasHeld(false);
+        examination.setExaminationStatus(ExaminationStatus.scheduled);
         this.examinationService.save(examination);
+        try {
+            sender.sendPharmacistConsultationsMail(examination.getExaminationId(),dto.getPatientEmail(),dto.getPharmacyName(),examination.getDateOfExamination().toString(),
+                   examination.getEmployee().getAccountInfo().getName(), examination.getEmployee().getAccountInfo().getLastName(), examination.getTimeOfExamination().toString());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return new ResponseEntity<>(examination, HttpStatus.OK);
     }
 
@@ -241,5 +259,25 @@ public class ExaminationController {
         Patient patient = this.patientService.findByEmail(patientEmail);
         List<Examination> consultations = this.examinationService.findPharmacistConsultationsForPatient(patient.getUserId());
         return new ResponseEntity<>(consultations, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/cancelConsultations/{id}")
+    public ResponseEntity<Examination> cancelConsultations(@PathVariable UUID id) {
+        Calendar calendar = Calendar.getInstance();
+        Examination ex = this.examinationService.findById(id);
+        Date deadlineForCancel = ex.getDateOfExamination();
+        calendar.setTime(deadlineForCancel);
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        Date dayBeforeDeadline = calendar.getTime();
+        if(new Date().before(dayBeforeDeadline)) {
+            ex.setPatient(null);
+            ex.setExaminationStatus(ExaminationStatus.cancelled);
+            this.examinationService.save(ex);
+        }
+        else {
+            throw new IllegalArgumentException("You cant cancel consultations in 24h before consultations");
+        }
+        return  new ResponseEntity<>(ex, HttpStatus.OK);
     }
 }
