@@ -96,7 +96,6 @@ public class ExaminationController {
         Pharmacy pharmacy = pharmacyService.findPharmacyById(drugQuantityDTO.getPharmacyId());
         Set<PharmacyAdministrator> admins = pharmacy.getPhAdmins();
         int quantity = this.drugInPharmacyService.findDrugQuantity(drugQuantityDTO.getDrugId(), drugQuantityDTO.getPharmacyId());
-        System.out.println(quantity);
         if(quantity <= 0){
             for(PharmacyAdministrator phAdmin : admins){
                 sender.sendDrugQuantityNotificationToPhAdmin(phAdmin.getUsername(), drugName);
@@ -114,7 +113,6 @@ public class ExaminationController {
                 }
                 if(!isInAllergies){
                     Integer quant = this.drugInPharmacyService.findDrugQuantity(subDrug.getDrugId(), drugQuantityDTO.getPharmacyId());
-                    System.out.println(quant);
                     if(quant != null){
                         retVal.add(subDrug);
                     }

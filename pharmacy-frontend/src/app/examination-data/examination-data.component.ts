@@ -27,6 +27,7 @@ export class ExaminationDataComponent implements OnInit {
 
   constructor(private route : ActivatedRoute, private examinationService : ExaminationService, private drugService : DrugService, private modalService : NgbModal) { }
   drugList = [];
+  inputsValid = false;
   prescribedDrugs = [];
   substituteDrugs = [];
   successfullyPrescribed = false;
@@ -35,6 +36,11 @@ export class ExaminationDataComponent implements OnInit {
   patientId;
   pharmacyId;
   note = "";
+  appointmentDate : Date;
+  appointmentTime = [];
+  dateValidity = 'no-validate'
+  dateStr : any;
+  timeStr : any;
   therapyDuration = 1;
   examinationInfo : ExaminationInfo = {startTime: '', endTime: '', date: ''};
   patientInfo : PatientInfo = {name: '', lastName: '', phoneNumber : '', email: ''};
@@ -109,6 +115,33 @@ export class ExaminationDataComponent implements OnInit {
     }, (reason) => {
       console.log(`Dismissed ${this.getDismissReason(reason)}`);
     });
+  }
+
+  scheduleAppointment(){
+
+  }
+
+  changeDate(event){
+    this.appointmentDate = new Date(event.target.valueAsNumber);
+    this.dateStr = event.target.value;
+    this.validationCheck();
+  }
+
+  validationCheck(){
+      let now = new Date(Date.now());
+      this.inputsValid = (this.appointmentDate > now);
+      if(this.inputsValid){
+        this.dateValidity = 'no-validate';
+      }
+      else{
+        this.dateValidity = 'is-invalid';
+      }
+  }
+
+  changeTime(event){
+    let time : string = event.target.value;
+    let tokens = time.split(":");
+    this.appointmentTime = [tokens[0], tokens[1]];
   }
 
   private getDismissReason(reason: any): string {

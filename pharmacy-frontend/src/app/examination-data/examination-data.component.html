@@ -81,6 +81,58 @@
             </div>
         </div>
     </section>
+    <section id="scheduling" class="actions">
+        <div class="container">
+    
+          <div id="schedule" name="schedule" class="section-title">
+            <h2>Schedule new appointment</h2>
+            <p>Allows you to schedule new appointment for current patient</p>
+          </div>
+    
+          <div class="d-flex flex-row-reverse justify-content-center">
+                <div data-toggle="collapse" data-target="#demo" class="member d-flex align-items-center button-div" (click) = "scheduleAppointment()">
+                    <div class="pic"><img src="assets/img/medicalstuff_icons/examination.png" class="img-fluid" alt=""></div>
+                    <div class="member-info">
+                        <h4>Expand/collapse schedule form</h4>
+                    </div>
+                </div>
+            <div id="demo" class="collapse examination-input-div request">
+                <div class="row">
+                    <div class="col-md-3 request-left">
+                      <img src="/assets/img/medicalstuff_icons/examination.png" alt=""/>
+                      <h3>Schedule appointment</h3>
+                      <p>Schedule new dermatologist examination for current patient</p>
+                    </div>
+                    <div class="col-md-9 request-right">
+                      <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                          <h3 class="request-heading">Fill a new appointment form</h3>
+                          <div class="row request-form ">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    Select the appointment date:
+                                    <input type="date" (change)="changeDate($event)" [(ngModel)]="dateStr" [ngClass]="dateValidity" class="form-control" >
+                                    <div class="invalid-feedback">
+                                        The date can not be in the past!
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    Select the appointment time:
+                                    <input type="time" (change)="changeTime($event)" [(ngModel)]="timeStr" class="form-control" >
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btnrequest" (click)="scheduleAppointment()" [disabled]="!inputsValid" value="Schedule"/>
+                                </div>
+                            </div>
+                          </div>
+                          </div>
+                          </div>
+                      </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
 </main>
 <ng-template #content let-modal>
     <div class="modal-header">
@@ -89,8 +141,8 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
-        <h4 *ngIf="substituteDrugs.length == 0">Sorry, there are no substitute medicament in this moment</h4>
+    <div class="modal-body overflow-auto">
+        <h4 *ngIf="substituteDrugs.length == 0">Sorry, the medicament is out of stock and there are no substitute medicaments in this moment</h4>
         <h4 *ngIf="substituteDrugs.length != 0">Sorry, the requested medicament is not available there are few substitute:</h4>
         <div class="row d-flex justify-content-center border pt-4" *ngFor="let drug of substituteDrugs"> 
             <div class="col-3  ">
