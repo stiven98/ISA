@@ -3,12 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {Drug} from '../shared/models/drug';
+import { ConfigService } from './config.service';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DrugService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiService : ApiService, private config : ConfigService) { }
 
   findDrugQuantity = (drugId, pharmacyId) => {
     return this.http
@@ -46,6 +48,13 @@ export class DrugService {
         return drugs;
       }));
   }
+
+  findAllWithoutAllergies = (data) => {
+    return this.apiService.get(this.config.drugs_examination_data, data).pipe(map(res => {
+        return res;
+      }));
+  }
+
 
   findAllContraindications = () => {
     return this.http

@@ -16,7 +16,7 @@ public interface DrugInPharmacyRepository extends JpaRepository<DrugInPharmacy, 
     List<Pharmacy> findPharmaciesWithDrug(UUID drugId);
 
     @Query("select d.quantity from DrugInPharmacy d where d.drug.drugId= ?1 and d.pharmacy.id=?2")
-    int findDrugQuantity(UUID drugId, UUID pharmacyId);
+    Integer findDrugQuantity(UUID drugId, UUID pharmacyId);
 
     @Query("select d from DrugInPharmacy d where d.drug.drugId= ?1 and d.pharmacy.id=?2")
     DrugInPharmacy findDrugInPharmacy(UUID drugId, UUID pharmacyId);

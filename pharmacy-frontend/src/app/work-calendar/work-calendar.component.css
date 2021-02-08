@@ -16,3 +16,9 @@
     width: 20%;
     cursor: no-drop;
   }
+
+.click-box:hover {
+  transform: scale(1.05);
+  color: #2076ff;
+  cursor: pointer;
+}

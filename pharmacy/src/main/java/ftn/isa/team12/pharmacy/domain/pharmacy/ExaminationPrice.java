@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.domain.pharmacy;
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,8 +19,7 @@ public class ExaminationPrice  implements Serializable  {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "examination_price_id", nullable = false, unique = true)
     private UUID examinationPriceId;
-    @ManyToOne
-    @JoinColumn(name = "examination_type_id", referencedColumnName = "examination_type_id", nullable = false )
+    @Column(name="examination_type")
     private ExaminationType examinationType;
     @Column(name="price")
     private double price;

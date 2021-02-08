@@ -47,11 +47,14 @@ import { AllOrdersComponent } from './all-orders/all-orders.component';
 import { MyOffersComponent } from './my-offers/my-offers.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { CreatePharmacistComponent } from './ph-admin/create-pharmacist/create-pharmacist.component';
+import { StartExaminationPageComponent } from './start-examination-page/start-examination-page.component';
+import { ExaminationDataComponent } from './examination-data/examination-data.component';
 import {PatientMarksComponent} from './patient-marks/patient-marks.component';
 import { PharmacistConsultationComponent } from './pharmacist-consultation/pharmacist-consultation.component';
 import { AvailablePharmacistsComponent } from './pharmacist-consultation/available-pharmacists/available-pharmacists.component';
 import { SubscribedPharmacyComponent } from './subscribed-pharmacy/subscribed-pharmacy.component';
 import { AddDermatologistInPharmacyComponent } from './ph-admin/add-dermatologist-in-pharmacy/add-dermatologist-in-pharmacy.component';
+import { CreateExaminationComponent } from './ph-admin/create-examination/create-examination.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -93,7 +96,10 @@ const appRoutes: Routes = [
   { path: 'allPharmacist', component: SeeAllPharmacistComponent},
   { path: 'pharmacist-consultation', component: PharmacistConsultationComponent},
   { path: 'createPharmacist', component: CreatePharmacistComponent, canActivate: [PhAdminGuard]},
+  { path: 'examination/:examinationId', component: StartExaminationPageComponent, canActivate: [DermatologistsGuard]},
+  { path: 'examinationData/:examinationId', component: ExaminationDataComponent, canActivate: [DermatologistsGuard]},
   { path: 'addDermatologistInPharmacy', component: AddDermatologistInPharmacyComponent, canActivate: [PhAdminGuard]},
+  { path: 'createExamination/:email', component: CreateExaminationComponent, canActivate: [PhAdminGuard]},
 
 
   //ovo mora da bude poslednje!!!!!!!
@@ -144,6 +150,10 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     MyOffersComponent,
     VacationRequestComponent,
     CreatePharmacistComponent,
+    AddDermatologistInPharmacyComponent,
+    CreateExaminationComponent,
+    StartExaminationPageComponent,
+    ExaminationDataComponent,
     PharmacistConsultationComponent,
     AvailablePharmacistsComponent,
     SubscribedPharmacyComponent,

@@ -79,8 +79,7 @@ public class PatientServiceImpl implements PatientService {
         patientRequest.getCategory().setPoints(0);
 
         Patient patient = this.patientRepository.saveAndFlush(patientRequest);
-
-
+        
         try {
             sender.sendVerificationEmail(patient.getLoginInfo().getEmail(), patient.getUserId().toString());
         } catch (Exception e) {
@@ -89,6 +88,30 @@ public class PatientServiceImpl implements PatientService {
 
         return patient;
     }
+
+
+    @Override
+    public Patient givePenalty(UUID id) {
+        Patient patient = this.patientRepository.getOne(id);
+        if(patient == null){
+            return null;
+        }
+        int penalties = patient.getPenalties();
+        patient.setPenalties(++penalties);
+        return this.patientRepository.save(patient);
+    }
+
+    @Override
+    public List<Drug> findAllergiesById(UUID id) {
+        return this.patientRepository.findPatientAllergiesById(id);
+    }
+
+    @Override
+    public Patient findById(UUID patientId) {
+        return this.patientRepository.getOne(patientId);
+    }
+
+
 
     @Override
     public Patient findByEmail(String email) {

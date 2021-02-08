@@ -6,22 +6,20 @@ Project in the subject of internet software architecture
 
 # Instructions for starting the project
 
-* Database setup: 
+* Database setup:
+
  -> POSTGRES_HOST - localhost
  -> POSTGRES_PORT - default 5432
- ->SCHEMA - PharmacyDB
+ -> SCHEMA - PharmacyDB
 * Start project pharmacy [spring boot] wich is our backend project[runs on port 8080]
 * Start project pharmacy-front [angular] which is our frontend project [runs on port 4200]
 # Our team
 
 We are a group of young and enthusiastic people who are ready to improve their abilities in order to maximally contribute to the development of this and any other system we are working on.
 
-|         *Our team*        |   
-|:-----------------------:|
-| [Jovan Bosnić](https://github.com/JovanBosnic7/) <br> <img src="https://avatars3.githubusercontent.com/u/58253837?s=400&u=8b2860add6ac033ad02558b433a39be5b0ced81e&v=4" width="100" height="100">            
-| [Aca Simić](https://github.com/coa98/) <br> <img src="https://avatars1.githubusercontent.com/u/57592834?s=460&u=895639fc0fa69ab2e516c341aa623cd8393b4a11&v=4" width="100" height="100">               
-| [Aleksandar Stevanović](https://github.com/stiven98/) <br> <img src="https://avatars3.githubusercontent.com/u/57716920?s=460&v=4" width="100" height="100">  
-| [Đorđije Kundačina](https://github.com/qndaa/) <br> <img src="https://avatars2.githubusercontent.com/u/57578574?s=460&u=030cbb28f5093c08d266b0bbdfd38bd1af6ef1c9&v=4" width="100" height="100">      
+|         *Student 1*        |      *Student 2*       |  *Student 3*  |   *Student 4*  |
+|:-----------------------:|:--------------------:|:------------------------:|:---------------------:|
+| <img src="https://avatars3.githubusercontent.com/u/58253837?s=400&u=8b2860add6ac033ad02558b433a39be5b0ced81e&v=4" width="100" height="100">  <br>  [Jovan Bosnić](https://github.com/JovanBosnic7/) | <img src="https://avatars1.githubusercontent.com/u/57592834?s=460&u=895639fc0fa69ab2e516c341aa623cd8393b4a11&v=4" width="100" height="100"> <br> [Aca Simić](https://github.com/coa98/) | <img src="https://avatars3.githubusercontent.com/u/57716920?s=460&v=4" width="100" height="100"> <br> [Aleksandar Stevanović](https://github.com/stiven98/) | <img src="https://avatars2.githubusercontent.com/u/57578574?s=460&u=030cbb28f5093c08d266b0bbdfd38bd1af6ef1c9&v=4" width="100" height="100"> <br> [Đorđije Kundačina](https://github.com/qndaa/) |    
 
 
 
