@@ -1,12 +1,18 @@
 package ftn.isa.team12.pharmacy.service.impl;
+import ftn.isa.team12.pharmacy.domain.common.City;
+import ftn.isa.team12.pharmacy.domain.common.Country;
+import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
 import ftn.isa.team12.pharmacy.domain.users.AccountCategory;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.User;
+import ftn.isa.team12.pharmacy.email.EmailSender;
 import ftn.isa.team12.pharmacy.repository.PatientRepository;
-import ftn.isa.team12.pharmacy.service.PatientService;
+import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -21,6 +27,22 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CountryService countryService;
+
+    @Autowired
+    private CityService cityService;
+
+    @Autowired
+    private LocationService locationService;
+
+    @Autowired
+    private AuthorityService authorityService;
+
+    @Autowired
+    private EmailSender sender;
+
+
     @Override
     public List<Patient> findAll() {
         return this.patientRepository.findAll();
@@ -34,16 +56,38 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient saveAndFlush(Patient patient) {
+    public Patient saveAndFlush(Patient patientRequest) {
+        ResponseEntity.unprocessableEntity();
 
-        patient.getAccountInfo().setActive(false);
-        patient.getAccountInfo().setFirstLogin(true);
-        patient.setPenalties(0);
-        patient.getLoginInfo().setPassword(passwordEncoder.encode(patient.getPassword()));
-        patient.setCategory(new AccountCategory());
-        patient.getCategory().setCategory(UserCategory.no_category);
-        patient.getCategory().setPoints(0);
-        return this.patientRepository.saveAndFlush(patient);
+        Country country = this.countryService.saveAndFlush(patientRequest.getLocation().getCity().getCountry());
+        patientRequest.getLocation().getCity().setCountry(country);
+
+        City city = this.cityService.saveAndFlush(patientRequest.getLocation().getCity());
+        patientRequest.getLocation().setCity(city);
+
+        Location location = this.locationService.saveAndFlush(patientRequest.getLocation());
+        patientRequest.setLocation(location);
+
+        patientRequest.setAuthorities(authorityService.findByRole("ROLE_PATIENT"));
+
+        patientRequest.getAccountInfo().setActive(false);
+        patientRequest.getAccountInfo().setFirstLogin(true);
+        patientRequest.setPenalties(0);
+        patientRequest.getLoginInfo().setPassword(passwordEncoder.encode(patientRequest.getPassword()));
+        patientRequest.setCategory(new AccountCategory());
+        patientRequest.getCategory().setCategory(UserCategory.no_category);
+        patientRequest.getCategory().setPoints(0);
+
+        Patient patient = this.patientRepository.saveAndFlush(patientRequest);
+
+
+        try {
+            sender.sendVerificationEmail(patient.getLoginInfo().getEmail(), patient.getUserId().toString());
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+
+        return patient;
     }
 
     @Override
