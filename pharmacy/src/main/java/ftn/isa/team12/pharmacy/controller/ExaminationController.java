@@ -191,7 +191,7 @@ public class ExaminationController {
 
     @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @PostMapping("/busyTime")
-    public ResponseEntity<BusyDateDTO> busyTime(@RequestBody TimeDTO dto) throws ParseException {
+    public ResponseEntity<BusyDateDTO> busyTime(@RequestBody TimeDTO dto){
         return new ResponseEntity<>(examinationService.busyTime(dto.getEmail(),dto.getDate()),HttpStatus.OK);
     }
 
