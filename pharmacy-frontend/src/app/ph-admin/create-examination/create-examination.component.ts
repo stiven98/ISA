@@ -53,6 +53,13 @@ export class CreateExaminationComponent implements OnInit {
   onChangeSelectedDate(event){
     this.onButtonClick = false;
     
+    if(event.target.value == "Choose..."){
+      alert("Chose day");
+      this.onButtonClick = true;
+      return;
+    }
+      
+
     let a = event.target.value.split("/");
     let s = a[2] + "-" + a[0] + "-" + a[1];  
     let time = {
@@ -104,7 +111,6 @@ export class CreateExaminationComponent implements OnInit {
   
   onChangeSelectedPrice(event){
     this.saveExamination = false;
-    alert(event.target.value);
     this.examination.priceId = event.target.value;
   }
 

@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.service.impl;
+
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
@@ -56,8 +57,6 @@ public class DrugPriceServiceImp implements DrugPriceService {
         Drug drug = drugRepository.findByDrugId(dto.getIdDrug());
         Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyAdministrator.getPharmacy().getId());
 
-        System.out.println(dto);
-
         DrugPrice drugPrice = new DrugPrice();
         drugPrice.setValidityPeriod(new DateRange());
         drugPrice.getValidityPeriod().setStartDate(dto.getStartDate());
@@ -71,7 +70,6 @@ public class DrugPriceServiceImp implements DrugPriceService {
         return drugPrice;
     }
 
-
     @Override
     public void validationDrugPrice(DrugPriceDTO dto) {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
@@ -82,6 +80,8 @@ public class DrugPriceServiceImp implements DrugPriceService {
         if(dto.getPrice() <= 0)
             throw new IllegalArgumentException("Bad input price");
 
+        if(dto.getStartDate().after(dto.getEndDate()) || !dto.getStartDate().after(new Date()) || !dto.getEndDate().after(new Date()))
+            throw new IllegalArgumentException("Bad input date");
 
         if(drug == null || pharmacy == null)
             throw new IllegalArgumentException("Bad input");
@@ -99,7 +99,6 @@ public class DrugPriceServiceImp implements DrugPriceService {
             throw new IllegalArgumentException("No drug in pharmacy");
 
         List<DrugPrice> drugPriceList = drugPriceRepository.getAllByDrug(pharmacy , dto.getStartDate(),drug.getDrugId());
-        System.out.println(drugPriceList.size());
         if(!drugPriceList.isEmpty()){
             throw new IllegalArgumentException("For this period already set price for " + drug.getName());
         }

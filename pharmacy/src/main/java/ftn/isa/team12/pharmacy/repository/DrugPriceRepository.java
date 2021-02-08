@@ -19,7 +19,7 @@ public interface DrugPriceRepository extends JpaRepository<DrugPrice, UUID> {
     List<DrugPrice> getAll(Pharmacy pharmacy, Date date);
 
 
-    @Query("select d from DrugPrice d where d.pharmacy= ?1 and d.validityPeriod.startDate <= ?2 and d.drug.drugId = ?3")
+    @Query("select d from DrugPrice d where d.pharmacy= ?1 and d.validityPeriod.startDate <= ?2  and d.validityPeriod.endDate >= ?2 and d.drug.drugId = ?3")
     List<DrugPrice> getAllByDrug(Pharmacy pharmacy,Date  date,UUID drug);
 
 }
