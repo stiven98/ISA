@@ -642,8 +642,11 @@ public class Test {
 
         Examination examination = new Examination();
         examination.setEmployee(pharmacist);
+        examination.setPatient(patient);
+        //examination.setExaminationPrice(examinationPrice);
+        examination.setDateOfExamination(new Date());
         examination.setExaminationPrice(examinationPrice);
-        examination.setDateOfExamination(sdf.parse("2021-05-05"));
+//        examination.setDateOfExamination(sdf.parse("2021-05-05"));
         examination.setTimeOfExamination(LocalTime.of(13,45));
         examination.setDuration(45);
         examination.setPharmacy(pharmacy);

@@ -127,15 +127,17 @@
                         <p class="text-center">Average mark: {{modalData.examination.pharmacyMark}}</p>
                     </div>
             </div>
-            <div class="p-3 border">
-                <div class="icon-box">
-                    <div class="icon"><img class="rounded mx-auto d-block" src="assets/img/medicalstuff_icons/examination.png"></div>
-                    <h4 class="text-center">Appointment time</h4>
-                    <p class="text-center">Date: {{modalData.examination.examinationDate}}</p>
-                    <p class="text-center">Start time: {{modalData.examination.startTime}}</p>
-                    <p class="text-center">End time: {{modalData.examination.endTime}}</p>
-                </div>
-        </div>
+              <div class="p-3 border click-box" (click) = "close()" [routerLink]="examinationPage" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                  <div class="icon-box">
+                    <div class="icon">
+                          <img class="rounded mx-auto d-block" src="assets/img/medicalstuff_icons/examination.png">
+                    </div>
+                      <h4 class="text-center">Appointment time</h4>
+                      <p class="text-center">Date: {{modalData.examination.examinationDate}}</p>
+                      <p class="text-center">Start time: {{modalData.examination.startTime}}</p>
+                      <p class="text-center">End time: {{modalData.examination.endTime}}</p>
+                  </div>
+            </div>
         </div>
     </div>
     <div class="modal-footer">

@@ -1,0 +1,71 @@
+<section id="examination" class="d-flex align-items-center">
+    <div class="container">
+      <h1> Appointment </h1>
+    </div>
+</section>
+<main id="main">
+    <section id="examinationInfo" class="examinationInfo">
+        <div class="container">
+    
+          <div id="chooseAction" name="chooseAction" class="section-title">
+            <h2>Appointment informations</h2>
+            <p>Shows you basic appointment informations</p>
+          </div>
+    
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="member d-flex align-items-start">
+                <div class="pic"><img src="assets/img/medicalstuff_icons/user512.png" class="img-fluid" alt=""></div>
+                <div class="member-info">
+                  <h4>Patient</h4>
+                  <span>{{patientInfo.name}} {{patientInfo.lastName}}</span>
+                  <p>{{patientInfo.phoneNumber}}</p>
+                  <p>{{patientInfo.email}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="member d-flex align-items-start">
+                <div class="pic"><img src="assets/img/medicalstuff_icons/examination512.png" class="img-fluid" alt=""></div>
+                <div class="member-info">
+                    <h4>Appointment</h4>
+                    <span>Basic info</span>
+                    <p>Date: {{examinationInfo.date}}</p>
+                    <p>Start time: {{examinationInfo.startTime}}</p>
+                    <p>End time: {{examinationInfo.endTime}}</p>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    <section id="actions" class="actions">
+        <div class="container">
+    
+          <div id="chooseAction" name="chooseAction" class="section-title">
+            <h2>Choose action</h2>
+            <p>Choose if you want to start appointment or give patient a penalty </p>
+          </div>
+    
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="member d-flex align-items-center" (click) = "givePenalty()">
+                <div class="pic"><img src="assets/img/medicalstuff_icons/penalty512.png" class="img-fluid" alt=""></div>
+                <div class="member-info">
+                    <h4>Give a penalty to patient</h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="member d-flex align-items-center"  [routerLink]="startAppointmentURL" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                  <div class="pic"><img src="assets/img/medicalstuff_icons/stethoscope.png" class="img-fluid" alt=""></div>
+                  <div class="member-info">
+                    <h4>Start appointment</h4>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </section>
+</main>

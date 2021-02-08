@@ -34,6 +34,27 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public Patient givePenalty(UUID id) {
+        Patient patient = this.patientRepository.getOne(id);
+        if(patient == null){
+            return null;
+        }
+        int penalties = patient.getPenalties();
+        patient.setPenalties(++penalties);
+        return this.patientRepository.save(patient);
+    }
+
+    @Override
+    public List<Drug> findAllergiesById(UUID id) {
+        return this.patientRepository.findPatientAllergiesById(id);
+    }
+
+    @Override
+    public Patient findById(UUID patientId) {
+        return this.patientRepository.getOne(patientId);
+    }
+
+    @Override
     public Patient saveAndFlush(Patient patient) {
 
         patient.getAccountInfo().setActive(false);

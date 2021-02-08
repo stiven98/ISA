@@ -1,11 +1,9 @@
 package ftn.isa.team12.pharmacy.controller;
-import ftn.isa.team12.pharmacy.domain.drugs.Contraindication;
-import ftn.isa.team12.pharmacy.domain.drugs.Drug;
-import ftn.isa.team12.pharmacy.domain.drugs.Ingredient;
-import ftn.isa.team12.pharmacy.domain.drugs.Manufacturer;
+import ftn.isa.team12.pharmacy.domain.drugs.*;
 import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
 import ftn.isa.team12.pharmacy.dto.DrugDTO;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
+import ftn.isa.team12.pharmacy.dto.ExaminationDataRequestDTO;
 import ftn.isa.team12.pharmacy.dto.NewDrugDTO;
 import ftn.isa.team12.pharmacy.service.ContraindicationService;
 import ftn.isa.team12.pharmacy.service.DrugService;
@@ -17,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +52,16 @@ public class DrugController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllByPatientAndPharmacy")
+    public ResponseEntity<?> findAllDrugsByPatientAndPharmacy(ExaminationDataRequestDTO dto){
+        List<Drug> drugs = this.drugService.findAllByPharmacyAndPatient(dto);
+        Map<String, String> result = new HashMap<>();
+        if(drugs == null){
+            result.put("result", "Patient with specified id doesn't exist!");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(drugs, HttpStatus.OK);
+    }
 
     @GetMapping("/drugForOrder")
     public ResponseEntity<List<DrugForOrderDTO>> getAll(){

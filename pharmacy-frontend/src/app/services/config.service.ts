@@ -31,6 +31,11 @@ export class ConfigService {
     return this._login_url;
   }
 
+  private _drugs_examination_data = this._drug_url + '/getAllByPatientAndPharmacy';
+  get drugs_examination_data(): string {
+    return this._drugs_examination_data;
+  }
+
   private _change_password_url = this._user_url + '/changePassword';
 
   get change_password_url(): string {
@@ -112,6 +117,30 @@ export class ConfigService {
 
   get examinations_by_employee (): string {
     return this._examinations_by_employee ;
+  }
+
+  private _examination_by_id = this._examination_url + '/getCurrentExamination/';
+
+  get examination_by_id (): string {
+    return this._examination_by_id ;
+  }
+
+  private _schedule_new_med = this._examination_url + '/scheduleNewMedStuff';
+
+  get schedule_new_med (): string {
+    return this._schedule_new_med ;
+  }
+
+  private _give_penalty = this._examination_url + '/givePenalty/';
+
+  get give_penalty (): string {
+    return this._give_penalty ;
+  }
+
+  private _check_drug_availability = this._examination_url + '/drugAvailability';
+
+  get check_drug_availability (): string {
+    return this._check_drug_availability;
   }
 
   private _examinations_by_employee_and_pharmacy = this._examination_url + '/allByEmployeeAndPharmacy/';

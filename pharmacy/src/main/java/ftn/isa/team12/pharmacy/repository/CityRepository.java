@@ -9,7 +9,7 @@ public interface CityRepository extends JpaRepository<City, UUID> {
 
     City findByName(String name);
 
-    @Query("SELECT c FROM City c WHERE c.country.id=?2 and c.name=?1")
+    @Query("SELECT c FROM City c WHERE c.country.countryId=?2 and c.name=?1")
     City findByNameAndCountryId(String name, UUID id);
 
     @Query("SELECT c FROM City c WHERE c.country.name = ?1")

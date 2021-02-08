@@ -71,7 +71,7 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
     }
 
     @Override
-    public int findDrugQuantity(UUID drugId, UUID pharmacyId) {
+    public Integer findDrugQuantity(UUID drugId, UUID pharmacyId) {
         return this.drugInPharmacyRepository.findDrugQuantity(drugId, pharmacyId);
     }
     @Override
