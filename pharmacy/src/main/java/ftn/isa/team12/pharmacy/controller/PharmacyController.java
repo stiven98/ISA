@@ -2,6 +2,8 @@ package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
+import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
 import ftn.isa.team12.pharmacy.repository.PharmacistRepository;
@@ -16,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,8 +42,27 @@ public class PharmacyController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Pharmacy>> findAll() {
+        double price;
+        double exam;
         List<Pharmacy> pharmacies = pharmacyService.findAll();
-        return new ResponseEntity<List<Pharmacy>>(pharmacies, HttpStatus.OK);
+        for (Pharmacy p : pharmacies) {
+            if (!p.getExaminationPriceList().isEmpty()) {
+                for (ExaminationPrice ep : p.getExaminationPriceList()) {
+                    if (ep.getExaminationType().equals(ExaminationType.pharmacistConsultations) && (new Date().before(ep.getDateOfValidity().getEndDate()))) {
+                        price = ep.getPrice();
+                        p.setConsulationPrice(price);
+                    } else if (ep.getExaminationType().equals(ExaminationType.dermatologistExamination) && (new Date().before(ep.getDateOfValidity().getEndDate()))) {
+                        exam = ep.getPrice();
+                        p.setExaminationPrice(exam);
+                    }
+                }
+            } else {
+                p.setExaminationPrice(0.0);
+                p.setConsulationPrice(0.0);
+            }
+            this.pharmacyService.save(p);
+        }
+        return new ResponseEntity<>(pharmacies, HttpStatus.OK);
     }
 
     @GetMapping("/id/{id}")

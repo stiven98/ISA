@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.domain.pharmacy;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
@@ -33,6 +34,8 @@ public class Examination implements Serializable {
     private LocalTime timeOfExamination;
     @Column(name = "duration")
     private long duration;
+    @Column(name = "examination_status")
+    private ExaminationStatus examinationStatus;
     @ManyToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "user_id")
     private Patient patient;

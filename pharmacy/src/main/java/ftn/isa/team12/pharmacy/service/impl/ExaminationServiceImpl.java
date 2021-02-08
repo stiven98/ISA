@@ -231,8 +231,28 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time) {
+    public List<Examination> findPharmaciesWithFreeTerm(Date date, LocalTime time) {
         return this.examinationRepository.findPharmaciesWithFreeTerm(date, time);
+    }
+
+    @Override
+    public List<MedicalStuff> findAvailableByPharmacy(String pharmacyName) {
+        return this.examinationRepository.findAvailableByPharmacyAndTerm(pharmacyName);
+    }
+
+    @Override
+    public Examination findByEmployeePharmacyTimeDate(UUID userId, String pharmacyName, Date date, LocalTime time) {
+        return this.examinationRepository.findByEmployeePharmacyTimeDate(userId,pharmacyName,date,time);
+    }
+
+    @Override
+    public Examination save(Examination examination) {
+        return this.examinationRepository.save(examination);
+    }
+
+    @Override
+    public List<Examination> findPharmacistConsultationsForPatient(UUID patientId) {
+        return this.examinationRepository.findPharmacistConsultationsForPatient(patientId);
     }
 
 
