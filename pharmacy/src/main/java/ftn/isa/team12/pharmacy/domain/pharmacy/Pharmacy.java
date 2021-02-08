@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.marks.PharmacyMarks;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -41,6 +43,10 @@ public class Pharmacy implements Serializable {
    private String description;
    @Column(name = "averagemark", nullable = false)
    private Double averageMark;
+   @Column(name = "consultationprice")
+   private Double consulationPrice;
+   @Column(name = "examinationprice")
+   private Double examinationPrice;
    @OneToOne
    @JoinColumn(name = "location_id", referencedColumnName = "location_id", nullable = false)
    private Location location;
@@ -48,8 +54,6 @@ public class Pharmacy implements Serializable {
    @JsonIgnore
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
    private Set<DrugInPharmacy> drugs = new HashSet<DrugInPharmacy>();
-
-
 
    @JsonIgnore
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "pharmacy")
