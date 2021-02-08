@@ -1,10 +1,12 @@
 package ftn.isa.team12.pharmacy.service.impl;
+import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
 import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
+import ftn.isa.team12.pharmacy.repository.WorkTimeRepository;
 import ftn.isa.team12.pharmacy.service.ExaminationService;
 import ftn.isa.team12.pharmacy.service.MedicalStuffService;
 import ftn.isa.team12.pharmacy.service.PatientService;
@@ -31,6 +33,9 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
     PharmacyService pharmacyService;
+
+    @Autowired
+    WorkTimeRepository workTimeRepository;
 
     @Override
     public List<Examination> findAll() {
@@ -84,9 +89,18 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Override
     public Examination scheduleNewMedStuff(ExaminationScheduleMedStuffDTO dto) {
+        Date date = dto.getDate();
+        LocalTime time = dto.getTime();
         MedicalStuff medicalStuff = medicalStuffService.findById(dto.getMedStuffId());
         Pharmacy pharmacy = pharmacyService.findPharmacyById(dto.getPharmacyId());
         Patient patient = patientService.findById(dto.getPatientId());
+        WorkTime workTime = workTimeRepository.findByEmployeeAndPharmacyAndDate(medicalStuff, pharmacy, date);
+        if(workTime == null){
+            return null;
+        }
+        if(!checkWorkTimeOverlapping(workTime.getStartTime(), workTime.getEndTime(), time)){
+            return null;
+        }
         List<Examination> medStuffExaminations = findAllByEmployee(medicalStuff);
         List<Examination> patientExaminations = findAllByPatient(patient);
         for(Examination e : medStuffExaminations){
@@ -100,8 +114,6 @@ public class ExaminationServiceImpl implements ExaminationService {
             }
         }
         Examination examination = new Examination();
-        Date date = dto.getDate();
-        LocalTime time = dto.getTime();
         examination.setDateOfExamination(date);
         examination.setTimeOfExamination(time);
         examination.setDuration(45);
@@ -114,6 +126,14 @@ public class ExaminationServiceImpl implements ExaminationService {
         patientService.saveAndFlush(patient);
         medicalStuffService.saveAndFlush(medicalStuff);
         return saved;
+    }
+
+    private boolean checkWorkTimeOverlapping(LocalTime workTimeStart, LocalTime workTimeEnd, LocalTime newExaminationTime){
+        LocalTime newExaminationEnd = newExaminationTime.plusMinutes(45);
+        if (newExaminationTime.compareTo(workTimeStart) < 0 || newExaminationEnd.compareTo(workTimeEnd) > 0) {
+            return false;
+        }
+        return true;
     }
 
     private boolean checkIfTimeOverlapping(LocalTime examinationTime, Date examinationDate, LocalTime newTime, Date newDate) {
