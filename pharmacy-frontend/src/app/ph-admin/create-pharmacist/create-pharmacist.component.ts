@@ -1,8 +1,6 @@
-import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { ChangeUserModel } from '../../change-account-info/changeUser.model';
 import { CityService } from '../../services/city.service';
 import { CountryService } from '../../services/country.service';
@@ -53,8 +51,10 @@ export class CreatePharmacistComponent implements OnInit {
 
   addWorkTime(){
     let time = new WorkTimeModel();
-    if(this.model != undefined)
-      time.date = new Date(this.model.year,this.model.month,this.model.day);
+    if(this.model != undefined){
+       let d = this.model.year + "-" + this.model.month + "-" + this.model.day;
+      time.date = new Date(d);
+    }
     else{
       alert("Choose day");
       return;
