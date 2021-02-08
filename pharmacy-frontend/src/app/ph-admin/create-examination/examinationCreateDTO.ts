@@ -13,6 +13,6 @@ export class ExaminationCreateModel {
         this.startTime = null;
         this.email ='';
         this.duration = 0;
-        this.priceId = null;
+        this.priceId = '';
     }
   }

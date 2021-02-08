@@ -624,9 +624,9 @@ public class Test {
         offer.setDrugOrder(drugOrder);
 
         ExaminationPrice examinationPrice = new ExaminationPrice();
-        examinationPrice.setPrice(3000.0);
-        examinationPrice.setExaminationType(ExaminationType.dermatologistExamination);
-        examinationPrice.setPharmacy(pharmacy2);
+        examinationPrice.setPrice(2500);
+        examinationPrice.setExaminationType(ExaminationType.pharmacistConsultations);
+        examinationPrice.setPharmacy(pharmacy);
         examinationPrice.setDateOfValidity(dateRange);
 
         ExaminationPrice examinationPrice2 = new ExaminationPrice();
@@ -638,24 +638,65 @@ public class Test {
         d.setEndDate(sdf.parse("2021-11-01"));
         examinationPrice2.setDateOfValidity(dateRange);
 
+        ExaminationPrice examinationPrice3 = new ExaminationPrice();
+        examinationPrice3.setPrice(3500.0);
+        examinationPrice3.setExaminationType(ExaminationType.dermatologistExamination);
+        examinationPrice3.setPharmacy(pharmacy4);
+        examinationPrice3.setDateOfValidity(dateRange);
+
+
+        ExaminationPrice examinationPrice4 = new ExaminationPrice();
+        examinationPrice4.setPrice(2700.0);
+        examinationPrice4.setExaminationType(ExaminationType.pharmacistConsultations);
+        examinationPrice4.setPharmacy(pharmacy4);
+        examinationPrice4.setDateOfValidity(dateRange);
+
+        ExaminationPrice examinationPrice5 = new ExaminationPrice();
+        examinationPrice5.setPrice(2550.0);
+        examinationPrice5.setExaminationType(ExaminationType.pharmacistConsultations);
+        examinationPrice5.setPharmacy(pharmacy5);
+        examinationPrice5.setDateOfValidity(dateRange);
+
+        ExaminationPrice examinationPrice6 = new ExaminationPrice();
+        examinationPrice6.setPrice(3100.0);
+        examinationPrice6.setExaminationType(ExaminationType.dermatologistExamination);
+        examinationPrice6.setPharmacy(pharmacy5);
+        examinationPrice6.setDateOfValidity(dateRange);
+
         Examination examination = new Examination();
         examination.setEmployee(pharmacist);
-        examination.setPatient(patient);
+        //examination.setPatient(patient);
         //examination.setExaminationPrice(examinationPrice);
-        examination.setDateOfExamination(new Date());
+        //examination.setDateOfExamination(new Date());
         examination.setExaminationPrice(examinationPrice);
-//        examination.setDateOfExamination(sdf.parse("2021-05-05"));
+        examination.setDateOfExamination(sdf.parse("2021-05-05"));
         examination.setTimeOfExamination(LocalTime.of(13,45));
         examination.setDuration(45);
         examination.setPharmacy(pharmacy);
 
         Examination examination2 = new Examination();
-        examination2.setEmployee(dermatologist);
+        examination2.setEmployee(pharmacistA);
         examination2.setExaminationPrice(examinationPrice2);
-        examination2.setDateOfExamination(sdf.parse("2021-10-05"));
+        examination2.setDateOfExamination(sdf.parse("2021-05-05"));
         examination2.setTimeOfExamination(LocalTime.of(13,45));
         examination2.setDuration(45);
-        examination2.setPharmacy(pharmacy3);
+        examination2.setPharmacy(pharmacy);
+
+        Examination examination3 = new Examination();
+        examination3.setEmployee(pharmacistA);
+        examination3.setExaminationPrice(examinationPrice5);
+        examination3.setDateOfExamination(sdf.parse("2021-02-25"));
+        examination3.setTimeOfExamination(LocalTime.of(10,30));
+        examination3.setDuration(45);
+        examination3.setPharmacy(pharmacy5);
+
+        Examination examination4 = new Examination();
+        examination4.setEmployee(pharmacist);
+        examination4.setExaminationPrice(examinationPrice4);
+        examination4.setDateOfExamination(sdf.parse("2021-02-15"));
+        examination4.setTimeOfExamination(LocalTime.of(10,30));
+        examination4.setDuration(35);
+        examination4.setPharmacy(pharmacy4);
 
 
 
@@ -663,6 +704,13 @@ public class Test {
         pharmacy.getExaminationPriceList().add(examinationPrice);
         pharmacy.getExaminations().add(examination);
         pharmacy.getExaminations().add(examination2);
+        pharmacy4.getExaminationPriceList().add(examinationPrice3);
+        pharmacy4.getExaminationPriceList().add(examinationPrice4);
+        pharmacy4.getExaminations().add(examination4);
+        pharmacy5.getExaminationPriceList().add(examinationPrice5);
+        pharmacy5.getExaminationPriceList().add(examinationPrice6);
+        pharmacy5.getExaminations().add(examination3);
+
 
         Vacation vacation = new Vacation();
         vacation.setEmployee(pharmacist);
