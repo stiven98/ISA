@@ -211,7 +211,7 @@ export class PatientComponent implements OnInit {
   }
 
   goToPharmacies = () => {
-    this.router.navigate(['/pharmacy']);
+    this.router.navigate(['/subscribedPharmacy']);
   }
 }
 

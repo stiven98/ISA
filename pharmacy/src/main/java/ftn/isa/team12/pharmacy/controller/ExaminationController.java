@@ -1,13 +1,14 @@
 package ftn.isa.team12.pharmacy.controller;
-
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.ExaminationDrugQuantityDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
+import ftn.isa.team12.pharmacy.dto.ScheduleExaminationDTO;
 import ftn.isa.team12.pharmacy.email.EmailSender;
 import ftn.isa.team12.pharmacy.service.*;
 import ftn.isa.team12.pharmacy.dto.FreeTermDTO;
@@ -20,9 +21,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
-import java.text.ParseException;
+import java.time.LocalTime;
 import java.util.*;
 
 @RestController
@@ -40,6 +40,9 @@ public class ExaminationController {
 
     @Autowired
     PatientService patientService;
+
+    @Autowired
+    PharmacistService pharmacistService;
 
     @Autowired
     DrugInPharmacyService drugInPharmacyService;
@@ -167,8 +170,40 @@ public class ExaminationController {
     };
 
     @PostMapping("/pharmaciesWithFreeTerms/")
-    public ResponseEntity<List<Pharmacy>> findPharmaciesWithFreeTerms(@RequestBody FreeTermDTO dto) throws ParseException {
-        List<Pharmacy> pharmacies = this.examinationService.findPharmaciesWithFreeTerm(dto.getDate(),dto.getTime());
+    public ResponseEntity<List<Pharmacy>> findPharmaciesWithFreeTerms(@RequestBody FreeTermDTO dto)  {
+        List<Examination> examinations = this.examinationService.findPharmaciesWithFreeTerm(dto.getDate(),dto.getTime());
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        List<Pharmacist> pharmacists = this.pharmacistService.findAll();
+        for(Examination ex : examinations) {
+            if(pharmacists.contains(ex.getEmployee())) {
+               if(!pharmacies.contains(ex.getPharmacy())) {
+                   pharmacies.add(ex.getPharmacy());
+               }
+            }
+        }
+
         return new ResponseEntity<>(pharmacies, HttpStatus.OK);
+    }
+    @PostMapping("/scheduleNew/")
+    public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
+        Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
+        examination.setPatient(patient);
+        this.examinationService.save(examination);
+        return new ResponseEntity<>(examination, HttpStatus.OK);
+    }
+
+    @GetMapping("/findAvailablePharmacists/{pharmacyName}")
+    public ResponseEntity<List<Pharmacist>> findAvailablePharmacists(@PathVariable String pharmacyName)  {
+        List<MedicalStuff> medicalStuffs = this.examinationService.findAvailableByPharmacy(pharmacyName);
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        List<Pharmacist> phamacists1 = this.pharmacistService.findAll();
+        for (MedicalStuff ms : medicalStuffs) {
+            if(phamacists1.contains(ms)) {
+                pharmacists.add((Pharmacist) ms);
+            }
+        }
+
+        return new ResponseEntity<>(pharmacists, HttpStatus.OK);
     }
 }

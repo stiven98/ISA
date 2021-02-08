@@ -642,22 +642,22 @@ public class Test {
 
         Examination examination = new Examination();
         examination.setEmployee(pharmacist);
-        examination.setPatient(patient);
+        //examination.setPatient(patient);
         //examination.setExaminationPrice(examinationPrice);
-        examination.setDateOfExamination(new Date());
+        //examination.setDateOfExamination(new Date());
         examination.setExaminationPrice(examinationPrice);
-//        examination.setDateOfExamination(sdf.parse("2021-05-05"));
+        examination.setDateOfExamination(sdf.parse("2021-05-05"));
         examination.setTimeOfExamination(LocalTime.of(13,45));
         examination.setDuration(45);
         examination.setPharmacy(pharmacy);
 
         Examination examination2 = new Examination();
-        examination2.setEmployee(dermatologist);
+        examination2.setEmployee(pharmacistA);
         examination2.setExaminationPrice(examinationPrice2);
-        examination2.setDateOfExamination(sdf.parse("2021-10-05"));
+        examination2.setDateOfExamination(sdf.parse("2021-05-05"));
         examination2.setTimeOfExamination(LocalTime.of(13,45));
         examination2.setDuration(45);
-        examination2.setPharmacy(pharmacy3);
+        examination2.setPharmacy(pharmacy);
 
 
 

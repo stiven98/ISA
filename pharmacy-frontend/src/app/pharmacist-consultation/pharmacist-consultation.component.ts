@@ -24,6 +24,10 @@ export class PharmacistConsultationComponent implements OnInit {
         dto.time = this.time;
         this.pharmacyService.findAllWithFreeTerm(dto).subscribe((response) => {
           this.pharmacies = response;
+          if (this.pharmacies.length === 0) {
+            alert('There are no free terms for the selected date and time.' +
+              ' Please choose other date and time.');
+          }
         });
     }
     else {
