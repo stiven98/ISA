@@ -1,6 +1,5 @@
 package ftn.isa.team12.pharmacy.controller;
 
-import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
@@ -9,8 +8,6 @@ import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.*;
 import ftn.isa.team12.pharmacy.email.EmailSender;
-import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
-import ftn.isa.team12.pharmacy.repository.WorkTimeRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,13 +33,6 @@ public class ExaminationController {
 
     @Autowired
     PharmacyService pharmacyService;
-
-    @Autowired
-    private WorkTimeRepository workTimeRepository;
-
-    @Autowired
-    private ExaminationRepository examinationRepository;
-
 
     PatientService patientService;
 
@@ -179,19 +169,9 @@ public class ExaminationController {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
-
-    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
-    @GetMapping("/a")
-    public ResponseEntity<List<WorkTime>> sada(){
-
-
-        return new ResponseEntity<>(workTimeRepository.findAllByEmployeeLoginInfoEmail("aca@faca.com"),HttpStatus.OK);
-    }
-
-
     @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @PostMapping("/busyTime")
-    public ResponseEntity<BusyDateDTO> busyTime(@RequestBody TimeDTO dto) throws ParseException {
+    public ResponseEntity<BusyDateDTO> busyTime(@RequestBody TimeDTO dto){
         return new ResponseEntity<>(examinationService.busyTime(dto.getEmail(),dto.getDate()),HttpStatus.OK);
     }
 
