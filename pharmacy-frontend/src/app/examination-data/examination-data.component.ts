@@ -27,6 +27,7 @@ export class ExaminationDataComponent implements OnInit {
 
   constructor(private route : ActivatedRoute, private examinationService : ExaminationService, private drugService : DrugService, private modalService : NgbModal) { }
   drugList = [];
+  termList : Map<string, ExaminationInfo>;
   inputsValid = false;
   prescribedDrugs = [];
   substituteDrugs = [];
@@ -37,6 +38,7 @@ export class ExaminationDataComponent implements OnInit {
   pharmacyId;
   employeeId;
   examType;
+  newTermFlag = true;
   note = "";
   appointmentDate : Date;
   appointmentTime = [];
@@ -73,6 +75,10 @@ export class ExaminationDataComponent implements OnInit {
       this.drugService.findAllWithoutAllergies(data).subscribe(res => {
         console.log(res);
         this.drugList = res;
+      });
+
+      this.examinationService.getAllFreeByEmployeeAndPharmacy(this.pharmacyId).subscribe(terms => {
+        this.termList = terms;
       });
 
     });
@@ -154,6 +160,19 @@ export class ExaminationDataComponent implements OnInit {
         this.dateValidity = 'is-invalid';
       }
   }
+
+  onChange(event){
+
+  }
+
+  chooseExisting(){
+    this.newTermFlag = false;
+  }
+
+  chooseNew(){
+    this.newTermFlag = true;
+  }
+
 
   changeTime(event){
     let time : string = event.target.value;

@@ -9,6 +9,11 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class ExaminationService {
+  getAllFreeByEmployeeAndPharmacy(id: any) : Observable<any[]>{
+    return this.apiService.get(this.config.free_examinations_by_employee_and_pharmacy + id).pipe(map(terms => {
+      return terms;
+    }));
+  }
   getAllByEmployeeAndPharmacy(id: any) : Observable<any[]>{
     return this.apiService.get(this.config.examinations_by_employee_and_pharmacy + id).pipe(map(vacations => {
       return vacations;

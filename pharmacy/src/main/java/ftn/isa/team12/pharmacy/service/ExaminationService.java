@@ -30,4 +30,5 @@ public interface ExaminationService {
     List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time);
 
 
+    List<Examination> findAllFreeByEmployeeAndPharmacy(MedicalStuff medicalStuff, Pharmacy pharmacy);
 }

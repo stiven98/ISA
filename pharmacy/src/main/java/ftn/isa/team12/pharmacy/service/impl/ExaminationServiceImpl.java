@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -241,6 +242,23 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time) {
         return this.examinationRepository.findPharmaciesWithFreeTerm(date, time);
+    }
+
+    @Override
+    public List<Examination> findAllFreeByEmployeeAndPharmacy(MedicalStuff medicalStuff, Pharmacy pharmacy) {
+        List<Examination> examinations = examinationRepository.findAllByEmployeeAndPharmacy(medicalStuff, pharmacy);
+        List<Examination> freeExaminations = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Date today = new Date();
+        for(Examination e : examinations){
+            if(e.getPatient() == null){
+                boolean isNotPassed = (sdf.format(today).compareTo(sdf.format(e.getDateOfExamination()))) < 0;
+                if(isNotPassed){
+                    freeExaminations.add(e);
+                }
+            }
+        }
+        return freeExaminations;
     }
 
 

@@ -166,6 +166,20 @@ public class ExaminationController {
         return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @GetMapping("/allFreeByEmployeeAndPharmacy/{id}")
+    public ResponseEntity<?> findAllFreeByEmployeeAndPharmacy(@PathVariable UUID id, Principal user) {
+        Map<String, String> result = new HashMap<>();
+        MedicalStuff medicalStuff = medicalStuffService.findByEmail(user.getName());
+        Pharmacy pharmacy = pharmacyService.findPharmacyById(id);
+        if(pharmacy == null){
+            result.put("result", "Wrong pharmacy id!");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        List<Examination> examinations = examinationService.findAllFreeByEmployeeAndPharmacy(medicalStuff, pharmacy);
+        return new ResponseEntity<>(examinations, HttpStatus.OK);
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @PostMapping("/createExamination")
     public ResponseEntity<?> createExaminationForDermatologist(@RequestBody ExaminationCreateDTO dto){
@@ -175,7 +189,7 @@ public class ExaminationController {
             result.put("result", "Can't create examination");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        result.put("result","Successfully create examination");
+        result.put("result","Successfully created examination");
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
