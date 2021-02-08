@@ -182,14 +182,16 @@ public class ExaminationServiceImpl implements ExaminationService {
                 return null;
             }
         }
+        ExaminationType examinationType = dto.getType();
         Examination examination = new Examination();
         examination.setDateOfExamination(date);
         examination.setTimeOfExamination(time);
         examination.setDuration(45);
+        examination.setExaminationType(examinationType);
         examination.setEmployee(medicalStuff);
         examination.setPatient(patient);
         examination.setPharmacy(pharmacy);
-        List<ExaminationPrice> prices = examinationPriceRepository.findLatestByPharmacy(pharmacy, date);
+        List<ExaminationPrice> prices = examinationPriceRepository.findLatestByPharmacy(pharmacy, date, examinationType);
         if(prices != null && !prices.isEmpty()){
             ExaminationPrice examinationPrice = prices.get(0);
             examination.setExaminationPrice(examinationPrice);

@@ -36,6 +36,7 @@ export class ExaminationDataComponent implements OnInit {
   patientId;
   pharmacyId;
   employeeId;
+  examType;
   note = "";
   appointmentDate : Date;
   appointmentTime = [];
@@ -51,6 +52,7 @@ export class ExaminationDataComponent implements OnInit {
     this.examinationService.getCurrentExaminationById(this.examinationId).subscribe(res => {
       let examination = res;
       this.examination = examination;
+      this.examType = examination.examinationType;
       this.patientId = examination.patient.userId.toString();
       this.pharmacyId = examination.pharmacy.id.toString();
       this.employeeId = examination.employee.userId.toString();
@@ -125,7 +127,8 @@ export class ExaminationDataComponent implements OnInit {
     pharmacyId: this.pharmacyId,
     medStuffId: this.employeeId,
     date: this.appointmentDate,
-    time: this.appointmentTime
+    time: this.appointmentTime,
+    type: this.examType
     };
     this.examinationService.scheduleNewMed(data).subscribe(res =>{
       alert(res.result);
