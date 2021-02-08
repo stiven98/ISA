@@ -40,6 +40,13 @@ export class ExaminationService {
       }));
   }
 
+  scheduleNewMed(data){
+    return this.apiService.post(this.config.schedule_new_med, data)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+
   checkDrugAvailability(data){
     return this.apiService.get(this.config.check_drug_availability, data)
       .pipe(map(res => {

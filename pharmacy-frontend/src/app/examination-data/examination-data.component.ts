@@ -35,6 +35,7 @@ export class ExaminationDataComponent implements OnInit {
   examination;
   patientId;
   pharmacyId;
+  employeeId;
   note = "";
   appointmentDate : Date;
   appointmentTime = [];
@@ -52,6 +53,7 @@ export class ExaminationDataComponent implements OnInit {
       this.examination = examination;
       this.patientId = examination.patient.userId.toString();
       this.pharmacyId = examination.pharmacy.id.toString();
+      this.employeeId = examination.employee.userId.toString();
       let name = examination.patient.accountInfo.name;
       let lastName = examination.patient.accountInfo.lastName;
       let phoneNumber = examination.patient.accountInfo.phoneNumber;
@@ -118,7 +120,19 @@ export class ExaminationDataComponent implements OnInit {
   }
 
   scheduleAppointment(){
-    
+    let data ={
+    patientId: this.patientId,
+    pharmacyId: this.pharmacyId,
+    medStuffId: this.employeeId,
+    date: this.appointmentDate,
+    time: this.appointmentTime
+    };
+    this.examinationService.scheduleNewMed(data).subscribe(res =>{
+      alert(res.result);
+    },
+    error =>{
+      alert(error.result);
+    });
   }
 
   changeDate(event){
@@ -141,7 +155,7 @@ export class ExaminationDataComponent implements OnInit {
   changeTime(event){
     let time : string = event.target.value;
     let tokens = time.split(":");
-    this.appointmentTime = [tokens[0], tokens[1]];
+    this.appointmentTime = [Number(tokens[0]), Number(tokens[1])];
   }
 
   private getDismissReason(reason: any): string {
