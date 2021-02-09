@@ -45,4 +45,7 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
 
     @Query("select ex from Examination  ex where ex.pharmacy.name = ?1 and ex.patient is null and ex.examinationType = 1")
     List<Examination> findFreeTermsForDermatologistsByPhamracy(String pharmacyName);
+
+    @Query("select ex from Examination  ex where ex.patient.userId = ?1 and ex.examinationType = 1")
+    List<Examination> findDermatologistExaminationsForPatient(UUID patientId);
 }

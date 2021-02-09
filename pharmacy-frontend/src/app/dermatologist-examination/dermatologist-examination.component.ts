@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ExaminationService} from '../services/examination.service';
+import {Patient} from '../shared/models/patient';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-dermatologist-examination',
@@ -11,14 +13,24 @@ export class DermatologistExaminationComponent implements OnInit {
 
   name: string;
   dermatologistsExam = [];
-  constructor(private route: ActivatedRoute, private examinationService: ExaminationService) {
+  patient = new Patient();
+  constructor(private route: ActivatedRoute, private examinationService: ExaminationService,
+              private userService: UserService, private router: Router) {
     this.name = route.snapshot.params[`name`];
   }
 
   ngOnInit(): void {
-    this.examinationService.getAvailableDermatologists(this.name).subscribe((dermatologists) => {
-      this.dermatologistsExam = dermatologists;
+    this.userService.getMyInfo().subscribe( resUser => {
+      this.patient = resUser;
+      this.examinationService.getAvailableDermatologists(this.name).subscribe((dermatologists) => {
+        this.dermatologistsExam = dermatologists;
+      });
     });
+  }
+  scheduleExamination = (examinationId) => {
+    this.examinationService.scheduleNewExamination(examinationId,this.patient.email).subscribe();
+    alert('If you dont have any scheduled examinations for choosen date your examination is scheduled');
+    this.router.navigate(['/patient']);
   }
   sortByPrice = () => {
     for (let i = 0; i < this.dermatologistsExam.length - 1; i++ ) {

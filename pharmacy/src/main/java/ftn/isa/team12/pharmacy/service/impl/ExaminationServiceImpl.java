@@ -256,6 +256,11 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public List<Examination> findDermatologistExaminationsForPatient(UUID patientId) {
+        return this.examinationRepository.findDermatologistExaminationsForPatient(patientId);
+    }
+
+    @Override
     public List<Examination> findFreeTermsForDermatologistsByPhamracy(String pharmacyName) {
         return this.examinationRepository.findFreeTermsForDermatologistsByPhamracy(pharmacyName);
     }

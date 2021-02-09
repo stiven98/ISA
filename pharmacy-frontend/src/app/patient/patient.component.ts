@@ -32,6 +32,7 @@ export class PatientComponent implements OnInit {
   nmrDrug = 0;
   filter;
   choosenFilterConsultations;
+  choosenFilterExaminations;
   currentMark = new Mark();
   currentDrugMark = new DrugMark();
   erecepies = [];
@@ -46,6 +47,8 @@ export class PatientComponent implements OnInit {
   addAllergies: string;
   today = new Date();
   consultations = [];
+  examinations = [];
+  examinationsFilter = [];
   accountCategory = new AccountCategory();
   penalties: number;
   constructor(private userService: UserService, private patientService: PatientService,
@@ -62,6 +65,10 @@ export class PatientComponent implements OnInit {
       this.patientService.findPatientConsulations(this.patient.email).subscribe((consultations) => {
         this.consultations = consultations;
         this.consutlFilter = consultations;
+      });
+      this.patientService.findPatientExaminations(this.patient.email).subscribe((examinations) => {
+        this.examinations = examinations;
+        this.examinationsFilter = examinations;
       });
       this.patientService.findERecepies(this.patient.email).subscribe((erecepie) => {
         this.erecepies = erecepie;
@@ -117,6 +124,19 @@ export class PatientComponent implements OnInit {
     }
 
   }
+  filterExaminations = () => {
+    const filtered = [];
+    for (let i = 0; i < this.examinationsFilter.length; i++ ) {
+      if ( this.examinationsFilter[i].examinationStatus === this.choosenFilterExaminations ) {
+        filtered.push(this.examinationsFilter[i]);
+      }
+    }
+    this.examinations = filtered;
+    if (this.choosenFilterExaminations === "Choose filter") {
+      this.examinations = this.examinationsFilter;
+    }
+
+  }
   filterERecipes = () => {
     const filtered = [];
     for (let i = 0; i < this.erecepiesFilter.length; i++ ) {
@@ -141,6 +161,11 @@ export class PatientComponent implements OnInit {
     });
     window.location.reload();
 
+  }
+
+  goToExamination = () => {
+    alert('Choose pharmacy where you want to schedule examination an you can schedule on pharmacy home page');
+    this.router.navigate(['/pharmacy']);
   }
   sortERecepies = () => {
     for (let i = 0; i < this.erecepies.length - 1; i++ ) {
@@ -301,6 +326,49 @@ export class PatientComponent implements OnInit {
       }
     }
   }
+
+  sortExaminationsByDate = () => {
+    for (let i = 0; i < this.examinations.length - 1; i++ ) {
+      for ( let j = 0; j < this.examinations.length - i - 1; j++ ) {
+        const tmp: string  = this.examinations[j].dateOfExamination;
+        const tmp1: string  = this.examinations[j + 1].dateOfExamination;
+        const parts = tmp.split('/');
+        const parts1 = tmp1.split('/');
+        const year: number = +parts[2];
+        const month: number = +parts[0];
+        const day: number  =  +parts[1];
+        const year1: number =  +parts1[2];
+        const month1: number = +parts1[0];
+        const day1: number = +parts1[1];
+        if (year < year1){
+          const temp = this.examinations[j];
+          this.examinations[j] = this.examinations[j + 1];
+          this.examinations[j + 1] = temp;
+        }
+        if (year === year && month < month1) {
+          const temp = this.examinations[j];
+          this.examinations[j] = this.examinations[j + 1];
+          this.examinations[j + 1] = temp;
+        }
+        if ( year === year1 && month === month1 && day < day1) {
+          const temp = this.examinations[j];
+          this.examinations[j] = this.examinations[j + 1];
+          this.examinations[j + 1] = temp;
+        }
+      }
+    }
+  }
+  sortExaminationsByPrice = () => {
+    for (let i = 0; i < this.examinations.length - 1; i++ ) {
+      for ( let j = 0; j < this.examinations.length - i - 1; j++ ) {
+        if ( this.examinations[j].examinationPrice.price > this.examinations[j + 1].examinationPrice.price){
+          const temp = this.examinations[j];
+          this.examinations[j] = this.examinations[j + 1];
+          this.examinations[j + 1] = temp;
+        }
+      }
+    }
+  }
   sortConsultationsByPrice = () => {
     for (let i = 0; i < this.consultations.length - 1; i++ ) {
       for ( let j = 0; j < this.consultations.length - i - 1; j++ ) {
@@ -319,6 +387,17 @@ export class PatientComponent implements OnInit {
           const temp = this.consultations[j];
           this.consultations[j] = this.consultations[j + 1];
           this.consultations[j + 1] = temp;
+        }
+      }
+    }
+  }
+  sortExaminationsByDuration = () => {
+    for (let i = 0; i < this.examinations.length - 1; i++ ) {
+      for ( let j = 0; j < this.examinations.length - i - 1; j++ ) {
+        if ( this.examinations[j].duration > this.examinations[j + 1].duration){
+          const temp = this.examinations[j];
+          this.examinations[j] = this.examinations[j + 1];
+          this.examinations[j + 1] = temp;
         }
       }
     }

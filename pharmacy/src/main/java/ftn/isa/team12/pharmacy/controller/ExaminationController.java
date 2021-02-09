@@ -241,6 +241,33 @@ public class ExaminationController {
         }
         return new ResponseEntity<>(examination, HttpStatus.OK);
     }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @PostMapping("/newExamination/")
+    public ResponseEntity<Examination> scheduleExamination(@RequestBody DermatologistExamScheduleDTO dto)  {
+        Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        List<Examination> examinations = this.examinationService.findAllByPatient(patient);
+        Examination examination = this.examinationService.findById(dto.getExaminationId());
+        for(Examination ex : examinations) {
+            if(ex.getDateOfExamination().equals(examination.getDateOfExamination())){
+                throw new IllegalArgumentException("You cant schedule more than 1 consultations for same day");
+            }
+        }
+        if(patient.getPenalties() > 2) {
+            throw new IllegalArgumentException("You have 3 or more penalties and you cant schedule consultations");
+        }
+        examination.setPatient(patient);
+        examination.setExaminationType(ExaminationType.dermatologistExamination);
+        examination.setExaminationStatus(ExaminationStatus.scheduled);
+        this.examinationService.save(examination);
+        try {
+            sender.sendDermatologistExaminationMail(examination);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return new ResponseEntity<>(examination, HttpStatus.OK);
+    }
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/findAvailablePharmacists/{pharmacyName}")
     public ResponseEntity<List<Pharmacist>> findAvailablePharmacists(@PathVariable String pharmacyName)  {
@@ -261,6 +288,14 @@ public class ExaminationController {
         Patient patient = this.patientService.findByEmail(patientEmail);
         List<Examination> consultations = this.examinationService.findPharmacistConsultationsForPatient(patient.getUserId());
         return new ResponseEntity<>(consultations, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/getPatientExaminations/{patientEmail}")
+    public ResponseEntity<List<Examination>> findPatientExaminations(@PathVariable String patientEmail)  {
+        Patient patient = this.patientService.findByEmail(patientEmail);
+        List<Examination> examinations = this.examinationService.findDermatologistExaminationsForPatient(patient.getUserId());
+        return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
 
 

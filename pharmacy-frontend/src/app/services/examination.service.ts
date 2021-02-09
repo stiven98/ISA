@@ -108,4 +108,12 @@ export class ExaminationService {
         return responseData;
       }));
   }
+
+  scheduleNewExamination = (examinationId, email) => {
+    return this.http
+      .post(environment.apiUrl + '/api/examination/newExamination/',{"examinationId": examinationId, "patientEmail": email})
+          .pipe(map(responseData => {
+        return responseData;
+      }));
+  }
 }

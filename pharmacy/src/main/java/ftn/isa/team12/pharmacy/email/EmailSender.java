@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.email;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.dto.AnswerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -38,6 +39,18 @@ public class EmailSender {
         + " on " + deadline + " at " + "time " + time +  " is succsessfully scheduled with code: " + "\n" + id.toString();
         message.setTo(patientEmail);
         message.setSubject("Pharmacist consultations email");
+        message.setText(body);
+        System.out.println(body);
+        emailSender.send(message);
+    }
+
+    public void sendDermatologistExaminationMail(Examination examination) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Your examination with dermatologist " + examination.getEmployee().getAccountInfo().getName() + " " + examination.getEmployee().getAccountInfo().getLastName()
+                + "\n" +  "in pharmacy " + examination.getPharmacy().getName()
+                + " on " + examination.getDateOfExamination() + " at " + "time " + examination.getTimeOfExamination() +  " is succsessfully scheduled with code: " + "\n" + examination.getExaminationId().toString();
+        message.setTo("jovanbosnic7@gmail.com");
+        message.setSubject("Dermatologist examination email");
         message.setText(body);
         System.out.println(body);
         emailSender.send(message);
