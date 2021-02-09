@@ -131,6 +131,13 @@ export class ConfigService {
     return this._schedule_new_med ;
   }
 
+  private _schedule_exst_med = this._examination_url + '/scheduleExistingMedStuff';
+
+  get schedule_exst_med() : string{
+    return this._schedule_exst_med ;
+  }
+
+
   private _give_penalty = this._examination_url + '/givePenalty/';
 
   get give_penalty (): string {

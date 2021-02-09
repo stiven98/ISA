@@ -81,6 +81,20 @@ public class ExaminationController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @PostMapping("/scheduleExistingMedStuff")
+    public ResponseEntity<?> scheduleExistingMedStuff(@RequestBody ExaminationScheduleExistingMedStuffDTO dto){
+        Map<String, String> res = new HashMap<>();
+        Examination examination = examinationService.scheduleExistingMedStuff(dto);
+        if(examination == null){
+            res.put("result", "You can't schedule examination in desired time!");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        res.put("result", "Examination successfully scheduled!");
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @GetMapping("/getCurrentExamination/{id}")
     public ResponseEntity<?> getCurrentExamination(@PathVariable UUID id, Principal user) {
         Map<String, String> result = new HashMap<>();

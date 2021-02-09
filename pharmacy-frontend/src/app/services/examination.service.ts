@@ -9,6 +9,12 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class ExaminationService {
+  scheduleExistingMed(data: { patientId: any; pharmacyId: any; medStuffId: any; examinationId: any; }) {
+    return this.apiService.post(this.config.schedule_exst_med, data)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
   getAllFreeByEmployeeAndPharmacy(id: any) : Observable<any[]>{
     return this.apiService.get(this.config.free_examinations_by_employee_and_pharmacy + id).pipe(map(terms => {
       return terms;

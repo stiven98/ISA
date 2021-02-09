@@ -11,6 +11,7 @@ import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.BusyDateDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationCreateDTO;
+import ftn.isa.team12.pharmacy.dto.ExaminationScheduleExistingMedStuffDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
 import ftn.isa.team12.pharmacy.repository.ExaminationPriceRepository;
 import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
@@ -259,6 +260,26 @@ public class ExaminationServiceImpl implements ExaminationService {
             }
         }
         return freeExaminations;
+    }
+
+    @Override
+    public Examination scheduleExistingMedStuff(ExaminationScheduleExistingMedStuffDTO dto) {
+        MedicalStuff medicalStuff = medicalStuffService.findById(dto.getMedStuffId());
+        Patient patient = patientService.findById(dto.getPatientId());
+        Examination examination = examinationRepository.findExaminationByExaminationId(dto.getExaminationId());
+        List<Examination> patientExaminations = findAllByPatient(patient);
+        for(Examination e : patientExaminations){
+            if(checkIfTimeOverlapping(e.getTimeOfExamination(), e.getDateOfExamination(), examination.getTimeOfExamination(), examination.getDateOfExamination())){
+                return null;
+            }
+        }
+        examination.setPatient(patient);
+        Examination saved = examinationRepository.save(examination);
+        patient.getExaminations().add(saved);
+        medicalStuff.getExaminations().add(saved);
+        patientService.saveAndFlush(patient);
+        medicalStuffService.saveAndFlush(medicalStuff);
+        return saved;
     }
 
 

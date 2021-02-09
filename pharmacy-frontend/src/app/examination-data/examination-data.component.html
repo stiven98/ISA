@@ -111,18 +111,18 @@
                             <div class="col-md-12">
                                 Appointment scheduling mode:
                                 <div class="custom-control custom-radio">
-                                    <input id="chooseExisting" type="radio" class="custom-control-input" value="existing_term" (click) = "chooseExisting()" name="mode">
+                                    <input id="chooseExisting" type="radio" class="custom-control-input" value="existing_term" [checked]="!newTermFlag" (click) = "chooseExisting()" name="mode">
                                     <label class="custom-control-label" for="chooseExisting">Choose existing term</label>
                                  </div>
-                                 <!-- <div class = "form-group">
-                                    <select (change)="onChange($event)" [(ngModel)]="selectedTerm" class="form-control">
-                                        <option class="hidden" >Select pharmacy for work calendar showing </option>
-                                        <option *ngFor="let pharmacy of a" >{{pharmacy.name}}</option>
-                                    </select>
-                                 </div> -->
                                  <div class="custom-control custom-radio">
-                                    <input id="createNew" type="radio" class="custom-control-input" value="new_term" (click) = "chooseNew()" name="mode">
+                                    <input id="createNew" type="radio" class="custom-control-input" [checked]="newTermFlag" value="new_term" (click) = "chooseNew()" name="mode">
                                     <label class="custom-control-label" for="createNew">Create new term</label>
+                                 </div>
+                                 <div class = "form-group" [hidden] = "newTermFlag">
+                                    <select (change)="onChange($event)" class="form-control">
+                                        <option class="hidden" value="Select existing term"></option>
+                                        <option *ngFor="let term of termList">{{term}}</option>
+                                    </select>
                                  </div>
                                 <div class="form-group" [hidden] = "!newTermFlag">
                                     Select the appointment date:

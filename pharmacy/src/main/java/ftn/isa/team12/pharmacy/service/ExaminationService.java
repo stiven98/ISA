@@ -5,6 +5,7 @@ import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.dto.BusyDateDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationCreateDTO;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.dto.ExaminationScheduleExistingMedStuffDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
 import java.time.LocalTime;
 import java.util.Date;
@@ -31,4 +32,6 @@ public interface ExaminationService {
 
 
     List<Examination> findAllFreeByEmployeeAndPharmacy(MedicalStuff medicalStuff, Pharmacy pharmacy);
+
+    Examination scheduleExistingMedStuff(ExaminationScheduleExistingMedStuffDTO dto);
 }
