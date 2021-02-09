@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ExaminationPriceModel } from '../ph-admin/drug-in-pharmacy/examinationPriceModel';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
 
@@ -22,6 +23,10 @@ export class ExaminationPriceService {
     }
 
 
+    createExaminationPrice(dto:ExaminationPriceModel){
+      return this.apiService.post('http://localhost:8080/api/examinationPrice/create',dto).
+      pipe(map((res) => {return res;}))
+    }
 
 
 

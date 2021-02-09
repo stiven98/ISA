@@ -22,9 +22,6 @@ export class DrugPriceService {
       }));
     }
 
-
-
-
     getAllForChange(): Observable<any>{
       return this.apiService.get('http://localhost:8080/api/drugPrice/allForChange')
       .pipe(map((drugOrder:Response) =>{
@@ -32,19 +29,10 @@ export class DrugPriceService {
       }));
     }
 
-
-
     changeDrugPirce(dto){
       return this.apiService.post('http://localhost:8080/api/drugPrice/change',dto)
       .pipe(map((res) => {return res;}))
     }
-
-
-
-
-
-
-
 
 
 }

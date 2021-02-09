@@ -195,11 +195,4 @@ export class DrugInPharmacyComponent implements OnInit {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
 
-
-
-
-
-
-
-
 }

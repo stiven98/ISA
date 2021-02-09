@@ -25,7 +25,7 @@ public interface DrugPriceRepository extends JpaRepository<DrugPrice, UUID> {
 
 
 
-    @Query("select d from DrugPrice d where d.pharmacy= ?1 and d.validityPeriod.startDate <= ?2 or d.validityPeriod.startDate >= ?2")
+    @Query("select d from DrugPrice d where d.pharmacy= ?1 and d.validityPeriod.startDate <= ?2 and d.validityPeriod.endDate >= ?2 or d.validityPeriod.startDate >= ?2")
     List<DrugPrice> getAllForChange(Pharmacy pharmacy, Date date);
 
 

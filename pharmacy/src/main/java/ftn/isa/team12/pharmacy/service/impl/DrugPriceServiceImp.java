@@ -126,7 +126,6 @@ public class DrugPriceServiceImp implements DrugPriceService {
             throw new IllegalArgumentException("Bad input price");
 
         drugPrice.setPrice(dto.getPrice());
-
         drugPrice = drugPriceRepository.save(drugPrice);
         return drugPrice;
     }

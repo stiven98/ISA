@@ -1,28 +1,65 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeUserModel } from '../change-account-info/changeUser.model';
 import { DrugPriceService } from '../services/drug-price.service';
+import { ExaminationPriceService } from '../services/examination-price.service';
 import { MedicalStuffService } from '../services/medical-stuff.service';
 import { UserService } from '../services/user.service';
 import { DrugPriceModel } from './drug-in-pharmacy/drugPriceModel';
+import { ExaminationPriceModel } from './drug-in-pharmacy/examinationPriceModel';
 
 @Component({
   selector: 'app-ph-admin',
   templateUrl: './ph-admin.component.html',
-  styleUrls: ['./ph-admin.component.css']
+  styleUrls: ['./ph-admin.component.css'],
+  styles: [`
+  .custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+  .custom-day.range, .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+  }
+  .custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
+  }
+`]
 })
 export class PhAdminComponent implements OnInit {
+  hoveredDate: NgbDate | null = null;
 
+  fromDate: NgbDate;
+  toDate: NgbDate | null = null;
   phAdmin: ChangeUserModel = new ChangeUserModel();
   fetchData = false;
   dermatologist = []
   drugPrice = [];
   f = false;
   change = false;
+  closeResult = '';
+  examinationPRice:ExaminationPriceModel = new ExaminationPriceModel();
   constructor(private userService: UserService, private medicalStufService:MedicalStuffService,
-    private drugPriceServise: DrugPriceService) { }
+    private drugPriceServise: DrugPriceService,
+    private modalService:NgbModal,
+    private calendar: NgbCalendar,
+    private examinationPriceService: ExaminationPriceService) {
+      this.fromDate = calendar.getToday();
+      this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+
+
+     }
 
   ngOnInit(): void {
     this.fetchData = true;
+    this.fromDate = this.calendar.getToday();
+    this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 10);
     this.userService.getMyInfo().subscribe(phAdmin =>{ this.phAdmin = phAdmin
     this.medicalStufService.getAllDermatologistFromPharmacy(this.phAdmin.email).subscribe((list) => {
       this.dermatologist = list;
@@ -58,15 +95,73 @@ export class PhAdminComponent implements OnInit {
       drugPrice:dp.drugPrice
     }
 
-
-    alert(d.price);
-    alert(d.drugPrice);
-
     this.drugPriceServise.changeDrugPirce(dto).subscribe((res)=> alert(res.result));
-
   }
 
 
 
 
+
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed`;
+    });
+  }
+
+
+
+
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+  }
+
+
+  onChangeSelectedDate(event){
+    alert(event.target.value);
+    this.examinationPRice.examinationType = event.target.value;
+  }
+
+  createExaminationPrice(){
+    if(this.fromDate != undefined){
+      let d = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
+      this.examinationPRice.startDate = new Date(Date.parse(d));
+    }else{
+      alert("Choose day");
+      return;
+    }
+
+    if(this.toDate != undefined){
+      let d = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
+      this.examinationPRice.endDate = new Date(Date.parse(d));
+    }else{
+      alert("Choose day");
+      return;
+    }
+
+    this.examinationPriceService.createExaminationPrice(this.examinationPRice).subscribe((res) => alert(res.result));
+
+  }
 }
