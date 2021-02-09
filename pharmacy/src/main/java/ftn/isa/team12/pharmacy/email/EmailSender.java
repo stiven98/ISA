@@ -49,7 +49,7 @@ public class EmailSender {
         String body = "Your examination with dermatologist " + examination.getEmployee().getAccountInfo().getName() + " " + examination.getEmployee().getAccountInfo().getLastName()
                 + "\n" +  "in pharmacy " + examination.getPharmacy().getName()
                 + " on " + examination.getDateOfExamination() + " at " + "time " + examination.getTimeOfExamination() +  " is succsessfully scheduled with code: " + "\n" + examination.getExaminationId().toString();
-        message.setTo("jovanbosnic7@gmail.com");
+        message.setTo(examination.getPatient().getLoginInfo().getEmail());
         message.setSubject("Dermatologist examination email");
         message.setText(body);
         System.out.println(body);
