@@ -46,7 +46,7 @@ export class DrugInPharmacyService {
 
 
   searhcDrugInPharmacy(searchDrug:SearchDrugModel): Observable<any>{
-    return this.apiService.post('http://localhost:8080/api/search/drug',searchDrug)
+    return this.apiService.post(this.config.search_drug_in_pharmacy,searchDrug)
     .pipe(map((response:Response) =>{
       return response;
     }))

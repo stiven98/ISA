@@ -10,4 +10,6 @@ public interface DrugRepository extends JpaRepository<Drug, UUID> {
     @Query("select drug from Drug drug where drug.name = ?1")
     Drug findDrugByName(String drugName);
 
+    Drug findByDrugId(UUID drugId);
+
 }
