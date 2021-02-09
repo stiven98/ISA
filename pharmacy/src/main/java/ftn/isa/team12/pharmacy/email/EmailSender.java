@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.email;
+import ftn.isa.team12.pharmacy.dto.AnswerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -60,6 +61,12 @@ public class EmailSender {
         message.setSubject("Examination schedule feedback");
         message.setText(body);
         System.out.println(body);
+    }
+    public void sendAnswerOnComplaint(AnswerDTO answerRequest) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = answerRequest.getContent();
+        message.setTo(answerRequest.getEmail());
+        message.setText(body);
         emailSender.send(message);
     }
 }

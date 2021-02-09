@@ -186,7 +186,7 @@ export class ExaminationDataComponent implements OnInit {
 
   submitForm(){
     let drugIdList = [];
-    for(let drug of this.drugList){
+    for(let drug of this.prescribedDrugs){
       drugIdList.push(drug.drugId);
     }
 
@@ -198,6 +198,7 @@ export class ExaminationDataComponent implements OnInit {
       pharmacyId : this.pharmacyId,
       examinationId : this.examinationId
     }
+    alert(JSON.stringify(data));
     this.examinationService.submitExamination(data).subscribe(res => {
       alert(res.result);
       this.router.navigate(["/"]);
