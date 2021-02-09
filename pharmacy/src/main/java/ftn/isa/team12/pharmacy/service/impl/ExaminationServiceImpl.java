@@ -255,6 +255,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         return this.examinationRepository.findPharmacistConsultationsForPatient(patientId);
     }
 
+    @Override
+    public List<Examination> findFreeTermsForDermatologistsByPhamracy(String pharmacyName) {
+        return this.examinationRepository.findFreeTermsForDermatologistsByPhamracy(pharmacyName);
+    }
+
 
     @Override
     public void checkExamination(ExaminationCreateDTO dto) {

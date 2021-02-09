@@ -150,10 +150,11 @@
     <div id="appointments" name = "appointments" class="container">
 
       <div class="section-title">
-        <h2>Make an Appointment</h2>
-        <p>You can very easily schedule an examination or consultation with our medical staff</p>
+        <h2>Make an Appointment with dermatologist</h2>
+        <p>You can very easily schedule an dermatologist examination </p>
       </div>
-        <div class="text-center"><button class="btn btn-secondary" type="submit">Make an Appointment</button></div>
+        <div class="text-center" *ngIf="role === 'ROLE_PATIENT'"><button class="btn btn-secondary"  [routerLink]="['/dermatologist-examination/',pharmacy.name]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  type="submit">Make an appointment</button></div>
+      <div class="text-center" *ngIf="role === ''"><button class="btn btn-secondary"  [routerLink]="['/registration']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  type="submit">You must register to make an appointment</button></div>
 
     </div>
   </section><!-- End Appointment Section -->

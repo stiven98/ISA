@@ -199,7 +199,7 @@ public class ExaminationController {
     static class PenaltyReq{
         private int penalty;
     };
-
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/pharmaciesWithFreeTerms/")
     public ResponseEntity<List<Pharmacy>> findPharmaciesWithFreeTerms(@RequestBody FreeTermDTO dto)  {
         List<Examination> examinations = this.examinationService.findPharmaciesWithFreeTerm(dto.getDate(),dto.getTime());
@@ -215,6 +215,7 @@ public class ExaminationController {
 
         return new ResponseEntity<>(pharmacies, HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/scheduleNew/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
@@ -240,7 +241,7 @@ public class ExaminationController {
         }
         return new ResponseEntity<>(examination, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/findAvailablePharmacists/{pharmacyName}")
     public ResponseEntity<List<Pharmacist>> findAvailablePharmacists(@PathVariable String pharmacyName)  {
         List<MedicalStuff> medicalStuffs = this.examinationService.findAvailableByPharmacy(pharmacyName);
@@ -254,11 +255,20 @@ public class ExaminationController {
 
         return new ResponseEntity<>(pharmacists, HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/getPatientConsulatitons/{patientEmail}")
     public ResponseEntity<List<Examination>> findPatientConsulatitons(@PathVariable String patientEmail)  {
         Patient patient = this.patientService.findByEmail(patientEmail);
         List<Examination> consultations = this.examinationService.findPharmacistConsultationsForPatient(patient.getUserId());
         return new ResponseEntity<>(consultations, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/getAvailableDermByPharmacy/{pharmacyName}")
+    public ResponseEntity<List<Examination>> getAvailableDermatologistByPharmacy(@PathVariable String pharmacyName)  {
+        List<Examination> examinations = this.examinationService.findFreeTermsForDermatologistsByPhamracy(pharmacyName);
+        return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")

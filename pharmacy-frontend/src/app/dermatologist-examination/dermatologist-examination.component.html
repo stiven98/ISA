@@ -1,0 +1,26 @@
+<section id="doctors" class="doctors">
+  <div class="container">
+    <div id="medicalstuff" name = "medicalstuff" class="section-title">
+      <h2 style="margin-top: 60px;">Here you can see all terms with dermatologists in pharmacy {{name}} </h2>
+     <button style="margin-top: 20px" (click)="sortByAverageMark()" class = "btn-outline-secondary"> Sort by average mark </button>
+      <button style="margin-top: 20px" (click)="sortByPrice()" class = "btn-outline-secondary"> Sort by price </button>
+
+    </div>
+    <div class="row" *ngFor="let exam of dermatologistsExam" >
+      <div class="col-lg-6">
+        <div class="member d-flex align-items-start">
+          <div class="pic"><img src="assets/img/doctors/doctors-1.jpg" class="img-fluid" alt=""></div>
+          <div class="member-info">
+            <h4></h4>
+            <span>Dermatologist {{exam.employee.accountInfo.name}} {{exam.employee.accountInfo.lastName}}</span>
+            <p>Date of examination: {{exam.dateOfExamination}} </p>
+            <p>Time: {{exam.timeOfExamination[0]}}:{{exam.timeOfExamination[1]}}</p>
+            <p>Average mark: {{exam.employee.averageMark}}</p>
+            <p>Price: {{exam.examinationPrice.price}}</p>
+            <button style="margin-top: 20px"  class = "btn-outline-secondary"> Schedule consultations </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

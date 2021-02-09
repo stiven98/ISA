@@ -49,10 +49,9 @@
           <p class="font-italic mb-0">Address: {{patient.street}} {{patient.streetNumber}} </p>
           <p class="font-italic mb-0">Email: {{patient.email}}</p>
           <p class="font-italic mb-0">Phone number: {{patient.phoneNumber}}</p>
-          <a href="" class="btn btn-outline-dark btn-sm btn-block">Write a complaint</a>
         </div>
       </div>
-    <div >
+    <div>
       <div class="section-title">
         <h2>Consultations with pharmacists</h2>
         <button style="width: 200px" class="btn-outline-secondary" (click)="sortConsultationsByDate()" >Sort by date</button>
@@ -131,7 +130,7 @@
           <div id="erecepies" style="margin-top: 50px" class="section-title">
             <h2>ERecepies</h2>
             <button style="width: 200px" class="btn-outline-secondary" (click)="sortERecepies()" >Sort by date</button>
-            <select [(ngModel)]="filter" (change)="filterERecepies()" style="width: 200px; margin-left: 5px" class="custom-select form-control">
+            <select [(ngModel)]="filter" (change)="filterERecipes()" style="width: 200px; margin-left: 5px" class="custom-select form-control">
               <option>Choose filter</option>
               <option>processed</option>
               <option>newErecipe</option>
@@ -159,6 +158,7 @@
               </div>
             </div>
           </div>
+      </div>
     <!--  Reservations -->
     <div id="reservations" style="margin-top: 50px" class="section-title">
       <h2>Your drug reservations</h2>
@@ -366,5 +366,3 @@
     </div>
   </div>
 </div>
-
-

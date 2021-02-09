@@ -56,6 +56,7 @@ import { SubscribedPharmacyComponent } from './subscribed-pharmacy/subscribed-ph
 import { AddDermatologistInPharmacyComponent } from './ph-admin/add-dermatologist-in-pharmacy/add-dermatologist-in-pharmacy.component';
 import { CreateExaminationComponent } from './ph-admin/create-examination/create-examination.component';
 import { ComplaintComponent } from './complaint/complaint.component';
+import { DermatologistExaminationComponent } from './dermatologist-examination/dermatologist-examination.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -63,6 +64,7 @@ const appRoutes: Routes = [
   { path: 'registration', component: SingUpComponent },
   { path: 'pharmacy', component: PharmacyComponent },
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
+  { path: 'dermatologist-examination/:name', component: DermatologistExaminationComponent},
   { path: 'available-pharmacists/:name/:date/:time', component: AvailablePharmacistsComponent },
   { path: 'drug-reservation/:drug', component: DrugReservationComponent},
   { path: 'phAdmin', component: PhAdminComponent},
@@ -160,7 +162,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     AvailablePharmacistsComponent,
     SubscribedPharmacyComponent,
     AddDermatologistInPharmacyComponent,
-    ComplaintComponent
+    ComplaintComponent,
+    DermatologistExaminationComponent
   ],
   imports: [
     BrowserModule,

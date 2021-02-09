@@ -19,6 +19,7 @@ export class PharmacyHomeComponent implements OnInit {
   drugs = [];
   pharmacy: Pharmacy = new Pharmacy();
   email: string;
+  role = '';
   isSubscribed: boolean;
   fetchData = true;
 
@@ -37,6 +38,7 @@ export class PharmacyHomeComponent implements OnInit {
 
       this.userService.getMyInfo().subscribe((user) => {
         this.email = user.email;
+        this.role = user.role;
         this.patientService.isSubscribedPharmacy(user.email, this.pharmacy.id).subscribe((response) => {
           this.isSubscribed = (response === true);
         });

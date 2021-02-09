@@ -33,5 +33,8 @@ public interface ExaminationService {
     Examination save(Examination examination);
     List<Examination> findPharmacistConsultationsForPatient(UUID patientId);
 
+    List<Examination> findFreeTermsForDermatologistsByPhamracy(String pharmacyName);
+
+
 
 }
