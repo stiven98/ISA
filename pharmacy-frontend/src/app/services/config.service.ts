@@ -134,6 +134,19 @@ export class ConfigService {
     return this._schedule_new_med ;
   }
 
+  private _schedule_exst_med = this._examination_url + '/scheduleExistingMedStuff';
+
+  get schedule_exst_med() : string{
+    return this._schedule_exst_med ;
+  }
+
+  private _submit_examinaton = this._examination_url + '/submitExamination';
+
+  get submit_examination() : string{
+    return this._submit_examinaton ;
+  }
+
+
   private _give_penalty = this._examination_url + '/givePenalty/';
 
   get give_penalty (): string {
@@ -151,6 +164,13 @@ export class ConfigService {
   get examinations_by_employee_and_pharmacy (): string {
     return this._examinations_by_employee_and_pharmacy ;
   }
+
+  private _free_examinations_by_employee_and_pharmacy = this._examination_url + '/allFreeByEmployeeAndPharmacy/';
+
+  get free_examinations_by_employee_and_pharmacy (): string {
+    return this._free_examinations_by_employee_and_pharmacy ;
+  }
+
 
   private _vacations = this._medical_stuff_url + '/vacations';
 

@@ -11,7 +11,18 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ExaminationService {
-  getAllByEmployeeAndPharmacy(id: any): Observable<any[]>{
+  scheduleExistingMed(data: { patientId: any; pharmacyId: any; medStuffId: any; examinationId: any; }) {
+    return this.apiService.post(this.config.schedule_exst_med, data)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  getAllFreeByEmployeeAndPharmacy(id: any) : Observable<any[]>{
+    return this.apiService.get(this.config.free_examinations_by_employee_and_pharmacy + id).pipe(map(terms => {
+      return terms;
+    }));
+  }
+  getAllByEmployeeAndPharmacy(id: any) : Observable<any[]>{
     return this.apiService.get(this.config.examinations_by_employee_and_pharmacy + id).pipe(map(vacations => {
       return vacations;
     }));
@@ -91,6 +102,13 @@ export class ExaminationService {
       .post(environment.apiUrl + '/api/examination/scheduleNew/',{"userId": userId, "pharmacyName": name, "date": date, "time": time,"patientEmail": email} )
       .pipe(map(responseData => {
         return responseData;
+      }));
+  }
+
+  submitExamination(data){
+    return this.apiService.post(this.config.submit_examination, data)
+      .pipe(map(res => {
+        return res;
       }));
   }
 }

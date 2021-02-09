@@ -55,6 +55,7 @@ import { AvailablePharmacistsComponent } from './pharmacist-consultation/availab
 import { SubscribedPharmacyComponent } from './subscribed-pharmacy/subscribed-pharmacy.component';
 import { AddDermatologistInPharmacyComponent } from './ph-admin/add-dermatologist-in-pharmacy/add-dermatologist-in-pharmacy.component';
 import { CreateExaminationComponent } from './ph-admin/create-examination/create-examination.component';
+import { EmployeeSchedulingComponent } from './employee-scheduling/employee-scheduling.component';
 import { ComplaintComponent } from './complaint/complaint.component';
 
 const appRoutes: Routes = [
@@ -160,6 +161,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     AvailablePharmacistsComponent,
     SubscribedPharmacyComponent,
     AddDermatologistInPharmacyComponent,
+    EmployeeSchedulingComponent,
     ComplaintComponent
   ],
   imports: [
