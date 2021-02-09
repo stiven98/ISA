@@ -67,6 +67,14 @@ public class EmailSender {
     }
 
 
+    public void sendSchedulingInfo(String to, String examinationDate, String examinationTime, String pharmacyName) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Successfully scheduled examination on: " + examinationDate + " at " + examinationTime + " in " + pharmacyName + ". Thank you for your trust!";
+        message.setTo(to);
+        message.setSubject("Examination schedule feedback");
+        message.setText(body);
+        System.out.println(body);
+    }
     public void sendAnswerOnComplaint(AnswerDTO answerRequest) {
         SimpleMailMessage message = new SimpleMailMessage();
         String body = answerRequest.getContent();

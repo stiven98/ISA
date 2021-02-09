@@ -86,8 +86,41 @@ public class ExaminationController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
         res.put("result", "Examination successfully scheduled!");
+        Patient patient = examination.getPatient();
+        Pharmacy pharmacy = examination.getPharmacy();
+        sender.sendSchedulingInfo(patient.getUsername(), examination.getDateOfExamination().toString(), examination.getTimeOfExamination().toString(), pharmacy.getName());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @PostMapping("/scheduleExistingMedStuff")
+    public ResponseEntity<?> scheduleExistingMedStuff(@RequestBody ExaminationScheduleExistingMedStuffDTO dto){
+        Map<String, String> res = new HashMap<>();
+        Examination examination = examinationService.scheduleExistingMedStuff(dto);
+        if(examination == null){
+            res.put("result", "You can't schedule examination in desired time!");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        res.put("result", "Examination successfully scheduled!");
+        Patient patient = examination.getPatient();
+        Pharmacy pharmacy = examination.getPharmacy();
+        sender.sendSchedulingInfo(patient.getUsername(), examination.getDateOfExamination().toString(), examination.getTimeOfExamination().toString(), pharmacy.getName());
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @PostMapping("/submitExamination")
+    public ResponseEntity<?> scheduleExistingMedStuff(@RequestBody ExaminationSubmissionDTO dto){
+        Map<String, String> res = new HashMap<>();
+        Examination examination = examinationService.submitExaminationData(dto);
+        if(examination == null){
+            res.put("result", "You can't submit your data!");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        res.put("result", "Examination data successfully submitted!");
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @GetMapping("/getCurrentExamination/{id}")
@@ -175,6 +208,20 @@ public class ExaminationController {
         return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @GetMapping("/allFreeByEmployeeAndPharmacy/{id}")
+    public ResponseEntity<?> findAllFreeByEmployeeAndPharmacy(@PathVariable UUID id, Principal user) {
+        Map<String, String> result = new HashMap<>();
+        MedicalStuff medicalStuff = medicalStuffService.findByEmail(user.getName());
+        Pharmacy pharmacy = pharmacyService.findPharmacyById(id);
+        if(pharmacy == null){
+            result.put("result", "Wrong pharmacy id!");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        List<Examination> examinations = examinationService.findAllFreeByEmployeeAndPharmacy(medicalStuff, pharmacy);
+        return new ResponseEntity<>(examinations, HttpStatus.OK);
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @PostMapping("/createExamination")
     public ResponseEntity<?> createExaminationForDermatologist(@RequestBody ExaminationCreateDTO dto){
@@ -184,7 +231,7 @@ public class ExaminationController {
             result.put("result", "Can't create examination");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        result.put("result","Successfully create examination");
+        result.put("result","Successfully created examination");
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 

@@ -16,7 +16,7 @@ export class WorkTimeService {
 
 
   getWorkDay(email:String): Observable<any[]>{
-    return this.apiService.get('http://localhost:8080/api/workTime/all/' + email)
+    return this.apiService.get(this.config.work_time_get_all + email)
     .pipe(map(days => {
       return days;
     }));

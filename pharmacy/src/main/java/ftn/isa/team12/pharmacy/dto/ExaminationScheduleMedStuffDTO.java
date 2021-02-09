@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.dto;
 
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class ExaminationScheduleMedStuffDTO {
     private UUID medStuffId;
     private Date date;
     private LocalTime time;
+    private ExaminationType type;
 
     @Override
     public String toString() {
@@ -28,6 +30,7 @@ public class ExaminationScheduleMedStuffDTO {
                 ", medStuffId=" + medStuffId +
                 ", date=" + date +
                 ", time=" + time +
+                ", type=" + type +
                 '}';
     }
 }
