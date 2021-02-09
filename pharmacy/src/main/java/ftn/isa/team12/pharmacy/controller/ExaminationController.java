@@ -108,6 +108,19 @@ public class ExaminationController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @PostMapping("/submitExamination")
+    public ResponseEntity<?> scheduleExistingMedStuff(@RequestBody ExaminationSubmissionDTO dto){
+        Map<String, String> res = new HashMap<>();
+        Examination examination = examinationService.submitExaminationData(dto);
+        if(examination == null){
+            res.put("result", "You can't submit your data!");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        res.put("result", "Examination data successfully submitted!");
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @GetMapping("/getCurrentExamination/{id}")

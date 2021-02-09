@@ -104,4 +104,11 @@ export class ExaminationService {
         return responseData;
       }));
   }
+
+  submitExamination(data){
+    return this.apiService.post(this.config.submit_examination, data)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
 }

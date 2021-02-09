@@ -137,6 +137,12 @@ export class ConfigService {
     return this._schedule_exst_med ;
   }
 
+  private _submit_examinaton = this._examination_url + '/submitExamination';
+
+  get submit_examination() : string{
+    return this._submit_examinaton ;
+  }
+
 
   private _give_penalty = this._examination_url + '/givePenalty/';
 

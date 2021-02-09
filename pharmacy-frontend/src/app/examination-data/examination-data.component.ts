@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { addHours, addMinutes, startOfDay } from 'date-fns';
 import { DrugService } from '../services/drug.service';
@@ -10,12 +10,6 @@ interface PatientInfo{
   lastName : string;
   phoneNumber : string;
   email : string;
-};
-
-interface ScheduleTerm{
-  id : string;
-  startTime: string;
-  date : string;
 };
 
 interface ExaminationInfo{
@@ -31,7 +25,7 @@ interface ExaminationInfo{
 })
 export class ExaminationDataComponent implements OnInit {
 
-  constructor(private route : ActivatedRoute, private examinationService : ExaminationService, private drugService : DrugService, private modalService : NgbModal) { }
+  constructor(private router : Router, private route : ActivatedRoute, private examinationService : ExaminationService, private drugService : DrugService, private modalService : NgbModal) { }
   drugList = [];
   selectedTerm;
   termMap : Map<string, string> = new Map();
@@ -188,6 +182,30 @@ export class ExaminationDataComponent implements OnInit {
     this.appointmentDate = new Date(event.target.valueAsNumber);
     this.dateStr = event.target.value;
     this.validationCheck();
+  }
+
+  submitForm(){
+    let drugIdList = [];
+    for(let drug of this.drugList){
+      drugIdList.push(drug.drugId);
+    }
+
+    let data = {
+      note : this.note,
+      therapyDuration : this.therapyDuration,
+      drugIds : drugIdList,
+      patientId : this.patientId,
+      pharmacyId : this.pharmacyId,
+      examinationId : this.examinationId
+    }
+    this.examinationService.submitExamination(data).subscribe(res => {
+      alert(res.result);
+      this.router.navigate(["/"]);
+    },
+    error =>{
+      alert("Error occurred during processing your data");
+      this.router.navigate(["/"]);
+    });
   }
 
   validationCheck(){
