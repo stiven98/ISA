@@ -86,6 +86,9 @@ public class ExaminationController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
         res.put("result", "Examination successfully scheduled!");
+        Patient patient = examination.getPatient();
+        Pharmacy pharmacy = examination.getPharmacy();
+        sender.sendSchedulingInfo(patient.getUsername(), examination.getDateOfExamination().toString(), examination.getTimeOfExamination().toString(), pharmacy.getName());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
@@ -99,6 +102,9 @@ public class ExaminationController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
         res.put("result", "Examination successfully scheduled!");
+        Patient patient = examination.getPatient();
+        Pharmacy pharmacy = examination.getPharmacy();
+        sender.sendSchedulingInfo(patient.getUsername(), examination.getDateOfExamination().toString(), examination.getTimeOfExamination().toString(), pharmacy.getName());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 

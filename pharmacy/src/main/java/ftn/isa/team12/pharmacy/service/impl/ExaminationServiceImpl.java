@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
@@ -192,6 +193,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         examination.setEmployee(medicalStuff);
         examination.setPatient(patient);
         examination.setPharmacy(pharmacy);
+        examination.setExaminationStatus(ExaminationStatus.scheduled);
         List<ExaminationPrice> prices = examinationPriceRepository.findLatestByPharmacy(pharmacy, date, examinationType);
         if(prices != null && !prices.isEmpty()){
             ExaminationPrice examinationPrice = prices.get(0);
@@ -273,6 +275,7 @@ public class ExaminationServiceImpl implements ExaminationService {
             }
         }
         examination.setPatient(patient);
+        examination.setExaminationStatus(ExaminationStatus.scheduled);
         Examination saved = examinationRepository.save(examination);
         patient.getExaminations().add(saved);
         medicalStuff.getExaminations().add(saved);
