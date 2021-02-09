@@ -1,5 +1,8 @@
 package ftn.isa.team12.pharmacy.domain.drugs;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;
 import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
 import ftn.isa.team12.pharmacy.domain.enums.TypeOfDrug;
@@ -70,6 +73,8 @@ public class Drug implements Serializable {
    @ManyToMany
    @JoinTable(name = "substitute_drugs", joinColumns = @JoinColumn(name="drug_id" ,  referencedColumnName  = "drug_id"),
            inverseJoinColumns = @JoinColumn(name = "substitute_drug_id", referencedColumnName = "drug_id"))
+   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "drugId")
+   @JsonIdentityReference(alwaysAsId = true)
    private Set<Drug> substituteDrugs = new HashSet<Drug>();
 
    @ManyToMany

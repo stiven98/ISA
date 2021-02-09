@@ -29,6 +29,7 @@
       </div>
 
       <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/drugs" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Drugs</a>
+      <a class="nav-item nav-link ml-2 mr-2 text-light" *ngIf="this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'" routerLink="/loyaltyProgram" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Loyalty program</a>
 
 
     </div>

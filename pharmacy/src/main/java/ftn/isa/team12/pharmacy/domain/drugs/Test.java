@@ -169,6 +169,7 @@ public class Test {
         drug.setManufacturer(manufacturer);
         drug.setNote("This is note");
         drug.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+        drug.setAverageMark(0.0);
 
 
 
@@ -181,6 +182,8 @@ public class Test {
         drug1.setIssuanceRegime(IssuanceRegime.withoutRecipe);
         drug1.getContraindications().add(contraindication1);
         drug1.getContraindications().add(contraindication2);
+        drug1.setAverageMark(5.0);
+
 
         Drug drug2 = new Drug();
         drug2.setName("Paracetamol");
@@ -189,6 +192,7 @@ public class Test {
         drug2.setFormOfDrug(FormOfDrug.Powder);
         drug2.setManufacturer(manufacturer);
         drug2.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+        drug2.setAverageMark(10.0);
 
 
         Drug drug3 = new Drug();
@@ -198,6 +202,8 @@ public class Test {
         drug3.setFormOfDrug(FormOfDrug.Pill);
         drug3.setManufacturer(manufacturer);
         drug3.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+        drug3.setAverageMark(3.5);
+
 
         Drug drug4 = new Drug();
         drug4.setName("Panadol");
@@ -206,6 +212,7 @@ public class Test {
         drug4.setFormOfDrug(FormOfDrug.Capsule);
         drug4.setManufacturer(manufacturer);
         drug4.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+        drug4.setAverageMark(3.1);
 
 
         Drug drug5 = new Drug();
@@ -215,6 +222,7 @@ public class Test {
         drug5.setFormOfDrug(FormOfDrug.Powder);
         drug5.setManufacturer(manufacturer);
         drug5.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+        drug5.setAverageMark(6.0);
 
 
         Drug drug6 = new Drug();
@@ -224,6 +232,7 @@ public class Test {
         drug6.setFormOfDrug(FormOfDrug.Cream);
         drug6.setManufacturer(manufacturer);
         drug6.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+        drug6.setAverageMark(7.9);
 
 
         Drug drug7 = new Drug();
@@ -233,6 +242,7 @@ public class Test {
         drug7.setFormOfDrug(FormOfDrug.Cream);
         drug7.setManufacturer(manufacturer);
         drug7.setIssuanceRegime(IssuanceRegime.withoutRecipe);
+        drug7.setAverageMark(9.0);
 
         drug7.getSubstituteDrugs().add(drug2);
 
@@ -243,6 +253,7 @@ public class Test {
         drug1.setManufacturer(manufacturer);
         drug1.setNote("This is note 2");
         drug1.setIssuanceRegime(IssuanceRegime.withRecipe);
+        drug1.setAverageMark(10.0);
 
 
         Ingredient ingredient1 = new Ingredient();

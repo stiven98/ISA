@@ -1,58 +1,197 @@
-<div class="container-fluid padding">
-  <section class="search-sec">
-    <div class="container">
-      <form action="#" method="post" novalidate="novalidate">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                <input type="text"  class="form-control search-slt" placeholder="Enter drug name">
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                <select class="form-control search-slt">
-                  <option>Choose average mark</option>
-                  <option>
-                    <a><p>9.0 - 10.0</p></a>
-                  </option>
-                  <option>
-                    <a><p>8.0 - 9.0</p></a>
-                  </option>
-                  <option>
-                    <a><p>7.0 - 8.0</p></a>
-                  </option>
-                  <option>
-                    <a><p> < 7.0 </p></a>
-                  </option>
-                </select>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                <button type="button" class="btn btn-secondary wrn-btn">Search</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </section>
-</div>
-<section id="medications" class="medical">
-  <div class="wrapper">
-    <div class="container text-center">
-      <div class="row main-row row-cols-3 row-cols-md-3 g-3"  >
-        <div class="col-sm-3" *ngFor="let drug of drugs">
-          <div class="card p-3" style="margin-top: 30px" >
-            <div class="text-center"> <img src="/assets/img/aspirin.jpg" width="200"> </div>
-            <div class="product-details"> <span class="font-weight-bold d-block">{{drug.name}} {{drug.averageMark}}</span>
 
-              <div class="buttons d-flex flex-row">
-                <div class="cart"><img src="assets/img/drug.png" ></div> <a *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" [routerLink]="['/drug-reservation/', drug.name]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color:white;" class="btn btn-success cart-button btn-block"><span class="dot"></span>Reserve now</a>
-                <p style="color: white" *ngIf="this.authService.getRole() != 'ROLE_PATIENT'" [routerLink]="['/registration']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Register to order</p>
+<div class="container p-5" *ngIf="drugs.length > 0" >
+  <div>
+    <h1 class="d-flex justify-content-center font-weight-bold text-dark m-4">All drugs:</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
+      <div *ngIf="showDrugs.length > 0">
+        <div class="border border-dark rounded m-3"  *ngFor="let item of showDrugs" >
+          <div class="d-flex">
+            <div class="p-3 w-50">
+              <h6 class="font-weight-bold text-dark pb-3">Drug:</h6>
+              <div class="row">
+                <div class="col-6">
+                  <label class="text-dark"> Name:</label>
+                </div>
+                <div class="col-6">
+                  <label class="text-dark">{{item.name}}</label>
+                </div>
+
+                <div class="col-6">
+                  <label class="text-dark"> Type of drug:</label>
+                </div>
+                <div class="col-6">
+                  <label class="text-dark">{{item.typeOfDrug}}</label>
+                </div>
+
+                <div class="col-6">
+                  <label class="text-dark"> Average mark:</label>
+                </div>
+                <div class="col-6">
+                  <label class="text-dark">{{item.averageMark}}</label>
+                </div>
+
               </div>
-              <div class="weight"> <small>{{drug.formOfDrug}} {{drug.typeOfDrug}} {{drug.issuanceRegime}}</small> </div>
             </div>
+
+            <div class="p-3 ml-5" *ngIf="item.pharmacies.length > 0">
+              <h6 class="font-weight-bold text-dark pb-3">List of pharmacies with drug:</h6>
+              <div class="row mt-2">
+                <div class="col-9"><p>Name of pharmacy:</p></div>
+                <div class="col-2"><p>Mark:</p></div>
+
+              </div>
+              <div *ngFor="let pharmacy of item.pharmacies">
+                <div class="row">
+                  <div class="col-9"><p class="text-success">{{pharmacy.name}}</p></div>
+                  <div class="col-2"><p class="text-success">{{pharmacy.averageMark}}</p></div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div class="p-3 ml-5" *ngIf="item.pharmacies.length == 0">
+              <h6 class="font-weight-bold text-dark pb-3">No pharmacies with drug!</h6>
+            </div>
+
           </div>
+
+          <div class="row d-flex justify-content-center">
+            <button type="button " class="btn btn btn-outline-dark w-25 m-2" data-toggle="modal" [attr.data-target]="'#' + item.drugId">Specification</button>
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="{{item.drugId}}" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content p-3">
+                  <h4 class="font-weight-bold text-dark pb-3">Specification:</h4>
+                  <label class="text-dark">Name of drug: {{item.name}}</label>
+                  <label class="text-dark">Code of drug: {{item.code}}</label>
+                  <label class="text-dark">Average mark: {{item.averageMark}}</label>
+                  <label class="text-dark">Type of drug: {{item.typeOfDrug}}</label>
+                  <label class="text-dark">Form of drug: {{item.formOfDrug}}</label>
+                  <label class="text-dark">Manufacturer: {{item.manufacturer.name}}</label>
+                  <h6 class="font-weight-bold text-dark pt-3">Notes:</h6>
+                  <div *ngIf="item.note !== null">
+                    <label class="text-dark"> {{item.description}}</label>
+                  </div>
+                  <div *ngIf="item.note === null">
+                    <label class="text-dark"> Doesn't exist notes!</label>
+                  </div>
+
+                  <h6 class="font-weight-bold text-dark pt-3">Contraindications:</h6>
+                  <div *ngIf="item.contraindications.length > 0">
+                    <div *ngFor="let contraindication of item.contraindications">
+                      <label  class="text-dark"> {{contraindication.name}} </label>
+                    </div>
+
+                  </div>
+                  <div *ngIf="item.contraindications.length == 0">
+                    <label class="text-dark"> Doesn't exist contraindications!</label>
+                  </div>
+
+                  <h6 class="font-weight-bold text-dark pt-3">Substitute drugs:</h6>
+                  <div *ngIf="item.substituteDrugsObj.length > 0">
+                    <div *ngFor="let drug of item.substituteDrugsObj">
+                      <label  class="text-dark"> {{drug.name + " " + drug.typeOfDrug + ' ' + drug.code}} </label>
+                    </div>
+                  </div>
+                  <div *ngIf="item.substituteDrugsObj.length == 0">
+                    <label class="text-dark"> Doesn't exist substitute drugs!</label>
+                  </div>
+
+                  <h6 class="font-weight-bold text-dark pt-3">Ingredients:</h6>
+                  <div *ngIf="item.ingredients.length > 0">
+                    <div *ngFor="let drug of item.ingredients">
+                      <label  class="text-dark"> {{drug.name}} </label>
+                    </div>
+                  </div>
+                  <div *ngIf="item.ingredients.length == 0">
+                    <label class="text-dark"> Doesn't exist substitute drugs!</label>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+
+            <a class="btn btn btn-outline-dark w-25 m-2" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" [routerLink]="['/drug-reservation/', item.name]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Reserve now</a>
+
+          </div>
+
         </div>
       </div>
+
+      <div *ngIf="showDrugs.length === 0">
+        <h6 class="font-weight-bold text-dark pb-3">Nothing to show!</h6>
+      </div>
     </div>
+
+    <div class="col-4 d-flex justify-content-center">
+      <div class=" w-75" >
+        <h5 class="d-flex justify-content-center font-weight-bold text-dark m-4">Filters:</h5>
+
+        <form class="form-control-feedback w-100">
+          <label for="search" class="text-dark">Search name:</label>
+          <input id="search" type="text" class="form-control" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" />
+
+          <label class="text-dark mt-3">Marks:</label>
+          <div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="firstRange" [(ngModel)]="firstRange" [ngModelOptions]="{standalone: true}"/>
+              <label class="form-check-label" for="firstRange" >0.0 < 3.5</label>
+            </div>
+
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="secondRange" [(ngModel)]="secondRange" [ngModelOptions]="{standalone: true}" />
+              <label class="form-check-label" for="secondRange">3.5 < 6.5</label>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="thirdRange" [(ngModel)]="thirdRange" [ngModelOptions]="{standalone: true}" />
+              <label class="form-check-label" for="thirdRange">6.5 < 10.0</label>
+            </div>
+          </div>
+
+
+          <label class="text-dark mt-3">Type of drug:</label>
+          <div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="herbalMedicine" [(ngModel)]="selectedHerbalMedicine" [ngModelOptions]="{standalone: true}"/>
+              <label class="form-check-label" for="HerbalMedicine" >HerbalMedicine</label>
+            </div>
+
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="antibiotic" [(ngModel)]="selectedAntibiotic" [ngModelOptions]="{standalone: true}" />
+              <label class="form-check-label" for="antibiotic">Antibiotic</label>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="anesthetic" [(ngModel)]="selectedAnesthetic" [ngModelOptions]="{standalone: true}" />
+              <label class="form-check-label" for="anesthetic">Anesthetic</label>
+            </div>
+
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="antihistamine" [(ngModel)]="selectedAntihistamine" [ngModelOptions]="{standalone: true}" />
+              <label class="form-check-label" for="antihistamine">Anesthetic</label>
+            </div>
+
+          </div>
+
+
+
+
+          <div class="d-flex justify-content-center">
+            <input class="btn btn-outline-dark mt-3 w-100" type="button" value="Apply" (click)="search()"/>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
   </div>
-</section>
+
+  </div>
+
+
+<div class="container" *ngIf="drugs.length==0">
+  <h1 class="d-flex justify-content-center font-weight-bold text-dark m-4">No drugs</h1>
+</div>
+
