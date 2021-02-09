@@ -36,7 +36,7 @@ public class EmailSender {
     public void sendPharmacistConsultationsMail(UUID id, String patientEmail, String pharmacyName, String deadline, String doctorName, String doctorLastName, String time) {
         SimpleMailMessage message = new SimpleMailMessage();
         String body = "Your consultations with pharmacist " + doctorName + " " + doctorLastName + "\n" +  "in pharmacy " + pharmacyName
-        + " on " + deadline + " at " + "time " + time +  " is succsessfully scheduled with code: " + "\n" + id.toString();
+        + " on " + deadline + " at " + "time " + time +  " is succsessfully scheduled.";
         message.setTo(patientEmail);
         message.setSubject("Pharmacist consultations email");
         message.setText(body);
@@ -48,7 +48,7 @@ public class EmailSender {
         SimpleMailMessage message = new SimpleMailMessage();
         String body = "Your examination with dermatologist " + examination.getEmployee().getAccountInfo().getName() + " " + examination.getEmployee().getAccountInfo().getLastName()
                 + "\n" +  "in pharmacy " + examination.getPharmacy().getName()
-                + " on " + examination.getDateOfExamination() + " at " + "time " + examination.getTimeOfExamination() +  " is succsessfully scheduled with code: " + "\n" + examination.getExaminationId().toString();
+                + " on " + examination.getDateOfExamination() + " at " + "time " + examination.getTimeOfExamination() +  " is succsessfully scheduled.";
         message.setTo(examination.getPatient().getLoginInfo().getEmail());
         message.setSubject("Dermatologist examination email");
         message.setText(body);

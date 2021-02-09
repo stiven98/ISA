@@ -222,7 +222,7 @@ public class ExaminationController {
         List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
         for(Examination ex : examinations) {
-            if(ex.getDateOfExamination().equals(examination.getDateOfExamination())){
+            if(ex.getDateOfExamination().equals(examination.getDateOfExamination()) && ex.getExaminationType() == ExaminationType.pharmacistConsultations){
                 throw new IllegalArgumentException("You cant schedule more than 1 consultations for same day");
             }
         }
@@ -250,8 +250,8 @@ public class ExaminationController {
         List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findById(dto.getExaminationId());
         for(Examination ex : examinations) {
-            if(ex.getDateOfExamination().equals(examination.getDateOfExamination())){
-                throw new IllegalArgumentException("You cant schedule more than 1 consultations for same day");
+            if(ex.getDateOfExamination().equals(examination.getDateOfExamination()) && ex.getExaminationType() == ExaminationType.dermatologistExamination){
+                throw new IllegalArgumentException("You cant schedule more than 1 examination for same day");
             }
         }
         if(patient.getPenalties() > 2) {
