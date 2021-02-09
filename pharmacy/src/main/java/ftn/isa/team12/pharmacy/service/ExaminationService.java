@@ -28,7 +28,11 @@ public interface ExaminationService {
     Examination scheduleNewMedStuff(ExaminationScheduleMedStuffDTO dto);
     List<Pharmacy> findAllPharmaciesWherePatientHadExamination(UUID patientId);
     List<MedicalStuff> findAllMedicalStuffThatTreatedPatient(UUID patientId);
-    List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time);
+    List<Examination> findPharmaciesWithFreeTerm(Date date, LocalTime time);
+    List<MedicalStuff> findAvailableByPharmacy(String pharmacyName);
+    Examination findByEmployeePharmacyTimeDate(UUID userId, String pharmacyName, Date date, LocalTime time);
+    Examination save(Examination examination);
+    List<Examination> findPharmacistConsultationsForPatient(UUID patientId);
 
 
     List<Examination> findAllFreeByEmployeeAndPharmacy(MedicalStuff medicalStuff, Pharmacy pharmacy);

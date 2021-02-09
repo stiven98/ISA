@@ -14,7 +14,6 @@ import {DrugMark} from '../shared/models/drugMark';
 import {DrugMarksService} from '../services/drug-marks.service';
 import {MedicalstuffMarkService} from '../services/medicalstuff-mark.service';
 import {MedicalStuffMarkDto} from '../shared/models/MedicalStuffMarkDto';
-import {MedicalStuffMark} from '../shared/models/MedicalStuffMark';
 
 
 
@@ -43,6 +42,8 @@ export class PatientComponent implements OnInit {
   medStuffNmr = 0;
   drugMarks = [];
   addAllergies: string;
+  today = new Date();
+  consultations = [];
   accountCategory = new AccountCategory();
   penalties: number;
   constructor(private userService: UserService, private patientService: PatientService,
@@ -55,6 +56,9 @@ export class PatientComponent implements OnInit {
       this.patient = resUser;
       this.patientService.findReservations(this.patient.email).subscribe((reservation) => {
         this.reservations = reservation;
+      });
+      this.patientService.findPatientConsulations(this.patient.email).subscribe((consultations) => {
+        this.consultations = consultations;
       });
       this.patientService.findERecepies(this.patient.email).subscribe((erecepie) => {
         this.erecepies = erecepie;
@@ -125,7 +129,27 @@ export class PatientComponent implements OnInit {
   sortERecepies = () => {
     for (let i = 0; i < this.erecepies.length - 1; i++ ) {
       for ( let j = 0; j < this.erecepies.length - i - 1; j++ ) {
-        if ( this.erecepies[j].dateOfIssuing > this.erecepies[j + 1].dateOfIssuing){
+        const tmp: string  = this.erecepies[j].dateOfIssuing;
+        const tmp1: string  = this.erecepies[j + 1].dateOfIssuing;
+        const parts = tmp.split('/');
+        const parts1 = tmp1.split('/');
+        const year: number = +parts[2];
+        const month: number = +parts[0];
+        const day: number  =  +parts[1];
+        const year1: number =  +parts1[2];
+        const month1: number = +parts1[0];
+        const day1: number = +parts1[1];
+        if (year < year1){
+          const temp = this.erecepies[j];
+          this.erecepies[j] = this.erecepies[j + 1];
+          this.erecepies[j + 1] = temp;
+        }
+        if (year === year && month < month1) {
+          const temp = this.erecepies[j];
+          this.erecepies[j] = this.erecepies[j + 1];
+          this.erecepies[j + 1] = temp;
+        }
+        if ( year === year1 && month === month1 && day < day1) {
           const temp = this.erecepies[j];
           this.erecepies[j] = this.erecepies[j + 1];
           this.erecepies[j + 1] = temp;
@@ -135,7 +159,6 @@ export class PatientComponent implements OnInit {
   }
   onSelect = (event) => {
     this.addAllergies = event.target.value.toString();
-
   }
   alert = () => {
     alert('Go to pharmacy home page where you want to make new appointment');
@@ -157,6 +180,23 @@ export class PatientComponent implements OnInit {
    }
     else {
      alert('You cant cancel reservation 24h before deadline');
+    }
+  }
+  cancelConsulatation = (consultation) => {
+    const deadline = new Date(consultation.dateOfExamination).toLocaleDateString();
+    const parts = deadline.split('/');
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const day: number = +dd;
+    const month: number = +mm;
+    const deadlineday: number = +parts[1];
+    const deadlinemonth: number = +parts[0];
+    if (deadlinemonth > month || (deadlinemonth === month && deadlineday > day + 1)) {
+      this.patientService.cancelConsultations(consultation.examinationId).subscribe();
+      window.location.reload();
+    } else {
+      alert('You cant cancel consultations 24h before consultations');
     }
   }
 
@@ -211,7 +251,61 @@ export class PatientComponent implements OnInit {
   }
 
   goToPharmacies = () => {
-    this.router.navigate(['/pharmacy']);
+    this.router.navigate(['/subscribedPharmacy']);
+  }
+
+  sortConsultationsByDate = () => {
+    for (let i = 0; i < this.consultations.length - 1; i++ ) {
+      for ( let j = 0; j < this.consultations.length - i - 1; j++ ) {
+        const tmp: string  = this.consultations[j].dateOfExamination;
+        const tmp1: string  = this.consultations[j + 1].dateOfExamination;
+        const parts = tmp.split('/');
+        const parts1 = tmp1.split('/');
+        const year: number = +parts[2];
+        const month: number = +parts[0];
+        const day: number  =  +parts[1];
+        const year1: number =  +parts1[2];
+        const month1: number = +parts1[0];
+        const day1: number = +parts1[1];
+        if (year < year1){
+          const temp = this.consultations[j];
+          this.consultations[j] = this.consultations[j + 1];
+          this.consultations[j + 1] = temp;
+        }
+        if (year === year && month < month1) {
+          const temp = this.consultations[j];
+          this.consultations[j] = this.consultations[j + 1];
+          this.consultations[j + 1] = temp;
+        }
+        if ( year === year1 && month === month1 && day < day1) {
+          const temp = this.consultations[j];
+          this.consultations[j] = this.consultations[j + 1];
+          this.consultations[j + 1] = temp;
+        }
+      }
+    }
+  }
+  sortConsultationsByPrice = () => {
+    for (let i = 0; i < this.consultations.length - 1; i++ ) {
+      for ( let j = 0; j < this.consultations.length - i - 1; j++ ) {
+        if ( this.consultations[j].examinationPrice.price > this.consultations[j + 1].examinationPrice.price){
+          const temp = this.consultations[j];
+          this.consultations[j] = this.consultations[j + 1];
+          this.consultations[j + 1] = temp;
+        }
+      }
+    }
+  }
+  sortConsultationsByDuration = () => {
+    for (let i = 0; i < this.consultations.length - 1; i++ ) {
+      for ( let j = 0; j < this.consultations.length - i - 1; j++ ) {
+        if ( this.consultations[j].duration > this.consultations[j + 1].duration){
+          const temp = this.consultations[j];
+          this.consultations[j] = this.consultations[j + 1];
+          this.consultations[j + 1] = temp;
+        }
+      }
+    }
   }
 }
 

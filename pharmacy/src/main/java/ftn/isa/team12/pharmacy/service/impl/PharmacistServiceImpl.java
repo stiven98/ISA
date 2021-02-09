@@ -42,6 +42,11 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
+    public List<Pharmacist> findAll() {
+        return this.pharmacistRepository.findAll();
+    }
+
+    @Override
     public List<EmployeesDTO> findAllPharmacist() {
         List<EmployeesDTO> list = new ArrayList<>();
         for(Pharmacist pharmacist : pharmacistRepository.findAll()){

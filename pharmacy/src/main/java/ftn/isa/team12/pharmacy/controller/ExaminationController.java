@@ -1,12 +1,18 @@
 package ftn.isa.team12.pharmacy.controller;
-
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
+import ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.dto.ExaminationDrugQuantityDTO;
+import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
+import ftn.isa.team12.pharmacy.dto.ScheduleExaminationDTO;
 import ftn.isa.team12.pharmacy.dto.*;
 import ftn.isa.team12.pharmacy.email.EmailSender;
 import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
@@ -18,7 +24,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.*;
@@ -38,13 +43,17 @@ public class ExaminationController {
     PharmacyService pharmacyService;
 
     @Autowired
-    private WorkTimeRepository workTimeRepository;
+    WorkTimeRepository workTimeRepository;
 
     @Autowired
-    private ExaminationRepository examinationRepository;
+    ExaminationRepository examinationRepository;
 
 
+    @Autowired
     PatientService patientService;
+
+    @Autowired
+    PharmacistService pharmacistService;
 
     @Autowired
     DrugInPharmacyService drugInPharmacyService;
@@ -209,17 +218,8 @@ public class ExaminationController {
 
 
     @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
-    @GetMapping("/a")
-    public ResponseEntity<List<WorkTime>> sada(){
-
-
-        return new ResponseEntity<>(workTimeRepository.findAllByEmployeeLoginInfoEmail("aca@faca.com"),HttpStatus.OK);
-    }
-
-
-    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @PostMapping("/busyTime")
-    public ResponseEntity<BusyDateDTO> busyTime(@RequestBody TimeDTO dto) throws ParseException {
+    public ResponseEntity<BusyDateDTO> busyTime(@RequestBody TimeDTO dto){
         return new ResponseEntity<>(examinationService.busyTime(dto.getEmail(),dto.getDate()),HttpStatus.OK);
     }
 
@@ -229,9 +229,83 @@ public class ExaminationController {
     };
 
     @PostMapping("/pharmaciesWithFreeTerms/")
-    public ResponseEntity<List<Pharmacy>> findPharmaciesWithFreeTerms(@RequestBody FreeTermDTO dto) throws ParseException {
-        List<Pharmacy> pharmacies = this.examinationService.findPharmaciesWithFreeTerm(dto.getDate(),dto.getTime());
+    public ResponseEntity<List<Pharmacy>> findPharmaciesWithFreeTerms(@RequestBody FreeTermDTO dto)  {
+        List<Examination> examinations = this.examinationService.findPharmaciesWithFreeTerm(dto.getDate(),dto.getTime());
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        List<Pharmacist> pharmacists = this.pharmacistService.findAll();
+        for(Examination ex : examinations) {
+            if(pharmacists.contains(ex.getEmployee())) {
+               if(!pharmacies.contains(ex.getPharmacy())) {
+                   pharmacies.add(ex.getPharmacy());
+               }
+            }
+        }
+
         return new ResponseEntity<>(pharmacies, HttpStatus.OK);
     }
+    @PostMapping("/scheduleNew/")
+    public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
+        Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        List<Examination> examinations = this.examinationService.findAllByPatient(patient);
+        Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
+        for(Examination ex : examinations) {
+            if(ex.getDateOfExamination().equals(examination.getDateOfExamination())){
+                throw new IllegalArgumentException("You cant schedule more than 1 consultations for same day");
+            }
+        }
+        if(patient.getPenalties() > 2) {
+            throw new IllegalArgumentException("You have 3 or more penalties and you cant schedule consultations");
+        }
+        examination.setPatient(patient);
+        examination.setExaminationType(ExaminationType.pharmacistConsultations);
+        examination.setExaminationStatus(ExaminationStatus.scheduled);
+        this.examinationService.save(examination);
+        try {
+            sender.sendPharmacistConsultationsMail(examination.getExaminationId(),dto.getPatientEmail(),dto.getPharmacyName(),examination.getDateOfExamination().toString(),
+                   examination.getEmployee().getAccountInfo().getName(), examination.getEmployee().getAccountInfo().getLastName(), examination.getTimeOfExamination().toString());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return new ResponseEntity<>(examination, HttpStatus.OK);
+    }
 
+    @GetMapping("/findAvailablePharmacists/{pharmacyName}")
+    public ResponseEntity<List<Pharmacist>> findAvailablePharmacists(@PathVariable String pharmacyName)  {
+        List<MedicalStuff> medicalStuffs = this.examinationService.findAvailableByPharmacy(pharmacyName);
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        List<Pharmacist> phamacists1 = this.pharmacistService.findAll();
+        for (MedicalStuff ms : medicalStuffs) {
+            if(phamacists1.contains(ms)) {
+                pharmacists.add((Pharmacist) ms);
+            }
+        }
+
+        return new ResponseEntity<>(pharmacists, HttpStatus.OK);
+    }
+    @GetMapping("/getPatientConsulatitons/{patientEmail}")
+    public ResponseEntity<List<Examination>> findPatientConsulatitons(@PathVariable String patientEmail)  {
+        Patient patient = this.patientService.findByEmail(patientEmail);
+        List<Examination> consultations = this.examinationService.findPharmacistConsultationsForPatient(patient.getUserId());
+        return new ResponseEntity<>(consultations, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/cancelConsultations/{id}")
+    public ResponseEntity<Examination> cancelConsultations(@PathVariable UUID id) {
+        Calendar calendar = Calendar.getInstance();
+        Examination ex = this.examinationService.findById(id);
+        Date deadlineForCancel = ex.getDateOfExamination();
+        calendar.setTime(deadlineForCancel);
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        Date dayBeforeDeadline = calendar.getTime();
+        if(new Date().before(dayBeforeDeadline)) {
+            ex.setPatient(null);
+            ex.setExaminationStatus(ExaminationStatus.cancelled);
+            this.examinationService.save(ex);
+        }
+        else {
+            throw new IllegalArgumentException("You cant cancel consultations in 24h before consultations");
+        }
+        return  new ResponseEntity<>(ex, HttpStatus.OK);
+    }
 }

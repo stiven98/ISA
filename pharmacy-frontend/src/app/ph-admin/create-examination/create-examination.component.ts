@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { from } from 'rxjs';
-import { PharmacistCreateModel } from '../create-pharmacist/PharmacistCreater';
 import { ExaminationCreateModel } from './examinationCreateDTO';
 import {ActivatedRoute} from '@angular/router';
 import { WorkTimeService } from '../../services/work-time.service';
 import { ExaminationService } from '../../services/examination.service';
+import { ExaminationPriceService } from 'src/app/services/examination-price.service';
 
 
 
@@ -20,26 +19,38 @@ interface day{
   styleUrls: ['./create-examination.component.css']
 })
 export class CreateExaminationComponent implements OnInit {
+  onButtonClick = true;
+  saveExamination = true;
   model: NgbDateStruct;
   days = [];
   startTime = {hour: 8, minute: 0};
-  endTime = {hour: 16, minute: 0};
+  endTime = {hour: 8, minute: 30};
   busyTime:day[];
   workStart = {hour:0, minute:0};
   workEnd = {hour:0, minute:0};
+  examinatioPriceLIst = []
   examination:ExaminationCreateModel = new ExaminationCreateModel();
-  constructor(private route: ActivatedRoute, private workTimeService:WorkTimeService, private examinationService:ExaminationService) {
+
+  constructor(private route: ActivatedRoute, private workTimeService:WorkTimeService, private examinationService:ExaminationService,
+    private examinationPriceService: ExaminationPriceService) {
     this.examination.email = route.snapshot.params['email'];
    }
 
   ngOnInit(): void {
+    
     this.workTimeService.getWorkDay(this.route.snapshot.params['email']).subscribe((days)=>{
-      for(let a of days){
-        
+      for(let a of days){  
         let s = new Date(a).toLocaleDateString();
         this.days.push(s);
       }
+    });
+
+    this.examinationPriceService.getAllExaminationByValideDate().subscribe((list) => {
+      this.examinatioPriceLIst = list;
     })
+
+
+
   }
 
 
@@ -47,6 +58,7 @@ export class CreateExaminationComponent implements OnInit {
 
 
   onChangeSelectedDate(event){
+    this.onButtonClick = false;
     
     let a = event.target.value.split("/");
     let s = a[2] + "-" + a[0] + "-" + a[1];  
@@ -96,6 +108,14 @@ export class CreateExaminationComponent implements OnInit {
     );
 
   }
+
+  
+  onChangeSelectedPrice(event){
+    this.saveExamination = false;
+    alert(event.target.value);
+    this.examination.priceId = event.target.value;
+  }
+
 
 
 

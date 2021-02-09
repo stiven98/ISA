@@ -5,10 +5,7 @@ import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
-import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
-import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
-import ftn.isa.team12.pharmacy.domain.users.Patient;
-import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.domain.users.*;
 import ftn.isa.team12.pharmacy.dto.BusyDateDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationCreateDTO;
 import ftn.isa.team12.pharmacy.dto.ExaminationScheduleExistingMedStuffDTO;
@@ -55,6 +52,9 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     PharmacyService pharmacyService;
 
+    @Autowired
+    VacationService vacationService;
+
 
     @Override
     public List<Examination> findAll() {
@@ -84,14 +84,13 @@ public class ExaminationServiceImpl implements ExaminationService {
         Dermatologist dermatologist = dermatologistService.findByEmail(dto.getEmail());
         ExaminationPrice examinationPrice = examinationPriceRepository.findByExaminationPriceId(dto.getPriceId());
 
-        //setovati cenu
-
         Examination examination = new Examination();
         examination.setDuration(dto.getDuration());
         examination.setDateOfExamination(dto.getDate());
         examination.setTimeOfExamination(dto.getStartTime());
         examination.setPatient(null);
         examination.setExaminationType(ExaminationType.dermatologistExamination);
+        examination.setExaminationPrice(examinationPrice);
         examination.setPharmacy(pharmacyAdministrator.getPharmacy());
         examination.setEmployee(dermatologist);
         examination.setExaminationPrice(examinationPrice);
@@ -241,7 +240,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public List<Pharmacy> findPharmaciesWithFreeTerm(Date date, LocalTime time) {
+    public List<Examination> findPharmaciesWithFreeTerm(Date date, LocalTime time) {
         return this.examinationRepository.findPharmaciesWithFreeTerm(date, time);
     }
 
@@ -268,8 +267,8 @@ public class ExaminationServiceImpl implements ExaminationService {
         Patient patient = patientService.findById(dto.getPatientId());
         Examination examination = examinationRepository.findExaminationByExaminationId(dto.getExaminationId());
         List<Examination> patientExaminations = findAllByPatient(patient);
-        for(Examination e : patientExaminations){
-            if(checkIfTimeOverlapping(e.getTimeOfExamination(), e.getDateOfExamination(), examination.getTimeOfExamination(), examination.getDateOfExamination())){
+        for (Examination e : patientExaminations) {
+            if (checkIfTimeOverlapping(e.getTimeOfExamination(), e.getDateOfExamination(), examination.getTimeOfExamination(), examination.getDateOfExamination())) {
                 return null;
             }
         }
@@ -282,6 +281,25 @@ public class ExaminationServiceImpl implements ExaminationService {
         return saved;
     }
 
+    public List<MedicalStuff> findAvailableByPharmacy(String pharmacyName) {
+        return this.examinationRepository.findAvailableByPharmacyAndTerm(pharmacyName);
+    }
+
+    @Override
+    public Examination findByEmployeePharmacyTimeDate(UUID userId, String pharmacyName, Date date, LocalTime time) {
+        return this.examinationRepository.findByEmployeePharmacyTimeDate(userId,pharmacyName,date,time);
+    }
+
+    @Override
+    public Examination save(Examination examination) {
+        return this.examinationRepository.save(examination);
+    }
+
+    @Override
+    public List<Examination> findPharmacistConsultationsForPatient(UUID patientId) {
+        return this.examinationRepository.findPharmacistConsultationsForPatient(patientId);
+    }
+
 
     @Override
     public void checkExamination(ExaminationCreateDTO dto) {
@@ -289,11 +307,19 @@ public class ExaminationServiceImpl implements ExaminationService {
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
         Dermatologist dermatologist = dermatologistService.findByEmail(dto.getEmail());
         WorkTime workTime = workTimeRepository.findByEmployeeAndPharmacyAndDate(dermatologist, pharmacyAdministrator.getPharmacy(), dto.getDate());
+        ExaminationPrice examinationPrice = examinationPriceRepository.findByExaminationPriceId(dto.getPriceId());
+        List<Vacation> vacations = vacationService.checkVacationDay(pharmacyAdministrator.getPharmacy(),dto.getDate(),dermatologist);
+        System.out.println(vacations.size());
+        for(Vacation va : vacations)
+            System.out.println(va.getDateRange().getStartDate().toString() + " " + va.getDateRange().getEndDate().toString() ) ;
 
-        //proveriti da li je na odmoru
 
-        if(dermatologist == null || pharmacyAdministrator == null)
+
+        if(dermatologist == null || pharmacyAdministrator == null || examinationPrice == null)
             throw new IllegalArgumentException("Bad input");
+
+        if(!vacations.isEmpty())
+            throw new IllegalArgumentException("Dermatologist on vacation");
 
         boolean flag = false;
 

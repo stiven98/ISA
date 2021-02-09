@@ -55,7 +55,7 @@ public class UserController {
             return new ResponseEntity<UserDTO>(changedUser, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST', 'ROLE_SYSTEM_ADMINISTRATOR', ROLE_SUPPLIER)") // Dodati ostale role
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST', 'ROLE_SYSTEM_ADMINISTRATOR', 'ROLE_SUPPLIER')") // Dodati ostale role
     @PostMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChangeDTO passwords) {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();

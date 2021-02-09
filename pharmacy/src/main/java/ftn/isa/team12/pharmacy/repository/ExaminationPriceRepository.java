@@ -14,4 +14,9 @@ public interface ExaminationPriceRepository  extends JpaRepository<ExaminationPr
     ExaminationPrice findByExaminationPriceId(UUID id);
     @Query("select ep from ExaminationPrice ep where ep.pharmacy = ?1 and ep.dateOfValidity.startDate <= ?2 and ep.dateOfValidity.endDate >= ?2 and ep.examinationType = ?3 order by ep.dateOfValidity.endDate desc")
     List<ExaminationPrice> findLatestByPharmacy(Pharmacy pharmacy, Date date, ExaminationType type);
+
+
+    @Query("select d from ExaminationPrice d where d.pharmacy= ?1 and d.dateOfValidity.startDate < ?2 and d.dateOfValidity.endDate > ?2")
+    List<ExaminationPrice> getAll(Pharmacy pharmacy, Date date);
+
 }
