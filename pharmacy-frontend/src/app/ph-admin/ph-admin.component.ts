@@ -42,8 +42,11 @@ export class PhAdminComponent implements OnInit {
   dermatologist = []
   drugPrice = [];
   f = false;
+  fExamination = false;
   change = false;
+  examinationFlag = false;
   closeResult = '';
+  changeExaminationPrice = []
   examinationPRice:ExaminationPriceModel = new ExaminationPriceModel();
   constructor(private userService: UserService, private medicalStufService:MedicalStuffService,
     private drugPriceServise: DrugPriceService,
@@ -74,16 +77,32 @@ export class PhAdminComponent implements OnInit {
     
     });
 
+    this.examinationPriceService.getAllForChange().subscribe((res) => {
+      this.changeExaminationPrice = res;
+      for(let a of this.changeExaminationPrice){  
+        a.startDate = new Date(a.startDate).toLocaleDateString();
+        a.endDate = new Date(a.endDate).toLocaleDateString();
+      }
+    })
+
+
     this.fetchData = false;
   }
 
   flag(){
     this.f = true;
   }
+  flagExamination(){
+    this.fExamination = true;
+  }
 
   changPrice(){
     this.change = true;
   }
+
+  changExaminationPrice(){
+    this.examinationFlag = true;
+  } 
 
   save(dp){
     let d = new DrugPriceModel();
@@ -99,7 +118,12 @@ export class PhAdminComponent implements OnInit {
   }
 
 
+  saveExaminationPrice(examinationPrice){
+    examinationPrice.startDate = new Date();
+    examinationPrice.endDate = new Date();
+    this.examinationPriceService.changeExaminationPrice(examinationPrice).subscribe((res) => alert(res.result));
 
+  }
 
 
 
@@ -162,6 +186,10 @@ export class PhAdminComponent implements OnInit {
     }
 
     this.examinationPriceService.createExaminationPrice(this.examinationPRice).subscribe((res) => alert(res.result));
-
   }
+
+
+
+
+
 }

@@ -24,11 +24,21 @@ export class ExaminationPriceService {
 
 
     createExaminationPrice(dto:ExaminationPriceModel){
-      return this.apiService.post('http://localhost:8080/api/examinationPrice/create',dto).
+      return this.apiService.post(this.config.examinatinn_price_create,dto).
       pipe(map((res) => {return res;}))
     }
 
 
+    getAllForChange():Observable<ExaminationPriceModel[]>{
+      return this.apiService.get(this.config.examinatinn_price_get_all_for_change)
+      .pipe(map((res) => {return res;}))
+    }
+
+
+    changeExaminationPrice(dto:ExaminationPriceModel){
+      return this.apiService.post(this.config.examinatinn_price_change,dto).
+      pipe(map((res) => {return res;}))
+    }
 
 
 }

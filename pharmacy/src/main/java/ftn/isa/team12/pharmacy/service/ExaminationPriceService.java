@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.service;
+
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.dto.ExaminationPriceDTO;
 
@@ -13,4 +14,9 @@ public interface ExaminationPriceService {
     ExaminationPrice createExaminationPrice(ExaminationPriceDTO dto);
     void validationExaminationPrice(ExaminationPriceDTO dto);
 
+    ExaminationPrice changeExaminationPrice(ExaminationPriceDTO dto);
+
+
+
+    List<ExaminationPriceDTO> getAllForChane();
 }

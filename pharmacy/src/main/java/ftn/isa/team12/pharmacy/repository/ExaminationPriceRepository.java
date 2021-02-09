@@ -20,4 +20,7 @@ public interface ExaminationPriceRepository  extends JpaRepository<ExaminationPr
     List<ExaminationPrice> getAllByAllByValidDate(Pharmacy pharmacy, Date date);
 
 
+    @Query("select d from ExaminationPrice d where d.pharmacy= ?1 and d.dateOfValidity.startDate < ?2 and d.dateOfValidity.endDate > ?2 or d.dateOfValidity.startDate >= ?2")
+    List<ExaminationPrice> getAllForChange(Pharmacy pharmacy, Date date);
+
 }

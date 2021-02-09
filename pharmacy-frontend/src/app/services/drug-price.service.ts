@@ -23,16 +23,14 @@ export class DrugPriceService {
     }
 
     getAllForChange(): Observable<any>{
-      return this.apiService.get('http://localhost:8080/api/drugPrice/allForChange')
+      return this.apiService.get(this.config.drug_price_get_all_for_change)
       .pipe(map((drugOrder:Response) =>{
         return drugOrder;
       }));
     }
 
     changeDrugPirce(dto){
-      return this.apiService.post('http://localhost:8080/api/drugPrice/change',dto)
+      return this.apiService.post(this.config.drug_price_change,dto)
       .pipe(map((res) => {return res;}))
     }
-
-
 }

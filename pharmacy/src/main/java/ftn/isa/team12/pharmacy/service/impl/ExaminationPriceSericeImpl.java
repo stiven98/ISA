@@ -2,7 +2,6 @@ package ftn.isa.team12.pharmacy.service.impl;
 
 
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
-import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
@@ -15,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -72,6 +72,39 @@ public class ExaminationPriceSericeImpl  implements ExaminationPriceService{
         if(!examinationPrices.isEmpty()){
             throw new IllegalArgumentException("For this period already set price for examination");
         }
+    }
 
+
+    @Override
+    public ExaminationPrice changeExaminationPrice(ExaminationPriceDTO dto) {
+        ExaminationPrice examinationPrice = examinationPriceRepository.findByExaminationPriceId(dto.getExaminationPriceId());
+
+        if(examinationPrice == null)
+            throw new IllegalArgumentException("No examination price");
+
+        if(dto.getPrice() < 0 || dto.getPrice() == examinationPrice.getPrice())
+            throw new IllegalArgumentException("Bad input price");
+
+        examinationPrice.setPrice(dto.getPrice());
+        examinationPrice = examinationPriceRepository.save(examinationPrice);
+
+        return examinationPrice;
+    }
+
+
+    @Override
+    public List<ExaminationPriceDTO> getAllForChane() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyAdministrator.getPharmacy().getId());
+        List<ExaminationPrice> examinationPrices = examinationPriceRepository.getAllForChange(pharmacy,new Date());
+        List<ExaminationPriceDTO> dto = new ArrayList<>();
+        for(ExaminationPrice ex: examinationPrices){
+            dto.add(new ExaminationPriceDTO(ex));
+        }
+
+
+
+        return dto;
     }
 }

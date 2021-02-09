@@ -1,6 +1,5 @@
 package ftn.isa.team12.pharmacy.controller;
 
-import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.dto.ExaminationPriceDTO;
 import ftn.isa.team12.pharmacy.service.ExaminationPriceService;
@@ -33,7 +32,7 @@ public class ExaminationPriceController {
 
     @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @PostMapping("/create")
-    public ResponseEntity<?> createDrugPrice(@RequestBody ExaminationPriceDTO dto){
+    public ResponseEntity<?> createExaminationPrice(@RequestBody ExaminationPriceDTO dto){
         Map<String, String> result = new HashMap<>();
         ExaminationPrice examinationPrice = examinationPriceService.createExaminationPrice(dto);
         if(examinationPrice == null){
@@ -45,7 +44,24 @@ public class ExaminationPriceController {
     }
 
 
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/change")
+    public ResponseEntity<?> changeExaminationPrice(@RequestBody ExaminationPriceDTO dto){
+        Map<String, String> result = new HashMap<>();
+        ExaminationPrice examinationPrice = examinationPriceService.changeExaminationPrice(dto);
+        if(examinationPrice == null){
+            result.put("result", "Can't create examination price");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("result","Successfully create examination price");
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
 
 
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/allForChange")
+    public ResponseEntity<List<ExaminationPriceDTO>> getAllExaminationPriceForChange(){
+        return new ResponseEntity<>(examinationPriceService.getAllForChane(), HttpStatus.OK) ;
+    }
 
 }
