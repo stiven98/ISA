@@ -454,7 +454,6 @@ public class Test {
 
 
 
-
         DrugInPharmacy drugInPharmacy = new DrugInPharmacy();
         drugInPharmacy.setPharmacy(pharmacy);
         drugInPharmacy.setDrug(drug);
@@ -680,14 +679,40 @@ public class Test {
         //examination.setPatient(patient);
         //examination.setExaminationPrice(examinationPrice);
         //examination.setDateOfExamination(new Date());
+        examination.setExaminationType(ExaminationType.pharmacistConsultations);
         examination.setExaminationPrice(examinationPrice);
         examination.setDateOfExamination(sdf.parse("2021-05-05"));
         examination.setTimeOfExamination(LocalTime.of(13,45));
         examination.setDuration(45);
         examination.setPharmacy(pharmacy);
 
+        Examination examinationDerm = new Examination();
+        examinationDerm.setEmployee(dermatologistPharmacy1);
+        //examination.setPatient(patient);
+        //examination.setExaminationPrice(examinationPrice);
+        //examination.setDateOfExamination(new Date());
+        examinationDerm.setExaminationPrice(examinationPrice2);
+        examinationDerm.setDateOfExamination(sdf.parse("2021-05-05"));
+        examinationDerm.setExaminationType(ExaminationType.dermatologistExamination);
+        examinationDerm.setTimeOfExamination(LocalTime.of(11,45));
+        examinationDerm.setDuration(45);
+        examinationDerm.setPharmacy(pharmacy);
+
+        Examination examinationDerm1 = new Examination();
+        examinationDerm1.setEmployee(dermatologist);
+        //examination.setPatient(patient);
+        //examination.setExaminationPrice(examinationPrice);
+        //examination.setDateOfExamination(new Date());
+        examinationDerm1.setExaminationPrice(examinationPrice2);
+        examinationDerm1.setExaminationType(ExaminationType.dermatologistExamination);
+        examinationDerm1.setDateOfExamination(sdf.parse("2021-05-05"));
+        examinationDerm1.setTimeOfExamination(LocalTime.of(12,45));
+        examinationDerm1.setDuration(45);
+        examinationDerm1.setPharmacy(pharmacy);
+
         Examination examination2 = new Examination();
         examination2.setEmployee(pharmacistA);
+        examination2.setExaminationType(ExaminationType.pharmacistConsultations);
         examination2.setExaminationPrice(examinationPrice2);
         examination2.setDateOfExamination(sdf.parse("2021-05-05"));
         examination2.setTimeOfExamination(LocalTime.of(13,45));
@@ -696,6 +721,7 @@ public class Test {
 
         Examination examination3 = new Examination();
         examination3.setEmployee(pharmacistA);
+        examination3.setExaminationType(ExaminationType.pharmacistConsultations);
         examination3.setExaminationPrice(examinationPrice5);
         examination3.setDateOfExamination(sdf.parse("2021-02-25"));
         examination3.setTimeOfExamination(LocalTime.of(10,30));
@@ -704,6 +730,7 @@ public class Test {
 
         Examination examination4 = new Examination();
         examination4.setEmployee(pharmacist);
+        examination4.setExaminationType(ExaminationType.pharmacistConsultations);
         examination4.setExaminationPrice(examinationPrice4);
         examination4.setDateOfExamination(sdf.parse("2021-02-15"));
         examination4.setTimeOfExamination(LocalTime.of(10,30));
@@ -716,6 +743,8 @@ public class Test {
         pharmacy.getExaminationPriceList().add(examinationPrice);
         pharmacy.getExaminations().add(examination);
         pharmacy.getExaminations().add(examination2);
+        pharmacy.getExaminations().add(examinationDerm);
+        pharmacy.getExaminations().add(examinationDerm1);
         pharmacy4.getExaminationPriceList().add(examinationPrice3);
         pharmacy4.getExaminationPriceList().add(examinationPrice4);
         pharmacy4.getExaminations().add(examination4);
@@ -756,6 +785,14 @@ public class Test {
         dermatologistPharmacy1.setAuthorities(authoritiesDerm);
         pharmacist.setAuthorities(authoritiPharmacist);
         pharmacistA.setAuthorities(authoritiPharmacist);
+
+        Complaint complaint = new Complaint();
+        complaint.setPatient(patient);
+        complaint.setContent("Very bad man!");
+        complaint.setStatusOfComplaint(StatusOfComplaint.no_answered);
+        complaint.setPharmacy(pharmacy);
+        complaint.setMedicalStuff(null);
+
 
         em.getTransaction().begin();
         em.persist(a);
@@ -821,6 +858,7 @@ public class Test {
         em.persist(drugInPharmacy4);
         em.persist(drugInPharmacy3);
         em.persist(drugPrice1);
+        em.persist(complaint);
 
         em.getTransaction().commit();
         em.close();

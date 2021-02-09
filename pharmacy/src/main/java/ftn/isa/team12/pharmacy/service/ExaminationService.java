@@ -2,10 +2,9 @@ package ftn.isa.team12.pharmacy.service;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
-import ftn.isa.team12.pharmacy.dto.BusyDateDTO;
-import ftn.isa.team12.pharmacy.dto.ExaminationCreateDTO;
+import ftn.isa.team12.pharmacy.dto.*;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
-import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
+
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +31,15 @@ public interface ExaminationService {
     Examination findByEmployeePharmacyTimeDate(UUID userId, String pharmacyName, Date date, LocalTime time);
     Examination save(Examination examination);
     List<Examination> findPharmacistConsultationsForPatient(UUID patientId);
+    List<Examination> findDermatologistExaminationsForPatient(UUID patientId);
+
+    List<Examination> findFreeTermsForDermatologistsByPhamracy(String pharmacyName);
 
 
+
+    List<Examination> findAllFreeByEmployeeAndPharmacy(MedicalStuff medicalStuff, Pharmacy pharmacy);
+
+    Examination scheduleExistingMedStuff(ExaminationScheduleExistingMedStuffDTO dto);
+
+    Examination submitExaminationData(ExaminationSubmissionDTO dto);
 }

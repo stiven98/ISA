@@ -57,12 +57,17 @@ import { AddDermatologistInPharmacyComponent } from './ph-admin/add-dermatologis
 import { CreateExaminationComponent } from './ph-admin/create-examination/create-examination.component';
 import { LoyaltyProgramComponent } from './loyalty-program/loyalty-program.component';
 
+import { EmployeeSchedulingComponent } from './employee-scheduling/employee-scheduling.component';
+import { ComplaintComponent } from './complaint/complaint.component';
+import { DermatologistExaminationComponent } from './dermatologist-examination/dermatologist-examination.component';
+
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
   { path: 'login', component: SingInComponent },
   { path: 'registration', component: SingUpComponent },
   { path: 'pharmacy', component: PharmacyComponent },
   { path: 'pharmacy-home/:name', component: PharmacyHomeComponent },
+  { path: 'dermatologist-examination/:name', component: DermatologistExaminationComponent},
   { path: 'available-pharmacists/:name/:date/:time', component: AvailablePharmacistsComponent },
   { path: 'drug-reservation/:drug', component: DrugReservationComponent},
   { path: 'phAdmin', component: PhAdminComponent},
@@ -88,6 +93,7 @@ const appRoutes: Routes = [
   { path: 'subscribedPharmacy', component: SubscribedPharmacyComponent },
   { path: 'myOffers', component: MyOffersComponent},
   { path: 'drugs', component: DrugsComponent},
+  { path: 'complaint', component: ComplaintComponent },
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
   { path: 'loyaltyProgram', component: LoyaltyProgramComponent},
@@ -160,7 +166,11 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     AvailablePharmacistsComponent,
     SubscribedPharmacyComponent,
     AddDermatologistInPharmacyComponent,
-    LoyaltyProgramComponent
+    LoyaltyProgramComponent,
+    ComplaintComponent,
+    DermatologistExaminationComponent,
+    EmployeeSchedulingComponent,
+    ComplaintComponent
   ],
   imports: [
     BrowserModule,

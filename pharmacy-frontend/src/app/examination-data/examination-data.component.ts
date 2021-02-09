@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { addHours, addMinutes, startOfDay } from 'date-fns';
 import { DrugService } from '../services/drug.service';
@@ -25,8 +25,11 @@ interface ExaminationInfo{
 })
 export class ExaminationDataComponent implements OnInit {
 
-  constructor(private route : ActivatedRoute, private examinationService : ExaminationService, private drugService : DrugService, private modalService : NgbModal) { }
+  constructor(private router : Router, private route : ActivatedRoute, private examinationService : ExaminationService, private drugService : DrugService, private modalService : NgbModal) { }
   drugList = [];
+  selectedTerm;
+  termMap : Map<string, string> = new Map();
+  termList = [];
   inputsValid = false;
   prescribedDrugs = [];
   substituteDrugs = [];
@@ -36,6 +39,8 @@ export class ExaminationDataComponent implements OnInit {
   patientId;
   pharmacyId;
   employeeId;
+  examType;
+  newTermFlag = true;
   note = "";
   appointmentDate : Date;
   appointmentTime = [];
@@ -51,6 +56,7 @@ export class ExaminationDataComponent implements OnInit {
     this.examinationService.getCurrentExaminationById(this.examinationId).subscribe(res => {
       let examination = res;
       this.examination = examination;
+      this.examType = examination.examinationType;
       this.patientId = examination.patient.userId.toString();
       this.pharmacyId = examination.pharmacy.id.toString();
       this.employeeId = examination.employee.userId.toString();
@@ -71,6 +77,25 @@ export class ExaminationDataComponent implements OnInit {
       this.drugService.findAllWithoutAllergies(data).subscribe(res => {
         console.log(res);
         this.drugList = res;
+      });
+
+      this.examinationService.getAllFreeByEmployeeAndPharmacy(this.pharmacyId).subscribe(terms => {
+        let termsTmp = terms;
+        for(let term of termsTmp){
+          let date = (new Date(term.dateOfExamination));
+          let dateStr = date.toLocaleDateString();
+          let timeHour = term.timeOfExamination[0];
+          let timeMinutes = term.timeOfExamination[1];
+          let termTime = addMinutes(addHours(date, timeHour), timeMinutes);
+          let tmpTerm = {
+            id : term.examinationId,
+            startTime: termTime.toLocaleTimeString(),
+            date : dateStr
+        };
+        let key = tmpTerm.date + ' ' + tmpTerm.startTime;
+        this.termMap[key] = tmpTerm.id;
+        this.termList.push(key);
+        }
       });
 
     });
@@ -120,25 +145,68 @@ export class ExaminationDataComponent implements OnInit {
   }
 
   scheduleAppointment(){
-    let data ={
-    patientId: this.patientId,
-    pharmacyId: this.pharmacyId,
-    medStuffId: this.employeeId,
-    date: this.appointmentDate,
-    time: this.appointmentTime
-    };
-    this.examinationService.scheduleNewMed(data).subscribe(res =>{
-      alert(res.result);
-    },
-    error =>{
-      alert(error.result);
-    });
+    if(this.newTermFlag){
+      let data ={
+        patientId: this.patientId,
+        pharmacyId: this.pharmacyId,
+        medStuffId: this.employeeId,
+        date: this.appointmentDate,
+        time: this.appointmentTime,
+        type: this.examType
+        };
+        this.examinationService.scheduleNewMed(data).subscribe(res =>{
+          alert(res.result);
+        },
+        error =>{
+          alert(error.result);
+        });
+    }
+    else{
+      let data ={
+        patientId: this.patientId,
+        pharmacyId: this.pharmacyId,
+        medStuffId: this.employeeId,
+        examinationId: this.selectedTerm
+        };
+        this.examinationService.scheduleExistingMed(data).subscribe(res =>{
+          alert(res.result);
+        },
+        error =>{
+          alert(error.result);
+        });
+    }
+    
   }
 
   changeDate(event){
     this.appointmentDate = new Date(event.target.valueAsNumber);
     this.dateStr = event.target.value;
     this.validationCheck();
+  }
+
+  submitForm(){
+    let drugIdList = [];
+    for(let drug of this.prescribedDrugs){
+      drugIdList.push(drug.drugId);
+    }
+
+    let data = {
+      note : this.note,
+      therapyDuration : this.therapyDuration,
+      drugIds : drugIdList,
+      patientId : this.patientId,
+      pharmacyId : this.pharmacyId,
+      examinationId : this.examinationId
+    }
+    alert(JSON.stringify(data));
+    this.examinationService.submitExamination(data).subscribe(res => {
+      alert(res.result);
+      this.router.navigate(["/"]);
+    },
+    error =>{
+      alert("Error occurred during processing your data");
+      this.router.navigate(["/"]);
+    });
   }
 
   validationCheck(){
@@ -151,6 +219,27 @@ export class ExaminationDataComponent implements OnInit {
         this.dateValidity = 'is-invalid';
       }
   }
+
+  onChange(event){
+    this.selectedTerm = null;
+    this.selectedTerm = this.termMap[event.target.value];
+    if(this.selectedTerm){
+      this.inputsValid = true;
+    }else{
+      this.inputsValid = false;
+    }
+    }
+
+  chooseExisting(){
+    this.newTermFlag = false;
+    this.inputsValid = false;
+  }
+
+  chooseNew(){
+    this.newTermFlag = true;
+    this.inputsValid = false;
+  }
+
 
   changeTime(event){
     let time : string = event.target.value;

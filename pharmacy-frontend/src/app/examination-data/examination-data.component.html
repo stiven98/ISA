@@ -109,14 +109,29 @@
                           <h3 class="request-heading">Fill a new appointment form</h3>
                           <div class="row request-form ">
                             <div class="col-md-12">
-                                <div class="form-group">
+                                Appointment scheduling mode:
+                                <div class="custom-control custom-radio">
+                                    <input id="chooseExisting" type="radio" class="custom-control-input" value="existing_term" [checked]="!newTermFlag" (click) = "chooseExisting()" name="mode">
+                                    <label class="custom-control-label" for="chooseExisting">Choose existing term</label>
+                                 </div>
+                                 <div class="custom-control custom-radio">
+                                    <input id="createNew" type="radio" class="custom-control-input" [checked]="newTermFlag" value="new_term" (click) = "chooseNew()" name="mode">
+                                    <label class="custom-control-label" for="createNew">Create new term</label>
+                                 </div>
+                                 <div class = "form-group" [hidden] = "newTermFlag">
+                                    <select (change)="onChange($event)" class="form-control">
+                                        <option class="hidden" value="Select existing term"></option>
+                                        <option *ngFor="let term of termList">{{term}}</option>
+                                    </select>
+                                 </div>
+                                <div class="form-group" [hidden] = "!newTermFlag">
                                     Select the appointment date:
                                     <input type="date" (change)="changeDate($event)" [(ngModel)]="dateStr" [ngClass]="dateValidity" class="form-control" >
                                     <div class="invalid-feedback">
                                         The date can not be in the past!
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" [hidden] = "!newTermFlag">
                                     Select the appointment time:
                                     <input type="time" (change)="changeTime($event)" [(ngModel)]="timeStr" class="form-control" >
                                 </div>
@@ -133,6 +148,11 @@
           </div>
         </div>
       </section>
+    <div class="container p-5 action">
+        <div class="row align-items-center">
+            <button (click)="submitForm()" class="btn-dark w-100">Submit</button>
+        </div>
+</div>
 </main>
 <ng-template #content let-modal>
     <div class="modal-header">
