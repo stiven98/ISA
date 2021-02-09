@@ -2,6 +2,12 @@
     <div class="text-left">
         <h3>My patients</h3>
     </div>
+
+    <div class="d-flex row my-2 ml-1 mr-1">
+      <input style="width: 40%;" type ="text" [(ngModel)] = "searchInput" placeholder="Search by name and/or lastname"/>
+      <button class="btn btn-dark" (click)="search()">Search</button>
+    </div>
+
     <div class="table-wrapper-scroll-y my-scrollbar">
       <table class="table table-hover table-dark">
         <thead class="thead-dark">
@@ -15,7 +21,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor='let patient of patients'>
+          <tr class="tr-hover" *ngFor='let patient of patients'>
             <td>{{ patient.id}}</td>
             <td>{{ patient.name}}</td>
             <td>{{ patient.lastName}}</td>

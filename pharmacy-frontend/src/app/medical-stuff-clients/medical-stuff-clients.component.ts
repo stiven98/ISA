@@ -31,6 +31,7 @@ export class MedicalStuffClientsComponent implements OnInit {
   starter: PatientClient[];
   @ViewChildren(NgbdSortableHeaderDirective) headers: QueryList<NgbdSortableHeaderDirective>;
 
+  searchInput = '';
 
   onSort({column, direction}: SortEvent) {
     this.headers.forEach(header => {
@@ -40,6 +41,29 @@ export class MedicalStuffClientsComponent implements OnInit {
     });
     this.patients = sort(this.patients, this.starter, column, direction);
 
+  }
+
+  search(){
+    this.patients = this.starter;
+    let inp = this.searchInput.toLowerCase().trim();
+    let searchTerms = inp.split(/\s+/);
+    if(inp === ''){
+      return;
+    }
+    else{
+      this.patients = this.patients.filter(pat =>{
+        let flag = false;
+        for(let term of searchTerms){
+          if(pat.name.toLowerCase().includes(term) || pat.lastName.toLowerCase().includes(term)){
+            flag = true;
+          }
+          else{
+            flag = false;
+          }
+        }
+        return flag;
+      });
+    }
   }
 
 
