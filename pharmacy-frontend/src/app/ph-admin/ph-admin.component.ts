@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeUserModel } from '../change-account-info/changeUser.model';
+import { DrugOrderService } from '../services/drug-order.service';
 import { DrugPriceService } from '../services/drug-price.service';
 import { ExaminationPriceService } from '../services/examination-price.service';
 import { MedicalStuffService } from '../services/medical-stuff.service';
@@ -34,25 +35,35 @@ import { ExaminationPriceModel } from './drug-in-pharmacy/examinationPriceModel'
 })
 export class PhAdminComponent implements OnInit {
   hoveredDate: NgbDate | null = null;
-
+  waitingForOffers: boolean = true;
+  processed: boolean = true;
   fromDate: NgbDate;
   toDate: NgbDate | null = null;
   phAdmin: ChangeUserModel = new ChangeUserModel();
   fetchData = false;
   dermatologist = []
   drugPrice = [];
+  drugOrderFlag = false;
   f = false;
   fExamination = false;
   change = false;
   examinationFlag = false;
   closeResult = '';
   changeExaminationPrice = []
+  drugOrderPharmacy = []
   examinationPRice:ExaminationPriceModel = new ExaminationPriceModel();
+  filterList = [];
+
+
+
+
+
   constructor(private userService: UserService, private medicalStufService:MedicalStuffService,
     private drugPriceServise: DrugPriceService,
     private modalService:NgbModal,
     private calendar: NgbCalendar,
-    private examinationPriceService: ExaminationPriceService) {
+    private examinationPriceService: ExaminationPriceService,
+    private drugOrderService:DrugOrderService) {
       this.fromDate = calendar.getToday();
       this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
 
@@ -74,6 +85,7 @@ export class PhAdminComponent implements OnInit {
         a.startDate = new Date(a.startDate).toLocaleDateString();
         a.endDate = new Date(a.endDate).toLocaleDateString();
       }
+
     
     });
 
@@ -86,6 +98,14 @@ export class PhAdminComponent implements OnInit {
     })
 
 
+    this.drugOrderService.getDrugOrderByPharmacy().subscribe((res) => {
+    this.drugOrderPharmacy = res;
+    for(let a of this.drugOrderPharmacy){  
+      a.deadline = new Date(a.deadline).toLocaleDateString();
+      this.filterList.push(a);
+    }
+    });
+
     this.fetchData = false;
   }
 
@@ -94,6 +114,10 @@ export class PhAdminComponent implements OnInit {
   }
   flagExamination(){
     this.fExamination = true;
+  }
+
+  flagDrugOrder(){
+    this.drugOrderFlag = true;
   }
 
   changPrice(){
@@ -117,7 +141,6 @@ export class PhAdminComponent implements OnInit {
     this.drugPriceServise.changeDrugPirce(dto).subscribe((res)=> alert(res.result));
   }
 
-
   saveExaminationPrice(examinationPrice){
     let exPrice = new ExaminationPriceModel();
     exPrice.examinationPriceId = examinationPrice.examinationPriceId;
@@ -127,8 +150,6 @@ export class PhAdminComponent implements OnInit {
 
   }
 
-
-
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -136,10 +157,6 @@ export class PhAdminComponent implements OnInit {
       this.closeResult = `Dismissed`;
     });
   }
-
-
-
-
 
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
@@ -188,6 +205,32 @@ export class PhAdminComponent implements OnInit {
 
     this.examinationPriceService.createExaminationPrice(this.examinationPRice).subscribe((res) => alert(res.result));
   }
+
+
+
+  onChangeCheckBox() {
+    this.filterList = [];
+
+    if(this.waitingForOffers && this.processed){
+      this.filterList = this.drugOrderPharmacy;
+      return;
+    }
+
+    if(!this.waitingForOffers && !this.processed){
+      this.filterList
+      return;
+    }
+
+    for(let drugITem of this.drugOrderPharmacy){
+      if(this.waitingForOffers && !this.processed && (drugITem.drugOrderStatus == 'waitingForOffers')){
+          this.filterList.push(drugITem);
+      }
+      else if(!this.waitingForOffers && this.processed && (drugITem.drugOrderStatus == 'processed')){
+        this.filterList.push(drugITem);
+      }
+    }
+  }
+
 
 
 

@@ -69,4 +69,15 @@ public class EmailSender {
         message.setText(body);
         emailSender.send(message);
     }
+
+    public void sendEmailToSupplier(UUID orderId, String email, String status) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Your offer is " + status + " for drugOrder with code: " + orderId.toString();
+        message.setTo(email);
+        message.setText(body);
+        message.setSubject("Offer status");
+        emailSender.send(message);
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugOrder;
 import ftn.isa.team12.pharmacy.dto.DrugOrderDTO;
+import ftn.isa.team12.pharmacy.dto.DrugOrderPhAdminDTO;
 import ftn.isa.team12.pharmacy.service.DrugOrderService;
 import ftn.isa.team12.pharmacy.service.OfferService;
 import ftn.isa.team12.pharmacy.service.SupplierService;
@@ -39,6 +40,12 @@ public class DrugOrderController {
     public ResponseEntity<List<DrugOrder>> findAllForSupplier(@PathVariable String email) {
 
         return new ResponseEntity<>(this.drugOrderService.findAllForSupplier(email), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/allByPharmacy")
+    public ResponseEntity<List<DrugOrderPhAdminDTO>> findAllDermatologistInPharmacy() {
+        return new ResponseEntity<>(drugOrderService.findAllByPharmacyID(), HttpStatus.OK);
     }
 
 

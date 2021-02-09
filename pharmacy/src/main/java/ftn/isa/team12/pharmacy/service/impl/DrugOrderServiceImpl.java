@@ -6,9 +6,12 @@ import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.domain.users.Supplier;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugOrderDTO;
+import ftn.isa.team12.pharmacy.dto.DrugOrderPhAdminDTO;
 import ftn.isa.team12.pharmacy.repository.DrugOrderRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -105,5 +108,20 @@ public class DrugOrderServiceImpl implements DrugOrderService {
             if(drugInPharmacy.getDrug().getDrugId() == drug.getDrugId())
                 return false;
         return true;
+    }
+
+
+    @Override
+    public List<DrugOrderPhAdminDTO> findAllByPharmacyID() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        List<DrugOrderPhAdminDTO> dpPh = new ArrayList<>();
+        List<DrugOrder> drugOrders = drugOrderRepository.findALlByPharmacyId(pharmacyAdministrator.getPharmacy().getId());
+        if(drugOrders != null){
+            for(DrugOrder drugOrder: drugOrders){
+                dpPh.add(new DrugOrderPhAdminDTO(drugOrder));
+            }
+        }
+        return dpPh;
     }
 }

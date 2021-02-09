@@ -90,6 +90,7 @@ public class DermatologistController {
     public ResponseEntity<List<EmployeesDTO>> findAllDermatologistInPharmacyByAdmin(@PathVariable String email) {
         return new ResponseEntity<>(dermatologistService.findAllByPhAdmin(email), HttpStatus.OK);
     }
+
     @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN')")
     @PostMapping("/searchDermatologist")
     public ResponseEntity<List<EmployeesDTO>> searchDermatologist(@RequestBody EmployeesSearchDTO dto) {

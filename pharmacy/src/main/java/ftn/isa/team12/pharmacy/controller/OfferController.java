@@ -3,6 +3,8 @@ package ftn.isa.team12.pharmacy.controller;
 
 import ftn.isa.team12.pharmacy.domain.drugs.Offer;
 import ftn.isa.team12.pharmacy.domain.users.Supplier;
+import ftn.isa.team12.pharmacy.dto.DeleteEmployeeDTO;
+import ftn.isa.team12.pharmacy.dto.OfferAcceptDTO;
 import ftn.isa.team12.pharmacy.dto.OfferDTO;
 import ftn.isa.team12.pharmacy.service.OfferService;
 import ftn.isa.team12.pharmacy.service.SupplierService;
@@ -13,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -64,4 +68,26 @@ public class OfferController {
         Offer offer = offerService.addOffer(offerRequest);
         return new ResponseEntity<>(offer, HttpStatus.CREATED);
     }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/getBy/{id}")
+    public ResponseEntity<List<OfferAcceptDTO>> getAllOfferByOrderId(@PathVariable UUID id) {
+        return new ResponseEntity<>(offerService.findByDrugOrderId(id), HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/acceptOfer")
+    public ResponseEntity<?> acceptOffer(@RequestBody OfferAcceptDTO dto) {
+        Map<String, String> result = new HashMap<>();
+        Offer offer = offerService.acceptOffer(dto);
+        if(offer != null) {
+            result.put("result","Successfully accept ofer from:" + dto.getEmailSuplier());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        result.put("result","Can't accept ofer");
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
+
+
 }

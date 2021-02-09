@@ -45,6 +45,16 @@ export class DrugOrderService {
       }));
   }
 
+  
+  getDrugOrderByPharmacy(): Observable<any>{
+    return this.apiService.get('http://localhost:8080/api/drugOrder/allByPharmacy')
+    .pipe(map((res:Response) =>{
+      return res;
+    }));
+  }
+
+ 
+
 
 
 }
