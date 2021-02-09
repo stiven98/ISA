@@ -119,9 +119,11 @@ export class PhAdminComponent implements OnInit {
 
 
   saveExaminationPrice(examinationPrice){
-    examinationPrice.startDate = new Date();
-    examinationPrice.endDate = new Date();
-    this.examinationPriceService.changeExaminationPrice(examinationPrice).subscribe((res) => alert(res.result));
+    let exPrice = new ExaminationPriceModel();
+    exPrice.examinationPriceId = examinationPrice.examinationPriceId;
+    exPrice.price = examinationPrice.price;
+    exPrice.examinationType = examinationPrice.examinationType;
+    this.examinationPriceService.changeExaminationPrice(exPrice).subscribe((res) => alert(res.result));
 
   }
 
@@ -164,7 +166,6 @@ export class PhAdminComponent implements OnInit {
 
 
   onChangeSelectedDate(event){
-    alert(event.target.value);
     this.examinationPRice.examinationType = event.target.value;
   }
 
