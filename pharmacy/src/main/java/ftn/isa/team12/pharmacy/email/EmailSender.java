@@ -1,4 +1,6 @@
 package ftn.isa.team12.pharmacy.email;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
+import ftn.isa.team12.pharmacy.dto.AnswerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -34,9 +36,21 @@ public class EmailSender {
     public void sendPharmacistConsultationsMail(UUID id, String patientEmail, String pharmacyName, String deadline, String doctorName, String doctorLastName, String time) {
         SimpleMailMessage message = new SimpleMailMessage();
         String body = "Your consultations with pharmacist " + doctorName + " " + doctorLastName + "\n" +  "in pharmacy " + pharmacyName
-        + " on " + deadline + " at " + "time " + time +  " is succsessfully scheduled with code: " + "\n" + id.toString();
+        + " on " + deadline + " at " + "time " + time +  " is succsessfully scheduled.";
         message.setTo(patientEmail);
         message.setSubject("Pharmacist consultations email");
+        message.setText(body);
+        System.out.println(body);
+        emailSender.send(message);
+    }
+
+    public void sendDermatologistExaminationMail(Examination examination) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Your examination with dermatologist " + examination.getEmployee().getAccountInfo().getName() + " " + examination.getEmployee().getAccountInfo().getLastName()
+                + "\n" +  "in pharmacy " + examination.getPharmacy().getName()
+                + " on " + examination.getDateOfExamination() + " at " + "time " + examination.getTimeOfExamination() +  " is succsessfully scheduled.";
+        message.setTo(examination.getPatient().getLoginInfo().getEmail());
+        message.setSubject("Dermatologist examination email");
         message.setText(body);
         System.out.println(body);
         emailSender.send(message);
@@ -53,4 +67,19 @@ public class EmailSender {
     }
 
 
+    public void sendSchedulingInfo(String to, String examinationDate, String examinationTime, String pharmacyName) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Successfully scheduled examination on: " + examinationDate + " at " + examinationTime + " in " + pharmacyName + ". Thank you for your trust!";
+        message.setTo(to);
+        message.setSubject("Examination schedule feedback");
+        message.setText(body);
+        System.out.println(body);
+    }
+    public void sendAnswerOnComplaint(AnswerDTO answerRequest) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = answerRequest.getContent();
+        message.setTo(answerRequest.getEmail());
+        message.setText(body);
+        emailSender.send(message);
+    }
 }

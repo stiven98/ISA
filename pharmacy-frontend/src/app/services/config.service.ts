@@ -16,6 +16,9 @@ export class ConfigService {
   private _search_url = this._api_url + '/search';
   private _dermatologist_url = this._api_url + '/dermatologist'
   private _pharmacist_url = this._api_url + '/pharmacist'
+  private _drugPrice_url = this._api_url + '/drugPrice'
+  private _examination_price_url = this._api_url + '/examinationPrice'
+  private _work_time_url = this._api_url + '/workTime'
 
   private _examination_url = this._api_url + '/examination';
   private _medical_stuff_url = this._api_url + '/medicalStuff';
@@ -131,6 +134,19 @@ export class ConfigService {
     return this._schedule_new_med ;
   }
 
+  private _schedule_exst_med = this._examination_url + '/scheduleExistingMedStuff';
+
+  get schedule_exst_med() : string{
+    return this._schedule_exst_med ;
+  }
+
+  private _submit_examinaton = this._examination_url + '/submitExamination';
+
+  get submit_examination() : string{
+    return this._submit_examinaton ;
+  }
+
+
   private _give_penalty = this._examination_url + '/givePenalty/';
 
   get give_penalty (): string {
@@ -148,6 +164,13 @@ export class ConfigService {
   get examinations_by_employee_and_pharmacy (): string {
     return this._examinations_by_employee_and_pharmacy ;
   }
+
+  private _free_examinations_by_employee_and_pharmacy = this._examination_url + '/allFreeByEmployeeAndPharmacy/';
+
+  get free_examinations_by_employee_and_pharmacy (): string {
+    return this._free_examinations_by_employee_and_pharmacy ;
+  }
+
 
   private _vacations = this._medical_stuff_url + '/vacations';
 
@@ -231,7 +254,68 @@ export class ConfigService {
   }
 
 
+  private _examinations_busy_time = this._examination_url + '/busyTime';
 
+  get examinations_busy_time (): string {
+    return this._examinations_busy_time ;
+  }
+
+  private _examinations_create = this._examination_url + '/createExamination';
+
+  get examinations_create (): string {
+    return this._examinations_create ;
+  }
+
+  private _drug_price_create = this._drugPrice_url + '/createDrugPrice';
+
+  get drug_price_create (): string {
+    return this._drug_price_create ;
+  }
+
+  private _examinatinn_price_get_all = this._examination_price_url + '/all';
+
+  get examinatinn_price_get_all (): string {
+    return this._examinatinn_price_get_all ;
+  }
+
+
+  private _examinatinn_price_create = this._examination_price_url + '/create';
+
+  get examinatinn_price_create (): string {
+    return this._examinatinn_price_create ;
+  }
+
+
+  private _examinatinn_price_get_all_for_change = this._examination_price_url + '/allForChange';
+
+  get examinatinn_price_get_all_for_change (): string {
+    return this._examinatinn_price_get_all_for_change ;
+  }
+
+  private _examinatinn_price_change = this._examination_price_url + '/change';
+
+  get examinatinn_price_change (): string {
+    return this._examinatinn_price_change ;
+  }
   
+  private _drug_price_get_all_for_change = this._drugPrice_url + '/allForChange';
+
+  get drug_price_get_all_for_change (): string {
+    return this._drug_price_get_all_for_change ;
+  }
+
+  private _drug_price_change = this._drugPrice_url + '/change';
+
+  get drug_price_change (): string {
+    return this._drug_price_change ;
+  }
+
+
+  private _work_time_get_all = this._work_time_url + '/all/';
+
+  get work_time_get_all (): string {
+    return this._work_time_get_all ;
+  }
+
 
 }

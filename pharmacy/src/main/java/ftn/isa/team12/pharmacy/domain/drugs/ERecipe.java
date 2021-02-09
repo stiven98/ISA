@@ -24,6 +24,8 @@ public class ERecipe implements Serializable {
    @Column(name = "erecipe_id", nullable = false, unique = true)
    private UUID eRecipeId;
 
+   @GeneratedValue(generator = "uuid2")
+   @GenericGenerator(name = "uuid2", strategy = "uuid2")
    @Column(name = "code", nullable = false, unique = true)
    private String code;
 

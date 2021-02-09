@@ -138,7 +138,7 @@ public class PatientController {
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         if(dayOfMonth == 1) {
             patient.setPenalties(0);
-            this.patientService.saveAndFlush(patient);
+            this.patientService.save(patient);
         }
         Integer penalty = patientService.findPenalty(email);
         return new ResponseEntity<>(penalty, HttpStatus.OK);
@@ -169,7 +169,7 @@ public class PatientController {
         }
 
         patient.getSubscribedPharmacies().remove(pharmacy);
-        patient = patientService.saveAndFlush(patient);
+        patient = patientService.save(patient);
 
         return new ResponseEntity<>(patient, HttpStatus.OK);
     }
@@ -205,7 +205,7 @@ public class PatientController {
         }
 
         patient.getSubscribedPharmacies().add(pharmacy);
-        patient = patientService.saveAndFlush(patient);
+        patient = patientService.save(patient);
 
         return new ResponseEntity<>(patient, HttpStatus.OK);
     }

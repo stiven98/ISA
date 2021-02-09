@@ -18,7 +18,7 @@ public interface PatientService {
     Integer findPenalty(String email);
     User findUserByEmail(String email);
     Patient updateStatus(UUID id);
-
+    Patient save(Patient patient);
     Patient givePenalty(UUID id);
     List<Drug> findAllergiesById(UUID id);
 

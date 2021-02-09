@@ -77,6 +77,16 @@ public class DrugServiceImpl implements DrugService {
     }
 
     @Override
+    public List<Drug> findByIds(List<String> ids) {
+        List<Drug> drugs = new ArrayList<>();
+        for (String id :
+                ids) {
+            drugs.add(this.drugRepository.findById(UUID.fromString(id)).get());
+        }
+        return drugs;
+    }
+
+    @Override
     public Drug findById(UUID id) {
         return drugRepository.findById(id).orElseGet(null);
     }

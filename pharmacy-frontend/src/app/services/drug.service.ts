@@ -107,4 +107,31 @@ export class DrugService {
         return manufacturers;
       }));
   }
+
+  findAllFullDrugs = () => {
+    return this.http.get(environment.apiUrl + '/api/drug/allDrugs')
+      .pipe(map(responseData => {
+        const drugs = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            drugs.push(responseData[key]);
+          }
+        }
+        return drugs;
+      }));
+  }
+
+
+  findByIds = (substituteDrugs: any[]) => {
+    return this.http.post(environment.apiUrl + '/api/drug/findByIds', substituteDrugs)
+      .pipe(map(responseData => {
+      const drugs = [];
+      for (const key in responseData) {
+        if (responseData.hasOwnProperty(key)) {
+          drugs.push(responseData[key]);
+        }
+      }
+      return drugs;
+    }));
+  }
 }

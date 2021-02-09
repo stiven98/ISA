@@ -39,13 +39,17 @@ public class DrugController {
     @Autowired
     private ManufacturerService manufacturerService;
 
-
+    @GetMapping("/allDrugs")
+    public ResponseEntity<List<Drug>> findAllFullDrugs() {
+        return new ResponseEntity<>(this.drugService.findAll(), HttpStatus.OK);
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<DrugDTO>> findAllDrug(){
         List<Drug> drugs = drugService.findAll();
         List<DrugDTO> dto = new ArrayList<DrugDTO>();
         for (Drug d: drugs) {
+            System.out.print(d.getAverageMark());
             dto.add(new DrugDTO(d));
         }
 
@@ -100,6 +104,11 @@ public class DrugController {
         System.out.println(drug);
 
         return new ResponseEntity<>(drug, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/findByIds")
+    public ResponseEntity<List<Drug>> findByIds(@RequestBody List<String> ids) {
+        return new ResponseEntity<>(this.drugService.findByIds(ids), HttpStatus.OK);
     }
 
 

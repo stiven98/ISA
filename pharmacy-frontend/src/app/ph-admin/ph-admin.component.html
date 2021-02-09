@@ -61,6 +61,65 @@
               </div>
             </div> 
         </section>
+        <div class="pt-5">
+
+          <div class="section-title">
+            <h2>Drug Price</h2>
+            <button [hidden]="f" class="btn btn-dark mt-3 w-50" (click)="flag()"> See all drug Price </button>
+          </div>
+        <section id="doctors" class="doctors">
+          <div [hidden]="!f" class="container">
+            <div class="row" >
+              <div class="col-lg-7"  *ngFor="let dp of drugPrice">
+                <div class="member d-flex align-items-start">
+                  <div class="pic"><img src="assets/img/price.png" class="img-fluid" alt=""></div>
+                  <div class="member-info">
+                    <h4>{{dp.drugName}} </h4>
+                    <span>Drug price</span>
+                    <p>Start date: {{dp.startDate}}</p>
+                    <p>Enda date: {{dp.endDate}}</p>
+                    <p [hidden]="change"> Price: {{dp.price}}</p>
+                    <input  [hidden]="!change" type="text" id="price" class="form-control"  [(ngModel)]="dp.price" [ngModelOptions]="{standalone: true}"/>
+                    <button  [hidden]="change" class="btn btn-dark mt-3 w-100" (click)="changPrice()" > Change </button>
+                    <button  [hidden]="!change" class="btn btn-dark mt-3 w-100"  (click)="save(dp)" > Save </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+      </section>
+    </div>
+    <div class="pt-5">
+
+      <div class="section-title">
+        <h2>Examination Price</h2>
+        <button [hidden]="fExamination" class="btn btn-dark mt-3 w-50" (click)="flagExamination()"> See all examination price </button>
+        <div>
+        <button [hidden]="fExamination" class="btn btn-dark mt-3 w-50"  (click)="open(content)" >Create price for examination</button>
+      </div>
+      </div>
+    <section id="doctors" class="doctors">
+      <div [hidden]="!fExamination" class="container">
+        <div class="row" >
+          <div class="col-lg-7"  *ngFor="let dp of changeExaminationPrice">
+            <div class="member d-flex align-items-start">
+              <div class="pic"><img src="assets/img/price.png" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>{{dp.examinationType}} </h4>
+                <span>Examination price</span>
+                <p>Start date: {{dp.startDate}}</p>
+                <p>Enda date: {{dp.endDate}}</p>
+                <p [hidden]="examinationFlag"> Price: {{dp.price}}</p>
+                <input  [hidden]="!examinationFlag" type="text" id="price" class="form-control"  [(ngModel)]="dp.price" [ngModelOptions]="{standalone: true}"/>
+                <button  [hidden]="examinationFlag" class="btn btn-dark mt-3 w-100" (click)="changExaminationPrice()" > Change </button>
+                <button  [hidden]="!examinationFlag" class="btn btn-dark mt-3 w-100"  (click)="saveExaminationPrice(dp)" > Save </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+  </section>
+</div>
       <div class = "container" >
         <div id="pharmacies" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
           <h2>Pharmacies</h2>
@@ -79,6 +138,55 @@
         </div>
       </div>
     </div>
+
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create drugPrice</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row" >
+              <div class="col-6" >
+                  <label>Start day</label>
+                  <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+                  </ngb-datepicker>
+                  <ng-template #t let-date let-focused="focused">
+                      <span class="custom-day"
+                            [class.focused]="focused"
+                            [class.range]="isRange(date)"
+                            [class.faded]="isHovered(date) || isInside(date)"
+                            (mouseenter)="hoveredDate = date"
+                            (mouseleave)="hoveredDate = null">
+                        {{ date.day }}
+                      </span>
+                    </ng-template>
+                    <label>Price <input type="number" id="price"  [(ngModel)]="examinationPRice.price" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
+                    <label>Chode type</label>
+                    <select class="custom-select" id="day" (change)="onChangeSelectedDate($event)">
+                        <option value="Choose..." selected>Choose...</option>
+                        <option  value="pharmacistConsultations">Pharmacist Consultations</option>
+                        <option  value="dermatologistExamination">Dermatologist Examination</option>
+                    </select>
+                    <button  class="btn btn-dark mt-3 w-100"   (click)="createExaminationPrice()"> create </button>                        
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+  </ng-template>
+
+
+
+
+
+
+
+
+
+
     <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
   </div>
   
