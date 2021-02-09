@@ -14,4 +14,16 @@ public class ComplaintDTO {
     private String medicalStaffId;
     private String content;
     private String forWho;
+
+
+    @Override
+    public String toString() {
+        return "ComplaintDTO{" +
+                "emailPatient='" + emailPatient + '\'' +
+                ", pharmacyId='" + pharmacyId + '\'' +
+                ", medicalStaffId='" + medicalStaffId + '\'' +
+                ", content='" + content + '\'' +
+                ", forWho='" + forWho + '\'' +
+                '}';
+    }
 }

@@ -11,7 +11,7 @@ export class ComplaintModel {
   constructor() {
     this.forWho = 'Choose...';
     this.content = '';
-    this.pharmacyId = '';
+    this.pharmacyId = 'Choose...';
     this.medicalStaffId = 'Choose...';
     this.emailPatient = '';
   }

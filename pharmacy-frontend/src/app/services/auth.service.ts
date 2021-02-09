@@ -45,6 +45,8 @@ export class AuthService {
               this.router.navigate(['/phAdmin']);
             } else if (authority === 'ROLE_SUPPLIER') {
               this.router.navigate(['allOrders']);
+            } else if (authority === 'ROLE_SYSTEM_ADMINISTRATOR') {
+              this.router.navigate(['/']);
             }
           }
         });
