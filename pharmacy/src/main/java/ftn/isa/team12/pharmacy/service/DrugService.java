@@ -23,4 +23,6 @@ public interface DrugService {
     Drug saveAndFlush(Drug drug);
 
     List<Drug> findAllByPharmacyAndPatient(ExaminationDataRequestDTO dto);
+
+    List<Drug> findByIds(List<String> ids);
 }

@@ -55,6 +55,8 @@ import { AvailablePharmacistsComponent } from './pharmacist-consultation/availab
 import { SubscribedPharmacyComponent } from './subscribed-pharmacy/subscribed-pharmacy.component';
 import { AddDermatologistInPharmacyComponent } from './ph-admin/add-dermatologist-in-pharmacy/add-dermatologist-in-pharmacy.component';
 import { CreateExaminationComponent } from './ph-admin/create-examination/create-examination.component';
+import { LoyaltyProgramComponent } from './loyalty-program/loyalty-program.component';
+
 import { EmployeeSchedulingComponent } from './employee-scheduling/employee-scheduling.component';
 import { ComplaintComponent } from './complaint/complaint.component';
 import { DermatologistExaminationComponent } from './dermatologist-examination/dermatologist-examination.component';
@@ -94,6 +96,7 @@ const appRoutes: Routes = [
   { path: 'complaint', component: ComplaintComponent },
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
+  { path: 'loyaltyProgram', component: LoyaltyProgramComponent},
   { path: 'drugOrder', component: DrugOrderComponent, canActivate: [PhAdminGuard]},
   { path: 'drugInPharmacy', component: DrugInPharmacyComponent, canActivate: [PhAdminGuard]},
   { path: 'newDrug', component: NewDrugComponent },
@@ -163,6 +166,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     AvailablePharmacistsComponent,
     SubscribedPharmacyComponent,
     AddDermatologistInPharmacyComponent,
+    LoyaltyProgramComponent,
     ComplaintComponent,
     DermatologistExaminationComponent,
     EmployeeSchedulingComponent,
