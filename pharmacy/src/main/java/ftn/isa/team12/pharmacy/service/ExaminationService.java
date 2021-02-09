@@ -31,6 +31,10 @@ public interface ExaminationService {
     Examination findByEmployeePharmacyTimeDate(UUID userId, String pharmacyName, Date date, LocalTime time);
     Examination save(Examination examination);
     List<Examination> findPharmacistConsultationsForPatient(UUID patientId);
+    List<Examination> findDermatologistExaminationsForPatient(UUID patientId);
+
+    List<Examination> findFreeTermsForDermatologistsByPhamracy(String pharmacyName);
+
 
 
     List<Examination> findAllFreeByEmployeeAndPharmacy(MedicalStuff medicalStuff, Pharmacy pharmacy);

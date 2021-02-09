@@ -49,16 +49,19 @@
           <p class="font-italic mb-0">Address: {{patient.street}} {{patient.streetNumber}} </p>
           <p class="font-italic mb-0">Email: {{patient.email}}</p>
           <p class="font-italic mb-0">Phone number: {{patient.phoneNumber}}</p>
-          <a href="" class="btn btn-outline-dark btn-sm btn-block">Write a complaint</a>
         </div>
       </div>
-    <div >
+    <div>
       <div class="section-title">
         <h2>Consultations with pharmacists</h2>
-        <button style="width: 200px" class="btn-outline-secondary" (click)="sortConsultationsByDate()" >Sort by date</button>
-        <button style="width: 200px; margin-left: 10px" class="btn-outline-secondary" (click)="sortConsultationsByDuration()" >Sort by duration</button>
-        <button style="width: 200px; margin-left: 10px" class="btn-outline-secondary" (click)="sortConsultationsByPrice()" >Sort by price</button>
-
+        <button style="width: 180px" class="btn-outline-secondary" (click)="sortConsultationsByDate()" >Sort by date</button>
+        <button style="width: 180px; margin-left: 10px" class="btn-outline-secondary" (click)="sortConsultationsByDuration()" >Sort by duration</button>
+        <button style="width: 180px; margin-left: 10px" class="btn-outline-secondary" (click)="sortConsultationsByPrice()" >Sort by price</button>
+        <select [(ngModel)]="choosenFilterConsultations" (change)="filterConsultations()" style="width: 200px; margin-left: 5px" class="custom-select form-control">
+          <option>Choose filter</option>
+          <option>held</option>
+          <option>scheduled</option>
+        </select>
       </div>
       <div class="container mt-5 mb-5">
         <div class="d-flex justify-content-center row">
@@ -87,47 +90,44 @@
       <div >
         <div class="section-title">
           <h2>Dermatologist examinations</h2>
+          <button style="width: 180px" class="btn-outline-secondary" (click)="sortExaminationsByDate()" >Sort by date</button>
+          <button style="width: 180px; margin-left: 10px" class="btn-outline-secondary" (click)="sortExaminationsByDuration()" >Sort by duration</button>
+          <button style="width: 180px; margin-left: 10px" class="btn-outline-secondary" (click)="sortExaminationsByPrice()" >Sort by price</button>
+          <select [(ngModel)]="choosenFilterExaminations" (change)="filterExaminations()" style="width: 200px; margin-left: 5px" class="custom-select form-control">
+            <option>Choose filter</option>
+            <option>held</option>
+            <option>scheduled</option>
+          </select>
         </div>
         <div class="container mt-5 mb-5">
           <div class="d-flex justify-content-center row">
-            <div class="col-md-10">
-              <div class="row p-2 bg-white border rounded">
-                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/appointment.png"></div>
-                <div class="col-md-6 mt-1">
-                  <h5>Pharmacist Consultation</h5>
-                  <div class="mt-1 mb-1 spec-1"><span></span>Finished<span class="dot"></span><span> 11.01.2021.</span><span class="dot"></span><span><br></span></div>
-                  <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> Aca</span><span class="dot"></span><span> Simic<br></span></div>
-                  <p class="text-justify text-truncate para mb-0">Description<br><br></p>
-                </div>
-                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                  <h6 class="text">Actions</h6>
-                  <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
-                </div>
-              </div>
+            <div class="col-md-10" *ngFor="let examination of examinations">
               <div class="row p-2 bg-white border rounded">
                 <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/appointment.png"></div>
                 <div class="col-md-6 mt-1">
                   <h5>Dermatologist Examination</h5>
-                  <div class="mt-1 mb-1 spec-1"><span></span>Unfinished<span class="dot"></span><span> 21.02.2021.</span><span class="dot"></span><span><br></span></div>
-                  <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> Aca</span><span class="dot"></span><span> Simic<br></span></div>
-                  <p class="text-justify text-truncate para mb-0">Description<br><br></p>
-                </div>
-                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                  <h6 class="text">Actions</h6>
-                  <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
-                </div>
+                  <div class="mt-1 mb-1 spec-1"><span></span>Date: <span class="dot"></span><span>{{examination.dateOfExamination}}</span><span class="dot"></span><span><br></span></div>
+                  <div class="mt-1 mb-1 spec-1"><span></span>Date: <span class="dot"></span><span>{{examination.timeOfExamination}}</span><span class="dot"></span><span><br></span></div>
+                  <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> {{examination.employee.accountInfo.name}}</span><span class="dot"></span><span> {{examination.employee.accountInfo.lastName}}<br></span></div>
+                  <p class="text-justify text-truncate para mb-0">Duration: {{examination.duration}} min <br></p>
+                  <p class="text-justify text-truncate para mb-0">Price: {{examination.examinationPrice.price}}</p>
+            </div>
+            <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+              <h6 class="text">Actions</h6>
+              <div class="d-flex flex-column mt-4"><button *ngIf="examination.examinationStatus == 'scheduled'" (click)="cancelConsulatation(examination)" class="btn btn-secondary btn-sm" type="button">Cancel</button>
+                <button *ngIf="examination.examinationStatus == 'held'" class="btn btn-outline-secondary btn-sm mt-2" type="button">Finished</button></div>
+            </div>
               </div>
             </div>
-        </div>
-          <button style="margin-top: 20px; margin-left: 55px" class="btn" (click)="alert()" >Make new appointment<img style="margin-left: 5px" src="assets/img/add.png"></button>
-
-        </div>
+          </div>
       </div>
+        <button style="margin-top: 0px; margin-left: 55px" class="btn" (click)="goToExamination()" >Make new appointment<img style="margin-left: 5px" src="assets/img/add.png"></button>
+
           <!--  ERECEPIES -->
           <div id="erecepies" style="margin-top: 50px" class="section-title">
             <h2>ERecepies</h2>
             <button style="width: 200px" class="btn-outline-secondary" (click)="sortERecepies()" >Sort by date</button>
-            <select [(ngModel)]="filter" (change)="filterERecepies()" style="width: 200px; margin-left: 5px" class="custom-select form-control">
+            <select [(ngModel)]="filter" (change)="filterERecipes()" style="width: 200px; margin-left: 5px" class="custom-select form-control">
               <option>Choose filter</option>
               <option>processed</option>
               <option>newErecipe</option>
@@ -149,12 +149,12 @@
                   </div>
                   <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                     <h6 class="text">Actions</h6>
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Details</button><button class="btn btn-outline-secondary btn-sm mt-2" type="button">Leave a comment</button></div>
-                  </div>
+                    <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Collect</button></div>
                 </div>
               </div>
             </div>
           </div>
+      </div>
     <!--  Reservations -->
     <div id="reservations" style="margin-top: 50px" class="section-title">
       <h2>Your drug reservations</h2>
@@ -362,5 +362,3 @@
     </div>
   </div>
 </div>
-
-
