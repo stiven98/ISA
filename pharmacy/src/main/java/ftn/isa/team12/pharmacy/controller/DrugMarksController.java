@@ -94,7 +94,6 @@ public class DrugMarksController {
         averageMark = averageMark / marks.size();
         BigDecimal bd = new BigDecimal(averageMark).setScale(2, RoundingMode.HALF_UP);
         averageMark = bd.doubleValue();
-        System.out.println(averageMark);
         drug.setAverageMark(averageMark);
         this.drugService.save(drug);
         return  new ResponseEntity<>(drugMarks, HttpStatus.OK);
