@@ -78,7 +78,6 @@ public class ExaminationController {
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @PostMapping("/scheduleNewMedStuff")
     public ResponseEntity<?> scheduleNewMedStuff(@RequestBody ExaminationScheduleMedStuffDTO dto){
-        System.out.println(dto.toString());
         Map<String, String> res = new HashMap<>();
         Examination examination = examinationService.scheduleNewMedStuff(dto);
         if(examination == null){

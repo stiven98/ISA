@@ -203,7 +203,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         Examination saved = examinationRepository.save(examination);
         patient.getExaminations().add(saved);
         medicalStuff.getExaminations().add(saved);
-        patientService.saveAndFlush(patient);
+        patientService.save(patient);
         medicalStuffService.saveAndFlush(medicalStuff);
         return saved;
     }
@@ -280,7 +280,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         Examination saved = examinationRepository.save(examination);
         patient.getExaminations().add(saved);
         medicalStuff.getExaminations().add(saved);
-        patientService.saveAndFlush(patient);
+        patientService.save(patient);
         medicalStuffService.saveAndFlush(medicalStuff);
         return saved;
     }

@@ -43,8 +43,8 @@
           <p class="font-italic mb-0">Account category: {{accountCategory.category}}</p>
           <p class="font-italic mb-0">Points: {{accountCategory.points}}</p>
           <p class="font-italic mb-0">Number of penalties: {{penalties}}</p>
-          <p style="color: red" class="font-italic mb-0" *ngIf="penalties > 2" > Warning if you make another penalty your account will be freezzed!  </p>
-          <p style="color: lightyellow" class="font-italic mb-0" *ngIf="penalties > 1" > Warning please try not to make another penalty </p>
+          <p style="color: red" class="font-italic mb-0" *ngIf="penalties > 2" > Your account is freezzed because you have 3 or more penalties!  </p>
+          <p style="color: yellow" class="font-italic mb-0" *ngIf="penalties > 0 && penalties < 2" > Warning please try not to make another penalty </p>
           <p style="color: lightblue" class="font-italic mb-0" *ngIf="penalties === 0" > Thank you for not making penalties</p>
           <p class="font-italic mb-0">Address: {{patient.street}} {{patient.streetNumber}} </p>
           <p class="font-italic mb-0">Email: {{patient.email}}</p>
@@ -71,6 +71,7 @@
               <div class="col-md-6 mt-1">
                 <h5>Pharmacist Consultation</h5>
                 <div class="mt-1 mb-1 spec-1"><span></span>Date: <span class="dot"></span><span>{{consultation.dateOfExamination}}</span><span class="dot"></span><span><br></span></div>
+                <div class="mt-1 mb-1 spec-1"><span></span>Time: <span class="dot"></span><span>{{consultation.timeOfExamination[0]}}:{{consultation.timeOfExamination[1]}}</span><span class="dot"></span><span><br></span></div>
                 <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> {{consultation.employee.accountInfo.name}}</span><span class="dot"></span><span> {{consultation.employee.accountInfo.lastName}}<br></span></div>
                 <p class="text-justify text-truncate para mb-0">Duration: {{consultation.duration}} min <br></p>
                 <p class="text-justify text-truncate para mb-0">Price: {{consultation.examinationPrice.price}}</p>
@@ -107,7 +108,7 @@
                 <div class="col-md-6 mt-1">
                   <h5>Dermatologist Examination</h5>
                   <div class="mt-1 mb-1 spec-1"><span></span>Date: <span class="dot"></span><span>{{examination.dateOfExamination}}</span><span class="dot"></span><span><br></span></div>
-                  <div class="mt-1 mb-1 spec-1"><span></span>Date: <span class="dot"></span><span>{{examination.timeOfExamination}}</span><span class="dot"></span><span><br></span></div>
+                  <div class="mt-1 mb-1 spec-1"><span></span>Time: <span class="dot"></span><span>{{examination.timeOfExamination[0]}}:{{examination.timeOfExamination[1]}}</span><span class="dot"></span><span><br></span></div>
                   <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> {{examination.employee.accountInfo.name}}</span><span class="dot"></span><span> {{examination.employee.accountInfo.lastName}}<br></span></div>
                   <p class="text-justify text-truncate para mb-0">Duration: {{examination.duration}} min <br></p>
                   <p class="text-justify text-truncate para mb-0">Price: {{examination.examinationPrice.price}}</p>
@@ -148,8 +149,6 @@
                     <div class="mt-1 mb-1 spec-1"><span>Drugs: </span><span class="dot"></span><span *ngFor="let item of erecepie.erecipeItems"><br> {{item.drug.name}}, Quantity: {{item.quantity}} </span></div>
                   </div>
                   <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                    <h6 class="text">Actions</h6>
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" type="button">Collect</button></div>
                 </div>
               </div>
             </div>
