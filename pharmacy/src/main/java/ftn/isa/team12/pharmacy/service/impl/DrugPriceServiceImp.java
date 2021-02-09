@@ -6,6 +6,7 @@ import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.dto.ChangeDrugPriceDTO;
 import ftn.isa.team12.pharmacy.dto.DrugPriceDTO;
 import ftn.isa.team12.pharmacy.repository.DrugPriceRepository;
 import ftn.isa.team12.pharmacy.repository.DrugRepository;
@@ -16,10 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class DrugPriceServiceImp implements DrugPriceService {
@@ -44,7 +42,6 @@ public class DrugPriceServiceImp implements DrugPriceService {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
         List<DrugPrice> list = drugPriceRepository.getAll(pharmacyAdministrator.getPharmacy(),new Date());
-
         return list;
     }
 
@@ -102,6 +99,35 @@ public class DrugPriceServiceImp implements DrugPriceService {
         if(!drugPriceList.isEmpty()){
             throw new IllegalArgumentException("For this period already set price for " + drug.getName());
         }
+    }
 
+
+    @Override
+    public List<DrugPriceDTO> finALlForChange() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        List<DrugPrice> list = drugPriceRepository.getAllForChange(pharmacyAdministrator.getPharmacy(),new Date());
+        List<DrugPriceDTO> dto = new ArrayList<>();
+        for(DrugPrice d : list){
+            dto.add(new DrugPriceDTO(d));
+        }
+
+        return dto;
+    }
+
+
+    @Override
+    public DrugPrice change(ChangeDrugPriceDTO dto) {
+        DrugPrice drugPrice = drugPriceRepository.findDrugPriceById(dto.getDrugPrice());
+        if(drugPrice == null)
+            throw new IllegalArgumentException("No drug price");
+
+        if(dto.getPrice() < 0 || dto.getPrice() == drugPrice.getPrice())
+            throw new IllegalArgumentException("Bad input price");
+
+        drugPrice.setPrice(dto.getPrice());
+
+        drugPrice = drugPriceRepository.save(drugPrice);
+        return drugPrice;
     }
 }

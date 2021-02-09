@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.service;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
+import ftn.isa.team12.pharmacy.dto.ChangeDrugPriceDTO;
 import ftn.isa.team12.pharmacy.dto.DrugPriceDTO;
 
 import java.util.List;
@@ -13,5 +14,10 @@ public interface DrugPriceService {
     DrugPrice createDrugPrice(DrugPriceDTO dto);
 
     void validationDrugPrice (DrugPriceDTO dto);
+
+    List<DrugPriceDTO> finALlForChange();
+
+
+    DrugPrice change(ChangeDrugPriceDTO dto);
 
 }

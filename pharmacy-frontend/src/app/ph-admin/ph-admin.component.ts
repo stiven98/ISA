@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ChangeUserModel } from '../change-account-info/changeUser.model';
+import { DrugPriceService } from '../services/drug-price.service';
 import { MedicalStuffService } from '../services/medical-stuff.service';
 import { UserService } from '../services/user.service';
+import { DrugPriceModel } from './drug-in-pharmacy/drugPriceModel';
 
 @Component({
   selector: 'app-ph-admin',
@@ -13,8 +15,11 @@ export class PhAdminComponent implements OnInit {
   phAdmin: ChangeUserModel = new ChangeUserModel();
   fetchData = false;
   dermatologist = []
-
-  constructor(private userService: UserService, private medicalStufService:MedicalStuffService) { }
+  drugPrice = [];
+  f = false;
+  change = false;
+  constructor(private userService: UserService, private medicalStufService:MedicalStuffService,
+    private drugPriceServise: DrugPriceService) { }
 
   ngOnInit(): void {
     this.fetchData = true;
@@ -24,9 +29,44 @@ export class PhAdminComponent implements OnInit {
     })
     });
 
+    this.drugPriceServise.getAllForChange().subscribe((res) => {this.drugPrice = res;
+      for(let a of this.drugPrice){  
+        a.startDate = new Date(a.startDate).toLocaleDateString();
+        a.endDate = new Date(a.endDate).toLocaleDateString();
+      }
+    
+    });
 
     this.fetchData = false;
+  }
+
+  flag(){
+    this.f = true;
+  }
+
+  changPrice(){
+    this.change = true;
+  }
+
+  save(dp){
+    let d = new DrugPriceModel();
+    d.drugPrice = dp.drugPrice;
+    d.price = dp.price;
+
+    let dto = {
+      price:dp.price,
+      drugPrice:dp.drugPrice
+    }
+
+
+    alert(d.price);
+    alert(d.drugPrice);
+
+    this.drugPriceServise.changeDrugPirce(dto).subscribe((res)=> alert(res.result));
 
   }
+
+
+
 
 }

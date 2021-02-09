@@ -3,6 +3,7 @@ package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
+import ftn.isa.team12.pharmacy.dto.ChangeDrugPriceDTO;
 import ftn.isa.team12.pharmacy.dto.DrugPriceDTO;
 import ftn.isa.team12.pharmacy.dto.PriceDTO;
 import ftn.isa.team12.pharmacy.service.DrugPriceService;
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,4 +50,25 @@ public class DrugPriceController {
         result.put("result","Successfully create drug price");
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/allForChange")
+    public ResponseEntity<List<DrugPriceDTO>> getAllDrugPriceForChange(){
+        return new ResponseEntity<>(drugPriceService.finALlForChange(), HttpStatus.OK) ;
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/change")
+    public ResponseEntity<?> changeDrugPrice(@RequestBody ChangeDrugPriceDTO dto){
+        Map<String, String> result = new HashMap<>();
+        DrugPrice drugPrice = drugPriceService.change(dto);
+        if(drugPrice == null){
+            result.put("result", "Can't change drug price");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("result","Successfully change drug price");
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
 }
