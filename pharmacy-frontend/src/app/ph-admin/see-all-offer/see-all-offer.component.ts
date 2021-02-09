@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
 import { ChangeUserModel } from '../../change-account-info/changeUser.model';
+import { DrugOrderService } from '../../services/drug-order.service';
 import { OfferService } from '../../services/offer.service';
 import { UserService } from '../../services/user.service';
 
@@ -15,12 +15,18 @@ export class SeeAllOfferComponent implements OnInit {
   offer = []
   user:ChangeUserModel = new ChangeUserModel();
   fetchData = false;
-  constructor(private route: ActivatedRoute, private oferService: OfferService, private userService: UserService) {
+  delete = true;
+
+
+  constructor(private route: ActivatedRoute, private oferService: OfferService, private userService: UserService, private drugOrderService:DrugOrderService) {
    }
 
   ngOnInit(): void {
     this.fetchData = true;
     this.oferService.getAllByDrugOrderId(this.route.snapshot.params['id']).subscribe((res) =>{this.offer = res
+      if(this.offer.length == 0)
+        this.delete = false;
+
       for(let a of this.offer){  
         a.deadline = new Date(a.deadline).toLocaleDateString();
       }
@@ -48,6 +54,17 @@ export class SeeAllOfferComponent implements OnInit {
       alert(error.resul);
       this.fetchData = false;
     });
+  }
+
+
+
+  deleted(){
+    this.route.snapshot.params['id']
+
+    this.drugOrderService.deleteDrugOrder(this.route.snapshot.params['id']).subscribe((res) => 
+      alert(res.result)
+    )
+
   }
 
 

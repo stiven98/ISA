@@ -51,6 +51,13 @@ acceptOfer(dto){
   }));
 }
 
+deleteOffer(id){
+  return this.apiService.post('http://localhost:8080/api/offer/delete',id) .pipe(map((res) =>{
+    return res;
+  }));
+}
+
+
 
 
 

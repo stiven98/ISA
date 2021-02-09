@@ -8,6 +8,8 @@ import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugOrderPhAdminDTO;
 import ftn.isa.team12.pharmacy.repository.DrugOrderRepository;
+import ftn.isa.team12.pharmacy.repository.OfferRepository;
+import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -40,6 +42,11 @@ public class DrugOrderServiceImpl implements DrugOrderService {
     @Autowired
     private OfferService offerService;
 
+    @Autowired
+    OfferRepository offerRepository;
+
+    @Autowired
+    PharmacyRepository pharmacyRepository;
 
     @Override
     public DrugOrder createDrugOrder(DrugOrderDTO drugOrder) {
@@ -123,5 +130,18 @@ public class DrugOrderServiceImpl implements DrugOrderService {
             }
         }
         return dpPh;
+    }
+
+
+    @Override
+    public DrugOrder delete(String id) {
+        DrugOrder drugOrder = drugOrderRepository.findByOrderId(UUID.fromString(id));
+        List<Offer> offers = offerRepository.findAllByDrugOrderOrderId(drugOrder.getOrderId());
+        if(!offers.isEmpty())
+            throw new IllegalArgumentException("can't delete drug order with code: " + id);
+
+        drugOrderRepository.deleteById(drugOrder.getOrderId());
+        
+        return null;
     }
 }

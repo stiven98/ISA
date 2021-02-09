@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/drugOrder", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,6 +49,15 @@ public class DrugOrderController {
         return new ResponseEntity<>(drugOrderService.findAllByPharmacyID(), HttpStatus.OK);
     }
 
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteDrug(@RequestBody String id) {
+        System.out.println(id);
+        drugOrderService.delete(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 
 
 

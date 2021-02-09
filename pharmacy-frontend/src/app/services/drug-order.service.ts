@@ -53,6 +53,12 @@ export class DrugOrderService {
     }));
   }
 
+  deleteDrugOrder(id){
+    return this.apiService.post('http://localhost:8080/api/drugOrder/delete',id) .pipe(map((res) =>{
+      return res;
+    }));
+  }
+  
  
 
 

@@ -115,8 +115,6 @@ public class OfferServiceImpl implements OfferService {
         DrugOrder drugOrder = drugOrderRepository.findByOrderId(dto.getDrugOrderId());
         Offer offer = offerRepository.findByOfferId(dto.getOfferId());
 
-
-
         if(!dto.getPhAdminEmail().equals(pharmacyAdministrator.getLoginInfo().getEmail()))
             throw new IllegalArgumentException("This administrator not create drugOrder");
 
@@ -128,6 +126,9 @@ public class OfferServiceImpl implements OfferService {
 
         if(drugOrder.getDeadline().after(new Date()))
             throw new IllegalArgumentException("Time for give offer not expire");
+
+        if(drugOrder.getDrugOrderStatus() == DrugOrderStatus.processed)
+            throw new IllegalArgumentException("This order processed already");
 
         List<Offer> offers = offerRepository.findAllByDrugOrderOrderId(drugOrder.getOrderId());
 
@@ -144,7 +145,6 @@ public class OfferServiceImpl implements OfferService {
             }
         }
 
-
         if(offer != null) {
             for (DrugOrderItem doi : drugOrder.getDrugOrderItems()) {
                 DrugInPharmacy drugInPharmacy = drugInPharmacyRepository.findDrugInPharmacy(doi.getDrug().getDrugId(), drugOrder.getPharmacy().getId());
@@ -154,7 +154,6 @@ public class OfferServiceImpl implements OfferService {
                     throw new IllegalArgumentException("Can't update drug in pharmacy quantity");
                 }
             }
-
         }
 
         drugOrder.setDrugOrderStatus(DrugOrderStatus.processed);
@@ -171,17 +170,10 @@ public class OfferServiceImpl implements OfferService {
 
                     emailSender.sendEmailToSupplier(dto.getDrugOrderId(), dto.getEmailSuplier(), " declined");
                 }
-
             }
-
         }catch (Exception e){
             System.out.println(e);
         }
-
-
-
-
-
         return offer;
     }
 }
