@@ -15,7 +15,8 @@ public interface DrugOrderService {
 
     List<DrugOrderPhAdminDTO> findAllByPharmacyID();
 
-    DrugOrder delete(String id);
+    boolean delete(String id);
 
+    DrugOrder changeDrugOrder(DrugOrderPhAdminDTO dto);
 
 }

@@ -149,9 +149,16 @@
               <p>Deadline: {{dp.deadline}}</p>
               <p>Drug in order</p>
               <div *ngFor="let item of dp.drugorderItem">
-                  <p>{{item.name}} - {{item.quantity}}</p>
+                  <p  [hidden]="changeDrugOrder">{{item.name}} - {{item.quantity}}</p>
+                  <input  [hidden]="!changeDrugOrder" type="text" id="price" class="form-control"  [(ngModel)]="item.quantity" [ngModelOptions]="{standalone: true}"/>
               </div>
-              <a [hidden]="dp.drugOrderStatus==waitingForOffers" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true" [routerLink]="['/acceptDrugOffer/',dp.orderId]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">See offer</a>
+              <div [hidden]="s(dp)" >
+                <button  [hidden]="changeDrugOrder" class="btn btn-dark mt-3 w-100" (click)="changDrugOrder()" > Change </button>
+                <button  [hidden]="!changeDrugOrder" class="btn btn-dark mt-3 w-100"  (click)="changeAndSaveDrugOrder(dp)" > Save </button>
+              </div>
+              <div class="pt-2">
+                <a [hidden]="s(dp)" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true" [routerLink]="['/acceptDrugOffer/',dp.orderId]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">See offer</a>
+            </div>
             </div>
           </div>
         </div>

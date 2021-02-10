@@ -19,6 +19,7 @@ export class ConfigService {
   private _drugPrice_url = this._api_url + '/drugPrice'
   private _examination_price_url = this._api_url + '/examinationPrice'
   private _work_time_url = this._api_url + '/workTime'
+  private _offer_url = this._api_url + '/offer';
 
   private _examination_url = this._api_url + '/examination';
   private _medical_stuff_url = this._api_url + '/medicalStuff';
@@ -317,5 +318,36 @@ export class ConfigService {
     return this._work_time_get_all ;
   }
 
+  private _drug_order_delete = this._drug_order_url + '/delete';
+
+  get drug_order_delete (): string {
+    return this._drug_order_delete ;
+  }
+
+  private _drug_order_change = this._drug_order_url + '/change';
+
+  get drug_order_change (): string {
+    return this._drug_order_change ;
+  }
+
+  private _drug_order_get_all_by_pharmacy = this._drug_order_url + '/allByPharmacy';
+
+  get drug_order_get_all_by_pharmacy (): string {
+    return this._drug_order_get_all_by_pharmacy ;
+  }
+
+ 
+
+  private _offer_get_by_id = this._offer_url + '/getBy/';
+
+  get offer_get_by_id (): string {
+    return this._offer_get_by_id ;
+  }
+
+  private _offer_accept = this._offer_url + '/acceptOfer';
+
+  get offer_accept (): string {
+    return this._offer_accept ;
+  }
 
 }

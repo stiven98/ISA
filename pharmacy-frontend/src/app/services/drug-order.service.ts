@@ -47,19 +47,24 @@ export class DrugOrderService {
 
   
   getDrugOrderByPharmacy(): Observable<any>{
-    return this.apiService.get('http://localhost:8080/api/drugOrder/allByPharmacy')
+    return this.apiService.get(this.config.drug_order_get_all_by_pharmacy)
     .pipe(map((res:Response) =>{
       return res;
     }));
   }
 
   deleteDrugOrder(id){
-    return this.apiService.post('http://localhost:8080/api/drugOrder/delete',id) .pipe(map((res) =>{
+    return this.apiService.post(this.config.drug_order_delete,id) .pipe(map((res) =>{
       return res;
     }));
   }
   
  
+  changeDrugOrder(dto){
+    return this.apiService.post(this.config.drug_order_change,dto) .pipe(map((res) =>{
+      return res;
+    }));
+  }
 
 
 

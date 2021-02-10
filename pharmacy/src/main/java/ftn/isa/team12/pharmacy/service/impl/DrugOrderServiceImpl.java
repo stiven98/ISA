@@ -134,14 +134,39 @@ public class DrugOrderServiceImpl implements DrugOrderService {
 
 
     @Override
-    public DrugOrder delete(String id) {
+    public boolean delete(String id) {
         DrugOrder drugOrder = drugOrderRepository.findByOrderId(UUID.fromString(id));
         List<Offer> offers = offerRepository.findAllByDrugOrderOrderId(drugOrder.getOrderId());
         if(!offers.isEmpty())
             throw new IllegalArgumentException("can't delete drug order with code: " + id);
-
         drugOrderRepository.deleteById(drugOrder.getOrderId());
-        
-        return null;
+        return true;
+    }
+
+
+    @Override
+    public DrugOrder changeDrugOrder(DrugOrderPhAdminDTO dto) {
+        DrugOrder drugOrder = drugOrderRepository.findByOrderId(dto.getOrderId());
+
+        if(drugOrder == null)
+            throw new IllegalArgumentException("No drug order with code: " + dto.getOrderId());
+
+        List<Offer> offers = offerRepository.findAllByDrugOrderOrderId(drugOrder.getOrderId());
+        if(!offers.isEmpty())
+            throw new IllegalArgumentException("Drug order have offer, can't be change");
+
+        for (DrugForOrderDTO d: dto.getDrugorderItem()){
+            if(d.getQuantity()<0)
+                throw new IllegalArgumentException("Bad input quantity ");
+
+            for (DrugOrderItem dopi: drugOrder.getDrugOrderItems()){
+                if(dopi.getDrug().getDrugId().toString().equals(d.getId().toString())){
+                    System.out.println("jesi mi usao");
+                    dopi.setQuantity(d.getQuantity());
+                }
+            }
+        }
+        drugOrder = drugOrderRepository.save(drugOrder);
+        return drugOrder;
     }
 }

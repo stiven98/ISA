@@ -35,4 +35,14 @@ public class DrugOrderPhAdminDTO {
     }
 
 
+    @Override
+    public String toString() {
+        return "DrugOrderPhAdminDTO{" +
+                "orderId=" + orderId +
+                ", drugorderItem=" + drugorderItem +
+                ", deadline=" + deadline +
+                ", drugOrderStatus=" + drugOrderStatus +
+                ", phAdminEmail='" + phAdminEmail + '\'' +
+                '}';
+    }
 }

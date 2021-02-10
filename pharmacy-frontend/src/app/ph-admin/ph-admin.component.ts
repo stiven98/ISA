@@ -48,9 +48,10 @@ export class PhAdminComponent implements OnInit {
   fExamination = false;
   change = false;
   examinationFlag = false;
+  changeDrugOrder = false;
   closeResult = '';
   changeExaminationPrice = []
-  drugOrderPharmacy = []
+  drugOrderPharmacy = [];
   examinationPRice:ExaminationPriceModel = new ExaminationPriceModel();
   filterList = [];
 
@@ -233,7 +234,25 @@ export class PhAdminComponent implements OnInit {
 
 
 
+  s(dp){
+    return dp.drugOrderStatus == 'processed';
+  }
+
+
+
+  changDrugOrder(){
+    this.changeDrugOrder = true;
+  }
+
+
+
+  changeAndSaveDrugOrder(dp){
+    dp.deadline = new Date();
+    this.drugOrderService.changeDrugOrder(dp).subscribe((res) => alert(res.result));
+
+  }
 
 
 
 }
+

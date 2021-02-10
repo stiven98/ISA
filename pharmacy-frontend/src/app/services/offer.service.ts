@@ -39,30 +39,17 @@ export class OfferService {
 
 
 getAllByDrugOrderId(id):Observable<any>{
-  return this.apiService.get('http://localhost:8080/api/offer/getBy/' + id) .pipe(map((res:Response) =>{
+  return this.apiService.get(this.config.offer_get_by_id + id) .pipe(map((res:Response) =>{
     return res;
   }));
 }
 
 
 acceptOfer(dto){
-  return this.apiService.post('http://localhost:8080/api/offer/acceptOfer',dto) .pipe(map((res) =>{
+  return this.apiService.post(this.config.offer_accept,dto) .pipe(map((res) =>{
     return res;
   }));
 }
-
-deleteOffer(id){
-  return this.apiService.post('http://localhost:8080/api/offer/delete',id) .pipe(map((res) =>{
-    return res;
-  }));
-}
-
-
-
-
-
-
-
 
 
 }
