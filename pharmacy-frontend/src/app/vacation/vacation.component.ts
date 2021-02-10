@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VacationService } from '../services/vacation.service';
 
 @Component({
@@ -10,7 +11,8 @@ export class VacationComponent implements OnInit {
 
   fetchData = false;
   list = []
-  constructor(private vacationService:VacationService) { }
+  closeResult = '';
+  constructor(private vacationService:VacationService, private modalService:NgbModal) { }
 
   ngOnInit(): void {
 
@@ -24,21 +26,61 @@ export class VacationComponent implements OnInit {
       });
     
     if(localStorage.getItem('role') == 'ROLE_SYSTEM_ADMINISTRATOR')
-      alert("cao");
+      this.vacationService.getAllDermatologistRequest().subscribe((res)=> {this.list = res;
+        for(let a of this.list){  
+          a.startDate = new Date(a.startDate).toLocaleDateString();
+          a.endDate = new Date(a.endDate).toLocaleDateString();
+        }
+        
+        });
+
+
+
+
+
+
   }
 
 
 
   accept(v){
-    alert("prihvaio");
+    let dto ={
+      vacationId: v.vacationId,
+      email: v.email,
+      startDate: new Date(),
+      endDate: new Date(),
+      status: "created",
+      note: v.note
+    }
+    this.vacationService.approveVacation(dto).subscribe((res)=> alert(res.result));
+    
+
   }
 
 
   decline(v){
-    alert("Odbio");
+    let dto ={
+      vacationId: v.vacationId,
+      email: v.email,
+      startDate: new Date(),
+      endDate: new Date(),
+      status: "created",
+      note: v.note
+    }
+
+    this.vacationService.declineVacation(dto).subscribe((res)=> alert(res.result));
 
   }
 
+
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed`;
+    });
+  }
 
 
 }

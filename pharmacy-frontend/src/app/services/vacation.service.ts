@@ -16,6 +16,17 @@ export class VacationService {
     return this.apiService.get('http://localhost:8080/api/vacation/all').pipe(map((res:Response) => {return res;}))
   }
 
+  getAllDermatologistRequest():Observable<any>{
+    return this.apiService.get('http://localhost:8080/api/vacation/allDermatologist').pipe(map((res:Response) => {return res;}))
+  }
 
+
+  approveVacation(dto){
+    return this.apiService.post('http://localhost:8080/api/vacation/accept',dto).pipe(map((res) => {return res;}))
+  }
+
+  declineVacation(dto){
+    return this.apiService.post('http://localhost:8080/api/vacation/decline',dto).pipe(map((res) => {return res;}))
+  }
   
 }

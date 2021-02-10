@@ -19,4 +19,5 @@ public interface VacationRepository extends JpaRepository<Vacation, UUID> {
     List<Vacation> getAllFromPharmacy(Pharmacy pharmacy , Date date);
 
 
+
 }

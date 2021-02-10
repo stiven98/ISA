@@ -15,8 +15,22 @@
                     <span>Vacation</span>
                     <p>End date : {{v.startDate}}</p>
                     <p>Start date: {{v.endDate}}</p>
-                    <button  class="btn btn-dark mt-3 w-100" (click)="accept(v)">Accept</button>
-                    <button  class="btn btn-dark mt-3 w-100" (click)="decline(v)">Decline</button>
+                    <button  class="btn btn-dark mt-3 w-100" (click)="open(content)">Accept/Decline</button>
+                    <ng-template #content let-modal>
+                        <div class="modal-header">
+                        <h4 class="modal-title" id="modal-basic-title">Resone</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="price" class="form-control"  [(ngModel)]="v.note" [ngModelOptions]="{standalone: true}"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button  class="btn btn-dark mt-3 w-100" (click)="accept(v)">Accept</button>
+                            <button  class="btn btn-dark mt-3 w-100" (click)="decline(v)">Decline</button>
+                        </div>
+                    </ng-template>
                 </div>
                 </div>
             </div>

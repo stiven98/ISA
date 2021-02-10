@@ -14,4 +14,8 @@ public interface VacationRequestRepository extends JpaRepository<VacationRequest
     @Query("select d from VacationRequest d where d.pharmacy= ?1 and d.dateRange.startDate > ?2")
     List<VacationRequest> getAllFromPharmacy(Pharmacy pharmacy, Date date);
 
+    @Query("select d from VacationRequest d where d.dateRange.startDate > ?1")
+    List<VacationRequest> getAllFromDermatologist(Date date);
+
+    VacationRequest findByVacationId(UUID id);
 }

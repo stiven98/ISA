@@ -1,11 +1,14 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
+import ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
+import ftn.isa.team12.pharmacy.domain.enums.ReservationStatus;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugInPharmacyChangesDTO;
 import ftn.isa.team12.pharmacy.repository.DrugInPharmacyRepository;
+import ftn.isa.team12.pharmacy.repository.DrugReservationRepository;
 import ftn.isa.team12.pharmacy.service.DrugInPharmacyService;
 import ftn.isa.team12.pharmacy.service.DrugService;
 import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
@@ -25,6 +28,9 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
 
     @Autowired
     private DrugService drugService;
+
+    @Autowired
+    DrugReservationRepository drugReservationRepository;
 
     @Override
     public List<Drug> findDrugInPharmacyById(UUID id) {
@@ -53,6 +59,11 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
         //treba proveriti da li je lek rezervisan jos
         PharmacyAdministrator phAdmin = pharmacyAdministratorService.findAdminByEmail(dto.getPharmacyAdminEmail());
         Drug drug = drugService.findById(dto.getDrugId());
+
+        List<DrugReservation> drugReservations = drugReservationRepository.findAllByDrugDrugIdAndPharmacyIdAndReservationStatus(drug.getDrugId(),phAdmin.getPharmacy().getId(), ReservationStatus.created);
+        if(!drugReservations.isEmpty())
+            throw new IllegalArgumentException("Drug reserved can't be delete");
+
         for (DrugInPharmacy druginph : phAdmin.getPharmacy().getDrugs()){
             if(druginph.getDrug().getDrugId() == drug.getDrugId()){
                 phAdmin.getPharmacy().getDrugs().remove(druginph);
