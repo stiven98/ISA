@@ -11,7 +11,18 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ExaminationService {
-  getAllByEmployeeAndPharmacy(id: any): Observable<any[]>{
+  scheduleExistingMed(data: { patientId: any; pharmacyId: any; medStuffId: any; examinationId: any; }) {
+    return this.apiService.post(this.config.schedule_exst_med, data)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  getAllFreeByEmployeeAndPharmacy(id: any) : Observable<any[]>{
+    return this.apiService.get(this.config.free_examinations_by_employee_and_pharmacy + id).pipe(map(terms => {
+      return terms;
+    }));
+  }
+  getAllByEmployeeAndPharmacy(id: any) : Observable<any[]>{
     return this.apiService.get(this.config.examinations_by_employee_and_pharmacy + id).pipe(map(vacations => {
       return vacations;
     }));
@@ -42,16 +53,31 @@ export class ExaminationService {
         return phamracists;
       }));
   }
+  getAvailableDermatologists = (pharmacyName) => {
+    return this.http
+      .get(environment.apiUrl + '/api/examination/getAvailableDermByPharmacy/' + pharmacyName )
+      .pipe(map(responseData => {
+        const dermatologists = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            const tmp = responseData[key];
+            tmp.dateOfExamination = new Date(tmp.dateOfExamination).toLocaleDateString();
+            dermatologists.push(responseData[key]);
+          }
+        }
+        return dermatologists;
+      }));
+  }
 
 
   getBusyTime(time){
-    return this.apiService.post('http://localhost:8080/api/examination/busyTime',time)
+    return this.apiService.post(this.config.examinations_busy_time,time)
     .pipe(map(res => {return res;}));
 
   }
 
   saveExamination(time:ExaminationCreateModel){
-    return this.apiService.post('http://localhost:8080/api/examination/createExamination',time)
+    return this.apiService.post(this.config.examinations_create,time)
     .pipe(map(res => {return res;}));
 
   }
@@ -93,4 +119,19 @@ export class ExaminationService {
         return responseData;
       }));
   }
+
+  scheduleNewExamination = (examinationId, email) => {
+    return this.http
+      .post(environment.apiUrl + '/api/examination/newExamination/',{"examinationId": examinationId, "patientEmail": email})
+          .pipe(map(responseData => {
+            return responseData;
+          }));
+  }
+  submitExamination(data){
+    return this.apiService.post(this.config.submit_examination, data)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
 }
+

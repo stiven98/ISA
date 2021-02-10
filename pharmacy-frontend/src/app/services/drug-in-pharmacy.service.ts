@@ -5,13 +5,15 @@ import { DrugInpharmacyChangeModel } from '../ph-admin/drug-in-pharmacy/drugInPh
 import { SearchDrugModel } from '../ph-admin/drug-in-pharmacy/searchDrugModel';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DrugInPharmacyService {
 
-  constructor(private apiService: ApiService, private config:ConfigService) {}
+  constructor(private apiService: ApiService, private config: ConfigService, private http: HttpClient) {}
 
 
 
@@ -46,11 +48,24 @@ export class DrugInPharmacyService {
 
 
   searhcDrugInPharmacy(searchDrug:SearchDrugModel): Observable<any>{
-    return this.apiService.post('http://localhost:8080/api/search/drug',searchDrug)
+    return this.apiService.post(this.config.search_drug_in_pharmacy,searchDrug)
     .pipe(map((response:Response) =>{
       return response;
     }))
 
+  }
+
+  findPharmaciesWithDrug = (id: string) => {
+    return this.http.get(environment.apiUrl + '/api/drugInPharmacy/pharmacies/' + id)
+      .pipe(map(response => {
+        const ret = [];
+        for (const key in response) {
+          if (response.hasOwnProperty(key)) {
+            ret.push(response[key]);
+          }
+        }
+        return ret;
+      }));
   }
 
 

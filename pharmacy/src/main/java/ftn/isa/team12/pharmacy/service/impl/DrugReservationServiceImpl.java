@@ -95,6 +95,12 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         if (new Date().before(dayberofedealdine)) {
             drugReservation.setReservationStatus(ReservationStatus.cancelled);
             this.drugReservationRepository.save(drugReservation);
+            DrugInPharmacy drugInPharmacy = this.drugInPharmacyRepository.findDrugInPharmacy(drugReservation.getDrug().getDrugId(), drugReservation.getPharmacy().getId());
+            int returnQuantity = drugReservation.getQuantity();
+            int currentQuantity = drugInPharmacy.getQuantity();
+            int saveQuantity = currentQuantity + returnQuantity;
+            drugInPharmacy.setQuantity(saveQuantity);
+            this.drugInPharmacyRepository.save(drugInPharmacy);
             return drugReservation;
         } else {
             throw new IllegalArgumentException("You cant cancel reservation 24h before deadline");

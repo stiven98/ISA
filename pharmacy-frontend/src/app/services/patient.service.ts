@@ -38,6 +38,21 @@ export class PatientService {
         return examinations ;
       }));
   }
+  findPatientExaminations = (patientEmail) => {
+    return this.http
+      .get(environment.apiUrl + '/api/examination/getPatientExaminations/' + patientEmail)
+      .pipe(map(responseData => {
+        const examinations = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            const tmp = responseData[key];
+            tmp.dateOfExamination = new Date(tmp.dateOfExamination).toLocaleDateString();
+            examinations.push(tmp);
+          }
+        }
+        return examinations ;
+      }));
+  }
   findPharmaciesToMark = (email) => {
     return this.http
       .get(environment.apiUrl + '/api/pharmacyMarks/pharmaciesForPatient/' + email)

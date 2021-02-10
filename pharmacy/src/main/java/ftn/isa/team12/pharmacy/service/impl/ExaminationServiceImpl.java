@@ -1,17 +1,19 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
+import ftn.isa.team12.pharmacy.domain.drugs.Drug;
+import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
+import ftn.isa.team12.pharmacy.domain.drugs.ERecipe;
+import ftn.isa.team12.pharmacy.domain.drugs.ERecipeItem;
+import ftn.isa.team12.pharmacy.domain.enums.ERecipeStatus;
+import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;
-import ftn.isa.team12.pharmacy.dto.BusyDateDTO;
-import ftn.isa.team12.pharmacy.dto.ExaminationCreateDTO;
-import ftn.isa.team12.pharmacy.dto.ExaminationScheduleMedStuffDTO;
-import ftn.isa.team12.pharmacy.repository.ExaminationPriceRepository;
-import ftn.isa.team12.pharmacy.repository.ExaminationRepository;
-import ftn.isa.team12.pharmacy.repository.WorkTimeRepository;
+import ftn.isa.team12.pharmacy.dto.*;
+import ftn.isa.team12.pharmacy.repository.*;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,10 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
+import java.util.*;
 
 
 @Service
@@ -53,6 +52,11 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     VacationService vacationService;
 
+    @Autowired
+    DrugInPharmacyRepository drugInPharmacyRepository;
+
+    @Autowired
+    ERecipeRepository eRecipeRepository;
 
     @Override
     public List<Examination> findAll() {
@@ -181,17 +185,25 @@ public class ExaminationServiceImpl implements ExaminationService {
                 return null;
             }
         }
+        ExaminationType examinationType = dto.getType();
         Examination examination = new Examination();
         examination.setDateOfExamination(date);
         examination.setTimeOfExamination(time);
         examination.setDuration(45);
+        examination.setExaminationType(examinationType);
         examination.setEmployee(medicalStuff);
         examination.setPatient(patient);
         examination.setPharmacy(pharmacy);
+        examination.setExaminationStatus(ExaminationStatus.scheduled);
+        List<ExaminationPrice> prices = examinationPriceRepository.findLatestByPharmacy(pharmacy, date, examinationType);
+        if(prices != null && !prices.isEmpty()){
+            ExaminationPrice examinationPrice = prices.get(0);
+            examination.setExaminationPrice(examinationPrice);
+        }
         Examination saved = examinationRepository.save(examination);
         patient.getExaminations().add(saved);
         medicalStuff.getExaminations().add(saved);
-        patientService.saveAndFlush(patient);
+        patientService.save(patient);
         medicalStuffService.saveAndFlush(medicalStuff);
         return saved;
     }
@@ -236,6 +248,84 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public List<Examination> findAllFreeByEmployeeAndPharmacy(MedicalStuff medicalStuff, Pharmacy pharmacy) {
+        List<Examination> examinations = examinationRepository.findAllByEmployeeAndPharmacy(medicalStuff, pharmacy);
+        List<Examination> freeExaminations = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Date today = new Date();
+        for(Examination e : examinations){
+            if(e.getPatient() == null){
+                boolean isNotPassed = (sdf.format(today).compareTo(sdf.format(e.getDateOfExamination()))) < 0;
+                if(isNotPassed){
+                    freeExaminations.add(e);
+                }
+            }
+        }
+        return freeExaminations;
+    }
+
+    @Override
+    public Examination scheduleExistingMedStuff(ExaminationScheduleExistingMedStuffDTO dto) {
+        MedicalStuff medicalStuff = medicalStuffService.findById(dto.getMedStuffId());
+        Patient patient = patientService.findById(dto.getPatientId());
+        Examination examination = examinationRepository.findExaminationByExaminationId(dto.getExaminationId());
+        List<Examination> patientExaminations = findAllByPatient(patient);
+        for (Examination e : patientExaminations) {
+            if (checkIfTimeOverlapping(e.getTimeOfExamination(), e.getDateOfExamination(), examination.getTimeOfExamination(), examination.getDateOfExamination())) {
+                return null;
+            }
+        }
+        examination.setPatient(patient);
+        examination.setExaminationStatus(ExaminationStatus.scheduled);
+        Examination saved = examinationRepository.save(examination);
+        patient.getExaminations().add(saved);
+        medicalStuff.getExaminations().add(saved);
+        patientService.save(patient);
+        medicalStuffService.saveAndFlush(medicalStuff);
+        return saved;
+    }
+
+    @Override
+    public Examination submitExaminationData(ExaminationSubmissionDTO dto) {
+        // TO-DO EventStore?
+        Examination examination = examinationRepository.findExaminationByExaminationId(dto.getExaminationId());
+        examination.setNote(dto.getNote());
+        Patient patient = patientService.findById(dto.getPatientId());
+        Pharmacy pharmacy = pharmacyService.findPharmacyById(dto.getPharmacyId());
+        Set<ERecipeItem> items = new HashSet<>();
+
+        for(UUID id : dto.getDrugIds()){
+            DrugInPharmacy drugPh = drugInPharmacyRepository.findDrugInPharmacy(id, pharmacy.getId());
+            drugPh.setQuantity(drugPh.getQuantity() - 1);
+            drugInPharmacyRepository.save(drugPh);
+            Drug drug = drugPh.getDrug();
+            ERecipeItem item = new ERecipeItem();
+            item.setDrug(drug);
+            item.setQuantity(1);
+            items.add(item);
+        }
+        ERecipe eRecipe = new ERecipe();
+        Date date = new Date();
+        double correctionFactorD = 1000.0 * Math.random();
+        int correctionFactor = (int) correctionFactorD;
+        eRecipe.setCode("e" + date.hashCode() + "-" + correctionFactor);
+        eRecipe.setDuration(dto.getTherapyDuration());
+        eRecipe.setERecipeStatus(ERecipeStatus.newErecipe);
+        eRecipe.setPatient(patient);
+        eRecipe.setPharmacy(pharmacy);
+        eRecipe.setDateOfIssuing(new Date());
+        eRecipe = eRecipeRepository.save(eRecipe);
+        for(ERecipeItem it : items){
+            it.setERecipe(eRecipe);
+        }
+        eRecipe.setERecipeItems(items);
+        eRecipeRepository.save(eRecipe);
+        examination.setExaminationStatus(ExaminationStatus.held);
+        examination = examinationRepository.save(examination);
+        return examination;
+
+    }
+
     public List<MedicalStuff> findAvailableByPharmacy(String pharmacyName) {
         return this.examinationRepository.findAvailableByPharmacyAndTerm(pharmacyName);
     }
@@ -253,6 +343,16 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public List<Examination> findPharmacistConsultationsForPatient(UUID patientId) {
         return this.examinationRepository.findPharmacistConsultationsForPatient(patientId);
+    }
+
+    @Override
+    public List<Examination> findDermatologistExaminationsForPatient(UUID patientId) {
+        return this.examinationRepository.findDermatologistExaminationsForPatient(patientId);
+    }
+
+    @Override
+    public List<Examination> findFreeTermsForDermatologistsByPhamracy(String pharmacyName) {
+        return this.examinationRepository.findFreeTermsForDermatologistsByPhamracy(pharmacyName);
     }
 
 

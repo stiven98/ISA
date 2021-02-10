@@ -78,7 +78,6 @@ public class ExaminationController {
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @PostMapping("/scheduleNewMedStuff")
     public ResponseEntity<?> scheduleNewMedStuff(@RequestBody ExaminationScheduleMedStuffDTO dto){
-        System.out.println(dto.toString());
         Map<String, String> res = new HashMap<>();
         Examination examination = examinationService.scheduleNewMedStuff(dto);
         if(examination == null){
@@ -86,8 +85,41 @@ public class ExaminationController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
         res.put("result", "Examination successfully scheduled!");
+        Patient patient = examination.getPatient();
+        Pharmacy pharmacy = examination.getPharmacy();
+        sender.sendSchedulingInfo(patient.getUsername(), examination.getDateOfExamination().toString(), examination.getTimeOfExamination().toString(), pharmacy.getName());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @PostMapping("/scheduleExistingMedStuff")
+    public ResponseEntity<?> scheduleExistingMedStuff(@RequestBody ExaminationScheduleExistingMedStuffDTO dto){
+        Map<String, String> res = new HashMap<>();
+        Examination examination = examinationService.scheduleExistingMedStuff(dto);
+        if(examination == null){
+            res.put("result", "You can't schedule examination in desired time!");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        res.put("result", "Examination successfully scheduled!");
+        Patient patient = examination.getPatient();
+        Pharmacy pharmacy = examination.getPharmacy();
+        sender.sendSchedulingInfo(patient.getUsername(), examination.getDateOfExamination().toString(), examination.getTimeOfExamination().toString(), pharmacy.getName());
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @PostMapping("/submitExamination")
+    public ResponseEntity<?> scheduleExistingMedStuff(@RequestBody ExaminationSubmissionDTO dto){
+        Map<String, String> res = new HashMap<>();
+        Examination examination = examinationService.submitExaminationData(dto);
+        if(examination == null){
+            res.put("result", "You can't submit your data!");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        res.put("result", "Examination data successfully submitted!");
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @GetMapping("/getCurrentExamination/{id}")
@@ -175,6 +207,20 @@ public class ExaminationController {
         return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @GetMapping("/allFreeByEmployeeAndPharmacy/{id}")
+    public ResponseEntity<?> findAllFreeByEmployeeAndPharmacy(@PathVariable UUID id, Principal user) {
+        Map<String, String> result = new HashMap<>();
+        MedicalStuff medicalStuff = medicalStuffService.findByEmail(user.getName());
+        Pharmacy pharmacy = pharmacyService.findPharmacyById(id);
+        if(pharmacy == null){
+            result.put("result", "Wrong pharmacy id!");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        List<Examination> examinations = examinationService.findAllFreeByEmployeeAndPharmacy(medicalStuff, pharmacy);
+        return new ResponseEntity<>(examinations, HttpStatus.OK);
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
     @PostMapping("/createExamination")
     public ResponseEntity<?> createExaminationForDermatologist(@RequestBody ExaminationCreateDTO dto){
@@ -184,7 +230,7 @@ public class ExaminationController {
             result.put("result", "Can't create examination");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        result.put("result","Successfully create examination");
+        result.put("result","Successfully created examination");
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
@@ -199,7 +245,7 @@ public class ExaminationController {
     static class PenaltyReq{
         private int penalty;
     };
-
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/pharmaciesWithFreeTerms/")
     public ResponseEntity<List<Pharmacy>> findPharmaciesWithFreeTerms(@RequestBody FreeTermDTO dto)  {
         List<Examination> examinations = this.examinationService.findPharmaciesWithFreeTerm(dto.getDate(),dto.getTime());
@@ -215,13 +261,14 @@ public class ExaminationController {
 
         return new ResponseEntity<>(pharmacies, HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/scheduleNew/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
         List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
         for(Examination ex : examinations) {
-            if(ex.getDateOfExamination().equals(examination.getDateOfExamination())){
+            if(ex.getDateOfExamination().equals(examination.getDateOfExamination()) && ex.getExaminationType() == ExaminationType.pharmacistConsultations){
                 throw new IllegalArgumentException("You cant schedule more than 1 consultations for same day");
             }
         }
@@ -241,6 +288,33 @@ public class ExaminationController {
         return new ResponseEntity<>(examination, HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @PostMapping("/newExamination/")
+    public ResponseEntity<Examination> scheduleExamination(@RequestBody DermatologistExamScheduleDTO dto)  {
+        Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        List<Examination> examinations = this.examinationService.findAllByPatient(patient);
+        Examination examination = this.examinationService.findById(dto.getExaminationId());
+        for(Examination ex : examinations) {
+            if(ex.getDateOfExamination().equals(examination.getDateOfExamination()) && ex.getExaminationType() == ExaminationType.dermatologistExamination){
+                throw new IllegalArgumentException("You cant schedule more than 1 examination for same day");
+            }
+        }
+        if(patient.getPenalties() > 2) {
+            throw new IllegalArgumentException("You have 3 or more penalties and you cant schedule consultations");
+        }
+        examination.setPatient(patient);
+        examination.setExaminationType(ExaminationType.dermatologistExamination);
+        examination.setExaminationStatus(ExaminationStatus.scheduled);
+        this.examinationService.save(examination);
+        try {
+            sender.sendDermatologistExaminationMail(examination);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return new ResponseEntity<>(examination, HttpStatus.OK);
+    }
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/findAvailablePharmacists/{pharmacyName}")
     public ResponseEntity<List<Pharmacist>> findAvailablePharmacists(@PathVariable String pharmacyName)  {
         List<MedicalStuff> medicalStuffs = this.examinationService.findAvailableByPharmacy(pharmacyName);
@@ -254,11 +328,28 @@ public class ExaminationController {
 
         return new ResponseEntity<>(pharmacists, HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/getPatientConsulatitons/{patientEmail}")
     public ResponseEntity<List<Examination>> findPatientConsulatitons(@PathVariable String patientEmail)  {
         Patient patient = this.patientService.findByEmail(patientEmail);
         List<Examination> consultations = this.examinationService.findPharmacistConsultationsForPatient(patient.getUserId());
         return new ResponseEntity<>(consultations, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/getPatientExaminations/{patientEmail}")
+    public ResponseEntity<List<Examination>> findPatientExaminations(@PathVariable String patientEmail)  {
+        Patient patient = this.patientService.findByEmail(patientEmail);
+        List<Examination> examinations = this.examinationService.findDermatologistExaminationsForPatient(patient.getUserId());
+        return new ResponseEntity<>(examinations, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
+    @GetMapping("/getAvailableDermByPharmacy/{pharmacyName}")
+    public ResponseEntity<List<Examination>> getAvailableDermatologistByPharmacy(@PathVariable String pharmacyName)  {
+        List<Examination> examinations = this.examinationService.findFreeTermsForDermatologistsByPhamracy(pharmacyName);
+        return new ResponseEntity<>(examinations, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
