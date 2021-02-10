@@ -62,6 +62,9 @@ import { ComplaintComponent } from './complaint/complaint.component';
 import { SeeAllOfferComponent } from './ph-admin/see-all-offer/see-all-offer.component';
 import { DermatologistExaminationComponent } from './dermatologist-examination/dermatologist-examination.component';
 import { VacationComponent } from './vacation/vacation.component';
+import { PharmacistHomeComponent } from './pharmacist-home/pharmacist-home.component';
+import { PharmacistsGuard } from './guard/pharmacists.guard';
+import { EmployeeGuard } from './guard/employee.guard';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -77,6 +80,15 @@ const appRoutes: Routes = [
   { path: 'changePassword' , component: ChangePasswordComponent},
   { path: 'patient-marks', component: PatientMarksComponent},
   { path: 'dermatologist', component: DermatologistHomeComponent, canActivate: [DermatologistsGuard],
+  children : [
+    { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
+    { path: 'patients', component: MedicalStuffClientsComponent },
+    { path: 'workCalendar', component: WorkCalendarComponent },
+    { path: 'vacationRequest', component: VacationRequestComponent },
+    { path: '**', redirectTo: 'changeAccountInfo'}
+  ]
+  },
+  { path: 'pharmacist', component: PharmacistHomeComponent, canActivate: [PharmacistsGuard],
   children : [
     { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
     { path: 'patients', component: MedicalStuffClientsComponent },
@@ -106,8 +118,8 @@ const appRoutes: Routes = [
   { path: 'allPharmacist', component: SeeAllPharmacistComponent},
   { path: 'pharmacist-consultation', component: PharmacistConsultationComponent},
   { path: 'createPharmacist', component: CreatePharmacistComponent, canActivate: [PhAdminGuard]},
-  { path: 'examination/:examinationId', component: StartExaminationPageComponent, canActivate: [DermatologistsGuard]},
-  { path: 'examinationData/:examinationId', component: ExaminationDataComponent, canActivate: [DermatologistsGuard]},
+  { path: 'examination/:examinationId', component: StartExaminationPageComponent, canActivate: [EmployeeGuard]},
+  { path: 'examinationData/:examinationId', component: ExaminationDataComponent, canActivate: [EmployeeGuard]},
   { path: 'addDermatologistInPharmacy', component: AddDermatologistInPharmacyComponent, canActivate: [PhAdminGuard]},
   { path: 'createExamination/:email', component: CreateExaminationComponent, canActivate: [PhAdminGuard]},
   { path: 'acceptDrugOffer/:id', component: SeeAllOfferComponent, canActivate: [PhAdminGuard]},
@@ -176,7 +188,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     EmployeeSchedulingComponent,
     ComplaintComponent,
     SeeAllOfferComponent,
-    VacationComponent
+    VacationComponent,
+    PharmacistHomeComponent
   ],
   imports: [
     BrowserModule,
