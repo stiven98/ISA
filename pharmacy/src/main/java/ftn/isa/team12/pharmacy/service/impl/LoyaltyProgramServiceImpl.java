@@ -14,11 +14,13 @@ public class LoyaltyProgramServiceImpl implements LoyaltyProgramService {
 
     @Override
     public LoyaltyProgram saveAndFlush(LoyaltyProgram loyaltyProgram) {
-        return null;
+        // update all patient and loyalty status
+
+        return this.loyaltyProgramRepository.saveAndFlush(loyaltyProgram);
     }
 
     @Override
-    public LoyaltyProgram getLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
-        return this.loyaltyProgramRepository.findById(loyaltyProgram.getId()).get();
+    public LoyaltyProgram getLoyaltyProgram() {
+        return this.loyaltyProgramRepository.findAll().get(0);
     }
 }
