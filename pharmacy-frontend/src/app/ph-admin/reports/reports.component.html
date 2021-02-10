@@ -1,0 +1,50 @@
+<div class=" container ">
+    
+    <div class="row d-flex justify-content-center "> 
+        <h1 class="font-weight-bold text-dark">Reporst for pharmacy {{makrs.pharmacyName}} average marks: {{makrs.averageMarkPharmacy}}</h1>
+    </div>
+
+    <div class="row d-flex justify-content-center pt-3"> 
+        <h3 class="font-weight-bold text-dark">Dermatologist</h3>
+    </div>
+    <section id="doctors" class="doctors">
+        <div class="container">
+            <div class="row row d-flex justify-content-center " *ngFor="let derm of makrs.employeeDTOS" >
+                <div class="col-lg-6" *ngIf="condition(derm)"  >
+                    <div class="member d-flex align-items-start">
+                    <div class="pic"><img src="assets/img/s.png" class="img-fluid" alt=""></div>
+                    <div class="member-info">
+                        <h4>Doctor: {{derm.employeeName}} {{derm.employeeSurName}}</h4>
+                        <span> {{derm.employeeType}}</span>
+                        <p>Average marks: {{derm.employeeAverageMarks}}</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row d-flex justify-content-center "> 
+        <h3 class="font-weight-bold text-dark">Pharmacist</h3>
+    </div>
+    <section id="doctors" class="doctors">
+        <div class="container">
+            <div class="row row d-flex justify-content-center " *ngFor="let derm of makrs.employeeDTOS" >
+                <div class="col-lg-6" *ngIf="!condition(derm)"  >
+                    <div class="member d-flex align-items-start">
+                    <div class="pic"><img src="assets/img/s.png" class="img-fluid" alt=""></div>
+                    <div class="member-info">
+                        <h4>Doctor: {{derm.employeeName}} {{derm.employeeSurName}}</h4>
+                        <span> {{derm.employeeType}}</span>
+                        <p>Average marks: {{derm.employeeAverageMarks}}</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div>
+      
+    </div>
+
+    <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
+</div>

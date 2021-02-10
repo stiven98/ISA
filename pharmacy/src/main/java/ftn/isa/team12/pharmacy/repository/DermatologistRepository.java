@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 
+import java.util.List;
 import java.util.UUID;
 
 public interface DermatologistRepository extends JpaRepository<Dermatologist, UUID> {
@@ -12,4 +13,6 @@ public interface DermatologistRepository extends JpaRepository<Dermatologist, UU
 
     @Query("select p from Dermatologist p where p.userId= ?1")
     Dermatologist findDermatologistById(UUID id);
+
+
 }
