@@ -1,6 +1,5 @@
 package ftn.isa.team12.pharmacy.dto;
 
-import ftn.isa.team12.pharmacy.domain.drugs.DrugOrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

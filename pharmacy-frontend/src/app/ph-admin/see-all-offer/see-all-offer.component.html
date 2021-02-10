@@ -1,0 +1,33 @@
+<div class=" container ">
+    
+    <div class="row d-flex justify-content-center "> 
+        <h1  [hidden]="!delete" class="font-weight-bold text-dark">Choose offer</h1>
+    </div>
+    <div [hidden]="delete"  class="row d-flex justify-content-center "> 
+        <h1 class="font-weight-bold text-dark">You can delete drug order, no one placed offer</h1>
+    </div>      
+
+    <section id="doctors" class="doctors">
+        <div class="container">
+            <div class="row row d-flex justify-content-center "  >
+            <div class="col-lg-8"  *ngFor="let derm of offer">
+                <div class="member d-flex align-items-start">
+                <div class="pic"><img src="assets/img/s.png" class="img-fluid" alt=""></div>
+                <div class="member-info">
+                    <h4>Suplier email: {{derm.emailSuplier}}</h4>
+                    <span>Offer</span>
+                    <p>Price : {{derm.price}}</p>
+                    <p>Day to deliver: {{derm.deadline}}</p>
+                    <button  class="btn btn-dark mt-3 w-100" (click)="accept(derm)"  [hidden]="user.email != derm.phAdminEmail">Accept</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    <div>
+    <button  class="btn btn-dark mt-3 w-100" (click)="deleted()"  [hidden]="delete">Delete</button>
+    </div>
+
+    <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
+</div>

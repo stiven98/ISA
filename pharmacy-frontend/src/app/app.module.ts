@@ -59,6 +59,7 @@ import { LoyaltyProgramComponent } from './loyalty-program/loyalty-program.compo
 
 import { EmployeeSchedulingComponent } from './employee-scheduling/employee-scheduling.component';
 import { ComplaintComponent } from './complaint/complaint.component';
+import { SeeAllOfferComponent } from './ph-admin/see-all-offer/see-all-offer.component';
 import { DermatologistExaminationComponent } from './dermatologist-examination/dermatologist-examination.component';
 
 const appRoutes: Routes = [
@@ -108,6 +109,7 @@ const appRoutes: Routes = [
   { path: 'examinationData/:examinationId', component: ExaminationDataComponent, canActivate: [DermatologistsGuard]},
   { path: 'addDermatologistInPharmacy', component: AddDermatologistInPharmacyComponent, canActivate: [PhAdminGuard]},
   { path: 'createExamination/:email', component: CreateExaminationComponent, canActivate: [PhAdminGuard]},
+  { path: 'acceptDrugOffer/:id', component: SeeAllOfferComponent, canActivate: [PhAdminGuard]},
 
 
   //ovo mora da bude poslednje!!!!!!!
@@ -170,7 +172,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     ComplaintComponent,
     DermatologistExaminationComponent,
     EmployeeSchedulingComponent,
-    ComplaintComponent
+    ComplaintComponent,
+    SeeAllOfferComponent
   ],
   imports: [
     BrowserModule,

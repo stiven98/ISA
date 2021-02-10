@@ -63,12 +63,15 @@ public class Test {
 
         List<Authority> authoritiesPatient = new ArrayList<>();
 
+        List<Authority> supsss = new ArrayList<>();
+
         List<Authority> authoritiPharmacist = new ArrayList<>();
 
         authorities.add(pa);
         authorities2.add(a);
         authoritiesDerm.add(derm);
         authoritiesSysAdmin.add(sa);
+        supsss.add(su);
 
         authoritiesPatient.add(su);
         authoritiPharmacist.add(role_pharmacist);
@@ -627,7 +630,7 @@ public class Test {
 
         LoginInfo suplierInfo = new LoginInfo();
         suplierInfo.setEmail("sup@sup.com");
-        suplierInfo.setPassword("$2y$10$dGToolHjytPEch4CJNuVP.yEulslPNB0Dsyy.JmTYLE68fyqNz1MC");
+        suplierInfo.setPassword("$2y$12$PiwaNad5sOeF2Rv8GbGIB.iSHoDKfoWqYnkCG7RBEfMmViHY/2.bu");
 
 
         Supplier supplier = new Supplier();
@@ -795,6 +798,7 @@ public class Test {
         dermatologistPharmacy1.setAuthorities(authoritiesDerm);
         pharmacist.setAuthorities(authoritiPharmacist);
         pharmacistA.setAuthorities(authoritiPharmacist);
+        supplier.setAuthorities(supsss);
 
         Complaint complaint = new Complaint();
         complaint.setPatient(patient);
@@ -874,7 +878,8 @@ public class Test {
         em.getTransaction().commit();
         em.close();
 
-
         System.exit(0);
     }
 }
+
+
