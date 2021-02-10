@@ -1,5 +1,9 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, Directive, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { addHours, addMinutes } from 'date-fns';
+import { ExaminationService } from '../services/examination.service';
 import { MedicalStuffService } from '../services/medical-stuff.service';
 import { PatientClient } from '../shared/models/patientClient';
 import { NgbdSortableHeaderDirective, SortColumn, SortEvent } from '../shared/utilities/ngbd-sortable-header.directive';
@@ -17,6 +21,11 @@ function sort(clients: PatientClient[], starter: PatientClient[], column: SortCo
   }
 }
 
+interface ExaminationInfoSelect{
+  id : string;
+  dateAndTime : string;
+};
+
 @Component({
   selector: 'app-medical-stuff-clients',
   templateUrl: './medical-stuff-clients.component.html',
@@ -25,7 +34,12 @@ function sort(clients: PatientClient[], starter: PatientClient[], column: SortCo
 })
 export class MedicalStuffClientsComponent implements OnInit {
 
-  constructor(private medicalStuffServ : MedicalStuffService) {
+  selectedExaminationId = '';
+
+  examinations = [];
+  mapExaminations : Map<string, string> = new Map();
+  canStart = false;
+  constructor(private router : Router, private medicalStuffServ : MedicalStuffService, private modalService : NgbModal, private examinationService : ExaminationService) {
   }
   patients: PatientClient[];
   starter: PatientClient[];
@@ -41,6 +55,43 @@ export class MedicalStuffClientsComponent implements OnInit {
     });
     this.patients = sort(this.patients, this.starter, column, direction);
 
+  }
+
+  selectRow(pat, content){
+    this.examinationService.getAllByEmployeeAndPatient(pat.id).subscribe(res => {
+      let examinationList = res;
+      let tmpList : ExaminationInfoSelect[] = [];
+      for(let examination of examinationList){
+        let time = examination.time;
+        let hour = time[0];
+        let minutes = time[1];
+        let examinationDate =  new Date(examination.date);
+        let termTime = addMinutes(addHours(examinationDate, hour), minutes);
+        let dateTime = examinationDate.toLocaleDateString() + ' ' + termTime.toLocaleTimeString();
+        let examTmp : ExaminationInfoSelect = {
+          id : examination.examinationId,
+          dateAndTime : dateTime,
+        };
+        tmpList.push(examTmp);
+        this.mapExaminations[dateTime] = examination.examinationId;
+      }
+      this.examinations = tmpList;
+      this.open(content);
+    });
+  }
+
+  onChange(event){
+    this.selectedExaminationId =  this.mapExaminations[event.target.value];
+  }
+
+  startExamination(modal){
+    if(this.selectedExaminationId == ''){
+      alert("You must choose appointment term")
+    }
+    else{
+      this.router.navigate(['/examination/'+this.selectedExaminationId]);
+      this.modalService.dismissAll();
+    }
   }
 
   search(){
@@ -76,6 +127,25 @@ export class MedicalStuffClientsComponent implements OnInit {
       this.patients = tmp;
       this.starter = tmp;
     });
+  }
+
+  open(content) {
+    console.log(content);
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      console.log(`Closed with: ${result}`);
+    }, (reason) => {
+      console.log(`Dismissed ${this.getDismissReason(reason)}`);
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
 }

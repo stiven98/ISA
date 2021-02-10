@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { addHours, addMinutes, startOfDay } from 'date-fns';
 import { ExaminationService } from '../services/examination.service';
+import { Location } from '@angular/common'
 
 interface PatientInfo{
   name: string;
@@ -24,9 +25,11 @@ interface ExaminationInfo{
 
 export class StartExaminationPageComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private examinationService : ExaminationService) { }
+  constructor(private route: ActivatedRoute, private router : Router, private examinationService : ExaminationService, private location : Location) { }
 
   examinationId;
+
+  disabledButtons = false;
 
   startAppointmentURL = "";
 
@@ -39,7 +42,7 @@ export class StartExaminationPageComponent implements OnInit {
   patientInfo : PatientInfo = {name: '', lastName: '', phoneNumber : '', email: ''};
 
   examination : any;
-
+  
   ngOnInit(): void {
     this.examinationId = this.route.snapshot.params[`examinationId`];
     this.examinationService.getCurrentExaminationById(this.examinationId).subscribe(res => {
@@ -58,17 +61,23 @@ export class StartExaminationPageComponent implements OnInit {
       let startTime = addMinutes(addHours(dateOfExamination, startHour), startMinutes);
       let endTime = addMinutes(startTime, examination.duration);
       this.examinationInfo = {startTime : startTime.toLocaleTimeString(), endTime : endTime.toLocaleTimeString(), date : dateOfExamination.toLocaleDateString()};
+    }, error =>{
+      this.disabledButtons = true;
+      alert('The examination you are trying to start is not yet started or it has passed. You would be redirected back');
+      setTimeout(() => {
+        this.location.back();
+      }, 3000);
     });
   }
 
   givePenalty(){
-    if(!this.penaltyGiven){
+    if(!this.penaltyGiven && !this.disabledButtons){
       this.examinationService.givePenaltyToPatient(this.patientId).subscribe(res => {
         this.penaltyGiven = true;
         alert(res.result);
       });
     }else{
-      alert("Penalty has been already given!");
+      alert("Penalty has been already given or you don't have rights to do that!");
     }
   }
     

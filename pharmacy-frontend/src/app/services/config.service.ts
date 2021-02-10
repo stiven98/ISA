@@ -162,6 +162,13 @@ export class ConfigService {
     return this._examinations_by_employee_and_pharmacy ;
   }
 
+  private _examinations_by_employee_and_patient = this._examination_url + '/allByEmployeeAndPatient/';
+
+  get examinations_by_employee_and_patient () : string {
+    return this._examinations_by_employee_and_patient ;
+  }
+
+
   private _free_examinations_by_employee_and_pharmacy = this._examination_url + '/allFreeByEmployeeAndPharmacy/';
 
   get free_examinations_by_employee_and_pharmacy (): string {

@@ -1,7 +1,5 @@
 package ftn.isa.team12.pharmacy.controller;
-import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
-import ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
@@ -25,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
-import java.text.ParseException;
 import java.util.*;
 
 
@@ -206,6 +203,23 @@ public class ExaminationController {
         }
         List<Examination> examinations = examinationService.findAllByEmployeeAndPharmacy(medicalStuff, pharmacy);
         return new ResponseEntity<>(examinations, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @GetMapping("/allByEmployeeAndPatient/{id}")
+    public ResponseEntity<?> findAllByEmployeeAndPatient(@PathVariable UUID id, Principal user) {
+        Map<String, String> result = new HashMap<>();
+        MedicalStuff medicalStuff = medicalStuffService.findByEmail(user.getName());
+        Patient patient = patientService.findById(id);
+        if(patient == null){
+            result.put("result", "Wrong pharmacy id!");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        List<Examination> examinations = examinationService.findAllByEmployeeAndPatient(medicalStuff, patient);
+        List<ExaminationRetValDTO> dtos = new ArrayList<>();
+        examinations.forEach(examination -> dtos.add(new ExaminationRetValDTO(examination)));
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")

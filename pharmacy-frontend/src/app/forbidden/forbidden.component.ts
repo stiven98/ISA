@@ -27,8 +27,7 @@ startTimer() {
   ngOnInit(): void {
     this.startTimer();
     setTimeout(() => {
-      this.auth.doLogout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
   }, 5000);
   }
 }

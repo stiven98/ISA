@@ -43,4 +43,5 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
 
     List<Examination> findAllByEmployeeAndPharmacyAndDateOfExamination(MedicalStuff medicalStuff,Pharmacy ph, Date date );
 
+    List<Examination> findAllByEmployeeUserIdAndPatientUserId(UUID employeeUserId, UUID patientUserId);
 }
