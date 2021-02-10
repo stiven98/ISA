@@ -332,7 +332,7 @@ public class ExaminationController {
             }
         }
         if(patient.getPenalties() > 2) {
-            throw new IllegalArgumentException("You have 3 or more penalties and you cant schedule consultations");
+            throw new IllegalArgumentException("You have 3 or more penalties and you cant schedule examination");
         }
         examination.setPatient(patient);
         examination.setExaminationType(ExaminationType.dermatologistExamination);
