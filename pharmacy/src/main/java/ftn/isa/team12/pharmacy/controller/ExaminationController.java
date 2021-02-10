@@ -24,6 +24,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.*;
 
@@ -301,7 +304,9 @@ public class ExaminationController {
         examination.setExaminationStatus(ExaminationStatus.scheduled);
         double priceOfExamination = examination.getExaminationPrice().getPrice();
         double newPrice =  (1.0 * discount / 100) * priceOfExamination;
-        examination.setDiscount(newPrice);
+        BigDecimal bd1 = new BigDecimal(newPrice).setScale(2, RoundingMode.HALF_UP);
+        double nr = bd1.doubleValue();
+        examination.setDiscount(nr);
         this.examinationService.save(examination);
         try {
             sender.sendPharmacistConsultationsMail(examination.getExaminationId(),dto.getPatientEmail(),dto.getPharmacyName(),examination.getDateOfExamination().toString(),
@@ -334,7 +339,9 @@ public class ExaminationController {
         examination.setExaminationStatus(ExaminationStatus.scheduled);
         double priceOfExamination = examination.getExaminationPrice().getPrice();
         double newPrice =  (1.0 * discount / 100) * priceOfExamination;
-        examination.setDiscount(newPrice);
+        BigDecimal bd1 = new BigDecimal(newPrice).setScale(2, RoundingMode.HALF_UP);
+        double nr = bd1.doubleValue();
+        examination.setDiscount(nr);
         this.examinationService.save(examination);
         try {
             sender.sendDermatologistExaminationMail(examination);

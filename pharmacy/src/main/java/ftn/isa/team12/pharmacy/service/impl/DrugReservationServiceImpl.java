@@ -14,6 +14,9 @@ import ftn.isa.team12.pharmacy.repository.DrugReservationRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -68,7 +71,9 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         drugReservation.setDrug(drug);
         drugReservation.setPrice(drugReservationDTO.getPrice());
         discount = (1.0 * discount/100) * drugReservation.getPrice();
-        drugReservation.setDiscount(discount);
+        BigDecimal bd1 = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP);
+        double nr = bd1.doubleValue();
+        drugReservation.setDiscount(nr);
         drugReservation = this.drugReservationRepository.save(drugReservation);
 
         DrugInPharmacy drugInPharmacy = this.drugInPharmacyRepository.findDrugInPharmacy(drug.getDrugId(),pharmacy.getId());
