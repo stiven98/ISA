@@ -27,9 +27,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -47,7 +47,7 @@ public class UnitTestsStudent1 {
     @Test
     @Transactional
     @Rollback(true)
-    public void testFindAll() {
+    public void testFindAllPatients() {
         Patient patient = new Patient();
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setEmail("pacijent@pacijent.com");
@@ -57,6 +57,80 @@ public class UnitTestsStudent1 {
         List<Patient> patients = patientService.findAll();
         assertThat(patients).hasSize(1);
         verify(patientRepositoryMock, times(1)).findAll();
+        verifyNoMoreInteractions(patientRepositoryMock);
+    }
+
+    @Test
+    public void testFindOnePatient() {
+        Patient patient = new Patient();
+        LoginInfo loginInfo = new LoginInfo();
+        loginInfo.setEmail("pacijent@pacijent.com");
+        loginInfo.setPassword("pacijent");
+        UUID id = UUID.randomUUID();
+        patient.setUserId(id);
+        patient.setLoginInfo(loginInfo);
+
+        when(this.patientRepositoryMock.findById(id)).thenReturn(Optional.of(patient));
+
+        Patient p = patientService.findById(id);
+        assertEquals(patient, p);
+        verify(patientRepositoryMock, times(1)).findById(id);
+        verifyNoMoreInteractions(patientRepositoryMock);
+    }
+
+    @Test
+    @Transactional
+    public void testAddPatient() {
+        when(patientRepositoryMock.save(patientMock)).thenReturn(patientMock);
+        Patient p = patientService.save(patientMock);
+        assertThat(p, is(equalTo(patientMock)));
+    }
+
+    @Test
+    public void findPatientByEmail() {
+        Patient patient = new Patient();
+        LoginInfo loginInfo = new LoginInfo();
+        loginInfo.setEmail("pacijent@pacijent.com");
+        loginInfo.setPassword("pacijent");
+        UUID id = UUID.randomUUID();
+        patient.setUserId(id);
+        patient.setLoginInfo(loginInfo);
+        when(this.patientRepositoryMock.findByEmail("pacijent@pacijent.com")).thenReturn((patient));
+
+        Patient p = this.patientService.findByEmail("pacijent@pacijent.com");
+
+        assertThat(p,is(equalTo(patient)));
+    }
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testUpdatePatient() {
+        Patient patient = new Patient();
+        LoginInfo loginInfo = new LoginInfo();
+        loginInfo.setEmail("pacijent@pacijent.com");
+        loginInfo.setPassword("pacijent");
+        UUID id = UUID.randomUUID();
+        patient.setUserId(id);
+        patient.setLoginInfo(loginInfo);
+        when(patientRepositoryMock.findById(id)).thenReturn(Optional.of(patient));
+
+        Patient p = patientService.findById(id);
+        p.getLoginInfo().setEmail("pacijent@p.com");
+        p.getLoginInfo().setPassword("p");
+
+        when(patientRepositoryMock.save(p)).thenReturn(p);
+
+        p = patientService.save(p);
+
+        // 3. Verifikacija: asertacije i/ili verifikacija interakcije sa mock objektima
+        assertThat(p).isNotNull();
+
+        p = patientService.findById(id); // verifikacija da se u bazi nalaze izmenjeni podaci
+        assertThat(p.getLoginInfo().getEmail()).isEqualTo("pacijent@p.com");
+        assertThat(p.getLoginInfo().getPassword()).isEqualTo("p");
+
+        verify(patientRepositoryMock, times(2)).findById(id);
+        verify(patientRepositoryMock, times(1)).save(p);
         verifyNoMoreInteractions(patientRepositoryMock);
     }
 
