@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
+import ftn.isa.team12.pharmacy.domain.common.LoyaltyProgram;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
@@ -34,6 +35,9 @@ public class DrugReservationServiceImpl implements DrugReservationService {
     private PatientService patientService;
 
     @Autowired
+    private LoyaltyProgramService loyaltyProgramService;
+
+    @Autowired
     private DrugService drugService;
 
     @Autowired
@@ -48,6 +52,8 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         if(patient.getPenalties() > 2) {
             throw new IllegalArgumentException("You have 3 or more penalties and you cant reserve drug");
         }
+        LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
+        double discount = lp.getDiscountByCategory(patient.getCategory().getCategory());
         DrugReservation drugReservation = new DrugReservation();
         Drug drug = this.drugService.findById(drugReservationDTO.getDrugId());
         Pharmacy pharmacy = this.pharmacyService.findPharmacyById(drugReservationDTO.getPharmacyId());
@@ -60,6 +66,9 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         drugReservation.setReservationStatus(ReservationStatus.created);
         drugReservation.setReservationDateRange(dateRange);
         drugReservation.setDrug(drug);
+        drugReservation.setPrice(drugReservationDTO.getPrice());
+        discount = (1.0 * discount/100) * drugReservation.getPrice();
+        drugReservation.setDiscount(discount);
         drugReservation = this.drugReservationRepository.save(drugReservation);
 
         DrugInPharmacy drugInPharmacy = this.drugInPharmacyRepository.findDrugInPharmacy(drug.getDrugId(),pharmacy.getId());

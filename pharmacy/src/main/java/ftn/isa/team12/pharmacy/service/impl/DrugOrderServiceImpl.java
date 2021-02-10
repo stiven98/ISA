@@ -6,9 +6,14 @@ import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.domain.users.Supplier;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugOrderDTO;
+import ftn.isa.team12.pharmacy.dto.DrugOrderPhAdminDTO;
 import ftn.isa.team12.pharmacy.repository.DrugOrderRepository;
+import ftn.isa.team12.pharmacy.repository.OfferRepository;
+import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +42,11 @@ public class DrugOrderServiceImpl implements DrugOrderService {
     @Autowired
     private OfferService offerService;
 
+    @Autowired
+    OfferRepository offerRepository;
+
+    @Autowired
+    PharmacyRepository pharmacyRepository;
 
     @Override
     public DrugOrder createDrugOrder(DrugOrderDTO drugOrder) {
@@ -105,5 +115,58 @@ public class DrugOrderServiceImpl implements DrugOrderService {
             if(drugInPharmacy.getDrug().getDrugId() == drug.getDrugId())
                 return false;
         return true;
+    }
+
+
+    @Override
+    public List<DrugOrderPhAdminDTO> findAllByPharmacyID() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        List<DrugOrderPhAdminDTO> dpPh = new ArrayList<>();
+        List<DrugOrder> drugOrders = drugOrderRepository.findALlByPharmacyId(pharmacyAdministrator.getPharmacy().getId());
+        if(drugOrders != null){
+            for(DrugOrder drugOrder: drugOrders){
+                dpPh.add(new DrugOrderPhAdminDTO(drugOrder));
+            }
+        }
+        return dpPh;
+    }
+
+
+    @Override
+    public boolean delete(String id) {
+        DrugOrder drugOrder = drugOrderRepository.findByOrderId(UUID.fromString(id));
+        List<Offer> offers = offerRepository.findAllByDrugOrderOrderId(drugOrder.getOrderId());
+        if(!offers.isEmpty())
+            throw new IllegalArgumentException("can't delete drug order with code: " + id);
+        drugOrderRepository.deleteById(drugOrder.getOrderId());
+        return true;
+    }
+
+
+    @Override
+    public DrugOrder changeDrugOrder(DrugOrderPhAdminDTO dto) {
+        DrugOrder drugOrder = drugOrderRepository.findByOrderId(dto.getOrderId());
+
+        if(drugOrder == null)
+            throw new IllegalArgumentException("No drug order with code: " + dto.getOrderId());
+
+        List<Offer> offers = offerRepository.findAllByDrugOrderOrderId(drugOrder.getOrderId());
+        if(!offers.isEmpty())
+            throw new IllegalArgumentException("Drug order have offer, can't be change");
+
+        for (DrugForOrderDTO d: dto.getDrugorderItem()){
+            if(d.getQuantity()<0)
+                throw new IllegalArgumentException("Bad input quantity ");
+
+            for (DrugOrderItem dopi: drugOrder.getDrugOrderItems()){
+                if(dopi.getDrug().getDrugId().toString().equals(d.getId().toString())){
+                    System.out.println("jesi mi usao");
+                    dopi.setQuantity(d.getQuantity());
+                }
+            }
+        }
+        drugOrder = drugOrderRepository.save(drugOrder);
+        return drugOrder;
     }
 }

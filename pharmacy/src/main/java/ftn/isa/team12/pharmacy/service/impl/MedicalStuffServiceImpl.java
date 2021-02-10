@@ -46,7 +46,7 @@ public class MedicalStuffServiceImpl implements MedicalStuffService {
         if(examinations == null){
             return patients;
         }
-        examinations.forEach(examination -> { patients.add(new PatientExaminationDTO(examination.getPatient(), examination)); });
+        examinations.forEach(examination -> { if(examination.getPatient() != null) patients.add(new PatientExaminationDTO(examination.getPatient(), examination)); });
         return patients;
     }
 
