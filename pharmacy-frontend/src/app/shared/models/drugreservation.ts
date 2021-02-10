@@ -4,6 +4,7 @@ export class DrugReservation{
   pharmacyId;
   quantity: number;
   drugId;
+  price: number;
 
   constructor() {
     this.patientEmail = '';
@@ -11,5 +12,6 @@ export class DrugReservation{
     this.pharmacyId = null;
     this.quantity = 0;
     this.drugId = null;
+    this.price = 0;
   }
 }
