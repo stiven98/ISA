@@ -43,6 +43,11 @@ export class PharmacistHomeComponent implements OnInit {
     el.scrollIntoView({ behavior: 'smooth' });
   }
 
+  medicamentIssuing(el: HTMLElement){
+    this.router.navigate(['pharmacist/medicamentIssuing']);
+    el.scrollIntoView({ behavior: 'smooth' });
+  }
+
   ngOnInit(): void {
 
     this.userService.getMyInfo().subscribe(resUser => {

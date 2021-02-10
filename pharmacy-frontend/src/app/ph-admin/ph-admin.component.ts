@@ -5,6 +5,7 @@ import { DrugOrderService } from '../services/drug-order.service';
 import { DrugPriceService } from '../services/drug-price.service';
 import { ExaminationPriceService } from '../services/examination-price.service';
 import { MedicalStuffService } from '../services/medical-stuff.service';
+import { PromotionService } from '../services/promotion.service';
 import { UserService } from '../services/user.service';
 import { DrugPriceModel } from './drug-in-pharmacy/drugPriceModel';
 import { ExaminationPriceModel } from './drug-in-pharmacy/examinationPriceModel';
@@ -55,7 +56,12 @@ export class PhAdminComponent implements OnInit {
   examinationPRice:ExaminationPriceModel = new ExaminationPriceModel();
   filterList = [];
 
-
+  promotion = {
+    id : '',
+    startDate : new Date(),
+    endDate : new Date(),
+    text : ''
+  }
 
 
 
@@ -64,7 +70,8 @@ export class PhAdminComponent implements OnInit {
     private modalService:NgbModal,
     private calendar: NgbCalendar,
     private examinationPriceService: ExaminationPriceService,
-    private drugOrderService:DrugOrderService) {
+    private drugOrderService:DrugOrderService,
+    private promotionService:PromotionService) {
       this.fromDate = calendar.getToday();
       this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
 
@@ -253,6 +260,27 @@ export class PhAdminComponent implements OnInit {
   }
 
 
+  createPromotion(){
+    if(this.fromDate != undefined){
+      let d = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
+      this.promotion.startDate = new Date(Date.parse(d));
+    }else{
+      alert("Choose day");
+      return;
+    }
 
+    if(this.toDate != undefined){
+      let d = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
+      this.promotion.endDate = new Date(Date.parse(d));
+    }else{
+      alert("Choose day");
+      return;
+    }
+
+    
+    this.promotionService.createPromotion(this.promotion).subscribe((res)=> alert(res.result));
+
+
+  }
 }
 

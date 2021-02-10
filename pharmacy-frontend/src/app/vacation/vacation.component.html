@@ -1,0 +1,41 @@
+<div class=" container ">
+    
+    <div class="row d-flex justify-content-center "> 
+        <h1  class="font-weight-bold text-dark">Vacations request</h1>
+    </div>
+
+    <section id="doctors" class="doctors">
+        <div class="container">
+            <div class="row row d-flex justify-content-center " *ngFor="let v of list" >
+            <div class="col-lg-6">
+                <div class="member d-flex align-items-start">
+                <div class="pic"><img src="assets/img/vacation.jpg" class="img-fluid" alt=""></div>
+                <div class="member-info">
+                    <h4>Request: {{v.email}}</h4>
+                    <span>Vacation</span>
+                    <p>End date : {{v.startDate}}</p>
+                    <p>Start date: {{v.endDate}}</p>
+                    <button  class="btn btn-dark mt-3 w-100" (click)="open(content)">Accept/Decline</button>
+                    <ng-template #content let-modal>
+                        <div class="modal-header">
+                        <h4 class="modal-title" id="modal-basic-title">Resone</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="price" class="form-control"  [(ngModel)]="v.note" [ngModelOptions]="{standalone: true}"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button  class="btn btn-dark mt-3 w-100" (click)="accept(v)">Accept</button>
+                            <button  class="btn btn-dark mt-3 w-100" (click)="decline(v)">Decline</button>
+                        </div>
+                    </ng-template>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
+</div>
