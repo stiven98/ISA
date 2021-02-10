@@ -53,6 +53,21 @@ export class ExaminationService {
         return phamracists;
       }));
   }
+  getAvailableDermatologists = (pharmacyName) => {
+    return this.http
+      .get(environment.apiUrl + '/api/examination/getAvailableDermByPharmacy/' + pharmacyName )
+      .pipe(map(responseData => {
+        const dermatologists = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            const tmp = responseData[key];
+            tmp.dateOfExamination = new Date(tmp.dateOfExamination).toLocaleDateString();
+            dermatologists.push(responseData[key]);
+          }
+        }
+        return dermatologists;
+      }));
+  }
 
 
   getBusyTime(time){
@@ -105,6 +120,13 @@ export class ExaminationService {
       }));
   }
 
+  scheduleNewExamination = (examinationId, email) => {
+    return this.http
+      .post(environment.apiUrl + '/api/examination/newExamination/',{"examinationId": examinationId, "patientEmail": email})
+          .pipe(map(responseData => {
+            return responseData;
+          }));
+  }
   submitExamination(data){
     return this.apiService.post(this.config.submit_examination, data)
       .pipe(map(res => {
@@ -112,3 +134,4 @@ export class ExaminationService {
       }));
   }
 }
+

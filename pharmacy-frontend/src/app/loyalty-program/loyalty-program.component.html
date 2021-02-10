@@ -1,0 +1,99 @@
+<div class="container p-5">
+  <div>
+    <div>
+      <h1 class="d-flex justify-content-center font-weight-bold text-dark">Loyalty program</h1>
+    </div>
+
+    <div class="d-flex justify-content-center pt-4">
+      <form class="form-control-feedback w-50">
+
+        <div class="row border border-dark rounded p-3">
+          <div class="col-6">
+            <div>
+              <label for="minRegular" class="text-dark mt-3 mr-1">Minimum points for regular:</label>
+              <label *ngIf="mode==false" for="minRegular" class="text-dark mt-3 text-success">{{loyaltyProgramModel.minRegular}}</label>
+              <input *ngIf="mode==true" id="minRegular" class="form-control" type="number" [(ngModel)]="loyaltyProgramModel.minRegular" [ngModelOptions]="{standalone: true}"/>
+              <div class="invalid-feedback">
+                Wrong!
+              </div>
+            </div>
+
+            <div>
+              <label for="minSilver" class="text-dark mt-3 mr-1">Minimum points for silver:</label>
+              <label *ngIf="mode==false" for="minSilver" class="text-dark mt-3 text-success">{{loyaltyProgramModel.minSilver}}</label>
+              <input *ngIf="mode==true" id="minSilver" class="form-control" type="number" [(ngModel)]="loyaltyProgramModel.minSilver" [ngModelOptions]="{standalone: true}"/>
+            </div>
+
+            <div>
+              <label for="minGold" class="text-dark mt-3 mr-1">Minimum points for silver:</label>
+              <label *ngIf="mode==false" for="minGold" class="text-dark mt-3 text-success">{{loyaltyProgramModel.minGold}}</label>
+              <input *ngIf="mode==true" id="minGold" class="form-control" type="number" [(ngModel)]="loyaltyProgramModel.minGold" [ngModelOptions]="{standalone: true}"/>
+              <div class="invalid-feedback">
+                Wrong!
+              </div>
+            </div>
+
+            <div>
+              <label for="pointsPerExamination" class="text-dark mt-3 mr-1"> Points for examination:</label>
+              <label *ngIf="mode==false" for="pointsPerExamination" class="text-dark mt-3 text-success">{{loyaltyProgramModel.pointsPerExamination}}</label>
+              <input *ngIf="mode==true" id="pointsPerExamination" class="form-control" type="number" [(ngModel)]="loyaltyProgramModel.pointsPerExamination" [ngModelOptions]="{standalone: true}"/>
+              <div class="invalid-feedback">
+                Wrong!
+              </div>
+            </div>
+
+
+          </div>
+          <div class="col-6">
+            <div>
+              <label for="discountForRegular" class="text-dark mt-3 mr-1">Discount for regular:</label>
+              <label *ngIf="mode==false" for="discountForRegular" class="text-dark mt-3 text-success">{{loyaltyProgramModel.discountForRegular}}</label>
+              <input *ngIf="mode==true" id="discountForRegular" class="form-control" type="number" [(ngModel)]="loyaltyProgramModel.discountForRegular" [ngModelOptions]="{standalone: true}"/>
+              <div class="invalid-feedback">
+                Wrong!
+              </div>
+            </div>
+            <div>
+              <label for="discountForSilver" class="text-dark mt-3 mr-1">Discount for silver:</label>
+              <label *ngIf="mode==false" for="discountForSilver" class="text-dark mt-3 text-success">{{loyaltyProgramModel.discountForSilver}}</label>
+              <input *ngIf="mode==true" id="discountForSilver" class="form-control" type="number" [(ngModel)]="loyaltyProgramModel.discountForSilver" [ngModelOptions]="{standalone: true}"/>
+              <div class="invalid-feedback">
+                Wrong!
+              </div>
+            </div>
+            <div>
+              <label for="discountForGold" class="text-dark mt-3 mr-1">Discount for gold:</label>
+              <label *ngIf="mode==false" for="discountForGold" class="text-dark mt-3 text-success">{{loyaltyProgramModel.discountForGold}}</label>
+              <input *ngIf="mode==true" id="discountForGold" class="form-control" type="number" [(ngModel)]="loyaltyProgramModel.discountForGold" [ngModelOptions]="{standalone: true}"/>
+              <div class="invalid-feedback">
+                Wrong!
+              </div>
+            </div>
+
+            <div>
+              <label for="pointsPerCounseling" class="text-dark mt-3 mr-1">Points for counseling:</label>
+              <label *ngIf="mode==false" for="pointsPerCounseling" class="text-dark mt-3 text-success">{{loyaltyProgramModel.pointsPerCounseling}}</label>
+              <input *ngIf="mode==true" id="pointsPerCounseling" class="form-control" type="number" [(ngModel)]="loyaltyProgramModel.pointsPerCounseling" [ngModelOptions]="{standalone: true}"/>
+              <div class="invalid-feedback">
+                Wrong!
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="w-100 d-flex justify-content-center">
+            <input *ngIf="mode==false" type="button" class="btn btn-outline-dark m-3 w-50" value="Change" (click)="onChange()"/>
+            <input *ngIf="mode==true" type="button" class="btn btn-outline-dark m-3 w-50" value="Save" (click)="onSave()"/>
+            <input *ngIf="mode==true" type="button" class="btn btn-outline-dark m-3 w-50" value="Cancel" (click)="onCancel()"/>
+          </div>
+
+        </div>
+
+
+
+      </form>
+    </div>
+  </div>
+
+</div>
