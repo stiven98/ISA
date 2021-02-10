@@ -2,7 +2,6 @@ package ftn.isa.team12.pharmacy.service.impl;
 
 
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
-import ftn.isa.team12.pharmacy.domain.drugs.Offer;
 import ftn.isa.team12.pharmacy.domain.enums.VacationRequestStatus;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.*;

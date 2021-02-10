@@ -56,7 +56,6 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
 
     @Override
     public void removeDrugInPharmacy(DrugInPharmacyChangesDTO dto) {
-        //treba proveriti da li je lek rezervisan jos
         PharmacyAdministrator phAdmin = pharmacyAdministratorService.findAdminByEmail(dto.getPharmacyAdminEmail());
         Drug drug = drugService.findById(dto.getDrugId());
 
