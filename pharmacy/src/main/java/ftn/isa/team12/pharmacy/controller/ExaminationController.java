@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.controller;
+import ftn.isa.team12.pharmacy.domain.common.LoyaltyProgram;
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
@@ -57,6 +58,9 @@ public class ExaminationController {
 
     @Autowired
     DrugInPharmacyService drugInPharmacyService;
+
+    @Autowired
+    LoyaltyProgramService loyaltyProgramService;
 
     @Autowired
     DrugService drugService;
@@ -265,6 +269,8 @@ public class ExaminationController {
     @PostMapping("/scheduleNew/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
+        int discount = lp.getDiscountByCategory(patient.getCategory().getCategory());
         List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
         for(Examination ex : examinations) {
@@ -278,6 +284,9 @@ public class ExaminationController {
         examination.setPatient(patient);
         examination.setExaminationType(ExaminationType.pharmacistConsultations);
         examination.setExaminationStatus(ExaminationStatus.scheduled);
+        double priceOfExamination = examination.getExaminationPrice().getPrice();
+        double newPrice =  (1.0 * discount / 100) * priceOfExamination;
+        examination.setDiscount(newPrice);
         this.examinationService.save(examination);
         try {
             sender.sendPharmacistConsultationsMail(examination.getExaminationId(),dto.getPatientEmail(),dto.getPharmacyName(),examination.getDateOfExamination().toString(),
@@ -293,6 +302,8 @@ public class ExaminationController {
     @PostMapping("/newExamination/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody DermatologistExamScheduleDTO dto)  {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
+        int discount = lp.getDiscountByCategory(patient.getCategory().getCategory());
         List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findById(dto.getExaminationId());
         for(Examination ex : examinations) {
@@ -306,6 +317,9 @@ public class ExaminationController {
         examination.setPatient(patient);
         examination.setExaminationType(ExaminationType.dermatologistExamination);
         examination.setExaminationStatus(ExaminationStatus.scheduled);
+        double priceOfExamination = examination.getExaminationPrice().getPrice();
+        double newPrice =  (1.0 * discount / 100) * priceOfExamination;
+        examination.setDiscount(newPrice);
         this.examinationService.save(examination);
         try {
             sender.sendDermatologistExaminationMail(examination);
@@ -364,6 +378,7 @@ public class ExaminationController {
         if(new Date().before(dayBeforeDeadline)) {
             ex.setPatient(null);
             ex.setExaminationStatus(ExaminationStatus.cancelled);
+            ex.setDiscount(0);
             this.examinationService.save(ex);
         }
         else {

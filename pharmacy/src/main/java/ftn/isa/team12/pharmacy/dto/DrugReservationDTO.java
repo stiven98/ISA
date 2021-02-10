@@ -18,5 +18,6 @@ public class DrugReservationDTO {
     private UUID pharmacyId;
     private int quantity;
     private UUID drugId;
+    private double price;
 
 }
