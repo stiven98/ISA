@@ -35,6 +35,7 @@ public class IntegrationTestsStudent3  {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
+    
     @Test
     public void testLoginDermatologist() throws Exception {
         LoginDTO loginDTO = new LoginDTO();
