@@ -16,6 +16,9 @@ export class ConfigService {
   private _search_url = this._api_url + '/search';
   private _dermatologist_url = this._api_url + '/dermatologist'
   private _pharmacist_url = this._api_url + '/pharmacist'
+  private _drugPrice_url = this._api_url + '/drugPrice'
+  private _examination_price_url = this._api_url + '/examinationPrice'
+  private _work_time_url = this._api_url + '/workTime'
 
   private _examination_url = this._api_url + '/examination';
   private _medical_stuff_url = this._api_url + '/medicalStuff';
@@ -258,7 +261,68 @@ export class ConfigService {
   }
 
 
+  private _examinations_busy_time = this._examination_url + '/busyTime';
 
+  get examinations_busy_time (): string {
+    return this._examinations_busy_time ;
+  }
+
+  private _examinations_create = this._examination_url + '/createExamination';
+
+  get examinations_create (): string {
+    return this._examinations_create ;
+  }
+
+  private _drug_price_create = this._drugPrice_url + '/createDrugPrice';
+
+  get drug_price_create (): string {
+    return this._drug_price_create ;
+  }
+
+  private _examinatinn_price_get_all = this._examination_price_url + '/all';
+
+  get examinatinn_price_get_all (): string {
+    return this._examinatinn_price_get_all ;
+  }
+
+
+  private _examinatinn_price_create = this._examination_price_url + '/create';
+
+  get examinatinn_price_create (): string {
+    return this._examinatinn_price_create ;
+  }
+
+
+  private _examinatinn_price_get_all_for_change = this._examination_price_url + '/allForChange';
+
+  get examinatinn_price_get_all_for_change (): string {
+    return this._examinatinn_price_get_all_for_change ;
+  }
+
+  private _examinatinn_price_change = this._examination_price_url + '/change';
+
+  get examinatinn_price_change (): string {
+    return this._examinatinn_price_change ;
+  }
   
+  private _drug_price_get_all_for_change = this._drugPrice_url + '/allForChange';
+
+  get drug_price_get_all_for_change (): string {
+    return this._drug_price_get_all_for_change ;
+  }
+
+  private _drug_price_change = this._drugPrice_url + '/change';
+
+  get drug_price_change (): string {
+    return this._drug_price_change ;
+  }
+
+
+  private _work_time_get_all = this._work_time_url + '/all/';
+
+  get work_time_get_all (): string {
+    return this._work_time_get_all ;
+  }
+
 
 }

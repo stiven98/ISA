@@ -11,7 +11,6 @@ import ftn.isa.team12.pharmacy.email.EmailSender;
 import ftn.isa.team12.pharmacy.repository.PatientRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,6 +53,12 @@ public class PatientServiceImpl implements PatientService {
         patient.getAccountInfo().setActive(true);
         return this.patientRepository.save(patient);
     }
+
+    @Override
+    public Patient save(Patient patient) {
+        return this.patientRepository.save(patient);
+    }
+
 
     @Override
     public Patient saveAndFlush(Patient patientRequest) {
