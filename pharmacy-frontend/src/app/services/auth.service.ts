@@ -47,7 +47,9 @@ export class AuthService {
               this.router.navigate(['allOrders']);
             } else if (authority === 'ROLE_SYSTEM_ADMINISTRATOR') {
               this.router.navigate(['/']);
-            }
+            } else if (authority === 'ROLE_PHARMACIST'){
+            this.router.navigate(['/pharmacist']);
+          }
           }
         });
       });
