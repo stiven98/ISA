@@ -340,6 +340,11 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     }
 
+    @Override
+    public List<Examination> findAllByEmployeeAndPatient(MedicalStuff medicalStuff, Patient patient) {
+        return examinationRepository.findAllByEmployeeUserIdAndPatientUserId(medicalStuff.getUserId(), patient.getUserId());
+    }
+
     public List<MedicalStuff> findAvailableByPharmacy(String pharmacyName) {
         return this.examinationRepository.findAvailableByPharmacyAndTerm(pharmacyName);
     }

@@ -2,6 +2,12 @@
     <div class="text-left">
         <h3>My patients</h3>
     </div>
+
+    <div class="d-flex row my-2 ml-1 mr-1">
+      <input style="width: 40%;" type ="text" [(ngModel)] = "searchInput" placeholder="Search by name and/or lastname"/>
+      <button class="btn btn-dark" (click)="search()">Search</button>
+    </div>
+
     <div class="table-wrapper-scroll-y my-scrollbar">
       <table class="table table-hover table-dark">
         <thead class="thead-dark">
@@ -15,16 +21,36 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor='let patient of patients'>
-            <td>{{ patient.id}}</td>
-            <td>{{ patient.name}}</td>
-            <td>{{ patient.lastName}}</td>
-            <td>{{ patient.examinationDate}}</td>
-            <td>{{ patient.email}}</td>
-            <td>{{ patient.phoneNumber}}</td>
+          <tr *ngFor='let pat of patients' class="tr-hover" (click)="selectRow(pat, content)">
+            <td>{{ pat.id}}</td>
+            <td>{{ pat.name}}</td>
+            <td>{{ pat.lastName}}</td>
+            <td>{{ pat.examinationDate}}</td>
+            <td>{{ pat.email}}</td>
+            <td>{{ pat.phoneNumber}}</td>
           </tr>
         </tbody>
       </table>
     </div>
 </div>
-
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Patient examinations</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body overflow-auto">
+      <h4> Choose examination </h4>
+      <div class = "form-group">
+        <select (change)="onChange($event)" class="form-control">
+            <option class="hidden" value="Select existing term"></option>
+            <option *ngFor="let examination of examinations">{{examination.dateAndTime}}</option>
+        </select>
+        <button class="btn btn-dark my-2 w-30" [disabled]="canStart" (click)="startExamination(content)">Start examination</button>
+     </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('close')">Close</button>
+  </div>
+</ng-template>

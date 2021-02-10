@@ -42,4 +42,6 @@ public interface ExaminationService {
     Examination scheduleExistingMedStuff(ExaminationScheduleExistingMedStuffDTO dto);
 
     Examination submitExaminationData(ExaminationSubmissionDTO dto);
+
+    List<Examination> findAllByEmployeeAndPatient(MedicalStuff medicalStuff, Patient patient);
 }
