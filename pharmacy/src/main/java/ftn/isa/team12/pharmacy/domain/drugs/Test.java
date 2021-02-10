@@ -27,6 +27,16 @@ public class Test {
                 Persistence.createEntityManagerFactory("PharmacyDB");
         EntityManager em = factory.createEntityManager();
 
+        LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
+        loyaltyProgram.setMinRegular(200);
+        loyaltyProgram.setMinSilver(400);
+        loyaltyProgram.setMinGold(700);
+        loyaltyProgram.setDiscountForRegular(5);
+        loyaltyProgram.setDiscountForSilver(8);
+        loyaltyProgram.setDiscountForGold(13);
+        loyaltyProgram.setPointsPerExamination(5);
+        loyaltyProgram.setPointsPerCounseling(5);
+
 
         Authority a = new Authority();
         a.setRole("ROLE_PH_ADMIN");
@@ -795,6 +805,7 @@ public class Test {
 
 
         em.getTransaction().begin();
+        em.persist(loyaltyProgram);
         em.persist(a);
         em.persist(pa);
         em.persist(derm);
