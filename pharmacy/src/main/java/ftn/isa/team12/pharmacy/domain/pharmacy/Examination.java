@@ -34,6 +34,8 @@ public class Examination implements Serializable {
     private LocalTime timeOfExamination;
     @Column(name = "duration")
     private long duration;
+    @Column(name = "discount")
+    private double discount;
     @Column(name = "examination_status")
     private ExaminationStatus examinationStatus;
     @ManyToOne

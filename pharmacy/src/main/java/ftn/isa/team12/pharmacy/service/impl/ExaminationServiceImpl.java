@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.service.impl;
 
+import ftn.isa.team12.pharmacy.domain.common.LoyaltyProgram;
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
@@ -54,6 +55,9 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
     DrugInPharmacyRepository drugInPharmacyRepository;
+
+    @Autowired
+    LoyaltyProgramService loyaltyProgramService;
 
     @Autowired
     ERecipeRepository eRecipeRepository;
@@ -290,7 +294,17 @@ public class ExaminationServiceImpl implements ExaminationService {
         // TO-DO EventStore?
         Examination examination = examinationRepository.findExaminationByExaminationId(dto.getExaminationId());
         examination.setNote(dto.getNote());
-        Patient patient = patientService.findById(dto.getPatientId());
+        Patient patient = this.patientService.findById(dto.getPatientId());
+        LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
+        if (examination.getExaminationType() == ExaminationType.dermatologistExamination) {
+            patient.getCategory().setPoints(patient.getCategory().getPoints() + lp.getPointsPerExamination());
+        }
+        if (examination.getExaminationType() == ExaminationType.pharmacistConsultations) {
+            patient.getCategory().setPoints(patient.getCategory().getPoints() + lp.getPointsPerCounseling());
+        }
+        System.out.println(patient.getCategory().getPoints());
+        patient.getCategory().setCategory(lp.getCategory(patient.getCategory().getPoints()));
+        this.patientService.save(patient);
         Pharmacy pharmacy = pharmacyService.findPharmacyById(dto.getPharmacyId());
         Set<ERecipeItem> items = new HashSet<>();
 
