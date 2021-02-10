@@ -93,4 +93,12 @@ public class EmailSender {
     }
 
 
+    public void sendDrugPickingUpFeedback(String username, UUID drug_reservation_id) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Drug reservation: " + drug_reservation_id + " successfully completed with picking up the drug!";
+        message.setTo(username);
+        message.setText(body);
+        message.setSubject("Drug picking up");
+        emailSender.send(message);
+    }
 }

@@ -12,6 +12,9 @@ public interface DrugReservationRepository extends JpaRepository<DrugReservation
 
     List<DrugReservation> findAllByPatientUserId(UUID userId);
 
+    @Query("select reservation from DrugReservation reservation where reservation.drug_reservation_id = ?1 and reservation.pharmacy.id = ?2")
+    DrugReservation findDrugReservationByIdAndPharmacyId(UUID id, UUID pharmacyId);
+
     @Query("select reservation from DrugReservation  reservation where reservation.drug_reservation_id = ?1")
     DrugReservation findDrugReservationByDrug_reservation_id(UUID drug_reservation_id);
 
@@ -21,4 +24,6 @@ public interface DrugReservationRepository extends JpaRepository<DrugReservation
     @Query("select reservation.drug from DrugReservation reservation where reservation.patient.userId=?1 and reservation.reservationStatus = 2")
     List<Drug> findDrugsPatientReserved(UUID patientId);
 
+    @Query("select reservation from DrugReservation reservation where reservation.drug_reservation_id = ?1")
+    DrugReservation findDrugReservationById(UUID id);
 }
