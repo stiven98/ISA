@@ -544,7 +544,6 @@ public class Test {
         eRecipeItem1.setDrug(drug1);
         eRecipeItem1.setERecipe(eRecipe);
 
-
         ERecipeItem eRecipeItem2 = new ERecipeItem();
         eRecipeItem2.setQuantity(4);
         eRecipeItem2.setDrug(drug3);
