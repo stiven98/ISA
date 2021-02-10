@@ -61,6 +61,7 @@ import { EmployeeSchedulingComponent } from './employee-scheduling/employee-sche
 import { ComplaintComponent } from './complaint/complaint.component';
 import { SeeAllOfferComponent } from './ph-admin/see-all-offer/see-all-offer.component';
 import { DermatologistExaminationComponent } from './dermatologist-examination/dermatologist-examination.component';
+import { VacationComponent } from './vacation/vacation.component';
 import { PharmacistHomeComponent } from './pharmacist-home/pharmacist-home.component';
 import { PharmacistsGuard } from './guard/pharmacists.guard';
 import { EmployeeGuard } from './guard/employee.guard';
@@ -122,6 +123,7 @@ const appRoutes: Routes = [
   { path: 'addDermatologistInPharmacy', component: AddDermatologistInPharmacyComponent, canActivate: [PhAdminGuard]},
   { path: 'createExamination/:email', component: CreateExaminationComponent, canActivate: [PhAdminGuard]},
   { path: 'acceptDrugOffer/:id', component: SeeAllOfferComponent, canActivate: [PhAdminGuard]},
+  { path: 'vacation', component: VacationComponent},
 
 
   //ovo mora da bude poslednje!!!!!!!
@@ -186,6 +188,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     EmployeeSchedulingComponent,
     ComplaintComponent,
     SeeAllOfferComponent,
+    VacationComponent,
     PharmacistHomeComponent
   ],
   imports: [

@@ -93,4 +93,13 @@ public class EmailSender {
     }
 
 
+    public void sendEmailEmployee(UUID vacationID, String email, String note, String status) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Your request for vacation " + status + "note: " + note + " request with code: " + vacationID.toString();
+        message.setTo(email);
+        message.setText(body);
+        message.setSubject("Offer status");
+        emailSender.send(message);
+    }
+
 }
