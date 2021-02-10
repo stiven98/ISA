@@ -65,6 +65,7 @@ import { VacationComponent } from './vacation/vacation.component';
 import { PharmacistHomeComponent } from './pharmacist-home/pharmacist-home.component';
 import { PharmacistsGuard } from './guard/pharmacists.guard';
 import { EmployeeGuard } from './guard/employee.guard';
+import { MedicamentIssuingComponent } from './medicament-issuing/medicament-issuing.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -94,6 +95,7 @@ const appRoutes: Routes = [
     { path: 'patients', component: MedicalStuffClientsComponent },
     { path: 'workCalendar', component: WorkCalendarComponent },
     { path: 'vacationRequest', component: VacationRequestComponent },
+    { path: 'medicamentIssuing', component: MedicamentIssuingComponent },
     { path: '**', redirectTo: 'changeAccountInfo'}
   ]
   },
@@ -188,6 +190,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     EmployeeSchedulingComponent,
     ComplaintComponent,
     SeeAllOfferComponent,
+    PharmacistHomeComponent,
+    MedicamentIssuingComponent,
     VacationComponent,
     PharmacistHomeComponent
   ],

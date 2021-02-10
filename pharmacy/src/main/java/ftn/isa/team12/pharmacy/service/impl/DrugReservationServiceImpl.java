@@ -15,6 +15,7 @@ import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
@@ -132,4 +133,32 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         Patient patient = this.patientService.findByEmail(patientEmail);
         return this.drugReservationRepository.findDrugsPatientReserved(patient.getUserId());
     }
+
+    @Override
+    public DrugReservation findDrugReservationByIdAndPharmacyId(UUID id, UUID pharmacyId) {
+        DrugReservation drugReservation = this.drugReservationRepository.findDrugReservationByIdAndPharmacyId(id, pharmacyId);
+        if(drugReservation != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            Date today = new Date();
+            Date endDate = drugReservation.getReservationDateRange().getEndDate();
+            boolean isNotPassed = (sdf.format(today).compareTo(sdf.format(endDate))) < 0;
+            boolean canIssue = drugReservation.getReservationStatus() == ReservationStatus.created;
+            if(isNotPassed && canIssue){
+                return drugReservation;
+            }
+            else{
+                return null;
+            }
+        }
+        return drugReservation;
+    }
+
+    @Override
+    public DrugReservation issueDrug(UUID id) {
+        DrugReservation drugReservation = this.drugReservationRepository.findDrugReservationById(id);
+        drugReservation.setReservationStatus(ReservationStatus.checked);
+        this.drugReservationRepository.save(drugReservation);
+        return drugReservation;
+    }
+
 }

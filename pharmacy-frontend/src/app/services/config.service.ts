@@ -25,6 +25,8 @@ export class ConfigService {
   private _medical_stuff_url = this._api_url + '/medicalStuff';
   private _refresh_token_url = this._api_url + '/refresh';
 
+  private _drug_reservation_url = this._api_url + '/drugReservation';
+
   get refresh_token_url(): string {
     return this._refresh_token_url;
   }
@@ -356,5 +358,18 @@ export class ConfigService {
   get offer_accept (): string {
     return this._offer_accept ;
   }
+
+  private _find_reservation_by_code = this._drug_reservation_url + '/findReservation/';
+
+  get find_reservation_by_code (): string {
+    return this._find_reservation_by_code ;
+  }
+
+  private _issue_drug = this._drug_reservation_url + '/issueDrug/';
+
+  get issue_drug() : string {
+    return this._issue_drug;
+  }
+
 
 }
