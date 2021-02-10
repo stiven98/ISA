@@ -38,6 +38,9 @@ public class SystemAdministratorController {
     @Autowired
     private EmailSender sender;
 
+    @Autowired
+    private AuthorityService authorityService;
+
 
     @PreAuthorize("hasAnyRole('ROLE_SYSTEM_ADMINISTRATOR')")
     @PostMapping("/add")
@@ -57,14 +60,16 @@ public class SystemAdministratorController {
             Location location = this.locationService.saveAndFlush(systemAdministratorRequest.getLocation());
             systemAdministratorRequest.setLocation(location);
 
-
+            systemAdministratorRequest.setAuthorities(authorityService.findByRole("ROLE_SYSTEM_ADMINISTRATOR"));
+            systemAdministratorRequest.getAccountInfo().setFirstLogin(true);
+            systemAdministratorRequest.getAccountInfo().setActive(false);
             SystemAdministrator systemAdministrator = this.systemAdministratorService.saveAndFlush(systemAdministratorRequest);
 
-            //try {
-            //    sender.sendVerificationEmail(systemAdministrator.getLoginInfo().getEmail(), systemAdministrator.getUserId().toString());
-            //} catch (Exception e) {
-            //    return new ResponseEntity<>(systemAdministratorRequest, HttpStatus.NO_CONTENT);
-            //}
+            try {
+                sender.sendVerificationEmail(systemAdministrator.getLoginInfo().getEmail(), systemAdministrator.getUserId().toString());
+            } catch (Exception e) {
+                return new ResponseEntity<>(systemAdministratorRequest, HttpStatus.NO_CONTENT);
+            }
 
             return new ResponseEntity<>(systemAdministrator, HttpStatus.CREATED);
         } else {

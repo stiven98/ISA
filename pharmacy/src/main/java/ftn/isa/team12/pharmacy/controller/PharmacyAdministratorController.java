@@ -42,6 +42,9 @@ public class PharmacyAdministratorController {
     @Autowired
     private EmailSender sender;
 
+    @Autowired
+    private AuthorityService authorityService;
+
 
     @GetMapping("/all")
     public ResponseEntity<List<PharmacyAdministrator>> findAll() {
@@ -82,14 +85,18 @@ public class PharmacyAdministratorController {
             Location location = this.locationService.saveAndFlush(pharmacyAdministratorRequest.getLocation());
             pharmacyAdministratorRequest.setLocation(location);
 
+
+            pharmacyAdministratorRequest.setAuthorities(authorityService.findByRole("ROLE_PH_ADMIN"));
+            pharmacyAdministratorRequest.getAccountInfo().setActive(false);
+            pharmacyAdministratorRequest.getAccountInfo().setFirstLogin(true);
             pharmacyAdministratorRequest.setPharmacy(pharmacyService.findPharmacyById(UUID.fromString(id)));
             PharmacyAdministrator pharmacyAdministrator = this.pharmacyAdministratorService.saveAndFlush(pharmacyAdministratorRequest);
 
-            //try {
-            //    sender.sendVerificationEmail(pharmacyAdministrator.getLoginInfo().getEmail(), pharmacyAdministrator.getUserId().toString());
-            //} catch (Exception e) {
-            //    return new ResponseEntity<>(pharmacyAdministratorRequest, HttpStatus.NO_CONTENT);
-            //}
+            try {
+                sender.sendVerificationEmail(pharmacyAdministrator.getLoginInfo().getEmail(), pharmacyAdministrator.getUserId().toString());
+            } catch (Exception e) {
+                return new ResponseEntity<>(pharmacyAdministratorRequest, HttpStatus.NO_CONTENT);
+            }
 
             return new ResponseEntity<>(pharmacyAdministrator, HttpStatus.CREATED);
         } else {

@@ -55,8 +55,6 @@ public class SupplierController {
         if (user == null) {
             ResponseEntity.unprocessableEntity();
 
-
-
             Country country = this.countryService.saveAndFlush(supplierRequest.getLocation().getCity().getCountry());
             supplierRequest.getLocation().getCity().setCountry(country);
 
@@ -65,6 +63,7 @@ public class SupplierController {
 
             Location location = this.locationService.saveAndFlush(supplierRequest.getLocation());
             supplierRequest.setLocation(location);
+
 
             supplierRequest.setAuthorities(authorityService.findByRole("ROLE_SUPPLIER"));
             Supplier supplier = this.supplierService.saveAndFlush(supplierRequest);

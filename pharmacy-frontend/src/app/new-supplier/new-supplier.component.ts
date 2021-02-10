@@ -5,6 +5,8 @@ import {CityService} from '../services/city.service';
 import {CountryService} from '../services/country.service';
 import {Router} from '@angular/router';
 import {SupplierService} from '../services/supplier.service';
+import {AuthService} from '../services/auth.service';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-new-supplier',
@@ -13,17 +15,17 @@ import {SupplierService} from '../services/supplier.service';
 })
 export class NewSupplierComponent implements OnInit {
 
-  selectedCountry = 'Choose...';
-  selectedCity = 'Choose...';
-  disabledCountry = false;
-  disabledCity = false;
-  fetchData = false;
-  cities = [];
-  countries = [];
-  registrationPatient: RegistrationPatientModel = new RegistrationPatientModel();
-  validationModel: ValidationModel = new ValidationModel();
-  ifCountry = false;
-  confirmPassword = '';
+  selectedCountry: string;
+  selectedCity: string;
+  disabledCountry: boolean;
+  disabledCity: boolean;
+  fetchData: boolean;
+  cities: any [];
+  countries: any [];
+  registrationPatient: RegistrationPatientModel;
+  validationModel: ValidationModel;
+  ifCountry: boolean;
+  confirmPassword: string;
   addedCountry: string;
   addedCity: string;
   zipCode: string;
@@ -32,19 +34,41 @@ export class NewSupplierComponent implements OnInit {
   constructor(private cityService: CityService,
               private countryService: CountryService,
               private router: Router,
-              private supplierService: SupplierService) { }
+              private supplierService: SupplierService,
+              private userService: UserService,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.selectedCountry = 'Choose...';
+    this.selectedCity = 'Choose...';
+    this.disabledCountry = false;
+    this.disabledCity = false;
+    this.fetchData = false;
+    this.cities = [];
+    this.countries = [];
+    this.registrationPatient = new RegistrationPatientModel();
+    this.validationModel = new ValidationModel();
+    this.ifCountry = false;
+    this.confirmPassword = '';
     this.addedCountry = '';
     this.addedCity = '';
     this.zipCode = '';
     this.fetchData = true;
     this.registration = true;
-
-    this.countryService.findAll().subscribe((response) => {
-      this.countries = response;
-      this.fetchData = false;
+    this.userService.getMyInfo().subscribe(() => {
+      if (this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR') {
+        this.countryService.findAll().subscribe((response) => {
+          this.countries = response;
+          this.fetchData = false;
+        });
+      } else {
+        this.router.navigate(['403']);
+      }
+    }, () => {
+      this.router.navigate(['/login']);
     });
+
+
 
   }
 
@@ -65,17 +89,13 @@ export class NewSupplierComponent implements OnInit {
       this.fetchData = true;
 
       this.supplierService.saveSupplier(this.registrationPatient).subscribe((response) => {
-        this.fetchData = false;
-        this.registration = false;
-        this.registrationPatient = new RegistrationPatientModel();
-        alert("Dodao sam ga");
+        alert('Supplier is registered!');
+        this.ngOnInit();
       }, (error) => {
         this.fetchData = false;
         this.validationModel.validEmail = 'is-invalid';
       });
 
-    } else {
-      console.log('Nije dobro');
     }
 
   }
