@@ -50,5 +50,21 @@ public class ReportsController {
     }
 
 
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/yearsReportDrug")
+    public ResponseEntity<?> reportDrugs() throws ParseException {
+
+        return new ResponseEntity<>(reportService.yearsReportDrug(), HttpStatus.OK);
+    }
+
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/monthlyDrug/{month}")
+    public ResponseEntity<ReportsMonthlyDTO> reportMonthlyDrug(@PathVariable Integer month) throws ParseException {
+        return new ResponseEntity<>(reportService.monthlyReportDrug(month), HttpStatus.OK);
+    }
+
+
 
 }

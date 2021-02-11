@@ -21,8 +21,18 @@ export class ReportsComponent implements OnInit {
   yersRepot:number[] = [];
   quartalReport:number[] = [];
   view = 1; /// 0 years , 1 quartal, 2 month
+  view2 = 1; /// 0 years , 1 quartal, 2 month
+
+  yersRepotDrug:number[] = [];
+  quartalReportDrug:number[] = [];
+
 
   monthly = {
+    numberOfExamination : [],
+    days : []
+  }
+
+  monthlyDrug = {
     numberOfExamination : [],
     days : []
   }
@@ -60,6 +70,28 @@ export class ReportsComponent implements OnInit {
 
 
 
+    this.reportsService.gerReportYersDrug().subscribe((res)=>{
+      let temp = res;
+      for(let a of temp){
+        this.yersRepotDrug.push(a);
+      }
+      let i =0
+      let sum:number = 0
+      for(let s of temp){
+        if(i<3){
+          sum += s;
+        }else{
+          this.quartalReportDrug.push(sum);
+          sum = 0;
+          i=0;
+        }
+        i++;
+      }
+      
+    })
+
+
+
     this.fetchData = false;
   }
 
@@ -70,6 +102,10 @@ export class ReportsComponent implements OnInit {
   
   month(){
     return this.view == 0;
+  }
+
+  monthDrug(){
+    return this.view2 == 0;
   }
 
   public barChartOptions = {
@@ -95,6 +131,19 @@ export class ReportsComponent implements OnInit {
     })
 
     
+  }
+
+  onChangeSelectedDrug(event){
+    this.reportsService.getReportMonthDrug(event.target.value).subscribe((res)=> {
+      this.monthlyDrug = res;
+      this.view = 0;
+      this.barChartLabels2 = this.monthlyDrug.days;
+      this.barChartData2 = [
+        {data: this.monthlyDrug.numberOfExamination, label: 'Month report examination',},
+      ];
+    })
+
+
   }
 
 
@@ -130,14 +179,54 @@ export class ReportsComponent implements OnInit {
         break;}
 
     }
-
-
-
-
-
   }
 
 
+  public barChartOptions2 = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartLabels2 = this.months;
+  public barChartType2 = 'bar';
+  public barChartLegend2= true;
+  public barChartData2 = [
+    {data: this.yersRepotDrug, label: 'Years report drug',},
+  ];
+
+
+
+  switchDrug(){
+    switch(this.view2){
+        case 0:{ 
+          this.view2 = 1;
+
+          this.barChartLabels2 = this.months;
+          this.barChartData2 = [
+            {data: this.yersRepotDrug, label: 'Years report drug',},
+          ];
+          
+        
+        break;}
+        case 1:{ 
+        this.view2 = 2;
+
+        this.barChartLabels2 = this.quartal;
+        this.barChartData2 = [
+          {data: this.quartalReportDrug, label: 'Quartal report drug',},
+        ];
+        
+        break;}
+        case 2: {
+        this.view2 = 0;
+        this.barChartLabels2 = this.monthlyDrug.days;
+        this.barChartData2 = [
+          {data: this.monthlyDrug.numberOfExamination, label: 'Month report drug',},
+        ];
+
+        break;}
+
+    }
+  }
 
 
 

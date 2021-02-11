@@ -26,4 +26,15 @@ export class ReportsService {
   }
 
 
+  gerReportYersDrug():Observable<any>{
+    return this.apiService.get("http://localhost:8080/api/report/yearsReportDrug").pipe(map((res:Response) => {return res;}))
+  }
+
+
+  getReportMonthDrug(month):Observable<any>{
+    return this.apiService.get("http://localhost:8080/api/report/monthlyDrug/" + month).pipe(map((res:Response) => {return res;}))
+  }
+
+
+
 }
