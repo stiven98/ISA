@@ -52,8 +52,6 @@ public class DrugOrder implements Serializable {
    @OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "drugOrder")
    private Set<DrugOrderItem> drugOrderItems = new HashSet<DrugOrderItem>();
 
-   //treba dodati listu ponuda za porudzebinicu
-
    @Basic
    @Temporal(TemporalType.DATE)
    @Column(name = "deadline")

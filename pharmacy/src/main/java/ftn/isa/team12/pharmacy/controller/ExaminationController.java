@@ -1,7 +1,7 @@
 package ftn.isa.team12.pharmacy.controller;
+import ftn.isa.team12.pharmacy.domain.common.LoyaltyProgram;
 import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
-import ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
@@ -24,8 +24,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.Principal;
-import java.text.ParseException;
 import java.util.*;
 
 
@@ -57,6 +59,9 @@ public class ExaminationController {
 
     @Autowired
     DrugInPharmacyService drugInPharmacyService;
+
+    @Autowired
+    LoyaltyProgramService loyaltyProgramService;
 
     @Autowired
     DrugService drugService;
@@ -208,6 +213,23 @@ public class ExaminationController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
+    @GetMapping("/allByEmployeeAndPatient/{id}")
+    public ResponseEntity<?> findAllByEmployeeAndPatient(@PathVariable UUID id, Principal user) {
+        Map<String, String> result = new HashMap<>();
+        MedicalStuff medicalStuff = medicalStuffService.findByEmail(user.getName());
+        Patient patient = patientService.findById(id);
+        if(patient == null){
+            result.put("result", "Wrong pharmacy id!");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        List<Examination> examinations = examinationService.findAllByEmployeeAndPatient(medicalStuff, patient);
+        List<ExaminationRetValDTO> dtos = new ArrayList<>();
+        examinations.forEach(examination -> dtos.add(new ExaminationRetValDTO(examination)));
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @GetMapping("/allFreeByEmployeeAndPharmacy/{id}")
     public ResponseEntity<?> findAllFreeByEmployeeAndPharmacy(@PathVariable UUID id, Principal user) {
         Map<String, String> result = new HashMap<>();
@@ -265,6 +287,8 @@ public class ExaminationController {
     @PostMapping("/scheduleNew/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
+        int discount = lp.getDiscountByCategory(patient.getCategory().getCategory());
         List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
         for(Examination ex : examinations) {
@@ -278,6 +302,11 @@ public class ExaminationController {
         examination.setPatient(patient);
         examination.setExaminationType(ExaminationType.pharmacistConsultations);
         examination.setExaminationStatus(ExaminationStatus.scheduled);
+        double priceOfExamination = examination.getExaminationPrice().getPrice();
+        double newPrice =  (1.0 * discount / 100) * priceOfExamination;
+        BigDecimal bd1 = new BigDecimal(newPrice).setScale(2, RoundingMode.HALF_UP);
+        double nr = bd1.doubleValue();
+        examination.setDiscount(nr);
         this.examinationService.save(examination);
         try {
             sender.sendPharmacistConsultationsMail(examination.getExaminationId(),dto.getPatientEmail(),dto.getPharmacyName(),examination.getDateOfExamination().toString(),
@@ -293,6 +322,8 @@ public class ExaminationController {
     @PostMapping("/newExamination/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody DermatologistExamScheduleDTO dto)  {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
+        LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
+        int discount = lp.getDiscountByCategory(patient.getCategory().getCategory());
         List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findById(dto.getExaminationId());
         for(Examination ex : examinations) {
@@ -301,11 +332,16 @@ public class ExaminationController {
             }
         }
         if(patient.getPenalties() > 2) {
-            throw new IllegalArgumentException("You have 3 or more penalties and you cant schedule consultations");
+            throw new IllegalArgumentException("You have 3 or more penalties and you cant schedule examination");
         }
         examination.setPatient(patient);
         examination.setExaminationType(ExaminationType.dermatologistExamination);
         examination.setExaminationStatus(ExaminationStatus.scheduled);
+        double priceOfExamination = examination.getExaminationPrice().getPrice();
+        double newPrice =  (1.0 * discount / 100) * priceOfExamination;
+        BigDecimal bd1 = new BigDecimal(newPrice).setScale(2, RoundingMode.HALF_UP);
+        double nr = bd1.doubleValue();
+        examination.setDiscount(nr);
         this.examinationService.save(examination);
         try {
             sender.sendDermatologistExaminationMail(examination);
@@ -364,6 +400,7 @@ public class ExaminationController {
         if(new Date().before(dayBeforeDeadline)) {
             ex.setPatient(null);
             ex.setExaminationStatus(ExaminationStatus.cancelled);
+            ex.setDiscount(0);
             this.examinationService.save(ex);
         }
         else {

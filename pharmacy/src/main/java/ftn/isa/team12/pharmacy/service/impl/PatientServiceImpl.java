@@ -113,7 +113,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient findById(UUID patientId) {
-        return this.patientRepository.getOne(patientId);
+        return this.patientRepository.findById(patientId).get();
     }
 
 

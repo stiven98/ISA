@@ -159,6 +159,20 @@
     </div>
   </section><!-- End Appointment Section -->
   <!-- ======= Doctors Section ======= -->
+  <!-- ======= Appointment Section ======= -->
+  <section  style="background-color: lightgray" class="appointment section-bg">
+    <div name = "appointments" class="container">
+
+      <div class="section-title">
+        <h2>Make an Appointment with pharmacist</h2>
+        <p>You can very easily schedule an pharmacist consultations </p>
+      </div>
+        <div class="text-center" *ngIf="role === 'ROLE_PATIENT'"><button class="btn btn-secondary"  [routerLink]="['/pharmacist-consultation']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  type="submit">Make an appointment</button></div>
+      <div class="text-center" *ngIf="role === ''"><button class="btn btn-secondary"  [routerLink]="['/registration']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  type="submit">You must register to make an appointment</button></div>
+
+    </div>
+  </section><!-- End Appointment Section -->
+  <!-- ======= Doctors Section ======= -->
   <section id="doctors" class="doctors">
     <div class="container">
 

@@ -43,6 +43,7 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
 
     List<Examination> findAllByEmployeeAndPharmacyAndDateOfExamination(MedicalStuff medicalStuff,Pharmacy ph, Date date );
 
+    List<Examination> findAllByEmployeeUserIdAndPatientUserId(UUID employeeUserId, UUID patientUserId);
     @Query("select ex from Examination  ex where ex.pharmacy.name = ?1 and ex.patient is null and ex.examinationType = 1")
     List<Examination> findFreeTermsForDermatologistsByPhamracy(String pharmacyName);
 

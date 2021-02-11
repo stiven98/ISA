@@ -12,4 +12,10 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
     @Query("select s from Offer s where s.supplier.userId = ?1")
     List<Offer> getOfferBySupplier(UUID id);
 
+
+    List<Offer> findAllByDrugOrderOrderId(UUID id);
+
+
+    Offer findByOfferId(UUID offerId);
+
 }

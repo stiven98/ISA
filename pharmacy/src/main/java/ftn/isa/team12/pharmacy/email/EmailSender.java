@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.email;
+import ftn.isa.team12.pharmacy.domain.common.Promotion;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.dto.AnswerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,4 +83,42 @@ public class EmailSender {
         message.setText(body);
         emailSender.send(message);
     }
+
+    public void sendEmailToSupplier(UUID orderId, String email, String status) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Your offer is " + status + " for drugOrder with code: " + orderId.toString();
+        message.setTo(email);
+        message.setText(body);
+        message.setSubject("Offer status");
+        emailSender.send(message);
+    }
+
+
+    public void sendDrugPickingUpFeedback(String username, UUID drug_reservation_id) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Drug reservation: " + drug_reservation_id + " successfully completed with picking up the drug!";
+        message.setTo(username);
+        message.setText(body);
+        message.setSubject("Drug picking up");
+        emailSender.send(message);
+    }
+    public void sendEmailEmployee(UUID vacationID, String email, String note, String status) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Your request for vacation " + status + "note: " + note + " request with code: " + vacationID.toString();
+        message.setTo(email);
+        message.setText(body);
+        message.setSubject("Vacation");
+        emailSender.send(message);
+    }
+
+    public void sendEmailNewPromotion(String email, Promotion promotion) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "New promotion in pharmacy " + promotion.getPharmacy().getName() + " start on: " + promotion.getDateRange().getStartDate().toString() + " and end on :" + promotion.getDateRange().getEndDate() + " text " + promotion.getText();
+        message.setTo(email);
+        message.setText(body);
+        message.setSubject("Promotion");
+        emailSender.send(message);
+    }
+
+
 }

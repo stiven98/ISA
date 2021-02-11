@@ -1,0 +1,109 @@
+<div class="row py-5 px-4">
+    <div class="col-md-6 mx-auto">
+      <!-- Profile widget -->
+      <div class="bg-white shadow rounded overflow-hidden">
+        <div class="px-4 pt-0 pb-4 cover">
+          <div class="media align-items-end profile-head">
+            <div class="profile mr-3"><img src="assets/img/doctors/doctors-2.jpg" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a (click)="account(content)" class="btn btn-outline-dark btn-sm btn-block">My account</a></div>
+            <div class="media-body mb-5 text-white">
+              <h4 class="mt-0 mb-0">{{pharmacist.name}} {{pharmacist.lastName}}</h4>
+              <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{{pharmacist.cityName}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-light p-4 d-flex justify-content-end text-center">
+          <ul class="list-inline mt-5 mb-0">
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Shows you the list of all your patients" (click)="patients(content)">
+                            <img alt="My patients" src="/assets/img/medicalstuff_icons/group.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">My patients</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Shows you the consultations page" (click)="appointment(content)">
+                            <img alt="Start the consultations" src="/assets/img/medicalstuff_icons/appointment.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">Start consultations</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Shows you your work calendar" (click)="calendar(content)">
+                            <img alt="Work calendar" src="/assets/img/medicalstuff_icons/calendar.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">Work calendar</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Takes you to the vacation request page"  (click)="vacation(content)">
+                            <img alt="Vacation" src="/assets/img/medicalstuff_icons/vacation.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">Request vacation</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Takes you to the consultations schedule page" href="pharmacist#content">
+                            <img alt="Schedule new consultations" src="/assets/img/medicalstuff_icons/schedule.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">Schedule consultations</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <div class="col">
+                    <div class ="row-10">
+                        <a title="Takes you to medicament issuing page"  (click)="medicamentIssuing(content)">
+                            <img alt="Issue a medicament" src="/assets/img/medicalstuff_icons/medicine64.png" >
+                        </a>
+                    </div>
+                    <div class ="row-2">
+                        <p class="secondary-text">Issue a medicament</p>
+                    </div>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+        <!--  PERSONAL INFORMATIONS -->
+        <div class="py-3">
+          <h5 class="mb-0">Personal information</h5>
+          <div class="p-4 rounded shadow-sm bg-light">
+            <p class="font-italic mb-0">Email: {{pharmacist.email}}</p>
+            <p class="font-italic mb-0">Address: {{pharmacist.street}}  {{pharmacist.streetNumber}}</p>
+            <p class="font-italic mb-0">Phone number: {{pharmacist.phoneNumber}}</p>
+          </div>
+        </div>
+        <!--  Fucntionalities -->
+        <div id="content" #content>
+            <div class="container mt-5 mx-auto mb-5">
+                <router-outlet>
+                    
+                </router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.common.DateRange;
+import ftn.isa.team12.pharmacy.domain.common.LoyaltyProgram;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
@@ -13,6 +14,10 @@ import ftn.isa.team12.pharmacy.repository.DrugReservationRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +39,9 @@ public class DrugReservationServiceImpl implements DrugReservationService {
     private PatientService patientService;
 
     @Autowired
+    private LoyaltyProgramService loyaltyProgramService;
+
+    @Autowired
     private DrugService drugService;
 
     @Autowired
@@ -48,6 +56,8 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         if(patient.getPenalties() > 2) {
             throw new IllegalArgumentException("You have 3 or more penalties and you cant reserve drug");
         }
+        LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
+        double discount = lp.getDiscountByCategory(patient.getCategory().getCategory());
         DrugReservation drugReservation = new DrugReservation();
         Drug drug = this.drugService.findById(drugReservationDTO.getDrugId());
         Pharmacy pharmacy = this.pharmacyService.findPharmacyById(drugReservationDTO.getPharmacyId());
@@ -60,6 +70,11 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         drugReservation.setReservationStatus(ReservationStatus.created);
         drugReservation.setReservationDateRange(dateRange);
         drugReservation.setDrug(drug);
+        drugReservation.setPrice(drugReservationDTO.getPrice());
+        discount = (1.0 * discount/100) * drugReservation.getPrice();
+        BigDecimal bd1 = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP);
+        double nr = bd1.doubleValue();
+        drugReservation.setDiscount(nr);
         drugReservation = this.drugReservationRepository.save(drugReservation);
 
         DrugInPharmacy drugInPharmacy = this.drugInPharmacyRepository.findDrugInPharmacy(drug.getDrugId(),pharmacy.getId());
@@ -118,4 +133,32 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         Patient patient = this.patientService.findByEmail(patientEmail);
         return this.drugReservationRepository.findDrugsPatientReserved(patient.getUserId());
     }
+
+    @Override
+    public DrugReservation findDrugReservationByIdAndPharmacyId(UUID id, UUID pharmacyId) {
+        DrugReservation drugReservation = this.drugReservationRepository.findDrugReservationByIdAndPharmacyId(id, pharmacyId);
+        if(drugReservation != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            Date today = new Date();
+            Date endDate = drugReservation.getReservationDateRange().getEndDate();
+            boolean isNotPassed = (sdf.format(today).compareTo(sdf.format(endDate))) < 0;
+            boolean canIssue = drugReservation.getReservationStatus() == ReservationStatus.created;
+            if(isNotPassed && canIssue){
+                return drugReservation;
+            }
+            else{
+                return null;
+            }
+        }
+        return drugReservation;
+    }
+
+    @Override
+    public DrugReservation issueDrug(UUID id) {
+        DrugReservation drugReservation = this.drugReservationRepository.findDrugReservationById(id);
+        drugReservation.setReservationStatus(ReservationStatus.checked);
+        this.drugReservationRepository.save(drugReservation);
+        return drugReservation;
+    }
+
 }

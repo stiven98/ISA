@@ -36,7 +36,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @GetMapping("/getUser")
-    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST', 'ROLE_SYSTEM_ADMINISTRATOR', 'ROLE_SUPPLIER')") // Dodati ostale role
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST', 'ROLE_SYSTEM_ADMINISTRATOR', 'ROLE_SUPPLIER', 'ROLE_PHARMACIST')") // Dodati ostale role
     public ResponseEntity<UserDTO> user(Principal user) {
         User userDetails = this.userService.findUserByEmail(user.getName());
         UserDTO dto = new UserDTO(userDetails);
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     //treba dodati role da ne moze ne ulogovan da pristupi stranici
-    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST', 'ROLE_SYSTEM_ADMINISTRATOR', 'ROLE_SUPPLIER')") // Dodati ostale role
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST', 'ROLE_SYSTEM_ADMINISTRATOR', 'ROLE_SUPPLIER', 'ROLE_PHARMACIST')") // Dodati ostale role
     @PostMapping("/change")
     public ResponseEntity<UserDTO> changeAccountInfo(@RequestBody UserDTO userDto) {
             userService.checkCurrentUserCredentials(userDto.getPassword());
@@ -55,7 +55,7 @@ public class UserController {
             return new ResponseEntity<UserDTO>(changedUser, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST', 'ROLE_SYSTEM_ADMINISTRATOR', 'ROLE_SUPPLIER')") // Dodati ostale role
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PH_ADMIN', 'ROLE_DERMATOLOGIST', 'ROLE_SYSTEM_ADMINISTRATOR', 'ROLE_SUPPLIER', 'ROLE_PHARMACIST')") // Dodati ostale role
     @PostMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChangeDTO passwords) {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
