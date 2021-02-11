@@ -156,8 +156,14 @@ public class DrugReservationServiceImpl implements DrugReservationService {
     @Override
     public DrugReservation issueDrug(UUID id) {
         DrugReservation drugReservation = this.drugReservationRepository.findDrugReservationById(id);
+        Patient patient = drugReservation.getPatient();
+        LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
+        Drug drug = drugReservation.getDrug();
+        // patient.getCategory().setPoints(patient.getCategory().getPoints() + drug.getPoints()) Dodati poene po leku
+        patient.getCategory().setCategory(lp.getCategory(patient.getCategory().getPoints()));
         drugReservation.setReservationStatus(ReservationStatus.checked);
         this.drugReservationRepository.save(drugReservation);
+        this.patientService.save(patient);
         return drugReservation;
     }
 
