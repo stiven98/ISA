@@ -3,6 +3,7 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface PharmacyService {
@@ -21,4 +22,5 @@ public interface PharmacyService {
 
 
     Pharmacy save(Pharmacy pharmacy);
+
 }

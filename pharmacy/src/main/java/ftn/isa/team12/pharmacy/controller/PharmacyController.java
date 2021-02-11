@@ -5,6 +5,7 @@ import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
 import ftn.isa.team12.pharmacy.repository.PharmacistRepository;
 import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
@@ -19,9 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/pharmacy",  produces = MediaType.APPLICATION_JSON_VALUE)
@@ -109,8 +108,5 @@ public class PharmacyController {
         List<Pharmacy> searched =  this.pharmacyService.searchPharmacies(pharmacies, dto);
         return new ResponseEntity<>(searched, HttpStatus.OK);
     }
-
-
-
 
 }

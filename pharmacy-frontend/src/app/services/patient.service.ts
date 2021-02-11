@@ -224,4 +224,6 @@ export class PatientService {
   subscribePharmacy = (email: string, id: string) => {
     return this.http.get(environment.apiUrl + '/api/patient/subscribe/' + email + '/' + id);
   }
+
+
 }

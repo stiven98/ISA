@@ -15,6 +15,9 @@
 
       <a class="nav-link pr-3 pl-3 mr-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_SUPPLIER'" routerLink="/myOffers" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">My offers</a>
       <a class="nav-link pr-3 pl-3 mr-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_SUPPLIER'" routerLink="/allOrders" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Orders</a>
+      <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/drugs" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Drugs</a>
+      <a class="nav-item nav-link ml-2 mr-2 text-light" *ngIf="this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'" routerLink="/loyaltyProgram" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Loyalty program</a>
+      <a class="nav-item nav-link ml-2 mr-2 text-light" *ngIf="this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'" routerLink="/vacation" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Vacation</a>
 
     <!--  <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/administrators" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Administrators</a>  -->
       <div class="nav-item dropdown" *ngIf="authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'">
@@ -30,8 +33,6 @@
         </div>
       </div>
 
-      <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/drugs" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Drugs</a>
-      <a class="nav-item nav-link ml-2 mr-2 text-light" *ngIf="this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'" routerLink="/loyaltyProgram" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Loyalty program</a>
 
 
     </div>

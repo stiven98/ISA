@@ -110,4 +110,18 @@ export class PharmacyService {
   }
 
 
+  getPharmaciesForComplaintForPatient = (emailPatient: string) => {
+    return this.http.get(environment.apiUrl + '/api/pharmacyMarks/pharmaciesForPatient/' + emailPatient)
+      .pipe(map( response => {
+        const pharmacies = [];
+        for (const key in response) {
+          if (response.hasOwnProperty(key)) {
+            pharmacies.push(response[key]);
+          }
+        }
+        return pharmacies;
+      }));
+  }
+
+
 }
