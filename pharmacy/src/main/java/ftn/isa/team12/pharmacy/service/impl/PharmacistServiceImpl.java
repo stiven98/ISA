@@ -243,4 +243,12 @@ public class PharmacistServiceImpl implements PharmacistService {
         }
         return true;
     }
+
+    public Pharmacist findById(UUID id) {
+        return this.pharmacistRepository.findById(id).get();
+    }
+
+    public Pharmacist save(Pharmacist p) {
+        return this.pharmacistRepository.save(p);
+    }
 }

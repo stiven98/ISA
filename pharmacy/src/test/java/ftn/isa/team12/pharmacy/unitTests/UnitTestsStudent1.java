@@ -3,9 +3,12 @@ package ftn.isa.team12.pharmacy.unitTests;
 import ftn.isa.team12.pharmacy.domain.users.AccountInfo;
 import ftn.isa.team12.pharmacy.domain.users.LoginInfo;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
+import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import ftn.isa.team12.pharmacy.repository.PatientRepository;
+import ftn.isa.team12.pharmacy.repository.PharmacistRepository;
 import ftn.isa.team12.pharmacy.service.PatientService;
 import ftn.isa.team12.pharmacy.service.impl.PatientServiceImpl;
+import ftn.isa.team12.pharmacy.service.impl.PharmacistServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -43,6 +46,13 @@ public class UnitTestsStudent1 {
 
     @InjectMocks
     private PatientServiceImpl patientService;
+    @Mock
+    private PharmacistRepository pharmacistRepository;
+    @Mock
+    private Pharmacist pharmacist;
+
+    @InjectMocks
+    private PharmacistServiceImpl pharmacistService;
 
     @Test
     @Transactional
@@ -122,10 +132,9 @@ public class UnitTestsStudent1 {
 
         p = patientService.save(p);
 
-        // 3. Verifikacija: asertacije i/ili verifikacija interakcije sa mock objektima
         assertThat(p).isNotNull();
 
-        p = patientService.findById(id); // verifikacija da se u bazi nalaze izmenjeni podaci
+        p = patientService.findById(id);
         assertThat(p.getLoginInfo().getEmail()).isEqualTo("pacijent@p.com");
         assertThat(p.getLoginInfo().getPassword()).isEqualTo("p");
 
