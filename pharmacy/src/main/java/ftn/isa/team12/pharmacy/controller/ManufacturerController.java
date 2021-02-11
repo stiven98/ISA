@@ -20,7 +20,6 @@ public class ManufacturerController {
     @Autowired
     private ManufacturerService manufacturerService;
 
-    @PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
     @GetMapping("/all")
     public ResponseEntity<List<Manufacturer>> findAll() {
         return new ResponseEntity<>(this.manufacturerService.findAll(), HttpStatus.OK);
