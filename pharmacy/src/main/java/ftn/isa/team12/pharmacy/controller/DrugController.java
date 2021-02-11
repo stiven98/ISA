@@ -95,6 +95,8 @@ public class DrugController {
         drug.setName(drugRequest.getName());
         drug.setCode(drugRequest.getCode());
         drug.setIngredients(ingredients);
+        drug.setPoints(drugRequest.getPoints());
+        drug.setNote(drugRequest.getNote());
         drug.setSubstituteDrugs(substituteDrugs);
         drug.setTypeOfDrug(drugRequest.getTypeOfDrug());
         drug.setFormOfDrug(drugRequest.getFormOfDrug());

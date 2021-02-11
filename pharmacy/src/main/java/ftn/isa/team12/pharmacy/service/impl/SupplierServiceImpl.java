@@ -17,7 +17,8 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier saveAndFlush(Supplier supplierRequest) {
-        supplierRequest.setPassword(passwordEncoder.encode(supplierRequest.getPassword()));
+        supplierRequest.getAccountInfo().setFirstLogin(true);
+        supplierRequest.getAccountInfo().setActive(false);
         return this.supplierRepository.saveAndFlush(supplierRequest);
     }
 

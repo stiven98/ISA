@@ -1,0 +1,144 @@
+<div class=" container ">
+    
+    <div class="row d-flex justify-content-center "> 
+        <h1 class="font-weight-bold text-dark">Reporst for pharmacy {{makrs.pharmacyName}} average marks: {{makrs.averageMarkPharmacy}}</h1>
+    </div>
+
+    <div class="row d-flex justify-content-center pt-3"> 
+        <h3 class="font-weight-bold text-dark">Dermatologist</h3>
+    </div>
+    <section id="doctors" class="doctors">
+        <div class="container">
+            <div class="row row d-flex justify-content-center " *ngFor="let derm of makrs.employeeDTOS" >
+                <div class="col-lg-6" *ngIf="condition(derm)"  >
+                    <div class="member d-flex align-items-start">
+                    <div class="pic"><img src="assets/img/s.png" class="img-fluid" alt=""></div>
+                    <div class="member-info">
+                        <h4>Doctor: {{derm.employeeName}} {{derm.employeeSurName}}</h4>
+                        <span> {{derm.employeeType}}</span>
+                        <p>Average marks: {{derm.employeeAverageMarks}}</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row d-flex justify-content-center "> 
+        <h3 class="font-weight-bold text-dark">Pharmacist</h3>
+    </div>
+    <section id="doctors" class="doctors">
+        <div class="container">
+            <div class="row row d-flex justify-content-center " *ngFor="let derm of makrs.employeeDTOS" >
+                <div class="col-lg-6" *ngIf="!condition(derm)"  >
+                    <div class="member d-flex align-items-start">
+                    <div class="pic"><img src="assets/img/s.png" class="img-fluid" alt=""></div>
+                    <div class="member-info">
+                        <h4>Doctor: {{derm.employeeName}} {{derm.employeeSurName}}</h4>
+                        <span> {{derm.employeeType}}</span>
+                        <p>Average marks: {{derm.employeeAverageMarks}}</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div>
+        <div class="row d-flex justify-content-center "> 
+            <h3 class="font-weight-bold text-dark">Examination</h3>
+        </div>
+        <button  class="btn btn-dark mt-3 w-50" (click)="switchExamination()">switch</button>
+        <select [hidden]="!month()" class="custom-select mt-3 w-55" id="days" (change)="onChangeSelectedCity($event)">
+            <option value="Choose..." selected>Choose...</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">Aug</option>
+            <option value="9">Sept</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+        </select>
+        <div>
+            <div style="display: block">
+              <canvas baseChart
+                      [datasets]="barChartData"
+                      [labels]="barChartLabels"
+                      [options]="barChartOptions"
+                      [legend]="barChartLegend"
+                      [chartType]="barChartType">
+              </canvas>
+            </div>
+          </div>
+    </div>
+    <div>
+        <div class="row d-flex justify-content-center "> 
+            <h3 class="font-weight-bold text-dark">Drug</h3>
+        </div>
+        <button  class="btn btn-dark mt-3 w-50" (click)="switchDrug()">switch</button>
+        <select [hidden]="!monthDrug()" class="custom-select mt-3 w-55" id="days" (change)="onChangeSelectedDrug($event)">
+            <option value="Choose..." selected>Choose...</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">Aug</option>
+            <option value="9">Sept</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+        </select>
+        <div>
+            <div style="display: block">
+              <canvas baseChart
+                      [datasets]="barChartData2"
+                      [labels]="barChartLabels2"
+                      [options]="barChartOptions2"
+                      [legend]="barChartLegend2"
+                      [chartType]="barChartType2">
+              </canvas>
+            </div>
+          </div>
+    </div>
+
+    <div>
+        <div class="row d-flex justify-content-center "> 
+            <h3 class="font-weight-bold text-dark">Icnome</h3>
+        </div>
+        <div>
+        <p>Choose periode</p>
+        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+        </ngb-datepicker>
+        <ng-template #t let-date let-focused="focused">
+            <span class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null">
+                {{ date.day }}
+            </span>
+        </ng-template>  
+        <button  class="btn btn-dark mt-3 w-50" (click)="periodReports()">get report</button>
+        </div>
+        <div>
+            <div style="display: block">
+              <canvas baseChart
+                      [datasets]="barChartData3"
+                      [labels]="barChartLabels3"
+                      [options]="barChartOptions3"
+                      [legend]="barChartLegend3"
+                      [chartType]="barChartType3">
+              </canvas>
+            </div>
+          </div>
+    </div>
+
+    <ngx-loading-x  [show]="fetchData"></ngx-loading-x>
+</div>

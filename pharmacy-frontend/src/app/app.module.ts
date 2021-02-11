@@ -24,7 +24,6 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { SysAdminComponent } from './sys-admin/sys-admin.component';
 import { NewPharmacyComponent } from './new-pharmacy/new-pharmacy.component';
 import { NewAdminComponent } from './new-admin/new-admin.component';
-import { AdministratorsComponent } from './administrators/administrators.component';
 import { MedicalStuffClientsComponent } from './medical-stuff-clients/medical-stuff-clients.component';
 import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
@@ -65,6 +64,8 @@ import { VacationComponent } from './vacation/vacation.component';
 import { PharmacistHomeComponent } from './pharmacist-home/pharmacist-home.component';
 import { PharmacistsGuard } from './guard/pharmacists.guard';
 import { EmployeeGuard } from './guard/employee.guard';
+import { ReportsComponent } from './ph-admin/reports/reports.component';
+import { ChartsModule } from 'ng2-charts';
 import { MedicamentIssuingComponent } from './medicament-issuing/medicament-issuing.component';
 
 const appRoutes: Routes = [
@@ -104,7 +105,6 @@ const appRoutes: Routes = [
   { path: 'newSupplier', component: NewSupplierComponent },
   { path: 'newPharmacy', component: NewPharmacyComponent},
   { path: 'newAdmin', component: NewAdminComponent},
-  { path: 'administrators', component: AdministratorsComponent},
   { path: 'allOrders', component: AllOrdersComponent},
   { path: 'subscribedPharmacy', component: SubscribedPharmacyComponent },
   { path: 'myOffers', component: MyOffersComponent},
@@ -126,6 +126,7 @@ const appRoutes: Routes = [
   { path: 'createExamination/:email', component: CreateExaminationComponent, canActivate: [PhAdminGuard]},
   { path: 'acceptDrugOffer/:id', component: SeeAllOfferComponent, canActivate: [PhAdminGuard]},
   { path: 'vacation', component: VacationComponent},
+  { path: 'reports', component: ReportsComponent, canActivate: [PhAdminGuard]},
 
 
   //ovo mora da bude poslednje!!!!!!!
@@ -157,7 +158,6 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     SysAdminComponent,
     NewPharmacyComponent,
     NewAdminComponent,
-    AdministratorsComponent,
     MedicalStuffClientsComponent,
     DrugsComponent,
     DrugOrderComponent,
@@ -193,7 +193,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     PharmacistHomeComponent,
     MedicamentIssuingComponent,
     VacationComponent,
-    PharmacistHomeComponent
+    PharmacistHomeComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -205,7 +206,9 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NgxLoadingXModule.forRoot(ngxLoadingXConfig),
     FormsModule,
     NgbModule,
+    ChartsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    
   ],
   providers: [
     {

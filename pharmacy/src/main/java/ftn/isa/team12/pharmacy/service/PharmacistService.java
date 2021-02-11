@@ -9,6 +9,7 @@ import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public interface PharmacistService {
 
@@ -27,5 +28,7 @@ public interface PharmacistService {
     boolean deletePharmacist(DeleteEmployeeDTO dto);
     boolean checkForDeletePharmacist(DeleteEmployeeDTO dto);
 
+    Pharmacist findById(UUID id);
 
+    Pharmacist save(Pharmacist p);
 }

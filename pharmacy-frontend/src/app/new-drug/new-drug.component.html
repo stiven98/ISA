@@ -22,9 +22,7 @@
         </div>
 
         <div >
-
           <label for="typeOfDrug" class="text-dark mt-3" >Select type of drug:</label>
-
           <select class="custom-select form-control w-100" id="typeOfDrug" (change)="onChangeTypeOfDrug($event)" [ngClass]="drugValidation.validTypeOfDrug">
             <option value="Choose..." selected>Choose...</option>
             <option *ngFor="let typeOfDrug of typesOfDrug" [value]="typeOfDrug">{{typeOfDrug}}</option>
@@ -51,7 +49,7 @@
 
         <div>
           <label for="manufacturers" class="text-dark mt-3" >Manufacturers:</label>
-          <select class="custom-select form-control w-100" id="manufacturers" (change)="onChangeManufacturer($event)" [ngClass]="drugValidation.validTypeOfDrug">
+          <select class="custom-select form-control w-100" id="manufacturers" (change)="onChangeManufacturer($event)" [ngClass]="drugValidation.validManufacturer">
             <option value="Choose..." selected>Choose...</option>
             <option *ngFor="let item of manufacturers" [value]="item.manufacturerId">{{item.name}}</option>
           </select>
@@ -79,11 +77,26 @@
           </div>
 
           <div class="col-6">
-            <label for="dailyDose" class="text-dark mt-3" >Daily dose:</label>
-            <input type="number" id="dailyDose" class="form-control" [ngClass]="drugValidation.validDailyDose" [(ngModel)]="drugModel.dailyDose" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
-            <div class="invalid-feedback">
-              Select type of drug!
+            <div class="row">
+              <div class="col-6">
+                <label for="dailyDose" class="text-dark mt-3" >Daily dose:</label>
+                <input type="number" id="dailyDose" class="form-control" [ngClass]="drugValidation.validDailyDose" [(ngModel)]="drugModel.dailyDose" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+                <div class="invalid-feedback">
+                  Dose > 0!
+                </div>
+
+              </div>
+              <div class="col-6">
+                <label for="points" class="text-dark mt-3" >Points:</label>
+                <input type="number" id="points" class="form-control" [ngClass]="drugValidation.validPoints" [(ngModel)]="drugModel.points" [ngModelOptions]="{standalone: true}" (keydown)="onKeyDown()"/>
+                <div class="invalid-feedback">
+                  Points > 0!
+                </div>
+              </div>
+
+
             </div>
+
           </div>
         </div>
 
@@ -104,16 +117,21 @@
                 </div>
               </div>
             </div>
+
           </div>
           <div class="col-6">
             <label for="contraindications" class="text-dark mt-3" >Contraindication:</label>
-            <select class="custom-select form-control " id="contraindications" (change)="onChangeContraindication($event)">
+            <select class="custom-select form-control " id="contraindications" (change)="onChangeContraindication($event)" [ngClass]="drugValidation.validContraindication">
               <option value="Choose..." selected>Choose...</option>
               <option *ngFor="let item of showContraindication;" [value]="item.contraindicationId">
                 {{item.name}}
               </option>
               <option value="Create new">Create new</option>
             </select>
+            <div class="invalid-feedback">
+              Input contraindication!
+            </div>
+
             <button class="btn btn-success w-100 mt-2 mb-2 mr-4" (click)="addContradiction()">Add to contraindication</button>
             <div class="invalid-feedback">
               Select contraindication!
@@ -215,7 +233,7 @@
 
         <div>
           <label for="note" class="text-dark mt-3" >Note:</label>
-          <textarea id="note" class="form-control" aria-label="note" [(ngModel)]="drugModel.note" [ngModelOptions]="{standalone: true}"></textarea>
+          <textarea id="note" class="form-control" aria-label="note" [ngClass]="drugValidation.validNote" [(ngModel)]="drugModel.note" [ngModelOptions]="{standalone: true}"></textarea>
         </div>
 
 
