@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,9 @@ public class SystemAdministratorController {
     @Autowired
     private AuthorityService authorityService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @PreAuthorize("hasAnyRole('ROLE_SYSTEM_ADMINISTRATOR')")
     @PostMapping("/add")
@@ -63,6 +67,7 @@ public class SystemAdministratorController {
             systemAdministratorRequest.setAuthorities(authorityService.findByRole("ROLE_SYSTEM_ADMINISTRATOR"));
             systemAdministratorRequest.getAccountInfo().setFirstLogin(true);
             systemAdministratorRequest.getAccountInfo().setActive(false);
+            systemAdministratorRequest.setPassword(passwordEncoder.encode(systemAdministratorRequest.getPassword()));
             SystemAdministrator systemAdministrator = this.systemAdministratorService.saveAndFlush(systemAdministratorRequest);
 
             try {

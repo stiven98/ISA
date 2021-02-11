@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,8 @@ public class PharmacyAdministratorController {
     @Autowired
     private AuthorityService authorityService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/all")
     public ResponseEntity<List<PharmacyAdministrator>> findAll() {
@@ -90,6 +93,7 @@ public class PharmacyAdministratorController {
             pharmacyAdministratorRequest.getAccountInfo().setActive(false);
             pharmacyAdministratorRequest.getAccountInfo().setFirstLogin(true);
             pharmacyAdministratorRequest.setPharmacy(pharmacyService.findPharmacyById(UUID.fromString(id)));
+            pharmacyAdministratorRequest.setPassword(passwordEncoder.encode(pharmacyAdministratorRequest.getPassword()));
             PharmacyAdministrator pharmacyAdministrator = this.pharmacyAdministratorService.saveAndFlush(pharmacyAdministratorRequest);
 
             try {

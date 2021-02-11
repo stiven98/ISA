@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -49,6 +50,9 @@ public class DermatologistController {
     @Autowired
     private EmailSender sender;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PreAuthorize("hasAnyRole('ROLE_SYSTEM_ADMINISTRATOR')")
     @PostMapping("/add")
     public ResponseEntity<Dermatologist> saveDermatologist(@RequestBody Dermatologist dermatologistRequest) {
@@ -71,6 +75,7 @@ public class DermatologistController {
             dermatologistRequest.setAuthorities(authorityService.findByRole("ROLE_DERMATOLOGIST"));
             dermatologistRequest.getAccountInfo().setActive(false);
             dermatologistRequest.getAccountInfo().setFirstLogin(true);
+            dermatologistRequest.setPassword(passwordEncoder.encode(dermatologistRequest.getPassword()));
             Dermatologist dermatologist = this.dermatologistService.saveAndFlush(dermatologistRequest);
 
             try {

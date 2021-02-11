@@ -121,7 +121,9 @@ export class NewAdminComponent implements OnInit {
 
       if (this.selectedTypeAdmin === 'System administrator') {
         this.sysAdminService.saveSysAdmin(this.admin).subscribe((response) => {
+          alert('Success added admin');
           this.ngOnInit();
+
         }, (error) => {
           this.validationModel.validEmail = 'is-invalid';
           this.fetchData = false;
@@ -129,6 +131,7 @@ export class NewAdminComponent implements OnInit {
       } else if (this.selectedTypeAdmin === 'Pharmacy administrator') {
         this.fetchData = true;
         this.phAdminService.savePharmacyAdministrator(this.admin, this.selectedPharmacyId).subscribe((resonse) => {
+          alert('Success added admin');
           this.ngOnInit();
         }, (error) => {
           this.fetchData = false;
