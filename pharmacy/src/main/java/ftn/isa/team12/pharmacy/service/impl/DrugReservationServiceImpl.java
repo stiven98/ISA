@@ -13,6 +13,8 @@ import ftn.isa.team12.pharmacy.repository.DrugInPharmacyRepository;
 import ftn.isa.team12.pharmacy.repository.DrugReservationRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@EnableScheduling
 @Service
 public class DrugReservationServiceImpl implements DrugReservationService {
 
@@ -153,6 +156,19 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         return drugReservation;
     }
 
+    @Scheduled(fixedRate = 86400000)
+    public void checkReservation(){
+        List<DrugReservation> reservations = this.findAllBefore(new Date());
+        for(DrugReservation dr : reservations){
+            Patient patient = dr.getPatient();
+            dr.setReservationStatus(ReservationStatus.cancelled);
+            patient.setPenalties(patient.getPenalties() + 1);
+            patientService.save(patient);
+            drugReservationRepository.save(dr);
+        }
+
+    }
+
     @Override
     public DrugReservation issueDrug(UUID id) {
         DrugReservation drugReservation = this.drugReservationRepository.findDrugReservationById(id);
@@ -165,6 +181,11 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         this.drugReservationRepository.save(drugReservation);
         this.patientService.save(patient);
         return drugReservation;
+    }
+
+    @Override
+    public List<DrugReservation> findAllBefore(Date today) {
+        return this.drugReservationRepository.findAllBefore(today);
     }
 
 }
