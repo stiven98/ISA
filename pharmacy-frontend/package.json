@@ -30,6 +30,8 @@
     "date-fns": "^2.16.1",
     "ng2-charts": "^2.4.2",
     "ngx-loading-x": "^1.0.3",
+    "ol": "^6.5.0",
+    "ol-geocoder": "^4.1.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
