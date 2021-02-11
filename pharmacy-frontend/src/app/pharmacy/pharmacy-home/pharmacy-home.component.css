@@ -561,3 +561,9 @@ section {
   z-index: 2;
   overflow: hidden
 }
+
+
+#hotel_map {
+  height: 400px;
+  width: 100%;
+}

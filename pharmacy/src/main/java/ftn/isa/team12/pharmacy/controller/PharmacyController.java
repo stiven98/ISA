@@ -1,12 +1,14 @@
 package ftn.isa.team12.pharmacy.controller;
+
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.dto.PharmacyChangeDTO;
 import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
-import ftn.isa.team12.pharmacy.repository.PharmacistRepository;
 import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
 import ftn.isa.team12.pharmacy.service.CityService;
 import ftn.isa.team12.pharmacy.service.CountryService;
@@ -17,11 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/pharmacy",  produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,6 +31,9 @@ public class PharmacyController {
 
     @Autowired
     private PharmacyService pharmacyService;
+
+    @Autowired
+    PharmacyRepository pharmacyRepository;
 
     @Autowired
     private LocationService locationService;
@@ -111,6 +116,28 @@ public class PharmacyController {
     }
 
 
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/getPharmacy")
+    public ResponseEntity<?> getchangePharmacy() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyAdministrator.getPharmacy().getId());
+        PharmacyChangeDTO p = new PharmacyChangeDTO(pharmacy);
+        return new ResponseEntity<>(p, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/change")
+    public ResponseEntity<?> changePharmacy(@RequestBody PharmacyChangeDTO dto) {
+        Map<String, String> result = new HashMap<>();
+        if(pharmacyService.change(dto) == null){
+            result.put("result","Can't change pharmacy");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("result","Successfully change pharmacy");
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
 
 
 }

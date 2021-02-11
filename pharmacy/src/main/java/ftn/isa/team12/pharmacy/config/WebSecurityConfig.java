@@ -97,6 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .antMatchers("/api/medicalStuffMarks/**").permitAll()
                 .antMatchers("/api/dermatologist/**").permitAll()
                 .antMatchers("/api/examination/**").permitAll()
+                .antMatchers("/api/locationMap/get/{name}").permitAll()
 
 
 
