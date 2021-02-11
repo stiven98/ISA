@@ -7,6 +7,7 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.dto.PeriodeReportsDTO;
 import ftn.isa.team12.pharmacy.dto.ReportsAverageMarksDTO;
 import ftn.isa.team12.pharmacy.dto.ReportsEmployeeDTO;
 import ftn.isa.team12.pharmacy.dto.ReportsMonthlyDTO;
@@ -167,11 +168,11 @@ public class ReportServiceImpl implements ReportService {
                     String a = String.valueOf(start.getDayOfMonth());
                     reportsMonthlyDTO.getDays().add(a);
                 } else {
-                    int quantity = 0;
+                    int price = 0;
                     for(DrugReservation d: examinations){
-                        quantity += d.getQuantity();
+                        price += d.getPrice();
                     }
-                    reportsMonthlyDTO.getNumberOfExamination().add(quantity);
+                    reportsMonthlyDTO.getNumberOfExamination().add(price);
                     String a = String.valueOf(start.getDayOfMonth());
                     reportsMonthlyDTO.getDays().add(a);
                 }
@@ -179,6 +180,52 @@ public class ReportServiceImpl implements ReportService {
                 break;
             }
         }
+        return reportsMonthlyDTO;
+    }
+
+
+    @Override
+    public ReportsMonthlyDTO reportIncome(PeriodeReportsDTO dto) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyAdministrator.getPharmacy().getId());
+        ReportsMonthlyDTO reportsMonthlyDTO = new ReportsMonthlyDTO();
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        
+        LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endDate = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        for(int i =0; i<31; i++) {
+            if (i != 0)
+                startDate = startDate.plusDays(1);
+            if(startDate.isBefore(endDate)) {
+                Date start = Date.from(startDate.atStartOfDay(defaultZoneId).toInstant());
+                List<DrugReservation> examinations = drugReservationRepository.getALlDrugReservationPerDay(pharmacy,start);
+                List<Examination> e = examinationRepository.getALlHealExaminationPerDay(pharmacy, start);
+                if (examinations == null || e == null) {
+                    reportsMonthlyDTO.getNumberOfExamination().add(0);
+                    String a = String.valueOf(startDate.getDayOfMonth());
+                    reportsMonthlyDTO.getDays().add(a);
+                } else {
+                    int quantity = 0;
+                    for(DrugReservation d: examinations){
+                        quantity += d.getQuantity();
+                    }
+                    double examinationPrice = 0;
+                    for(Examination ex : e){
+                        examinationPrice += ex.getExaminationPrice().getPrice();
+                    }
+
+                    quantity = quantity + (int)examinationPrice;
+                    reportsMonthlyDTO.getNumberOfExamination().add(quantity);
+                    String a = String.valueOf(startDate.getDayOfMonth());
+                    reportsMonthlyDTO.getDays().add(a);
+                }
+            }else {
+                break;
+            }
+        }
+
         return reportsMonthlyDTO;
     }
 }

@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.controller;
 
 
+import ftn.isa.team12.pharmacy.dto.PeriodeReportsDTO;
 import ftn.isa.team12.pharmacy.dto.ReportsAverageMarksDTO;
 import ftn.isa.team12.pharmacy.dto.ReportsMonthlyDTO;
 import ftn.isa.team12.pharmacy.service.ReportService;
@@ -66,5 +67,11 @@ public class ReportsController {
     }
 
 
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @PostMapping("/income")
+    public ResponseEntity<ReportsMonthlyDTO> reportMonthlyDrug(@RequestBody PeriodeReportsDTO periode) throws ParseException {
+
+        return new ResponseEntity<>(reportService.reportIncome(periode), HttpStatus.OK);
+    }
 
 }

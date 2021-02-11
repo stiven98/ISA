@@ -1,12 +1,38 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReportsService } from '../../services/reports.service';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  styleUrls: ['./reports.component.css'],
+  styles: [`
+  .custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+  .custom-day.range, .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+  }
+  .custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
+  }
+`]
 })
 export class ReportsComponent implements OnInit {
+
+  hoveredDate: NgbDate | null = null;
+  waitingForOffers: boolean = true;
+  fromDate: NgbDate;
+  toDate: NgbDate | null = null;
+  closeResult = '';
 
   makrs = {
     pharmacyName: '',
@@ -35,11 +61,25 @@ export class ReportsComponent implements OnInit {
   monthlyDrug = {
     numberOfExamination : [],
     days : []
+  
+  }
+
+  icnomePeriode = {
+    numberOfExamination : [],
+    days : []
+  
   }
 
 
 
-  constructor(private reportsService:ReportsService) { }
+
+  constructor(private reportsService:ReportsService,  private modalService:NgbModal,
+    private calendar: NgbCalendar) { 
+      this.fromDate = calendar.getToday();
+      this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+
+
+    }
 
   ngOnInit(): void {
     this.fetchData = true;
@@ -136,7 +176,7 @@ export class ReportsComponent implements OnInit {
   onChangeSelectedDrug(event){
     this.reportsService.getReportMonthDrug(event.target.value).subscribe((res)=> {
       this.monthlyDrug = res;
-      this.view = 0;
+      this.view2 = 0;
       this.barChartLabels2 = this.monthlyDrug.days;
       this.barChartData2 = [
         {data: this.monthlyDrug.numberOfExamination, label: 'Month report examination',},
@@ -229,6 +269,80 @@ export class ReportsComponent implements OnInit {
   }
 
 
+  public barChartOptions3 = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartLabels3 = this.icnomePeriode.days;
+  public barChartType3 = 'bar';
+  public barChartLegend3= true;
+  public barChartData3 = [
+    {data: this.icnomePeriode.numberOfExamination, label: 'Years report drug',},
+  ];
+
+
+
+
+  periodReports(){
+    let periode = {
+      startDate : new Date(),
+      endDate : new Date()
+    }
+
+
+    if(this.fromDate != undefined){
+      let d = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
+      periode.startDate = new Date(Date.parse(d));
+    }else{
+      alert("Choose day");
+      return;
+    }
+
+    if(this.toDate != undefined){
+      let d = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
+      periode.endDate = new Date(Date.parse(d));
+    }else{
+      alert("Choose day");
+      return;
+    }
+
+
+    this.reportsService.getReportIcnome(periode).subscribe((res) =>{
+      this.icnomePeriode = res;
+      this.barChartLabels3 = this.icnomePeriode.days;
+      this.barChartData3 = [
+        {data: this.icnomePeriode.numberOfExamination, label: 'Income report',},
+      ];
+    })
+
+
+  }
+
+
+
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+  }
 
 }
 

@@ -36,5 +36,10 @@ export class ReportsService {
   }
 
 
+  getReportIcnome(periode):Observable<any>{
+    return this.apiService.post("http://localhost:8080/api/report/income" ,periode).pipe(map((res:Response) => {return res;}))
+  }
+
+
 
 }

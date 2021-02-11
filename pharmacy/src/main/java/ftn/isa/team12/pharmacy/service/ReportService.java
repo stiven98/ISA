@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.service;
 
+import ftn.isa.team12.pharmacy.dto.PeriodeReportsDTO;
 import ftn.isa.team12.pharmacy.dto.ReportsAverageMarksDTO;
 import ftn.isa.team12.pharmacy.dto.ReportsMonthlyDTO;
 
@@ -21,5 +22,8 @@ public interface ReportService {
     List<Integer> yearsReportDrug() throws ParseException;
 
     ReportsMonthlyDTO monthlyReportDrug(Integer month);
+
+
+    ReportsMonthlyDTO reportIncome(PeriodeReportsDTO dto);
 
 }
