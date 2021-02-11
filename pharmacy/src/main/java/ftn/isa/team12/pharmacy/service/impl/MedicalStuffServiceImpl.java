@@ -3,7 +3,6 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.Dermatologist;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
-import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.domain.users.Pharmacist;
 import ftn.isa.team12.pharmacy.dto.PatientExaminationDTO;
 import ftn.isa.team12.pharmacy.repository.DermatologistRepository;
@@ -44,18 +43,10 @@ public class MedicalStuffServiceImpl implements MedicalStuffService {
     public Set<PatientExaminationDTO> findPatientsByMedicalStuff(MedicalStuff medicalStuff) {
         List<Examination> examinations = examinationService.findAllByEmployee(medicalStuff);
         Set<PatientExaminationDTO> patients = new HashSet<>();
-        Set<Patient> tmpPatients = new HashSet<>();
         if(examinations == null){
             return patients;
         }
-        examinations.forEach(examination -> {
-            if(examination.getPatient() != null){
-                if(!tmpPatients.contains(examination.getPatient())){
-                    tmpPatients.add(examination.getPatient());
-                    patients.add(new PatientExaminationDTO(examination.getPatient(), examination));
-                }
-            }
-        });
+        examinations.forEach(examination -> { if(examination.getPatient() != null) patients.add(new PatientExaminationDTO(examination.getPatient(), examination)); });
         return patients;
     }
 

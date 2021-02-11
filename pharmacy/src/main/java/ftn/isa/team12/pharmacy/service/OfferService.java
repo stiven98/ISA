@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.service;
 
 import ftn.isa.team12.pharmacy.domain.drugs.Offer;
+import ftn.isa.team12.pharmacy.dto.OfferAcceptDTO;
 import ftn.isa.team12.pharmacy.dto.OfferDTO;
 
 import java.util.List;
@@ -15,4 +16,9 @@ public interface OfferService {
     Offer saveAndFlush(Offer offer);
 
     Offer findById(UUID id);
+
+
+    List<OfferAcceptDTO> findByDrugOrderId(UUID oferId);
+
+    Offer acceptOffer(OfferAcceptDTO dto);
 }

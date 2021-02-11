@@ -36,6 +36,12 @@ public class DrugReservation implements Serializable {
    @Column(name = "quantity")
    private int quantity;
 
+   @Column(name = "price")
+   private double price;
+
+   @Column(name = "discount")
+   private double discount;
+
    @Column(name = "code")
    private String code;
 

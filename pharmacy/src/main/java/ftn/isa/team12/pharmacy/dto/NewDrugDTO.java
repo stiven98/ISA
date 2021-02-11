@@ -1,7 +1,6 @@
 package ftn.isa.team12.pharmacy.dto;
 
 import ftn.isa.team12.pharmacy.domain.enums.FormOfDrug;
-import ftn.isa.team12.pharmacy.domain.enums.IssuanceRegime;
 import ftn.isa.team12.pharmacy.domain.enums.TypeOfDrug;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

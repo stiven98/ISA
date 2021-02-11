@@ -11,6 +11,11 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ExaminationService {
+  getAllByEmployeeAndPatient(id: any) {
+    return this.apiService.get(this.config.examinations_by_employee_and_patient + id).pipe(map(examinations => {
+      return examinations;
+    }));
+  }
   scheduleExistingMed(data: { patientId: any; pharmacyId: any; medStuffId: any; examinationId: any; }) {
     return this.apiService.post(this.config.schedule_exst_med, data)
       .pipe(map(res => {

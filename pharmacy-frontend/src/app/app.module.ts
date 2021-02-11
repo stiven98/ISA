@@ -58,7 +58,13 @@ import { LoyaltyProgramComponent } from './loyalty-program/loyalty-program.compo
 
 import { EmployeeSchedulingComponent } from './employee-scheduling/employee-scheduling.component';
 import { ComplaintComponent } from './complaint/complaint.component';
+import { SeeAllOfferComponent } from './ph-admin/see-all-offer/see-all-offer.component';
 import { DermatologistExaminationComponent } from './dermatologist-examination/dermatologist-examination.component';
+import { VacationComponent } from './vacation/vacation.component';
+import { PharmacistHomeComponent } from './pharmacist-home/pharmacist-home.component';
+import { PharmacistsGuard } from './guard/pharmacists.guard';
+import { EmployeeGuard } from './guard/employee.guard';
+import { MedicamentIssuingComponent } from './medicament-issuing/medicament-issuing.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -82,6 +88,16 @@ const appRoutes: Routes = [
     { path: '**', redirectTo: 'changeAccountInfo'}
   ]
   },
+  { path: 'pharmacist', component: PharmacistHomeComponent, canActivate: [PharmacistsGuard],
+  children : [
+    { path: 'changeAccountInfo', component: ChangeAccountInfoComponent },
+    { path: 'patients', component: MedicalStuffClientsComponent },
+    { path: 'workCalendar', component: WorkCalendarComponent },
+    { path: 'vacationRequest', component: VacationRequestComponent },
+    { path: 'medicamentIssuing', component: MedicamentIssuingComponent },
+    { path: '**', redirectTo: 'changeAccountInfo'}
+  ]
+  },
   { path: 'patient', component: PatientComponent},
   { path: 'newDermatologist', component: NewDermatologistComponent},
   { path: 'newSupplier', component: NewSupplierComponent },
@@ -102,10 +118,12 @@ const appRoutes: Routes = [
   { path: 'allPharmacist', component: SeeAllPharmacistComponent},
   { path: 'pharmacist-consultation', component: PharmacistConsultationComponent},
   { path: 'createPharmacist', component: CreatePharmacistComponent, canActivate: [PhAdminGuard]},
-  { path: 'examination/:examinationId', component: StartExaminationPageComponent, canActivate: [DermatologistsGuard]},
-  { path: 'examinationData/:examinationId', component: ExaminationDataComponent, canActivate: [DermatologistsGuard]},
+  { path: 'examination/:examinationId', component: StartExaminationPageComponent, canActivate: [EmployeeGuard]},
+  { path: 'examinationData/:examinationId', component: ExaminationDataComponent, canActivate: [EmployeeGuard]},
   { path: 'addDermatologistInPharmacy', component: AddDermatologistInPharmacyComponent, canActivate: [PhAdminGuard]},
   { path: 'createExamination/:email', component: CreateExaminationComponent, canActivate: [PhAdminGuard]},
+  { path: 'acceptDrugOffer/:id', component: SeeAllOfferComponent, canActivate: [PhAdminGuard]},
+  { path: 'vacation', component: VacationComponent},
 
 
   //ovo mora da bude poslednje!!!!!!!
@@ -167,7 +185,12 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     ComplaintComponent,
     DermatologistExaminationComponent,
     EmployeeSchedulingComponent,
-    ComplaintComponent
+    ComplaintComponent,
+    SeeAllOfferComponent,
+    PharmacistHomeComponent,
+    MedicamentIssuingComponent,
+    VacationComponent,
+    PharmacistHomeComponent
   ],
   imports: [
     BrowserModule,

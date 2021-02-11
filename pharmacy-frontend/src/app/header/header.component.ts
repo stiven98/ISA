@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
     console.log(this.authService.getRole());
   }
 
-  onLogout(){
+  onLogout = () => {
     this.authService.doLogout();
   }
 

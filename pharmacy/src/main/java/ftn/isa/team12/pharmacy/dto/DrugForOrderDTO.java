@@ -36,6 +36,18 @@ public class DrugForOrderDTO {
         this(drug.getDrugId(),drug.getName(),drug.getCode(),drug.getTypeOfDrug(),drug.getFormOfDrug(),drug.getIssuanceRegime(),drug.getNote(),drug.getManufacturer().getName(),quantity);
     }
 
-
-
+    @Override
+    public String toString() {
+        return "DrugForOrderDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", typeOfDrug=" + typeOfDrug +
+                ", formOfDrug=" + formOfDrug +
+                ", issuanceRegime=" + issuanceRegime +
+                ", note='" + note + '\'' +
+                ", manufactureName='" + manufactureName + '\'' +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

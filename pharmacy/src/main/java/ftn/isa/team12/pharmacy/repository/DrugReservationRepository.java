@@ -1,6 +1,7 @@
 package ftn.isa.team12.pharmacy.repository;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import  ftn.isa.team12.pharmacy.domain.drugs.DrugReservation;
+import ftn.isa.team12.pharmacy.domain.enums.ReservationStatus;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +13,9 @@ public interface DrugReservationRepository extends JpaRepository<DrugReservation
 
     List<DrugReservation> findAllByPatientUserId(UUID userId);
 
+    @Query("select reservation from DrugReservation reservation where reservation.drug_reservation_id = ?1 and reservation.pharmacy.id = ?2")
+    DrugReservation findDrugReservationByIdAndPharmacyId(UUID id, UUID pharmacyId);
+
     @Query("select reservation from DrugReservation  reservation where reservation.drug_reservation_id = ?1")
     DrugReservation findDrugReservationByDrug_reservation_id(UUID drug_reservation_id);
 
@@ -20,5 +24,10 @@ public interface DrugReservationRepository extends JpaRepository<DrugReservation
 
     @Query("select reservation.drug from DrugReservation reservation where reservation.patient.userId=?1 and reservation.reservationStatus = 2")
     List<Drug> findDrugsPatientReserved(UUID patientId);
+
+    @Query("select reservation from DrugReservation reservation where reservation.drug_reservation_id = ?1")
+    DrugReservation findDrugReservationById(UUID id);
+
+    List<DrugReservation> findAllByDrugDrugIdAndPharmacyIdAndReservationStatus(UUID drugId, UUID pharmacyId, ReservationStatus reservationStatus);
 
 }

@@ -19,10 +19,13 @@ export class ConfigService {
   private _drugPrice_url = this._api_url + '/drugPrice'
   private _examination_price_url = this._api_url + '/examinationPrice'
   private _work_time_url = this._api_url + '/workTime'
+  private _offer_url = this._api_url + '/offer';
 
   private _examination_url = this._api_url + '/examination';
   private _medical_stuff_url = this._api_url + '/medicalStuff';
   private _refresh_token_url = this._api_url + '/refresh';
+
+  private _drug_reservation_url = this._api_url + '/drugReservation';
 
   get refresh_token_url(): string {
     return this._refresh_token_url;
@@ -164,6 +167,13 @@ export class ConfigService {
   get examinations_by_employee_and_pharmacy (): string {
     return this._examinations_by_employee_and_pharmacy ;
   }
+
+  private _examinations_by_employee_and_patient = this._examination_url + '/allByEmployeeAndPatient/';
+
+  get examinations_by_employee_and_patient () : string {
+    return this._examinations_by_employee_and_patient ;
+  }
+
 
   private _free_examinations_by_employee_and_pharmacy = this._examination_url + '/allFreeByEmployeeAndPharmacy/';
 
@@ -315,6 +325,50 @@ export class ConfigService {
 
   get work_time_get_all (): string {
     return this._work_time_get_all ;
+  }
+
+  private _drug_order_delete = this._drug_order_url + '/delete';
+
+  get drug_order_delete (): string {
+    return this._drug_order_delete ;
+  }
+
+  private _drug_order_change = this._drug_order_url + '/change';
+
+  get drug_order_change (): string {
+    return this._drug_order_change ;
+  }
+
+  private _drug_order_get_all_by_pharmacy = this._drug_order_url + '/allByPharmacy';
+
+  get drug_order_get_all_by_pharmacy (): string {
+    return this._drug_order_get_all_by_pharmacy ;
+  }
+
+ 
+
+  private _offer_get_by_id = this._offer_url + '/getBy/';
+
+  get offer_get_by_id (): string {
+    return this._offer_get_by_id ;
+  }
+
+  private _offer_accept = this._offer_url + '/acceptOfer';
+
+  get offer_accept (): string {
+    return this._offer_accept ;
+  }
+
+  private _find_reservation_by_code = this._drug_reservation_url + '/findReservation/';
+
+  get find_reservation_by_code (): string {
+    return this._find_reservation_by_code ;
+  }
+
+  private _issue_drug = this._drug_reservation_url + '/issueDrug/';
+
+  get issue_drug() : string {
+    return this._issue_drug;
   }
 
 

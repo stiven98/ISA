@@ -74,8 +74,9 @@
                 <div class="mt-1 mb-1 spec-1"><span></span>Time: <span class="dot"></span><span>{{consultation.timeOfExamination[0]}}:{{consultation.timeOfExamination[1]}}</span><span class="dot"></span><span><br></span></div>
                 <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> {{consultation.employee.accountInfo.name}}</span><span class="dot"></span><span> {{consultation.employee.accountInfo.lastName}}<br></span></div>
                 <p class="text-justify text-truncate para mb-0">Duration: {{consultation.duration}} min <br></p>
-                <p class="text-justify text-truncate para mb-0">Price: {{consultation.examinationPrice.price}}</p>
-
+                <p class="text-justify text-truncate para mb-0">Price without discount: {{consultation.examinationPrice.price}}</p>
+                <p class="text-justify text-truncate para mb-0">Discount: {{consultation.discount}}</p>
+                <p class="text-justify text-truncate para mb-0">Price with discount: {{consultation.examinationPrice.price - consultation.discount}}</p>
               </div>
               <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                 <h6 class="text">Actions</h6>
@@ -111,8 +112,12 @@
                   <div class="mt-1 mb-1 spec-1"><span></span>Time: <span class="dot"></span><span>{{examination.timeOfExamination[0]}}:{{examination.timeOfExamination[1]}}</span><span class="dot"></span><span><br></span></div>
                   <div class="mt-1 mb-1 spec-1"><span>Dr.</span><span class="dot"></span><span> {{examination.employee.accountInfo.name}}</span><span class="dot"></span><span> {{examination.employee.accountInfo.lastName}}<br></span></div>
                   <p class="text-justify text-truncate para mb-0">Duration: {{examination.duration}} min <br></p>
-                  <p class="text-justify text-truncate para mb-0">Price: {{examination.examinationPrice.price}}</p>
-            </div>
+                  <p class="text-justify text-truncate para mb-0">Price without discount: {{examination.examinationPrice.price}}</p>
+                  <p class="text-justify text-truncate para mb-0">Price  discount: {{examination.discount}}</p>
+                  <p class="text-justify text-truncate para mb-0">Price with discount: {{examination.examinationPrice.price - examination.discount}}</p>
+
+
+                </div>
             <div class="align-items-center align-content-center col-md-3 border-left mt-1">
               <h6 class="text">Actions</h6>
               <div class="d-flex flex-column mt-4"><button *ngIf="examination.examinationStatus == 'scheduled'" (click)="cancelConsulatation(examination)" class="btn btn-secondary btn-sm" type="button">Cancel</button>
@@ -170,7 +175,11 @@
               <div class="mt-1 mb-1 spec-1"><span>Dead line for collecting: {{reservation.reservationDateRange.endDate}} </span><span class="dot"></span><span>  </span><span class="dot"></span><span>  <br></span></div>
               <div class="mt-1 mb-1 spec-1"><span>Reservation status: {{reservation.reservationStatus}} </span><span class="dot"></span><span>  </span><span class="dot"></span><span>  <br></span></div>
               <div class="mt-1 mb-1 spec-1"><span>Pharmacy: {{reservation.pharmacy.name}} </span><span class="dot"></span><span>  </span><span class="dot"></span><span>  <br></span></div>
-              <p class="text-justify text-truncate para mb-0">Quantity: {{reservation.quantity}}<br><br></p>
+              <p class="text-justify text-truncate para mb-0">Quantity: {{reservation.quantity}}<br></p>
+              <p class="text-justify text-truncate para mb-0">Price without discount: {{reservation.price}}<br></p>
+              <p class="text-justify text-truncate para mb-0">Price with discount: {{reservation.price - reservation.discount}}<br></p>
+              <p class="text-justify text-truncate para mb-0">Discount: {{reservation.discount}}<br></p>
+
             </div>
             <div class="align-items-center align-content-center col-md-3 border-left mt-1">
               <h6 class="text">Actions</h6>

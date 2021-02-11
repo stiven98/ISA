@@ -1,0 +1,56 @@
+<div class="container request">
+    <div class="row">
+      <div class="col-md-3 request-left">
+        <img src="/assets/img/medicalstuff_icons/medicine64.png" alt=""/>
+        <h3>Medicament issuing</h3>
+        <p>Issue a medicament to patient</p>
+      </div>
+      <div class="col-md-9 request-right">
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <h3 class="request-heading">Issue a medicament</h3>
+            <div class="row request-form ">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        Input reservation code
+                        <input type="text" [(ngModel)]="reservationCode" (keydown) = "checkInputs()" (keyup) = "checkInputs()" class="form-control">
+                        <input type="submit" data-toggle="collapse" data-target="#demo" class="btnrequest" (click)="findReservation()" [disabled]="!inputsValid" value="Find reservation"/>
+                    </div>
+                </div>
+            </div>
+            <div *ngFor="let res of reservations">
+                <div class="d-flex row request-form pt-2">
+
+                    <div class="col-2 align-items-center">
+                        <img src="/assets/img/medicalstuff_icons/medicine64.png" class="img-responsive fit-image " alt="orderIcon">
+                    </div>
+                    <div class="col-5 align-items-center">
+                        <div>
+                            <label>Customer name: {{reservationInfo.customerName}}</label>
+                        </div>
+                        <div>
+                            <label>Drug name: {{reservationInfo.drugName}}</label>
+                        </div>
+                        <div>
+                            <label>Deadline: {{reservationInfo.deadline}}</label>
+                        </div>
+                    </div>
+                    <div class="col-5 align-items-center">
+                        <button class="btn btn-dark mt-3 w-100" (click) = "issueDrug()">Confirm picking up</button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!isCodeValid" style="color: red;" class ="row request-form pt-2">
+                Invalid reservation code
+            </div>
+            
+        	</div>
+    		</div>
+            
+		</div>
+        
+  </div>
+</div>
+  
+  
+

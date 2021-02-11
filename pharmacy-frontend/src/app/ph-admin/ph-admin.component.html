@@ -90,14 +90,13 @@
       </section>
     </div>
     <div class="pt-5">
-
       <div class="section-title">
         <h2>Examination Price</h2>
         <button [hidden]="fExamination" class="btn btn-dark mt-3 w-50" (click)="flagExamination()"> See all examination price </button>
         <div>
         <button [hidden]="fExamination" class="btn btn-dark mt-3 w-50"  (click)="open(content)" >Create price for examination</button>
       </div>
-      </div>
+    </div>
     <section id="doctors" class="doctors">
       <div [hidden]="!fExamination" class="container">
         <div class="row" >
@@ -119,25 +118,81 @@
         </div>
       </div> 
   </section>
-</div>
-      <div class = "container" >
-        <div id="pharmacies" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
-          <h2>Pharmacies</h2>
-        </div>
-        <div class = "row main-row row-cols-1 row-cols-sm-3 g-4" >
-          <div lass = "col-12">
-            <div class = "card p-1 text-center" style = "width: 20rem">
-              <img src="/assets/img/pharmacy.jpg" class = "card-img-top shadow bg-white rounded">
-              <h5 class ="card-title>">Apoteka 1</h5>
-              <div class = "card-body">
-                <p class = "card-text">Average mark 8.6 </p>
-                <a class="btn-secondary"  class = "btn btn-outline-dark">See additional info</a>
+  </div>
+  <div class="pt-5">
+    <div class="section-title">
+      <h2>Drug order</h2>
+      <button [hidden]="drugOrderFlag" class="btn btn-dark mt-3 w-50" (click)="flagDrugOrder()"> See all drug order </button>
+      <div>
+    </div>
+    <div [hidden]="!drugOrderFlag" class="ml-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="waitingForOffers" [(ngModel)]="waitingForOffers" [ngModelOptions]="{standalone: true}" [checked]="waitingForOffers" (change)="onChangeCheckBox()" />
+        <label class="form-check-label" for="waitingForOffers" >Waiting for offers</label>
+      </div>
+  
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="processed" [(ngModel)]="processed" [ngModelOptions]="{standalone: true}" [checked]="processed" (change)="onChangeCheckBox()" />
+        <label class="form-check-label" for="processed">processed</label>
+      </div>
+    </div>
+  </div>
+  <section id="doctors" class="doctors">
+    <div [hidden]="!drugOrderFlag" class="container">
+      <div class="row" >
+        <div class="col-lg-7"  *ngFor="let dp of filterList">
+          <div class="member d-flex align-items-start">
+            <div class="pic"><img src="assets/img/price.png" class="img-fluid" alt=""></div>
+            <div class="member-info">
+              <h4>{{dp.drugOrderStatus}} </h4>
+              <span>Drug order</span>
+              <p>Deadline: {{dp.deadline}}</p>
+              <p>Drug in order</p>
+              <div *ngFor="let item of dp.drugorderItem">
+                  <p  [hidden]="changeDrugOrder">{{item.name}} - {{item.quantity}}</p>
+                  <input  [hidden]="!changeDrugOrder" type="text" id="price" class="form-control"  [(ngModel)]="item.quantity" [ngModelOptions]="{standalone: true}"/>
               </div>
+              <div [hidden]="s(dp)" >
+                <button  [hidden]="changeDrugOrder" class="btn btn-dark mt-3 w-100" (click)="changDrugOrder()" > Change </button>
+                <button  [hidden]="!changeDrugOrder" class="btn btn-dark mt-3 w-100"  (click)="changeAndSaveDrugOrder(dp)" > Save </button>
+              </div>
+              <div class="pt-2">
+                <a [hidden]="s(dp)" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true" [routerLink]="['/acceptDrugOffer/',dp.orderId]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">See offer</a>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </section>
+
+  </div>
+
+  <div class="pt-5"></div>
+    <div class="section-title">
+      <h2>Create promotion/action</h2>
+      <button data-toggle="modal" data-target = "#promotion"   class="btn btn-dark mt-3 w-50"  > create </button>
+      <div>
+    </div>
+  </div>
+    <div class = "container" >
+      <div id="pharmacies" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
+        <h2>Pharmacies</h2>
+      </div>
+      <div class = "row main-row row-cols-1 row-cols-sm-3 g-4" >
+        <div lass = "col-12">
+          <div class = "card p-1 text-center" style = "width: 20rem">
+            <img src="/assets/img/pharmacy.jpg" class = "card-img-top shadow bg-white rounded">
+            <h5 class ="card-title>">Apoteka 1</h5>
+            <div class = "card-body">
+              <p class = "card-text">Average mark 8.6 </p>
+              <a class="btn-secondary"  class = "btn btn-outline-dark">See additional info</a>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
     <ng-template #content let-modal>
       <div class="modal-header">
@@ -163,7 +218,7 @@
                       </span>
                     </ng-template>
                     <label>Price <input type="number" id="price"  [(ngModel)]="examinationPRice.price" [ngModelOptions]="{standalone: true}"  class="form-control"/></label>
-                    <label>Chode type</label>
+                    <label>Choose type</label>
                     <select class="custom-select" id="day" (change)="onChangeSelectedDate($event)">
                         <option value="Choose..." selected>Choose...</option>
                         <option  value="pharmacistConsultations">Pharmacist Consultations</option>
@@ -178,10 +233,44 @@
       </div>
   </ng-template>
 
+ 
 
 
-
-
+  <div class="modal fade" id="promotion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" >Promotion/action  </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <label>Start day</label>
+          <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+          </ngb-datepicker>
+          <ng-template #t let-date let-focused="focused">
+              <span class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null">
+                {{ date.day }}
+              </span>
+            </ng-template>
+          <div class="form-group">
+            <label>Text promotion/action </label>
+            <input type="text" id="price"  [(ngModel)]="promotion.text" [ngModelOptions]="{standalone: true}"  class="form-control"/>
+          </div>
+          <button  class="btn btn-dark mt-3 w-100"   (click)="createPromotion()"> create </button>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 

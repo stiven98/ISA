@@ -77,6 +77,7 @@ export class DrugReservationComponent implements OnInit {
       drugReservation.pharmacyId = this.pharmacy.id;
       drugReservation.quantity = this.quantity;
       drugReservation.drugId = this.drug.drugId;
+      drugReservation.price = this.totalToPay;
       this.drugreservationService.createReservation(drugReservation).subscribe();
       this.router.navigate(['/patient']);
     }

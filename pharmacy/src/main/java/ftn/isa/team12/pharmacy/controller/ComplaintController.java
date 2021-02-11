@@ -34,6 +34,7 @@ public class ComplaintController {
     @PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
     @GetMapping("/all")
     public ResponseEntity<List<Complaint>> findAll(){
+        System.out.print("");
         return new ResponseEntity<>(this.complaintService.findAll(), HttpStatus.OK);
     }
 
