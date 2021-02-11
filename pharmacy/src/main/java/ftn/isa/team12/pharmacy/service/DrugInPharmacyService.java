@@ -1,5 +1,6 @@
 package ftn.isa.team12.pharmacy.service;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
+import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.dto.DrugForOrderDTO;
 import ftn.isa.team12.pharmacy.dto.DrugInPharmacyChangesDTO;
@@ -15,4 +16,5 @@ public interface DrugInPharmacyService {
     List<DrugForOrderDTO> findAllDrugInPharmacyByid(UUID id);
     void updateDrugInPharmacy(DrugInPharmacyChangesDTO dto);
     void removeDrugInPharmacy(DrugInPharmacyChangesDTO drugInPharmacyChangesDTO);
+    void save(DrugInPharmacy drugInPharmacy);
 }

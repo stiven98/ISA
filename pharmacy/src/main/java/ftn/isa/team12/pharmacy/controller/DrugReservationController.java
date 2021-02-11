@@ -32,7 +32,7 @@ public class DrugReservationController {
 
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/createReservation")
-    public ResponseEntity<DrugReservation> createDrugReservation(@RequestBody DrugReservationDTO drugReservationDTO) {
+    public ResponseEntity<DrugReservation> createDrugReservation(@RequestBody DrugReservationDTO drugReservationDTO) throws Exception {
         DrugReservation drugReservation = drugReservationService.createDrugReservation(drugReservationDTO);
         return  new ResponseEntity<>(drugReservation, HttpStatus.OK);
     }

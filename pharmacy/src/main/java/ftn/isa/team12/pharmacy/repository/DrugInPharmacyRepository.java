@@ -3,7 +3,12 @@ import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.drugs.DrugInPharmacy;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
+
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,4 +27,8 @@ public interface DrugInPharmacyRepository extends JpaRepository<DrugInPharmacy, 
     DrugInPharmacy findDrugInPharmacy(UUID drugId, UUID pharmacyId);
 
     List<DrugInPharmacy> findDrugInPharmacyByPharmacyId(UUID id);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="2")})
+    DrugInPharmacy save(DrugInPharmacy drugInPharmacy);
 }
