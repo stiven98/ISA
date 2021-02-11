@@ -6,6 +6,7 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,4 +31,6 @@ public interface DrugReservationRepository extends JpaRepository<DrugReservation
 
     List<DrugReservation> findAllByDrugDrugIdAndPharmacyIdAndReservationStatus(UUID drugId, UUID pharmacyId, ReservationStatus reservationStatus);
 
+    @Query("select reservation from DrugReservation reservation where reservation.reservationDateRange.endDate < ?1 and reservation.reservationStatus = 0")
+    List<DrugReservation> findAllBefore(Date today);
 }
