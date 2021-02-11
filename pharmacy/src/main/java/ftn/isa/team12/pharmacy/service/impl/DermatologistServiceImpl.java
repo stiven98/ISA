@@ -16,11 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 
 @Service
+@Transactional(readOnly = false)
 public class DermatologistServiceImpl implements DermatologistService {
 
     @Autowired
@@ -46,6 +49,7 @@ public class DermatologistServiceImpl implements DermatologistService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Dermatologist findByEmail(String email) {
         return this.dermatologistRepository.findByLoginInfoEmail(email);
     }

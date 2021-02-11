@@ -55,4 +55,7 @@ public class Examination implements Serializable {
     @Column(name="examination_type")
     private ExaminationType examinationType;
 
+    @Version
+    private Long version;
+
 }

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -27,6 +28,7 @@ import java.util.*;
 
 
 @Service
+@Transactional(readOnly = false)
 public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
@@ -83,6 +85,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Examination addExaminationForDermatologist(ExaminationCreateDTO dto) {
         this.checkExamination(dto);
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
@@ -164,6 +167,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Examination scheduleNewMedStuff(ExaminationScheduleMedStuffDTO dto) {
         Date date = dto.getDate();
         LocalTime time = dto.getTime();
@@ -290,6 +294,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Examination submitExaminationData(ExaminationSubmissionDTO dto) {
         // TO-DO EventStore?
         Examination examination = examinationRepository.findExaminationByExaminationId(dto.getExaminationId());
@@ -376,6 +381,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 
     @Override
+    @Transactional(readOnly = false)
     public void checkExamination(ExaminationCreateDTO dto) {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
@@ -383,7 +389,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         WorkTime workTime = workTimeRepository.findByEmployeeAndPharmacyAndDate(dermatologist, pharmacyAdministrator.getPharmacy(), dto.getDate());
         ExaminationPrice examinationPrice = examinationPriceRepository.findByExaminationPriceId(dto.getPriceId());
         List<Vacation> vacations = vacationService.checkVacationDay(pharmacyAdministrator.getPharmacy(),dto.getDate(),dermatologist);
-        System.out.println(vacations.size());
+        Set<Pharmacy> pharmacies = medicalStuffService.findMyPharmacies(dermatologist.getLoginInfo().getEmail());
         for(Vacation va : vacations)
             System.out.println(va.getDateRange().getStartDate().toString() + " " + va.getDateRange().getEndDate().toString() ) ;
 
@@ -397,7 +403,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         boolean flag = false;
 
-        for (Pharmacy p : dermatologist.getPharmacies()){
+        for (Pharmacy p : pharmacies){
             if(p.getId().toString().equals(pharmacyAdministrator.getPharmacy().getId().toString())) {
                 flag = true;
                 break;
