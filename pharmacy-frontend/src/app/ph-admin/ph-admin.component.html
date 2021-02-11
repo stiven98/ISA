@@ -165,9 +165,7 @@
       </div>
     </div> 
   </section>
-
   </div>
-
   <div class="pt-5"></div>
     <div class="section-title">
       <h2>Create promotion/action</h2>
@@ -175,25 +173,38 @@
       <div>
     </div>
   </div>
-    <div class = "container" >
-      <div id="pharmacies" style="margin-top: 50px; margin-bottom: 20px" class="section-title">
-        <h2>Pharmacies</h2>
-      </div>
-      <div class = "row main-row row-cols-1 row-cols-sm-3 g-4" >
-        <div lass = "col-12">
-          <div class = "card p-1 text-center" style = "width: 20rem">
-            <img src="/assets/img/pharmacy.jpg" class = "card-img-top shadow bg-white rounded">
-            <h5 class ="card-title>">Apoteka 1</h5>
-            <div class = "card-body">
-              <p class = "card-text">Average mark 8.6 </p>
-              <a class="btn-secondary"  class = "btn btn-outline-dark">See additional info</a>
-            </div>
-          </div>
-        </div>
+    <div class = "container mt-5" >
+      <div class="section-title">
+        <h2>Change pharmacy info</h2>
+        <div>
       </div>
     </div>
+     <div class="row pb-5">
+        <label>Pharmacy name<input type="text" id="f" [(ngModel)]="pharmacy.name" [ngModelOptions]="{standalone: true}" class="form-control" /></label>
+     </div>
+     <div class="row pb-2">
+        <label>Description <input type="text" id="s" [(ngModel)]="pharmacy.text" [ngModelOptions]="{standalone: true}" class="form-control" /> </label>
+    </div>
+    <div class="row pb-5">
+      <button class="btn btn-dark w-50 mt-4" (click)="changePh()" > save</button>
+  </div>
+    
+  <div class="container-fluid m-3" >
+
+    <div class="section-title">
+      <h2>You can find us easy</h2>
+    </div>
+
+    <div class="row  ">
+      <div id="hotel_maps"></div>
+    </div>
+    <button class="btn btn-dark w-50 mt-4" (click)="saveMapLOcation()" > save location</button>
   </div>
 
+
+
+    </div>
+  </div>
     <ng-template #content let-modal>
       <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Create drugPrice</h4>

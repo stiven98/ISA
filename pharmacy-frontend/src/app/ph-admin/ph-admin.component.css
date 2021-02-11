@@ -395,3 +395,10 @@ doctors {
   z-index: 2;
   overflow: hidden
 }
+
+
+
+#hotel_maps {
+  height: 400px;
+  width: 100%;
+}
