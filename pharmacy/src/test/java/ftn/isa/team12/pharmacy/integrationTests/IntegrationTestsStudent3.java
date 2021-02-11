@@ -1,4 +1,5 @@
 package ftn.isa.team12.pharmacy.integrationTests;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ftn.isa.team12.pharmacy.dto.LoginDTO;
 import org.junit.Before;
@@ -41,7 +42,7 @@ public class IntegrationTestsStudent3  {
     public void testLoginDermatologist() throws Exception {
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setUsername("aca@faca.com");
-        loginDTO.setPassword("Aca@34");
+        loginDTO.setPassword("acafaca");
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                 .contentType(contentType).accept(contentType)
@@ -55,7 +56,7 @@ public class IntegrationTestsStudent3  {
 
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setUsername("aca@faca.com");
-        loginDTO.setPassword("Aca@34");
+        loginDTO.setPassword("acafaca");
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                 .contentType(contentType).accept(contentType)
@@ -67,19 +68,42 @@ public class IntegrationTestsStudent3  {
     @Test
     @Transactional
     @Rollback(true)
-    public void testFindMedicalStuffVacations() throws Exception {
+    public void testFindAllCities() throws Exception {
 
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/city/all")
+                .contentType(contentType).accept(contentType)).andExpect(status().is(200));
+    }
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testGetAllpatientReservations() throws Exception {
         LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setUsername("aca@faca.com");
-        loginDTO.setPassword("Aca@34");
+        loginDTO.setUsername("maca@faca.com");
+        loginDTO.setPassword("macafaca");
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                 .contentType(contentType).accept(contentType)
                 .content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().is(200));
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/medicalStuff/myPharmacies")
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/drugReservation/getPatientReservations/" + "maca@faca.com")
                 .contentType(contentType).accept(contentType)).andExpect(status().is(200));
     }
 
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testGetAllVacationRequestFromPharmacist() throws Exception {
+        LoginDTO loginDTO = new LoginDTO();
+        loginDTO.setUsername("marko@gmail.com");
+        loginDTO.setPassword("marko");
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                .contentType(contentType).accept(contentType)
+                .content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().is(200));
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/vacation/all")
+                .contentType(contentType).accept(contentType)).andExpect(status().is(200));
+    }
 
 }
