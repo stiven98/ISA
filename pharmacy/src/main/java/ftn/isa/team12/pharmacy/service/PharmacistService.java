@@ -29,4 +29,6 @@ public interface PharmacistService {
     boolean checkForDeletePharmacist(DeleteEmployeeDTO dto);
 
     Pharmacist findById(UUID id);
+
+    Pharmacist save(Pharmacist p);
 }

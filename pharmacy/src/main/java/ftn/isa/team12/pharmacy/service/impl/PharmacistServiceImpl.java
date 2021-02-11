@@ -248,4 +248,9 @@ public class PharmacistServiceImpl implements PharmacistService {
     public Pharmacist findById(UUID id) {
         return this.pharmacistRepository.findById(id).get();
     }
+
+    @Override
+    public Pharmacist save(Pharmacist p) {
+        return this.pharmacistRepository.save(p);
+    }
 }

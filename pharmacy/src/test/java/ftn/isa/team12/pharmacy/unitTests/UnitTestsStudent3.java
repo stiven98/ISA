@@ -136,4 +136,30 @@ public class UnitTestsStudent3 {
         verifyNoMoreInteractions(dermatologistRepository);
     }
 
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testUpdatePharmacist() {
+        Pharmacist pharm = new Pharmacist();
+        LoginInfo loginInfo = new LoginInfo();
+        loginInfo.setEmail("farmaceut@farmaceut.com");
+        loginInfo.setPassword("farmaceut");
+        UUID id = UUID.randomUUID();
+        pharm.setUserId(id);
+        pharm.setLoginInfo(loginInfo);
+        when(pharmacistRepository.findById(id)).thenReturn(Optional.of(pharm));
+        Pharmacist p = pharmacistService.findById(id);
+        p.getLoginInfo().setEmail("farmaceut@f.com");
+        p.getLoginInfo().setPassword("f");
+        when(pharmacistRepository.save(p)).thenReturn(p);
+        p = pharmacistService.save(p);
+        assertThat(p).isNotNull();
+        p = pharmacistService.findById(id);
+        assertThat(p.getLoginInfo().getEmail()).isEqualTo("farmaceut@f.com");
+        assertThat(p.getLoginInfo().getPassword()).isEqualTo("f");
+        verify(pharmacistRepository, times(2)).findById(id);
+        verify(pharmacistRepository, times(1)).save(p);
+        verifyNoMoreInteractions(pharmacistRepository);
+    }
+
 }
