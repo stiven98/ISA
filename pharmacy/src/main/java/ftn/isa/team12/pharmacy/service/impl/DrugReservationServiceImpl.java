@@ -159,7 +159,7 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         Patient patient = drugReservation.getPatient();
         LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
         Drug drug = drugReservation.getDrug();
-        // patient.getCategory().setPoints(patient.getCategory().getPoints() + drug.getPoints()) Dodati poene po leku
+        patient.getCategory().setPoints(patient.getCategory().getPoints() + drug.getPoints());
         patient.getCategory().setCategory(lp.getCategory(patient.getCategory().getPoints()));
         drugReservation.setReservationStatus(ReservationStatus.checked);
         this.drugReservationRepository.save(drugReservation);
