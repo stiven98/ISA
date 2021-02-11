@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../services/user.service';
 import { Dermatologist } from '../shared/models/dermatologist';
 
@@ -13,7 +14,8 @@ export class DermatologistHomeComponent implements OnInit {
   dermatologist = new Dermatologist();
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private modalService : NgbModal
   ) { }
 
    account(el: HTMLElement){
@@ -38,11 +40,6 @@ export class DermatologistHomeComponent implements OnInit {
     el.scrollIntoView({ behavior: 'smooth' });
   }
 
-  appointment(el: HTMLElement){
-    this.router.navigate(['dermatologist/examination']);
-    el.scrollIntoView({ behavior: 'smooth' });
-  }
-
   ngOnInit(): void {
 
     this.userService.getMyInfo().subscribe(resUser => {
@@ -50,4 +47,13 @@ export class DermatologistHomeComponent implements OnInit {
 
     });
   }
+
+  openModal(modalDial){
+    this.modalService.open(modalDial, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      console.log(`Closed`);
+    }, (reason) => {
+      console.log(`Dismissed`);
+    });
+  }
+
 }

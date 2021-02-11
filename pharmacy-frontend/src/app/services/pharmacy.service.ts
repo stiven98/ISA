@@ -4,6 +4,8 @@ import { map } from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {Pharmacy} from '../shared/models/Pharmacy';
 import {FreeTermDTO} from '../shared/models/FreeTermDTO';
+import { ApiService } from './api.service';
+import { ConfigService } from './config.service';
 
 
 @Injectable({
@@ -11,7 +13,7 @@ import {FreeTermDTO} from '../shared/models/FreeTermDTO';
 })
 export class PharmacyService {
   pharmacies = [];
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiService: ApiService, private config: ConfigService) { }
 
   findAllWithFreeTerm = (dto: FreeTermDTO) => {
     return this.http
@@ -108,6 +110,38 @@ export class PharmacyService {
   findById = (id: String) => {
     return this.http.get(environment.apiUrl + '/api/pharmacy/id/' + id);
   }
+
+
+
+  getChangePharmacy(){
+    return this.apiService.get('http://localhost:8080/api/pharmacy/getPharmacy').pipe(map((res) =>{
+      return res;
+    }));
+  }
+
+
+  changePharmacy(dto){
+    return this.apiService.post('http://localhost:8080/api/pharmacy/change',dto).pipe(map((res) =>{
+      return res;
+    }));
+
+  }
+  
+  changeLocationMap(dto){
+    return this.apiService.post('http://localhost:8080/api/locationMap/change',dto).pipe(map((res) =>{
+      return res;
+    }));
+
+  }
+
+
+  getLocationMap(id){
+    return this.apiService.get('http://localhost:8080/api/locationMap/get/' + id).pipe(map((res) =>{
+      return res;
+    }));
+
+  }
+
 
 
 }

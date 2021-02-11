@@ -22,4 +22,6 @@ public class CountryController {
     public ResponseEntity<List<Country>> findAll() {
         return new ResponseEntity<>(countryService.findAll(), HttpStatus.OK);
     }
+
+
 }

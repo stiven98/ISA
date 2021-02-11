@@ -1,9 +1,13 @@
 package ftn.isa.team12.pharmacy.service.impl;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
+import ftn.isa.team12.pharmacy.dto.PharmacyChangeDTO;
 import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
 import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
 import ftn.isa.team12.pharmacy.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -148,4 +152,31 @@ public class PharmacyServiceImpl implements PharmacyService {
         return searched;
     }
 
+
+    @Override
+    public Pharmacy change(PharmacyChangeDTO dto) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
+        Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyAdministrator.getPharmacy().getId());
+        Pharmacy findPharmacy = pharmacyRepository.findPharmacyByName(dto.getName());
+
+        if(findPharmacy != null && pharmacy.getId() != findPharmacy.getId())
+            throw new IllegalArgumentException("Pharmacy name need to be uniq");
+
+        if(!dto.getPharmacyID().toString().equals(pharmacy.getId().toString()))
+            throw new IllegalArgumentException("Bad code pharmacy");
+
+        if(dto.getName().equals(""))
+            throw new IllegalArgumentException("Bad input name");
+
+        if(dto.getText().equals(""))
+            throw new IllegalArgumentException("Bad input description");
+
+
+        pharmacy.setName(dto.getName());
+        pharmacy.setDescription(dto.getText());
+        pharmacy = pharmacyRepository.save(pharmacy);
+
+        return pharmacy;
+    }
 }
