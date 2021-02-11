@@ -9,12 +9,14 @@ import ftn.isa.team12.pharmacy.dto.DeleteEmployeeDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesCreateDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesDTO;
 import ftn.isa.team12.pharmacy.dto.EmployeesSearchDTO;
+import ftn.isa.team12.pharmacy.email.EmailSender;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -42,6 +44,15 @@ public class DermatologistController {
     @Autowired
     private DermatologistService dermatologistService;
 
+    @Autowired
+    private AuthorityService authorityService;
+
+    @Autowired
+    private EmailSender sender;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PreAuthorize("hasAnyRole('ROLE_SYSTEM_ADMINISTRATOR')")
     @PostMapping("/add")
     public ResponseEntity<Dermatologist> saveDermatologist(@RequestBody Dermatologist dermatologistRequest) {
@@ -61,7 +72,17 @@ public class DermatologistController {
             Location location = this.locationService.saveAndFlush(dermatologistRequest.getLocation());
             dermatologistRequest.setLocation(location);
 
+            dermatologistRequest.setAuthorities(authorityService.findByRole("ROLE_DERMATOLOGIST"));
+            dermatologistRequest.getAccountInfo().setActive(false);
+            dermatologistRequest.getAccountInfo().setFirstLogin(true);
+            dermatologistRequest.setPassword(passwordEncoder.encode(dermatologistRequest.getPassword()));
             Dermatologist dermatologist = this.dermatologistService.saveAndFlush(dermatologistRequest);
+
+            try {
+                sender.sendVerificationEmail(dermatologist.getLoginInfo().getEmail(), dermatologist.getUserId().toString());
+            } catch (Exception e) {
+                return new ResponseEntity<>(dermatologistRequest, HttpStatus.NO_CONTENT);
+            }
 
             return new ResponseEntity<Dermatologist>(dermatologist, HttpStatus.CREATED);
         } else {

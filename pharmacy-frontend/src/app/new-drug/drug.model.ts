@@ -14,7 +14,7 @@ export class DrugModel {
   dailyDose: number;
   contraindication: string [];
   manufacturer: string;
-
+  points: number;
 
 
   constructor() {
@@ -26,10 +26,11 @@ export class DrugModel {
     this.allergies = [];
     this.substituteDrug = [];
     this.note = '';
-    this.issuanceRegime = 'Choose..';
+    this.issuanceRegime = 'Choose...';
     this.dailyDose = 0;
     this.contraindication = [];
-    this.manufacturer = '';
+    this.manufacturer = 'Choose...';
+    this.points = 0;
   }
 
 

@@ -24,7 +24,6 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { SysAdminComponent } from './sys-admin/sys-admin.component';
 import { NewPharmacyComponent } from './new-pharmacy/new-pharmacy.component';
 import { NewAdminComponent } from './new-admin/new-admin.component';
-import { AdministratorsComponent } from './administrators/administrators.component';
 import { MedicalStuffClientsComponent } from './medical-stuff-clients/medical-stuff-clients.component';
 import { DrugsComponent } from './drugs/drugs.component';
 import { DrugOrderComponent } from './drug-order/drug-order.component';
@@ -104,7 +103,6 @@ const appRoutes: Routes = [
   { path: 'newSupplier', component: NewSupplierComponent },
   { path: 'newPharmacy', component: NewPharmacyComponent},
   { path: 'newAdmin', component: NewAdminComponent},
-  { path: 'administrators', component: AdministratorsComponent},
   { path: 'allOrders', component: AllOrdersComponent},
   { path: 'subscribedPharmacy', component: SubscribedPharmacyComponent },
   { path: 'myOffers', component: MyOffersComponent},
@@ -157,7 +155,6 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     SysAdminComponent,
     NewPharmacyComponent,
     NewAdminComponent,
-    AdministratorsComponent,
     MedicalStuffClientsComponent,
     DrugsComponent,
     DrugOrderComponent,
