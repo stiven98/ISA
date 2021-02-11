@@ -1,5 +1,4 @@
 package ftn.isa.team12.pharmacy.email;
-import ftn.isa.team12.pharmacy.domain.common.DateRange;
 import ftn.isa.team12.pharmacy.domain.common.Promotion;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Examination;
 import ftn.isa.team12.pharmacy.dto.AnswerDTO;
@@ -95,6 +94,14 @@ public class EmailSender {
     }
 
 
+    public void sendDrugPickingUpFeedback(String username, UUID drug_reservation_id) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String body = "Drug reservation: " + drug_reservation_id + " successfully completed with picking up the drug!";
+        message.setTo(username);
+        message.setText(body);
+        message.setSubject("Drug picking up");
+        emailSender.send(message);
+    }
     public void sendEmailEmployee(UUID vacationID, String email, String note, String status) {
         SimpleMailMessage message = new SimpleMailMessage();
         String body = "Your request for vacation " + status + "note: " + note + " request with code: " + vacationID.toString();

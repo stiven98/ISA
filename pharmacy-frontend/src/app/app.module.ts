@@ -67,6 +67,7 @@ import { PharmacistsGuard } from './guard/pharmacists.guard';
 import { EmployeeGuard } from './guard/employee.guard';
 import { ReportsComponent } from './ph-admin/reports/reports.component';
 import { ChartsModule } from 'ng2-charts';
+import { MedicamentIssuingComponent } from './medicament-issuing/medicament-issuing.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -96,6 +97,7 @@ const appRoutes: Routes = [
     { path: 'patients', component: MedicalStuffClientsComponent },
     { path: 'workCalendar', component: WorkCalendarComponent },
     { path: 'vacationRequest', component: VacationRequestComponent },
+    { path: 'medicamentIssuing', component: MedicamentIssuingComponent },
     { path: '**', redirectTo: 'changeAccountInfo'}
   ]
   },
@@ -191,6 +193,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     EmployeeSchedulingComponent,
     ComplaintComponent,
     SeeAllOfferComponent,
+    PharmacistHomeComponent,
+    MedicamentIssuingComponent,
     VacationComponent,
     PharmacistHomeComponent,
     ReportsComponent

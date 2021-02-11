@@ -130,7 +130,7 @@ public class PatientController {
         AccountCategory category = patientService.findAccountCategory(email);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @GetMapping("/penalty/{email}")
     public ResponseEntity<Integer> findPenalty(@PathVariable String email) {
         Patient patient = this.patientService.findByEmail(email);

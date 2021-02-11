@@ -18,5 +18,7 @@ public interface DrugReservationService {
 
     List<Drug> findDrugsPatientReserved(String patientEmail);
 
+    DrugReservation findDrugReservationByIdAndPharmacyId(UUID id, UUID pharmacyId);
 
+    DrugReservation issueDrug(UUID id);
 }
