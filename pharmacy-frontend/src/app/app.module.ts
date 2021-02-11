@@ -66,6 +66,7 @@ import { PharmacistHomeComponent } from './pharmacist-home/pharmacist-home.compo
 import { PharmacistsGuard } from './guard/pharmacists.guard';
 import { EmployeeGuard } from './guard/employee.guard';
 import { ReportsComponent } from './ph-admin/reports/reports.component';
+import { ChartsModule } from 'ng2-charts';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -204,7 +205,9 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NgxLoadingXModule.forRoot(ngxLoadingXConfig),
     FormsModule,
     NgbModule,
+    ChartsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    
   ],
   providers: [
     {

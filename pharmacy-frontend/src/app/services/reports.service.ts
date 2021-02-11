@@ -16,6 +16,14 @@ export class ReportsService {
     return this.apiService.get("http://localhost:8080/api/report/marks").pipe(map((res:Response) => {return res;}))
   }
 
+  gerReportYers():Observable<any>{
+    return this.apiService.get("http://localhost:8080/api/report/yearsReportExamination").pipe(map((res:Response) => {return res;}))
+  }
+
+
+  getReportMonth(month):Observable<any>{
+    return this.apiService.get("http://localhost:8080/api/report/monthly/" + month).pipe(map((res:Response) => {return res;}))
+  }
 
 
 }

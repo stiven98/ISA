@@ -1,8 +1,8 @@
 package ftn.isa.team12.pharmacy.controller;
 
 
-import ftn.isa.team12.pharmacy.dto.DeleteEmployeeDTO;
 import ftn.isa.team12.pharmacy.dto.ReportsAverageMarksDTO;
+import ftn.isa.team12.pharmacy.dto.ReportsMonthlyDTO;
 import ftn.isa.team12.pharmacy.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,5 +35,20 @@ public class ReportsController {
         }
         return new ResponseEntity<>(reportsAverageMarksDTO, HttpStatus.OK);
     }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/yearsReportExamination")
+    public ResponseEntity<?> report() throws ParseException {
+        return new ResponseEntity<>(reportService.yearsReportsExamination(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PH_ADMIN')")
+    @GetMapping("/monthly/{month}")
+    public ResponseEntity<ReportsMonthlyDTO> report(@PathVariable Integer month) throws ParseException {
+        return new ResponseEntity<>(reportService.monthlyReportExamination(month), HttpStatus.OK);
+    }
+
+
 
 }
