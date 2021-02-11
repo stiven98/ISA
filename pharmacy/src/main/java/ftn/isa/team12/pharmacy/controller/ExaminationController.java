@@ -1,6 +1,5 @@
 package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.common.LoyaltyProgram;
-import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
@@ -23,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -283,6 +283,7 @@ public class ExaminationController {
 
         return new ResponseEntity<>(pharmacies, HttpStatus.OK);
     }
+    @Transactional(readOnly = false)
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/scheduleNew/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
@@ -317,7 +318,7 @@ public class ExaminationController {
         return new ResponseEntity<>(examination, HttpStatus.OK);
     }
 
-
+    @Transactional(readOnly = false)
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/newExamination/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody DermatologistExamScheduleDTO dto)  {
