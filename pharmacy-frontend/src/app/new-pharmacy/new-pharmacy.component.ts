@@ -5,6 +5,8 @@ import {CountryService} from '../services/country.service';
 import {NewPharmacyModel} from './newPharmacy.model';
 import {PharmacyService} from '../services/pharmacy.service';
 import {Router} from '@angular/router';
+import {AuthService} from '../services/auth.service';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-new-pharmacy',
@@ -13,39 +15,61 @@ import {Router} from '@angular/router';
 })
 export class NewPharmacyComponent implements OnInit {
 
-  selectedCountry = 'Choose...';
-  selectedCity = 'Choose...';
-  disabledCountry = false;
-  disabledCity = false;
-  fetchData = false;
-  cities = [];
-  countries = [];
-  ifCountry = false;
-  validationModel = new ValidationModel();
+  selectedCountry: string;
+  selectedCity: string;
+  disabledCountry: boolean;
+  disabledCity: boolean;
+  fetchData: boolean;
+  cities: any [];
+  countries: any [];
+  ifCountry: boolean;
+  validationModel: ValidationModel;
   addedCountry: string;
   addedCity: string;
   zipCode: string;
   registration: boolean;
-  newPharmacyModel = new NewPharmacyModel();
-  errorName = '';
+  newPharmacyModel: NewPharmacyModel;
+  errorName: string;
 
 
 
   constructor(private cityService: CityService,
               private countryService: CountryService,
               private pharmacyService: PharmacyService,
-              private router: Router) { }
+              private router: Router,
+              private authService: AuthService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
+
+    this.selectedCountry = 'Choose...';
+    this.selectedCity = 'Choose...';
+    this.disabledCountry = false;
+    this.disabledCity = false;
+    this.fetchData = false;
+    this.cities = [];
+    this.countries = [];
+    this.ifCountry = false;
+    this.validationModel = new ValidationModel();
+    this.newPharmacyModel = new NewPharmacyModel();
     this.addedCountry = '';
+    this.errorName = '';
     this.addedCity = '';
     this.zipCode = '';
     this.fetchData = true;
     this.registration = true;
 
-    this.countryService.findAll().subscribe((response) => {
-      this.countries = response;
-      this.fetchData = false;
+    this.userService.getMyInfo().subscribe(() => {
+      if (this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR') {
+        this.countryService.findAll().subscribe((response) => {
+          this.countries = response;
+          this.fetchData = false;
+        });
+      } else {
+        this.router.navigate(['403']);
+      }
+    }, () => {
+      this.router.navigate(['/login']);
     });
   }
 

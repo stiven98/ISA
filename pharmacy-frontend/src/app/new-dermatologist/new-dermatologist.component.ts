@@ -13,17 +13,17 @@ import {DermatologistService} from '../services/dermatologist.service';
 })
 export class NewDermatologistComponent implements OnInit {
 
-  selectedCountry = 'Choose...';
-  selectedCity = 'Choose...';
-  disabledCountry = false;
-  disabledCity = false;
-  fetchData = false;
-  cities = [];
-  countries = [];
-  registrationPatient: RegistrationPatientModel = new RegistrationPatientModel();
-  validationModel: ValidationModel = new ValidationModel();
-  ifCountry = false;
-  confirmPassword = '';
+  selectedCountry: string;
+  selectedCity: string;
+  disabledCountry: boolean;
+  disabledCity: boolean;
+  fetchData: boolean;
+  cities: any [];
+  countries: any [];
+  registrationPatient: RegistrationPatientModel;
+  validationModel: ValidationModel;
+  ifCountry: boolean;
+  confirmPassword: string;
   addedCountry: string;
   addedCity: string;
   zipCode: string;
@@ -36,6 +36,17 @@ export class NewDermatologistComponent implements OnInit {
               ) { }
 
   ngOnInit(): void {
+    this.selectedCountry = 'Choose...';
+    this.selectedCity = 'Choose...';
+    this.disabledCountry = false;
+    this.disabledCity = false;
+    this.fetchData = false;
+    this.cities = [];
+    this.countries = [];
+    this.registrationPatient = new RegistrationPatientModel();
+    this.validationModel = new ValidationModel();
+    this.ifCountry = false;
+    this.confirmPassword = '';
     this.addedCountry = '';
     this.addedCity = '';
     this.zipCode = '';
@@ -64,18 +75,9 @@ export class NewDermatologistComponent implements OnInit {
       this.fetchData = true;
 
       this.dermatologistService.saveDermatologist(this.registrationPatient).subscribe((response) => {
-        this.fetchData = false;
-
-        this.registrationPatient = new RegistrationPatientModel();
-        this.addedCountry = '';
-        this.addedCity = '';
-        this.zipCode = '';
-        this.confirmPassword = '';
-        this.selectedCountry = 'Choose...';
-        this.selectedCity = 'Choose...';
-        alert('Dodato!');
+        alert('Success added dermatologist!');
+        this.ngOnInit();
       }, (error) => {
-
         this.fetchData = false;
         this.validationModel.validEmail = 'is-invalid';
       });

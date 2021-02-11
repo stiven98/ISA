@@ -11,7 +11,7 @@ export class HeaderComponent implements OnInit {
   constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
-
+    console.log(this.authService.getRole());
   }
 
   onLogout = () => {

@@ -191,7 +191,7 @@ public class ReportServiceImpl implements ReportService {
         Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyAdministrator.getPharmacy().getId());
         ReportsMonthlyDTO reportsMonthlyDTO = new ReportsMonthlyDTO();
         ZoneId defaultZoneId = ZoneId.systemDefault();
-        
+
         LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate endDate = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 

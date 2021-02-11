@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {DrugValidation} from '../validation-model/drug-validation';
 import {DrugModel} from './drug.model';
 import {DrugService} from '../services/drug.service';
+import {AuthService} from '../services/auth.service';
+import {UserService} from '../services/user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-new-drug',
@@ -14,65 +17,126 @@ export class NewDrugComponent implements OnInit {
   fetchDrugs: boolean;
   fetchContradiction: boolean;
   fetchIngredient: boolean;
-  drugValidation = new DrugValidation();
-  drugModel = new DrugModel();
-  typesOfDrug = ['HerbalMedicine', 'Antibiotic', 'Anesthetic', 'Antihistamine'];
-  formsOfDrug = [ 'Powder', 'Capsule', 'Pill', 'Cream', 'Paste', 'Gel', 'Syrup'];
-  drugs = [];
-  showDrugs = [];
-  showSubstituteDrugs = [];
-  showContraindication = [];
-  showAddContraindication = [];
-  showAddIngredients = [];
-  ingredients = [];
-  showIngredients = [];
-
-  substituteDrug = 'Choose...';
-  manufacturers = [];
-  contraindication = [];
-  selectedContraindication = '';
-  newContraindication = '';
-  selectedIngredient = 'Choose...';
-  newIngredient = '';
+  drugValidation: DrugValidation;
+  drugModel: DrugModel;
+  typesOfDrug: string [];
+  formsOfDrug: string [];
+  drugs: any [];
+  showDrugs: any [];
+  showSubstituteDrugs: any [];
+  showContraindication: any [];
+  showAddContraindication: any [];
+  showAddIngredients: any [];
+  ingredients: any [];
+  showIngredients: any [];
+  substituteDrug: string;
+  manufacturers: any [];
+  contraindication: any [];
+  selectedContraindication: string;
+  newContraindication: string;
+  selectedIngredient: string;
+  newIngredient: string;
   fetchManufacturer: boolean;
 
 
-  constructor(private drugService: DrugService) { }
+  constructor(private drugService: DrugService,
+              private authService: AuthService,
+              private userService: UserService,
+              private router: Router) { }
 
   ngOnInit(): void {
+
+    this.drugValidation = new DrugValidation();
+    this.drugModel = new DrugModel();
+    this.typesOfDrug = ['HerbalMedicine', 'Antibiotic', 'Anesthetic', 'Antihistamine'];
+    this.formsOfDrug = [ 'Powder', 'Capsule', 'Pill', 'Cream', 'Paste', 'Gel', 'Syrup'];
+    this.drugs = [];
+    this.showDrugs = [];
+    this.showSubstituteDrugs = [];
+    this.showContraindication = [];
+    this.showAddContraindication = [];
+    this.showAddIngredients = [];
+    this.ingredients = [];
+    this.showIngredients = [];
+
+    this.substituteDrug = 'Choose...';
+    this.manufacturers = [];
+    this.contraindication = [];
+    this.selectedContraindication = '';
+    this.newContraindication = '';
+    this.selectedIngredient = 'Choose...';
+    this.newIngredient = '';
+
     this.sendDate = false;
     this.fetchDrugs = true;
     this.fetchContradiction = true;
     this.fetchIngredient = true;
     this.fetchManufacturer = true;
 
-    this.drugService.findAll().subscribe((response) => {
-      this.drugs = response;
-      this.showDrugs = response;
-      this.fetchDrugs = false;
+    this.userService.getMyInfo().subscribe(user => {
+      if (this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR') {
+        this.drugService.findAll().subscribe((response) => {
+          this.drugs = response;
+          this.showDrugs = response;
+          this.fetchDrugs = false;
+        });
+
+        this.drugService.findAllContraindications().subscribe((response) => {
+          this.contraindication = response;
+          this.showContraindication = response;
+          this.fetchContradiction = false;
+        });
+
+        this.drugService.findAllIngredients().subscribe((response) => {
+          this.ingredients = response;
+          this.showIngredients = response;
+          this.fetchIngredient = false;
+        });
+
+        this.drugService.findAllManufacturers().subscribe((response) => {
+          this.manufacturers = response;
+          this.fetchManufacturer = false;
+        });
+      } else {
+        this.router.navigate(['403']);
+      }
+    }, () => {
+      this.router.navigate(['/login']);
     });
 
-    this.drugService.findAllContraindications().subscribe((response) => {
-      this.contraindication = response;
-      this.showContraindication = response;
-      this.fetchContradiction = false;
-    });
 
-    this.drugService.findAllIngredients().subscribe((response) => {
-      this.ingredients = response;
-      this.showIngredients = response;
-      this.fetchIngredient = false;
-    });
-
-    this.drugService.findAllManufacturers().subscribe((response)=> {
-      this.manufacturers = response;
-      this.fetchManufacturer = false;
-    });
 
   }
 
+  createDrug = () => {
+    if (this.isValidInput()) {
+      this.drugService.addDrug(this.drugModel).subscribe(() => {
+        alert('Drug added!');
+        this.ngOnInit();
+      });
+    }
+
+  }
+
+  isValidInput = () => {
+    const validatedName = this.drugValidation.isValidName(this.drugModel.name);
+    const validatedCode = this.drugValidation.isValidCode(this.drugModel.code);
+    const validatedPoints = this.drugValidation.isValidPoints(this.drugModel.points);
+    const validatedTypeOfDrug = this.drugValidation.isValidTypeOfDrug(this.drugModel.typeOfDrug);
+    const validatedFormOfDrug = this.drugValidation.isValidFormOfDrug(this.drugModel.formOfDrug);
+    const validatedNote = this.drugValidation.isValidNote(this.drugModel.note);
+    const validatedDailyDose = this.drugValidation.isValidDailyDose(this.drugModel.dailyDose);
+    const validStatus = this.drugValidation.isValidStatus(this.drugModel.issuanceRegime);
+    const validManufacturer = this.drugValidation.isValidManufacturer(this.drugModel.manufacturer);
+
+    return validatedName && validatedCode && validatedPoints && validatedTypeOfDrug && validatedFormOfDrug &&
+      validatedNote && validatedDailyDose && validStatus && validManufacturer;
+  }
+
+
   onChangeManufacturer = (event) => {
     this.drugModel.manufacturer = event.target.value;
+    this.drugValidation = new DrugValidation();
   }
 
 
@@ -262,25 +326,27 @@ export class NewDrugComponent implements OnInit {
 
   onChangeTypeOfDrug = (event) => {
     this.drugModel.typeOfDrug = event.target.value;
+    this.drugValidation = new DrugValidation();
   }
 
   onChangeFormOfDrug = (event) => {
     this.drugModel.formOfDrug = event.target.value;
+    this.drugValidation = new DrugValidation();
   }
 
   onChangeSubstituteDrug = (event) => {
     this.substituteDrug = event.target.value;
+    this.drugValidation = new DrugValidation();
   }
 
   onKeyDown = () => {
     this.drugValidation = new DrugValidation();
   }
 
-  createDrug = () => {
-    this.drugService.addDrug(this.drugModel).subscribe();
-  }
+
 
   onChangeIssuanceRegime = (event) => {
     this.drugModel.issuanceRegime = event.target.value;
+    this.drugValidation = new DrugValidation();
   }
 }

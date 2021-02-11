@@ -16,24 +16,24 @@ import {PhAdminService} from '../services/ph-admin.service';
 })
 export class NewAdminComponent implements OnInit {
 
-  selectedCountry = 'Choose...';
-  selectedCity = 'Choose...';
-  disabledCountry = false;
-  disabledCity = false;
-  fetchData = false;
-  cities = [];
-  countries = [];
-  admin: RegistrationPatientModel = new RegistrationPatientModel();
-  validationModel: ValidationModel = new ValidationModel();
-  ifCountry = false;
-  confirmPassword = '';
+  selectedCountry: string;
+  selectedCity: string;
+  disabledCountry: boolean;
+  disabledCity: boolean;
+  fetchData: boolean;
+  cities: any [];
+  countries: any [];
+  admin: RegistrationPatientModel;
+  validationModel: ValidationModel;
+  ifCountry: boolean;
+  confirmPassword: string;
   addedCountry: string;
   addedCity: string;
   zipCode: string;
-  pharmacies = [];
-  selectedTypeAdmin = 'Choose...';
+  pharmacies: any [];
+  selectedTypeAdmin: string;
   showPharmacy: boolean;
-  selectedPharmacyId = 'Choose...';
+  selectedPharmacyId: string;
 
 
   constructor(private cityService: CityService,
@@ -46,6 +46,20 @@ export class NewAdminComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.selectedCountry = 'Choose...';
+    this.selectedCity = 'Choose...';
+    this.disabledCountry = false;
+    this.disabledCity = false;
+    this.fetchData = false;
+    this.cities = [];
+    this.countries = [];
+    this.admin = new RegistrationPatientModel();
+    this.validationModel = new ValidationModel();
+    this.ifCountry = false;
+    this.confirmPassword = '';
+    this.pharmacies = [];
+    this.selectedTypeAdmin = 'Choose...';
+    this.selectedPharmacyId = 'Choose...';
     this.addedCountry = '';
     this.addedCity = '';
     this.zipCode = '';
@@ -107,8 +121,9 @@ export class NewAdminComponent implements OnInit {
 
       if (this.selectedTypeAdmin === 'System administrator') {
         this.sysAdminService.saveSysAdmin(this.admin).subscribe((response) => {
-          this.fetchData = false;
-          this.router.navigate(['/administrators']);
+          alert('Success added admin');
+          this.ngOnInit();
+
         }, (error) => {
           this.validationModel.validEmail = 'is-invalid';
           this.fetchData = false;
@@ -116,10 +131,9 @@ export class NewAdminComponent implements OnInit {
       } else if (this.selectedTypeAdmin === 'Pharmacy administrator') {
         this.fetchData = true;
         this.phAdminService.savePharmacyAdministrator(this.admin, this.selectedPharmacyId).subscribe((resonse) => {
-          this.fetchData = false;
-          this.router.navigate(['/administrators']);
+          alert('Success added admin');
+          this.ngOnInit();
         }, (error) => {
-
           this.fetchData = false;
         });
       }

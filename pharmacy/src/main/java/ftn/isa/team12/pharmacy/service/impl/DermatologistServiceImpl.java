@@ -42,7 +42,7 @@ public class DermatologistServiceImpl implements DermatologistService {
 
     @Override
     public Dermatologist findById(UUID userId) {
-        return this.dermatologistRepository.findDermatologistById(userId);
+        return this.dermatologistRepository.findById(userId).get();
     }
 
     @Override

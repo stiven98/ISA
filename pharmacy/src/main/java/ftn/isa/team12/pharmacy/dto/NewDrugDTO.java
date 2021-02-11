@@ -25,6 +25,7 @@ public class NewDrugDTO {
     private List<String> contraindication;
     private List<String> ingredients;
     private String issuanceRegime;
+    private int points;
 
     @Override
     public String toString() {

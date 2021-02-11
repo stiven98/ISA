@@ -78,4 +78,8 @@ public class MedicalStuffServiceImpl implements MedicalStuffService {
         return this.medicalStuffRepository.save(medicalStuff);
     }
 
+    @Override
+    public List<MedicalStuff> findAll() {
+        return this.medicalStuffRepository.findAll();
+    }
 }
