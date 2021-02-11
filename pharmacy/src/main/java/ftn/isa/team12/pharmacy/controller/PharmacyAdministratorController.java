@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,11 @@ public class PharmacyAdministratorController {
     @Autowired
     private EmailSender sender;
 
+    @Autowired
+    private AuthorityService authorityService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/all")
     public ResponseEntity<List<PharmacyAdministrator>> findAll() {
@@ -82,14 +88,19 @@ public class PharmacyAdministratorController {
             Location location = this.locationService.saveAndFlush(pharmacyAdministratorRequest.getLocation());
             pharmacyAdministratorRequest.setLocation(location);
 
+
+            pharmacyAdministratorRequest.setAuthorities(authorityService.findByRole("ROLE_PH_ADMIN"));
+            pharmacyAdministratorRequest.getAccountInfo().setActive(false);
+            pharmacyAdministratorRequest.getAccountInfo().setFirstLogin(true);
             pharmacyAdministratorRequest.setPharmacy(pharmacyService.findPharmacyById(UUID.fromString(id)));
+            pharmacyAdministratorRequest.setPassword(passwordEncoder.encode(pharmacyAdministratorRequest.getPassword()));
             PharmacyAdministrator pharmacyAdministrator = this.pharmacyAdministratorService.saveAndFlush(pharmacyAdministratorRequest);
 
-            //try {
-            //    sender.sendVerificationEmail(pharmacyAdministrator.getLoginInfo().getEmail(), pharmacyAdministrator.getUserId().toString());
-            //} catch (Exception e) {
-            //    return new ResponseEntity<>(pharmacyAdministratorRequest, HttpStatus.NO_CONTENT);
-            //}
+            try {
+                sender.sendVerificationEmail(pharmacyAdministrator.getLoginInfo().getEmail(), pharmacyAdministrator.getUserId().toString());
+            } catch (Exception e) {
+                return new ResponseEntity<>(pharmacyAdministratorRequest, HttpStatus.NO_CONTENT);
+            }
 
             return new ResponseEntity<>(pharmacyAdministrator, HttpStatus.CREATED);
         } else {

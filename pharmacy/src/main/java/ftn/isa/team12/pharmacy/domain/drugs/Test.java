@@ -183,7 +183,7 @@ public class Test {
         drug.setNote("This is note");
         drug.setIssuanceRegime(IssuanceRegime.withoutRecipe);
         drug.setAverageMark(0.0);
-
+        drug.setPoints(6);
 
 
         Drug drug1 = new Drug();
@@ -196,6 +196,7 @@ public class Test {
         drug1.getContraindications().add(contraindication1);
         drug1.getContraindications().add(contraindication2);
         drug1.setAverageMark(5.0);
+        drug1.setPoints(3);
 
 
         Drug drug2 = new Drug();
@@ -206,6 +207,7 @@ public class Test {
         drug2.setManufacturer(manufacturer);
         drug2.setIssuanceRegime(IssuanceRegime.withoutRecipe);
         drug2.setAverageMark(10.0);
+        drug2.setPoints(3);
 
 
         Drug drug3 = new Drug();
@@ -216,6 +218,7 @@ public class Test {
         drug3.setManufacturer(manufacturer);
         drug3.setIssuanceRegime(IssuanceRegime.withoutRecipe);
         drug3.setAverageMark(3.5);
+        drug3.setPoints(1);
 
 
         Drug drug4 = new Drug();
@@ -226,6 +229,7 @@ public class Test {
         drug4.setManufacturer(manufacturer);
         drug4.setIssuanceRegime(IssuanceRegime.withoutRecipe);
         drug4.setAverageMark(3.1);
+        drug4.setPoints(2);
 
 
         Drug drug5 = new Drug();
@@ -236,6 +240,7 @@ public class Test {
         drug5.setManufacturer(manufacturer);
         drug5.setIssuanceRegime(IssuanceRegime.withoutRecipe);
         drug5.setAverageMark(6.0);
+        drug5.setPoints(2);
 
 
         Drug drug6 = new Drug();
@@ -246,7 +251,7 @@ public class Test {
         drug6.setManufacturer(manufacturer);
         drug6.setIssuanceRegime(IssuanceRegime.withoutRecipe);
         drug6.setAverageMark(7.9);
-
+        drug6.setPoints(2);
 
         Drug drug7 = new Drug();
         drug7.setName("Pantenol");
@@ -256,6 +261,7 @@ public class Test {
         drug7.setManufacturer(manufacturer);
         drug7.setIssuanceRegime(IssuanceRegime.withoutRecipe);
         drug7.setAverageMark(9.0);
+        drug7.setPoints(2);
 
         drug7.getSubstituteDrugs().add(drug2);
 

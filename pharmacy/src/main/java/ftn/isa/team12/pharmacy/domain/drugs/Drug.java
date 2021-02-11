@@ -59,6 +59,9 @@ public class Drug implements Serializable {
    @Column(name = "note")
    private String note;
 
+   @Column(name = "points")
+   private int points;
+
    @Column(name = "AVERAGEMARK")
    private Double averageMark;
 
