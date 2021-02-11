@@ -64,6 +64,8 @@ import { VacationComponent } from './vacation/vacation.component';
 import { PharmacistHomeComponent } from './pharmacist-home/pharmacist-home.component';
 import { PharmacistsGuard } from './guard/pharmacists.guard';
 import { EmployeeGuard } from './guard/employee.guard';
+import { ReportsComponent } from './ph-admin/reports/reports.component';
+import { ChartsModule } from 'ng2-charts';
 import { MedicamentIssuingComponent } from './medicament-issuing/medicament-issuing.component';
 
 const appRoutes: Routes = [
@@ -124,6 +126,7 @@ const appRoutes: Routes = [
   { path: 'createExamination/:email', component: CreateExaminationComponent, canActivate: [PhAdminGuard]},
   { path: 'acceptDrugOffer/:id', component: SeeAllOfferComponent, canActivate: [PhAdminGuard]},
   { path: 'vacation', component: VacationComponent},
+  { path: 'reports', component: ReportsComponent, canActivate: [PhAdminGuard]},
 
 
   //ovo mora da bude poslednje!!!!!!!
@@ -190,7 +193,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     PharmacistHomeComponent,
     MedicamentIssuingComponent,
     VacationComponent,
-    PharmacistHomeComponent
+    PharmacistHomeComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -202,7 +206,9 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NgxLoadingXModule.forRoot(ngxLoadingXConfig),
     FormsModule,
     NgbModule,
+    ChartsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    
   ],
   providers: [
     {
