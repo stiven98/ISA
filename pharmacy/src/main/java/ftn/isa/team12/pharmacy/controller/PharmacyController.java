@@ -1,11 +1,11 @@
 package ftn.isa.team12.pharmacy.controller;
-
 import ftn.isa.team12.pharmacy.domain.common.City;
 import ftn.isa.team12.pharmacy.domain.common.Country;
 import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.PharmacyChangeDTO;
 import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
@@ -77,7 +77,7 @@ public class PharmacyController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Pharmacy> findPharmacyById(@PathVariable String name){
+    public ResponseEntity<Pharmacy> findPharmacyByName(@PathVariable String name){
         Pharmacy pharmacy = pharmacyService.findPharmacyByName(name);
         return new ResponseEntity<Pharmacy>(pharmacy,HttpStatus.OK);
     }
@@ -114,6 +114,7 @@ public class PharmacyController {
         List<Pharmacy> searched =  this.pharmacyService.searchPharmacies(pharmacies, dto);
         return new ResponseEntity<>(searched, HttpStatus.OK);
     }
+
 
 
 

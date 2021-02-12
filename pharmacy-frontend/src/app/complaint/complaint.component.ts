@@ -6,6 +6,7 @@ import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {PatientService} from '../services/patient.service';
 import {ComplaintService} from '../services/complaint.service';
+import {PharmacyService} from '../services/pharmacy.service';
 
 @Component({
   selector: 'app-complaint',
@@ -19,14 +20,17 @@ export class ComplaintComponent implements OnInit {
   medicalStuff: any [];
   complaintForAnswer: any [];
   validAnswer: string;
+  pharmacies: any [];
 
   constructor(private userService: UserService,
               public authService: AuthService,
               private router: Router,
               private patientService: PatientService,
-              private complaintService: ComplaintService) { }
+              private complaintService: ComplaintService,
+              private pharmacyService: PharmacyService) { }
 
   ngOnInit(): void {
+    this.pharmacies = [];
     this.validAnswer = 'no-validate';
     this.medicalStuff = [];
     this.complaintModel = new ComplaintModel();
@@ -36,8 +40,13 @@ export class ComplaintComponent implements OnInit {
       if (this.authService.getRole() === 'ROLE_PATIENT') {
         this.patientService.findMedicalStuffToMark(this.complaintModel.emailPatient).subscribe(response => {
           this.medicalStuff = response;
-          console.log(this.medicalStuff);
         });
+        this.pharmacyService.getPharmaciesForComplaintForPatient(this.complaintModel.emailPatient).subscribe(response => {
+          this.pharmacies = response;
+          console.log(this.pharmacies);
+        });
+
+
       } else if (this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR') {
         this.complaintService.findAll().subscribe(response => {
           this.complaintForAnswer = response;
@@ -74,6 +83,14 @@ export class ComplaintComponent implements OnInit {
     this.complaintValidation = new ComplaintValidation();
   }
 
+  onChangeSelectPharmacy = (event) => {
+
+    this.complaintModel.pharmacyId = event.target.value;
+    this.complaintModel.content = '';
+    this.complaintValidation = new ComplaintValidation();
+
+  }
+
   onChangeSelectedMedicalStuff = (event) => {
     this.complaintModel.medicalStaffId = event.target.value;
     this.complaintModel.content = '';
@@ -101,6 +118,13 @@ export class ComplaintComponent implements OnInit {
         this.complaintValidation.validContent = 'is-invalid';
         return;
       }
+
+      console.log(this.complaintModel);
+
+      this.complaintService.saveAndFlush(this.complaintModel).subscribe((response) => {
+        alert('Complaint saved!');
+        this.ngOnInit();
+      });
 
     } else if (this.complaintModel.forWho === 'Dermatologist and pharmacist') {
       if (this.complaintModel.medicalStaffId === 'Choose...') {

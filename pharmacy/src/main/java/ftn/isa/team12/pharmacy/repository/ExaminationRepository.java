@@ -68,8 +68,5 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
     @Query("select ex from Examination  ex where ex.pharmacy = ?1 and ex.dateOfExamination = ?2 and ex.examinationStatus = 0")
     List<Examination> getALlHealExaminationPerDay(Pharmacy pharmacy, Date start);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="3")})
-    Examination save(Examination examination);
 
 }

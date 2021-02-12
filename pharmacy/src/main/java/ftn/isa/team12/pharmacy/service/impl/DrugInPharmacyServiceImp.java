@@ -14,10 +14,13 @@ import ftn.isa.team12.pharmacy.service.DrugService;
 import ftn.isa.team12.pharmacy.service.PharmacyAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Transactional(readOnly = false)
 public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
 
     @Autowired
@@ -39,6 +42,7 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
 
 
     @Override
+    @Transactional(readOnly = false)
     public void addDrugInPharmacy(DrugInPharmacyChangesDTO drugInPharmacy) {
         PharmacyAdministrator phAdmin = pharmacyAdministratorService.findAdminByEmail(drugInPharmacy.getPharmacyAdminEmail());
         Drug drug = drugService.findById(drugInPharmacy.getDrugId());
@@ -73,6 +77,12 @@ public class DrugInPharmacyServiceImp implements DrugInPharmacyService {
             }
         }
         throw new IllegalArgumentException("This drug doesn't exist in pharmacy");
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void save(DrugInPharmacy drugInPharmacy) {
+        this.drugInPharmacyRepository.save(drugInPharmacy);
     }
 
     @Override

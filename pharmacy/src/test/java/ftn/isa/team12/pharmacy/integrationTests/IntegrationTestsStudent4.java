@@ -1,15 +1,7 @@
 package ftn.isa.team12.pharmacy.integrationTests;
-
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ftn.isa.team12.pharmacy.domain.common.Address;
-import ftn.isa.team12.pharmacy.domain.common.City;
-import ftn.isa.team12.pharmacy.domain.common.Country;
-import ftn.isa.team12.pharmacy.domain.common.Location;
-import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
-import ftn.isa.team12.pharmacy.domain.users.*;
 import ftn.isa.team12.pharmacy.dto.LoginDTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

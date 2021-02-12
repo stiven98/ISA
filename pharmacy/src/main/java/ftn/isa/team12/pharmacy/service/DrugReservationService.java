@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface DrugReservationService {
 
-    DrugReservation createDrugReservation(DrugReservationDTO drugReservationDTO);
+    DrugReservation createDrugReservation(DrugReservationDTO drugReservationDTO) throws Exception;
 
     List<DrugReservation> findDrugReservationByPatient(String patientEmail);
 

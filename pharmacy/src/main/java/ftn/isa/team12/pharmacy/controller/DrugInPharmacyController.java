@@ -37,7 +37,7 @@ public class DrugInPharmacyController {
         return  drugInPharmacyService.findPharmaciesWithDrug(id);
     }
 
-  //  @PreAuthorize("hasAnyRole('ROLE_PATIENT')") // Dodati ostale role
+   @PreAuthorize("hasAnyRole('ROLE_PATIENT')") // Dodati ostale role
     @PostMapping("/getQuantity")
     public ResponseEntity<?> getQuantity(@RequestBody GetDrugQuantityDTO drugQuantityDTO) {
       int quantity =   this.drugInPharmacyService.findDrugQuantity(drugQuantityDTO.getDrugId(), drugQuantityDTO.getPharmacyId());

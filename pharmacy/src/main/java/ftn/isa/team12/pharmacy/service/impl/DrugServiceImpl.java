@@ -10,10 +10,12 @@ import ftn.isa.team12.pharmacy.repository.PatientRepository;
 import ftn.isa.team12.pharmacy.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Transactional(readOnly = false)
 public class DrugServiceImpl implements DrugService {
 
     @Autowired
@@ -87,6 +89,7 @@ public class DrugServiceImpl implements DrugService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Drug findById(UUID id) {
         return drugRepository.findById(id).orElseGet(null);
     }
