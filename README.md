@@ -9,7 +9,19 @@ https://pharmacy-isa.herokuapp.com/index.html
 
 # Note
 Password for all users is: 123
-
+Some of the users:
+PhAdmin
+-marko@gmail.com
+SysAdmin
+-petar.petrovic@gmail.com
+Patient
+-aleksa@gmail.com
+Dermatologist
+-simke@gmail.com
+Pharmacist
+-djole@gmail.com
+Supplier
+-bojan@gmail.com
 # Instructions for starting the project
 
 * Database setup:
