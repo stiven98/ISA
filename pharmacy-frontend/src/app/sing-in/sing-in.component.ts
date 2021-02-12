@@ -47,7 +47,7 @@ export class SingInComponent implements OnInit {
   }
 
   isValidPassword = (password: string) => {
-    if (password.length < 4) {this.validPassword = 'is-invalid'; return false; }
+    if (password.length < 1) {this.validPassword = 'is-invalid'; return false; }
     return true;
   }
 

@@ -123,6 +123,7 @@ public class PharmacistServiceImpl implements PharmacistService {
 
 
     @Override
+    @Transactional(readOnly = false)
     public Pharmacist createPharmacist(EmployeesCreateDTO dto) {
         if(this.validation(dto))
             throw new IllegalArgumentException("Input not valide");
@@ -131,12 +132,12 @@ public class PharmacistServiceImpl implements PharmacistService {
             throw new IllegalArgumentException("Email already exists");
 
         Country country = countryService.saveAndFlush(new Country(dto.getUser().getCountryName()));
-
+        System.out.println(country.getCountryId());
         City city = cityService.saveAndFlush(new City(dto.getUser().getCityName(), country, dto.getUser().getZipCode()));
-
+        System.out.println(city.getCityId());
         Address address = new Address(dto.getUser().getStreet(), dto.getUser().getStreetNumber());
-        Location location = locationService.saveAndFlush(new Location(city, address));
-
+        Location location = locationService.save(new Location(city, address));
+        System.out.println(location.getLocationId());
         Pharmacy ph = pharmacyAdministratorService.findAdminByEmail(dto.getEmailPhAdmin()).getPharmacy();
         Pharmacist pharmacist = new Pharmacist();
         ph.getPharmacists().add(pharmacist);
@@ -146,9 +147,10 @@ public class PharmacistServiceImpl implements PharmacistService {
         pharmacist.getLoginInfo().setPassword("$2y$10$FEUww.MoQd8La2ZVp05CD.3Pum8kpy25PdMszrLvlWifF6JguCzQy");//123
         pharmacist.getLoginInfo().setEmail(dto.getUser().getEmail());
         pharmacist.setWorkTime(this.createWorkTime(dto,ph,pharmacist));
+        pharmacist.setLocation(location);
         pharmacist.setAuthorities(authorityService.findByRole("ROLE_PHARMACIST"));
         pharmacist.setAverageMark(0.0);
-        pharmacist.setLocation(location);
+
         pharmacist = pharmacistRepository.save(pharmacist);
         return pharmacist;
 
