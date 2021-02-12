@@ -4,6 +4,8 @@ import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.PharmacyChangeDTO;
 import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
 import ftn.isa.team12.pharmacy.repository.PharmacyRepository;
+import ftn.isa.team12.pharmacy.service.ExaminationService;
+import ftn.isa.team12.pharmacy.service.PatientService;
 import ftn.isa.team12.pharmacy.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,9 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PharmacyServiceImpl implements PharmacyService {
@@ -21,6 +21,11 @@ public class PharmacyServiceImpl implements PharmacyService {
     @Autowired
     private PharmacyRepository pharmacyRepository;
 
+    @Autowired
+    private ExaminationService examinationService;
+
+    @Autowired
+    private PatientService patientService;
 
     @Override
     public List<Pharmacy> findAll() {
@@ -52,6 +57,8 @@ public class PharmacyServiceImpl implements PharmacyService {
     public Pharmacy save(Pharmacy pharmacy) {
         return this.pharmacyRepository.save(pharmacy);
     }
+
+
 
     @Override
     public List<Pharmacy> searchPharmacies(List<Pharmacy> pharmacies, PharmacySearchDTO dto) {

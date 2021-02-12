@@ -23,8 +23,10 @@
           <div>
             <label for="pharmacy" class="text-dark mt-3" >Select pharmacy:</label>
 
-            <select class="custom-select form-control" id="pharmacy" [ngClass]="complaintValidation.validPharmacy" (change)="onChangeSelect($event)"  [ngClass]="complaintValidation.validPharmacy">
+            <select class="custom-select form-control" id="pharmacy" [ngClass]="complaintValidation.validPharmacy" (change)="onChangeSelectPharmacy($event)"  [ngClass]="complaintValidation.validPharmacy">
               <option value="Choose..." selected>Choose...</option>
+              <option *ngFor="let item of pharmacies" [value]="item.id">{{item.name}}</option>
+
             </select>
             <div class="invalid-feedback">
               Select pharmacy!
@@ -70,6 +72,7 @@
 
 
 <div class="container" *ngIf="authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'" >
+  <div *ngIf="complaintForAnswer !== undefined" >
   <div *ngIf="complaintForAnswer.length > 0">
     <div class="m-3">
       <h1 class="d-flex justify-content-center font-weight-bold text-dark">Complaint:</h1>
@@ -150,7 +153,11 @@
     </div>
   </div>
 
+  </div>
+  <div *ngIf="complaintForAnswer === undefined">
+    <ngx-loading-x></ngx-loading-x>
 
+  </div>
 
 
 </div>

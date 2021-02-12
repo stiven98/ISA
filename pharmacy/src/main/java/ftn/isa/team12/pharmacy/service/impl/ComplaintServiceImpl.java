@@ -2,6 +2,7 @@ package ftn.isa.team12.pharmacy.service.impl;
 
 import ftn.isa.team12.pharmacy.domain.common.Complaint;
 import ftn.isa.team12.pharmacy.domain.enums.StatusOfComplaint;
+import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import ftn.isa.team12.pharmacy.dto.AnswerDTO;
@@ -56,6 +57,17 @@ public class ComplaintServiceImpl implements ComplaintService {
             }
             complaint.setMedicalStuff(medicalStuff);
 
+        } else if( complaintRequest.getForWho().equals("Pharmacy")) {
+            Pharmacy pharmacy = pharmacyService.findPharmacyById(UUID.fromString(complaintRequest.getPharmacyId()));
+            if (pharmacy == null) {
+                throw new IllegalArgumentException("Wrong id of pharmacy!");
+
+            }
+            complaint.setPharmacy(pharmacy);
+
+
+        } else {
+            throw new IllegalArgumentException("Error!");
         }
 
         complaint = complaintRepository.saveAndFlush(complaint);
