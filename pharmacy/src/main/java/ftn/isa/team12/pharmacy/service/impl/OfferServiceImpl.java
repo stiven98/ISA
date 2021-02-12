@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = false)
 public class OfferServiceImpl implements OfferService {
 
     @Autowired
