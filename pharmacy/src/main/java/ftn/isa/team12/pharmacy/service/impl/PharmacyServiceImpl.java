@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +152,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 
     @Override
+    @Transactional(readOnly = false)
     public Pharmacy change(PharmacyChangeDTO dto) {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
