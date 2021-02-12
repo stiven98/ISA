@@ -334,6 +334,8 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
         eRecipe.setERecipeItems(items);
         eRecipeRepository.save(eRecipe);
+
+
         examination.setExaminationStatus(ExaminationStatus.held);
         examination = examinationRepository.save(examination);
         return examination;

@@ -12,6 +12,7 @@
       <a class=" nav-link pr-3 pl-3 text-light" routerLink="/pharmacy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Pharmacies</a>
       <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT' || this.authService.getRole() ==='ROLE_SYSTEM_ADMINISTRATOR' " routerLink="/complaint" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Complaint</a>
       <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" routerLink="/subscribedPharmacy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Subscribed pharmacies</a>
+      <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" routerLink="/QRcode" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">ERecipe with QR code</a>
 
       <a class="nav-link pr-3 pl-3 mr-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_SUPPLIER'" routerLink="/myOffers" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">My offers</a>
       <a class="nav-link pr-3 pl-3 mr-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_SUPPLIER'" routerLink="/allOrders" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Orders</a>
