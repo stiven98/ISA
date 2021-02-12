@@ -18,9 +18,11 @@ import java.util.UUID;
 public interface ExaminationRepository extends JpaRepository<Examination, UUID> {
 
     List<Examination> findAll();
-
+    @Lock(LockModeType.PESSIMISTIC_READ)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="2000")})
     List<Examination> findAllByEmployee(MedicalStuff employee);
-
+    @Lock(LockModeType.PESSIMISTIC_READ)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="2000")})
     List<Examination> findAllByPatient(Patient patient);
 
     List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy);
