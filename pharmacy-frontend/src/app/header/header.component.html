@@ -10,6 +10,7 @@
       <a class="nav-item nav-link ml-2 mr-2 text-light" *ngIf="this.authService.getRole() === 'ROLE_PHARMACIST'" routerLink="/pharmacist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
       <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" routerLink="/patient" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  >Home</a>
       <a class=" nav-link pr-3 pl-3 text-light" routerLink="/pharmacy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Pharmacies</a>
+      <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/drugs" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Drugs</a>
       <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT' || this.authService.getRole() ==='ROLE_SYSTEM_ADMINISTRATOR' " routerLink="/complaint" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Complaint</a>
       <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" routerLink="/subscribedPharmacy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Subscribed pharmacies</a>
       <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" routerLink="/QRcode" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">ERecipe with QR code</a>
@@ -19,6 +20,11 @@
       <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/drugs" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Drugs</a>
       <a class="nav-item nav-link ml-2 mr-2 text-light" *ngIf="this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'" routerLink="/loyaltyProgram" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Loyalty program</a>
       <a class="nav-item nav-link ml-2 mr-2 text-light" *ngIf="this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'" routerLink="/vacation" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Vacation</a>
+      <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" routerLink="/allPharmacist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Pharmacists</a>
+      <a class=" nav-item nav-link pr-3 pl-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PATIENT'" routerLink="/allDermatologist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dermatologists</a>
+      <a class="nav-link pr-3 pl-3 mr-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_SUPPLIER'" routerLink="/myOffers" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">My offers</a>
+      <a class="nav-link pr-3 pl-3 mr-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_SUPPLIER'" routerLink="/allOrders" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Orders</a>
+      <a class="nav-link pr-3 pl-3 mr-3 text-light" *ngIf="this.authService.getRole() == 'ROLE_PH_ADMIN'" routerLink="/addDermatologistInPharmacy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Add dermatologist</a>
 
     <!--  <a class=" nav-link pr-3 pl-3 mr-3 text-light" routerLink="/administrators" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Administrators</a>  -->
       <div class="nav-item dropdown" *ngIf="authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'">
@@ -34,6 +40,11 @@
         </div>
       </div>
 
+<<<<<<< HEAD
+=======
+
+      <a class="nav-item nav-link ml-2 mr-2 text-light" *ngIf="this.authService.getRole() === 'ROLE_SYSTEM_ADMINISTRATOR'" routerLink="/loyaltyProgram" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Loyalty program</a>
+>>>>>>> 6a7daa020facdc97646c1d6b7ec9abc751f8b875
 
 
     </div>

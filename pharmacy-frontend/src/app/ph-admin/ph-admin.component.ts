@@ -5,10 +5,21 @@ import { DrugOrderService } from '../services/drug-order.service';
 import { DrugPriceService } from '../services/drug-price.service';
 import { ExaminationPriceService } from '../services/examination-price.service';
 import { MedicalStuffService } from '../services/medical-stuff.service';
+import { PharmacyService } from '../services/pharmacy.service';
 import { PromotionService } from '../services/promotion.service';
 import { UserService } from '../services/user.service';
 import { DrugPriceModel } from './drug-in-pharmacy/drugPriceModel';
 import { ExaminationPriceModel } from './drug-in-pharmacy/examinationPriceModel';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import VectorLayer from 'ol/layer/Vector';
+import * as olProj from 'ol/proj';
+import TileLayer from 'ol/layer/Tile';
+import {OSM, Vector as VectorSource} from 'ol/source';
+import Point from 'ol/geom/Point';
+import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import Feature from 'ol/Feature';
+import Geocoder from 'ol-geocoder'
 
 @Component({
   selector: 'app-ph-admin',
@@ -63,6 +74,16 @@ export class PhAdminComponent implements OnInit {
     text : ''
   }
 
+  pharmacy = {
+    pharmacyID:'',
+    text: '',
+    name: ''
+  }
+
+  map;
+
+  xCoordinate = 0;
+  yCoordinate = 0;
 
 
   constructor(private userService: UserService, private medicalStufService:MedicalStuffService,
@@ -71,7 +92,8 @@ export class PhAdminComponent implements OnInit {
     private calendar: NgbCalendar,
     private examinationPriceService: ExaminationPriceService,
     private drugOrderService:DrugOrderService,
-    private promotionService:PromotionService) {
+    private promotionService:PromotionService,
+    private pharmacyService: PharmacyService) {
       this.fromDate = calendar.getToday();
       this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
 
@@ -113,6 +135,18 @@ export class PhAdminComponent implements OnInit {
       this.filterList.push(a);
     }
     });
+
+    
+    this.pharmacyService.getChangePharmacy().subscribe((res) => {
+      this.pharmacy = res;
+    })
+
+
+
+
+    this.intMap();
+
+
 
     this.fetchData = false;
   }
@@ -279,8 +313,92 @@ export class PhAdminComponent implements OnInit {
 
     
     this.promotionService.createPromotion(this.promotion).subscribe((res)=> alert(res.result));
+  }
 
+  changePh(){
+    this.pharmacyService.changePharmacy(this.pharmacy).subscribe((res) => {
+      alert(res.result);
+    })
 
   }
+
+
+  intMap(){
+    
+    var place = [0,0];
+
+    var source = new VectorSource({
+      features : [new Feature(new Point( olProj.fromLonLat(place)))]
+    });
+    var style = new Style({
+      fill: new Fill({
+        color: 'blue',
+      }),
+      stroke: new Stroke({
+        color: 'black',
+        width: 1.2,
+      }),
+      image: new CircleStyle({
+        radius: 5,
+        fill: new Fill({
+          color: 'red',
+        }),
+        stroke: new Stroke({
+          color: 'black',
+          width: 1,
+        }),
+      }),
+    });
+    var vectorLayer = new VectorLayer({
+      source: source,
+      visible : true,
+      style: style,
+    });
+
+      this.map = new Map({
+        target: 'hotel_maps',
+        layers: [
+          new TileLayer({
+            source: new OSM()
+          }),
+          vectorLayer
+        ],
+        view: new View({
+          center: olProj.fromLonLat(place),
+          zoom: 18
+        })
+      });
+
+      var geocoder = new Geocoder('nominatim', {
+        provider: 'osm',
+      lang: 'en',
+      placeholder: 'Search for ...',
+      limit: 5,
+      debug: false,
+      autoComplete: true,
+      keepOpen: true
+    });
+    this.map.addControl(geocoder);
+
+	geocoder.on('addresschosen',(event) => {
+				
+		
+				this.xCoordinate = event.coordinate[0];
+				this.yCoordinate = event.coordinate[1];
+			});
+  }
+
+  saveMapLOcation(){
+   let dto = {
+      pharmacyID : this.pharmacy.pharmacyID,
+      geographicalWidth: this.xCoordinate,
+      geographicalLength: this.yCoordinate
+    }
+    
+    this.pharmacyService.changeLocationMap(dto).subscribe((res) => {alert(res.result);
+    })
+  }
+
+
 }
 

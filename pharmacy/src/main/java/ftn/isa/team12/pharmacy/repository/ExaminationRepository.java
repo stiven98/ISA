@@ -4,7 +4,12 @@ import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
 import ftn.isa.team12.pharmacy.domain.users.MedicalStuff;
 import ftn.isa.team12.pharmacy.domain.users.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
+
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -13,13 +18,16 @@ import java.util.UUID;
 public interface ExaminationRepository extends JpaRepository<Examination, UUID> {
 
     List<Examination> findAll();
+
     List<Examination> findAllByEmployee(MedicalStuff employee);
+
     List<Examination> findAllByPatient(Patient patient);
+
     List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy);
 
     List<Examination> findAllByPharmacyId(UUID id);
-    List<Examination> findAllByDateOfExaminationAndEmployeeUserId(Date date, UUID userID);
 
+    List<Examination> findAllByDateOfExaminationAndEmployeeUserId(Date date, UUID userID);
 
     Examination findExaminationByExaminationId(UUID examinationId);
 
@@ -53,13 +61,11 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
     @Query("select ex from Examination  ex where ex.pharmacy = ?1 and ex.dateOfExamination >?2 and ex.dateOfExamination<?3 and ex.examinationStatus = 0")
     List<Examination> getALlHealExamination(Pharmacy pharmacy, Date start, Date end);
 
-
     @Query("select ex from Examination  ex where ex.pharmacy = ?1 and ex.dateOfExamination = ?2 and ex.examinationStatus = 0")
     List<Examination> getALlHealExaminationPerDay(Pharmacy pharmacy, Date start);
 
-
-
-
-
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="3")})
+    Examination save(Examination examination);
 
 }

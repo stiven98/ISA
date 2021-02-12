@@ -28,7 +28,7 @@
             <li class="list-inline-item">
                 <div class="col">
                     <div class ="row-10">
-                        <a title="Shows you the appointment page" (click)="appointment(content)">
+                        <a title="Shows you the appointment page" (click)="openModal(modFeedbackExam)">
                             <img alt="Start the appointment" src="/assets/img/medicalstuff_icons/appointment.png" >
                         </a>
                     </div>
@@ -64,7 +64,7 @@
             <li class="list-inline-item">
                 <div class="col">
                     <div class ="row-10">
-                        <a title="Takes you to the appointment schedule page" href="dermatologist#content">
+                        <a title="Takes you to the appointment schedule page" (click)="openModal(modScheduleExam)">
                             <img alt="Schedule new appointment" src="/assets/img/medicalstuff_icons/schedule.png" >
                         </a>
                     </div>
@@ -95,3 +95,31 @@
         </div>
     </div>
 </div>
+<ng-template #modFeedbackExam let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Start examination feedback</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('close')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body overflow-auto">
+        <h4>Sorry, the requested feature can only be accessed throught work calendar or throught patient search</h4>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('close')">Close</button>
+    </div>
+  </ng-template>
+  <ng-template #modScheduleExam let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Schedule examination feedback</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('close')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body overflow-auto">
+        <h4>Sorry, the requested feature can only be accessed throught performing examination page</h4>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('close')">Close</button>
+    </div>
+  </ng-template>
