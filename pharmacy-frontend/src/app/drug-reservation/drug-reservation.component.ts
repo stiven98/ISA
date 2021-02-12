@@ -79,11 +79,11 @@ export class DrugReservationComponent implements OnInit {
       drugReservation.drugId = this.drug.drugId;
       drugReservation.price = this.totalToPay;
       this.drugreservationService.createReservation(drugReservation).subscribe();
-      this.router.navigate(['/patient']);
+      this.router.navigate(['/pharmacy']);
     }
     else {
       alert('You have 3 or more penalties and you cant reserve drug!');
-      this.router.navigate(['/patient']);
+      this.router.navigate(['/pharmacy']);
     }
   }
 }

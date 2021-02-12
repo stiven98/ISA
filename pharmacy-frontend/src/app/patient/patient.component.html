@@ -183,9 +183,8 @@
             </div>
             <div class="align-items-center align-content-center col-md-3 border-left mt-1">
               <h6 class="text">Actions</h6>
-              <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" *ngIf="reservation.reservationStatus !== 'cancelled'" (click)="cancelReservation(reservation)" type="button">Cancel reservation</button>
-                <button *ngIf="reservation.reservationStatus !== 'cancelled'" class="btn btn-outline-secondary btn-sm mt-2" type="button">Collect</button></div>
-                <button *ngIf="reservation.reservationStatus == 'cancelled'" class = "btn btn-outline-secondary btn-sm mt-2" >Cancelled</button>
+              <div class="d-flex flex-column mt-4"><button class="btn btn-secondary btn-sm" *ngIf="reservation.reservationStatus !== 'cancelled' && reservation.reservationStatus !== 'checked'" (click)="cancelReservation(reservation)" type="button">Cancel reservation</button>
+                <button *ngIf="reservation.reservationStatus == 'cancelled'" class = "btn btn-outline-secondary btn-sm mt-2" >Cancelled</button></div>
             </div>
           </div>
 

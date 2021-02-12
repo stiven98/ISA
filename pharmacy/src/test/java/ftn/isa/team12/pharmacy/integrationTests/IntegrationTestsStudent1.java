@@ -99,9 +99,16 @@ public class IntegrationTestsStudent1 {
     @Test
     @Transactional
     @Rollback(true)
-    public void testGetDrugByName() throws Exception {
+    public void testGetAllpatientERecipes() throws Exception {
+        LoginDTO loginDTO = new LoginDTO();
+        loginDTO.setUsername("maca@faca.com");
+        loginDTO.setPassword("macafaca");
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/drug/name/" + "Aspirin")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                .contentType(contentType).accept(contentType)
+                .content(objectMapper.writeValueAsString(loginDTO))).andExpect(status().is(200));
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/erecepie/getPatientERecepies/" + "maca@faca.com")
                 .contentType(contentType).accept(contentType)).andExpect(status().is(200));
     }
 

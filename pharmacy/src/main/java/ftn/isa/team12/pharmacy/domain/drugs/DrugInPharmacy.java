@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name = "DRUGS_IN_PHARMACY")
-public class DrugInPharmacy {
+public class DrugInPharmacy  implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -35,5 +36,6 @@ public class DrugInPharmacy {
 
     @Column(name = "quantity")
     private int  quantity;
+
 
 }

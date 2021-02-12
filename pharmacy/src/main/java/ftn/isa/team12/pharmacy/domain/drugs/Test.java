@@ -186,6 +186,7 @@ public class Test {
         drug.setPoints(6);
 
 
+
         Drug drug1 = new Drug();
         drug1.setName("Brufen");
         drug1.setCode("BRUF123XXX123");
@@ -320,7 +321,7 @@ public class Test {
         LoginInfo loginInfo2 = new LoginInfo();
         loginInfo2.setEmail("a@faca.com");
         //afaca
-        loginInfo2.setPassword("$2y$10$C9VSEjAKLPEbwSPD7tCjXeVuUSwjp89l59bDtF3LEjD1EJp9qqv5O");
+        loginInfo2.setPassword("$2a$10$zPMA0uyLu3cxTy4ko7KKr.IP3iXIG8ZR3GvMQdWELnpwCdfv5Ml5G");
 
         AccountInfo accountInfo3 = new AccountInfo();
         accountInfo3.setName("Jovan");
@@ -471,6 +472,15 @@ public class Test {
         pharmacist.setPharmacy(pharmacy);
         pharmacistA.setPharmacy(pharmacy);
 
+        DrugInPharmacy drugInPharmacy6 = new DrugInPharmacy();
+        drugInPharmacy6.setPharmacy(pharmacy2);
+        drugInPharmacy6.setDrug(drug);
+        drugInPharmacy6.setQuantity(10);
+
+        DrugInPharmacy drugInPharmacy7 = new DrugInPharmacy();
+        drugInPharmacy7.setPharmacy(pharmacy3);
+        drugInPharmacy7.setDrug(drug);
+        drugInPharmacy7.setQuantity(10);
 
 
         DrugInPharmacy drugInPharmacy = new DrugInPharmacy();
@@ -485,11 +495,24 @@ public class Test {
         drugPrice.setPharmacy(pharmacy);
         drugPrice.setValidityPeriod(dateRange);
 
-        DrugPrice drugPrice1 = new DrugPrice();
-        drugPrice1.setPrice(520.0);
-        drugPrice1.setDrug(drug);
-        drugPrice1.setPharmacy(pharmacy4);
-        drugPrice1.setValidityPeriod(dateRange);
+
+        DrugPrice drugPrice2 = new DrugPrice();
+        drugPrice2.setPrice(100);
+        drugPrice2.setDrug(drug);
+        drugPrice2.setPharmacy(pharmacy2);
+        drugPrice2.setValidityPeriod(dateRange);
+
+        DrugPrice drugPrice3 = new DrugPrice();
+        drugPrice3.setPrice(130);
+        drugPrice3.setDrug(drug);
+        drugPrice3.setPharmacy(pharmacy3);
+        drugPrice3.setValidityPeriod(dateRange);
+
+        DrugPrice drugPrice4 = new DrugPrice();
+        drugPrice4.setPrice(120);
+        drugPrice4.setDrug(drug);
+        drugPrice4.setPharmacy(pharmacy4);
+        drugPrice4.setValidityPeriod(dateRange);
 
         AccountCategory accounCategory = new AccountCategory();
         accounCategory.setCategory(UserCategory.gold);
@@ -849,6 +872,7 @@ public class Test {
         em.persist(der);
         em.persist(systemAdministrator);
         em.persist(drugPrice);
+
         em.persist(patient);
         em.persist(drugMarks);
         em.persist(pharmacy2);
@@ -857,6 +881,11 @@ public class Test {
         em.persist(pharmacy6);
         em.persist(pharmacy7);
         em.persist(pharmacy8);
+        em.persist(drugInPharmacy6);
+        em.persist(drugInPharmacy7);
+        em.persist(drugPrice2);
+        em.persist(drugPrice3);
+        em.persist(drugPrice4);
         em.persist(eRecipe);
         em.persist(eRecipe1);
         em.persist(eRecipe2);
@@ -877,7 +906,6 @@ public class Test {
         em.persist(drugInPharmacy1);
         em.persist(drugInPharmacy4);
         em.persist(drugInPharmacy3);
-        em.persist(drugPrice1);
         em.persist(complaint);
 
         em.getTransaction().commit();

@@ -113,6 +113,22 @@ export class PharmacyService {
 
 
 
+  getPharmaciesForComplaintForPatient = (emailPatient: string) => {
+    return this.http.get(environment.apiUrl + '/api/pharmacyMarks/pharmaciesForPatient/' + emailPatient)
+      .pipe(map( response => {
+        const pharmacies = [];
+        for (const key in response) {
+          if (response.hasOwnProperty(key)) {
+            pharmacies.push(response[key]);
+          }
+        }
+        return pharmacies;
+      }));
+  }
+
+
+
+
   getChangePharmacy(){
     return this.apiService.get('http://localhost:8080/api/pharmacy/getPharmacy').pipe(map((res) =>{
       return res;
@@ -126,7 +142,7 @@ export class PharmacyService {
     }));
 
   }
-  
+
   changeLocationMap(dto){
     return this.apiService.post('http://localhost:8080/api/locationMap/change',dto).pipe(map((res) =>{
       return res;
@@ -141,7 +157,4 @@ export class PharmacyService {
     }));
 
   }
-
-
-
 }
