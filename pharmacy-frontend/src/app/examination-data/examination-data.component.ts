@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { addHours, addMinutes, startOfDay } from 'date-fns';
+import { AuthService } from '../services/auth.service';
 import { DrugService } from '../services/drug.service';
 import { ExaminationService } from '../services/examination.service';
 
@@ -25,7 +26,8 @@ interface ExaminationInfo{
 })
 export class ExaminationDataComponent implements OnInit {
 
-  constructor(private router : Router, private route : ActivatedRoute, private examinationService : ExaminationService, private drugService : DrugService, private modalService : NgbModal) { }
+  constructor(private auth : AuthService, private router : Router, private route : ActivatedRoute, private examinationService : ExaminationService, private drugService : DrugService, private modalService : NgbModal) { }
+  isDermatologist = (this.auth.getRole() === 'ROLE_DERMATOLOGIST');
   drugList = [];
   selectedTerm;
   termMap : Map<string, string> = new Map();
