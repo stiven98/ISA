@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { addHours, addMinutes, endOfDay, isSameDay, isSameMonth, startOfDay } from 'date-fns';
 import { Subject } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 import { ExaminationService } from '../services/examination.service';
 import { MedicalStuffService } from '../services/medical-stuff.service';
 
@@ -75,8 +76,11 @@ export class WorkCalendarComponent implements OnInit {
 
   pharmacies = [];
 
+
   activeDayIsOpen: boolean = true;
-  constructor(private modal: NgbModal, private examinationServ : ExaminationService, private medStuffServ: MedicalStuffService) {}
+  constructor(private auth : AuthService, private modal: NgbModal, private examinationServ : ExaminationService, private medStuffServ: MedicalStuffService) {}
+  
+  isDermatologist = (this.auth.getRole() === 'ROLE_DERMATOLOGIST');
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -145,8 +149,15 @@ export class WorkCalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isDermatologist = (this.auth.getRole() === 'ROLE_DERMATOLOGIST');
     this.medStuffServ.getMyPharmacies().subscribe(res =>{
       this.pharmacies = res;
+      if(!this.isDermatologist){
+        if(this.pharmacies.length > 0){
+          this.selectedPharmacy = this.pharmacies[0];
+          this.showWorkCalendar();
+        }
+      }
     });
   }
 

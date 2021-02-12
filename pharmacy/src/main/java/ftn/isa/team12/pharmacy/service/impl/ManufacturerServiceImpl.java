@@ -5,11 +5,13 @@ import ftn.isa.team12.pharmacy.repository.ManufacturerRepository;
 import ftn.isa.team12.pharmacy.service.ManufacturerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = false)
 public class ManufacturerServiceImpl implements ManufacturerService {
 
     @Autowired

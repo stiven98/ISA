@@ -59,4 +59,7 @@ public class DrugReservation implements Serializable {
    @JoinColumn(name = "drug_id", referencedColumnName = "drug_id", nullable = false)
    private Drug drug;
 
+   @Version
+   private Long version;
+
 }

@@ -5,10 +5,12 @@ import ftn.isa.team12.pharmacy.service.CityService;
 import ftn.isa.team12.pharmacy.validation.CommonValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = false)
 public class CityServiceImpl implements CityService {
 
     @Autowired

@@ -41,4 +41,5 @@ public class Patient extends User implements Serializable {
     @JoinTable(name = "subscribed", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id"))
     private Set<Pharmacy> subscribedPharmacies = new HashSet<>();
+
 }

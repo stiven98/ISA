@@ -7,12 +7,14 @@ import ftn.isa.team12.pharmacy.service.LoyaltyProgramService;
 import ftn.isa.team12.pharmacy.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+
 @Service
+@Transactional(readOnly = false)
 public class LoyaltyProgramServiceImpl implements LoyaltyProgramService {
 
     @Autowired

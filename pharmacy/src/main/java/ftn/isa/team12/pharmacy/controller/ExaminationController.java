@@ -1,6 +1,5 @@
 package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.common.LoyaltyProgram;
-import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
@@ -23,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -283,6 +283,7 @@ public class ExaminationController {
 
         return new ResponseEntity<>(pharmacies, HttpStatus.OK);
     }
+    @Transactional(readOnly = false)
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/scheduleNew/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
@@ -291,6 +292,7 @@ public class ExaminationController {
         int discount = lp.getDiscountByCategory(patient.getCategory().getCategory());
         List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
+        MedicalStuff pharmacist = medicalStuffService.findById(examination.getEmployee().getUserId());
         for(Examination ex : examinations) {
             if(ex.getDateOfExamination().equals(examination.getDateOfExamination()) && ex.getExaminationType() == ExaminationType.pharmacistConsultations){
                 throw new IllegalArgumentException("You cant schedule more than 1 consultations for same day");
@@ -308,16 +310,17 @@ public class ExaminationController {
         double nr = bd1.doubleValue();
         examination.setDiscount(nr);
         this.examinationService.save(examination);
+        medicalStuffService.save(pharmacist);
         try {
             sender.sendPharmacistConsultationsMail(examination.getExaminationId(),dto.getPatientEmail(),dto.getPharmacyName(),examination.getDateOfExamination().toString(),
-                   examination.getEmployee().getAccountInfo().getName(), examination.getEmployee().getAccountInfo().getLastName(), examination.getTimeOfExamination().toString());
+                   pharmacist.getAccountInfo().getName(), examination.getEmployee().getAccountInfo().getLastName(), examination.getTimeOfExamination().toString());
         } catch (Exception e) {
             System.out.println(e);
         }
         return new ResponseEntity<>(examination, HttpStatus.OK);
     }
 
-
+    @Transactional(readOnly = false)
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/newExamination/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody DermatologistExamScheduleDTO dto)  {

@@ -5,12 +5,14 @@ import ftn.isa.team12.pharmacy.repository.WorkTimeRepository;
 import ftn.isa.team12.pharmacy.service.WorkTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = false)
 public class WorkTimeServiceimpl implements WorkTimeService {
 
     @Autowired

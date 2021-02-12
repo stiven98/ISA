@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = false)
 public class OfferServiceImpl implements OfferService {
 
     @Autowired
@@ -109,6 +111,7 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
+    @Transactional(readOnly = false)
     public Offer acceptOffer(OfferAcceptDTO dto) {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) currentUser.getPrincipal();
