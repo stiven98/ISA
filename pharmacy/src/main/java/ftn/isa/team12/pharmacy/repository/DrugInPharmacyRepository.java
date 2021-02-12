@@ -23,12 +23,13 @@ public interface DrugInPharmacyRepository extends JpaRepository<DrugInPharmacy, 
     @Query("select d.quantity from DrugInPharmacy d where d.drug.drugId= ?1 and d.pharmacy.id=?2")
     Integer findDrugQuantity(UUID drugId, UUID pharmacyId);
 
+    @Lock(LockModeType.PESSIMISTIC_READ)
     @Query("select d from DrugInPharmacy d where d.drug.drugId= ?1 and d.pharmacy.id=?2")
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="2000")})
     DrugInPharmacy findDrugInPharmacy(UUID drugId, UUID pharmacyId);
 
     List<DrugInPharmacy> findDrugInPharmacyByPharmacyId(UUID id);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="2")})
+
     DrugInPharmacy save(DrugInPharmacy drugInPharmacy);
 }
