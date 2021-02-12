@@ -163,7 +163,7 @@ public class DrugOrderServiceImpl implements DrugOrderService {
 
             for (DrugOrderItem dopi: drugOrder.getDrugOrderItems()){
                 if(dopi.getDrug().getDrugId().toString().equals(d.getId().toString())){
-                    System.out.println("jesi mi usao");
+                    
                     dopi.setQuantity(d.getQuantity());
                 }
             }
