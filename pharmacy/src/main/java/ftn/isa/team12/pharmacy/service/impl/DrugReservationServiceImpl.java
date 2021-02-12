@@ -178,6 +178,7 @@ public class DrugReservationServiceImpl implements DrugReservationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public DrugReservation issueDrug(UUID id) {
         DrugReservation drugReservation = this.drugReservationRepository.findDrugReservationById(id);
         Patient patient = drugReservation.getPatient();

@@ -176,20 +176,24 @@ public class ExaminationServiceImpl implements ExaminationService {
         Patient patient = patientService.findById(dto.getPatientId());
         WorkTime workTime = workTimeRepository.findByEmployeeAndPharmacyAndDate(medicalStuff, pharmacy, date);
         if(workTime == null){
+            System.out.println("Worktime null");
             return null;
         }
         if(!checkWorkTimeOverlapping(workTime.getStartTime(), workTime.getEndTime(), time)){
+            System.out.println("Worktime not overlapping");
             return null;
         }
         List<Examination> medStuffExaminations = findAllByEmployee(medicalStuff);
         List<Examination> patientExaminations = findAllByPatient(patient);
         for(Examination e : medStuffExaminations){
             if(checkIfTimeOverlapping(e.getTimeOfExamination(), e.getDateOfExamination(), dto.getTime(), dto.getDate())){
+                System.out.println("Employee has examination in specified time");
                 return null;
             }
         }
         for(Examination e : patientExaminations){
             if(checkIfTimeOverlapping(e.getTimeOfExamination(), e.getDateOfExamination(), dto.getTime(), dto.getDate())){
+                System.out.println("Patient has examination in specified time");
                 return null;
             }
         }

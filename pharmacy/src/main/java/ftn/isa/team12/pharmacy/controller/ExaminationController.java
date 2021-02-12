@@ -1,6 +1,5 @@
 package ftn.isa.team12.pharmacy.controller;
 import ftn.isa.team12.pharmacy.domain.common.LoyaltyProgram;
-import ftn.isa.team12.pharmacy.domain.common.WorkTime;
 import ftn.isa.team12.pharmacy.domain.drugs.Drug;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationStatus;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
@@ -284,6 +283,7 @@ public class ExaminationController {
 
         return new ResponseEntity<>(pharmacies, HttpStatus.OK);
     }
+    @Transactional(readOnly = false)
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/scheduleNew/")
     public ResponseEntity<Examination> scheduleExamination(@RequestBody ScheduleExaminationDTO dto)  {
@@ -310,6 +310,7 @@ public class ExaminationController {
         double nr = bd1.doubleValue();
         examination.setDiscount(nr);
         this.examinationService.save(examination);
+        medicalStuffService.save(pharmacist);
         try {
             sender.sendPharmacistConsultationsMail(examination.getExaminationId(),dto.getPatientEmail(),dto.getPharmacyName(),examination.getDateOfExamination().toString(),
                    pharmacist.getAccountInfo().getName(), examination.getEmployee().getAccountInfo().getLastName(), examination.getTimeOfExamination().toString());
@@ -319,10 +320,9 @@ public class ExaminationController {
         return new ResponseEntity<>(examination, HttpStatus.OK);
     }
 
-
+    @Transactional(readOnly = false)
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/newExamination/")
-    @Transactional(readOnly = false)
     public ResponseEntity<Examination> scheduleExamination(@RequestBody DermatologistExamScheduleDTO dto)  {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
         LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();

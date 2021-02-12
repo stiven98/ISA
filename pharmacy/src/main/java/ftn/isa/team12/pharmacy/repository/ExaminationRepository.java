@@ -18,9 +18,11 @@ import java.util.UUID;
 public interface ExaminationRepository extends JpaRepository<Examination, UUID> {
 
     List<Examination> findAll();
-
+    @Lock(LockModeType.PESSIMISTIC_READ)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="2000")})
     List<Examination> findAllByEmployee(MedicalStuff employee);
-
+    @Lock(LockModeType.PESSIMISTIC_READ)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="2000")})
     List<Examination> findAllByPatient(Patient patient);
 
     List<Examination> findAllByEmployeeAndPharmacy(MedicalStuff employee, Pharmacy pharmacy);
@@ -46,6 +48,8 @@ public interface ExaminationRepository extends JpaRepository<Examination, UUID> 
     @Query("select ex.employee from Examination ex where ex.pharmacy.name = ?1 and ex.patient is null")
     List<MedicalStuff> findAvailableByPharmacyAndTerm(String pharmacyName);
 
+    @Lock(LockModeType.PESSIMISTIC_READ)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="2000")})
     @Query("select ex from Examination  ex where ex.employee.userId = ?1 and ex.pharmacy.name = ?2 and ex.dateOfExamination = ?3 and ex.timeOfExamination = ?4")
     Examination findByEmployeePharmacyTimeDate(UUID userId, String pharmacyName, Date date, LocalTime time);
 

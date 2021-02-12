@@ -9,10 +9,12 @@ import ftn.isa.team12.pharmacy.repository.PharmacistRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Transactional(readOnly = false)
 public class PharmacistServiceImpl implements PharmacistService {
 
     @Autowired
