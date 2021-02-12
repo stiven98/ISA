@@ -26,7 +26,17 @@ public class LoyaltyProgramServiceImpl implements LoyaltyProgramService {
     @Override
     public LoyaltyProgram saveAndFlush(LoyaltyProgram loyaltyProgramRequest) {
 
-        LoyaltyProgram loyaltyProgram = this.loyaltyProgramRepository.saveAndFlush(loyaltyProgramRequest);
+
+        LoyaltyProgram loyaltyProgram = this.loyaltyProgramRepository.findById(loyaltyProgramRequest.getId()).get();
+        loyaltyProgram.setPointsPerCounseling(loyaltyProgramRequest.getPointsPerCounseling());
+        loyaltyProgram.setPointsPerExamination(loyaltyProgramRequest.getPointsPerExamination());
+        loyaltyProgram.setDiscountForGold(loyaltyProgramRequest.getDiscountForGold());
+        loyaltyProgram.setDiscountForRegular(loyaltyProgramRequest.getDiscountForRegular());
+        loyaltyProgram.setDiscountForSilver(loyaltyProgramRequest.getDiscountForSilver());
+        loyaltyProgram.setMinGold(loyaltyProgramRequest.getMinGold());
+        loyaltyProgram.setMinRegular(loyaltyProgramRequest.getMinRegular());
+        loyaltyProgram.setMinSilver(loyaltyProgramRequest.getMinSilver());
+        loyaltyProgram = this.loyaltyProgramRepository.save(loyaltyProgram);
 
         List<Patient> patients = patientService.findAll();
         for (Patient patient: patients) {
