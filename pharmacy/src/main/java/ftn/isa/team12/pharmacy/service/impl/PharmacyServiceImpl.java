@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
+@Transactional(readOnly = false)
 public class PharmacyServiceImpl implements PharmacyService {
 
     @Autowired
@@ -38,6 +39,7 @@ public class PharmacyServiceImpl implements PharmacyService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Pharmacy findPharmacyById(UUID id) {
         return pharmacyRepository.findPharmacyById(id);
     }

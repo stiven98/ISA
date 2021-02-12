@@ -321,7 +321,7 @@ public class Test {
         LoginInfo loginInfo2 = new LoginInfo();
         loginInfo2.setEmail("a@faca.com");
         //afaca
-        loginInfo2.setPassword("$2y$10$C9VSEjAKLPEbwSPD7tCjXeVuUSwjp89l59bDtF3LEjD1EJp9qqv5O");
+        loginInfo2.setPassword("$2a$10$zPMA0uyLu3cxTy4ko7KKr.IP3iXIG8ZR3GvMQdWELnpwCdfv5Ml5G");
 
         AccountInfo accountInfo3 = new AccountInfo();
         accountInfo3.setName("Jovan");

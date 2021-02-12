@@ -23,7 +23,7 @@ public class DrugPriceController {
     private DrugPriceService drugPriceService;
 
     @PostMapping ("/price")
-    public Double findPharmaciesWithDrug(@RequestBody PriceDTO priceDTO) throws AccessDeniedException {
+    public Double findPrice(@RequestBody PriceDTO priceDTO) throws AccessDeniedException {
         return  drugPriceService.getPriceForDrug(priceDTO.getPharmacyId(),priceDTO.getDrugId());
     }
 

@@ -1,15 +1,7 @@
 package ftn.isa.team12.pharmacy.integrationTests;
-
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ftn.isa.team12.pharmacy.domain.common.Address;
-import ftn.isa.team12.pharmacy.domain.common.City;
-import ftn.isa.team12.pharmacy.domain.common.Country;
-import ftn.isa.team12.pharmacy.domain.common.Location;
-import ftn.isa.team12.pharmacy.domain.enums.UserCategory;
-import ftn.isa.team12.pharmacy.domain.users.*;
 import ftn.isa.team12.pharmacy.dto.LoginDTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,17 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import sun.rmi.runtime.Log;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

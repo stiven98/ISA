@@ -16,7 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,6 +28,7 @@ import java.util.UUID;
 
 @EnableScheduling
 @Service
+@Transactional(readOnly = false)
 public class DrugReservationServiceImpl implements DrugReservationService {
 
     @Autowired
@@ -34,6 +36,9 @@ public class DrugReservationServiceImpl implements DrugReservationService {
 
     @Autowired
     private EmailSender sender;
+
+    @Autowired
+    private DrugInPharmacyService drugInPharmacyService;
 
     @Autowired
     private PharmacyService pharmacyService;
@@ -50,8 +55,10 @@ public class DrugReservationServiceImpl implements DrugReservationService {
     @Autowired
     private DrugInPharmacyRepository drugInPharmacyRepository;
 
+
     @Override
-    public DrugReservation createDrugReservation(DrugReservationDTO drugReservationDTO) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public DrugReservation createDrugReservation(DrugReservationDTO drugReservationDTO) throws Exception {
         Patient patient = this.patientService.findByEmail(drugReservationDTO.getPatientEmail());
         if(drugReservationDTO.getDeadline().before(new Date())){
             throw new IllegalArgumentException("Bad input date");
@@ -78,13 +85,13 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         BigDecimal bd1 = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP);
         double nr = bd1.doubleValue();
         drugReservation.setDiscount(nr);
-        drugReservation = this.drugReservationRepository.save(drugReservation);
+        drugReservation = this.save(drugReservation);
 
         DrugInPharmacy drugInPharmacy = this.drugInPharmacyRepository.findDrugInPharmacy(drug.getDrugId(),pharmacy.getId());
         int beforeRes = drugInPharmacy.getQuantity();
         int newQuantity = beforeRes - drugReservationDTO.getQuantity();
         drugInPharmacy.setQuantity(newQuantity);
-        this.drugInPharmacyRepository.save(drugInPharmacy);
+        this.drugInPharmacyService.save(drugInPharmacy);
         try {
             sender.sendDrugReservationEmail(drugReservation.getDrug_reservation_id(), patient.getLoginInfo().getEmail(), pharmacy.getName(), drugReservationDTO.getDeadline().toString(),
                     drug.getName());
@@ -102,6 +109,7 @@ public class DrugReservationServiceImpl implements DrugReservationService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public DrugReservation cancelReservation(UUID id) {
 
         Calendar calendar = Calendar.getInstance();
@@ -112,13 +120,13 @@ public class DrugReservationServiceImpl implements DrugReservationService {
         Date dayberofedealdine = calendar.getTime();
         if (new Date().before(dayberofedealdine)) {
             drugReservation.setReservationStatus(ReservationStatus.cancelled);
-            this.drugReservationRepository.save(drugReservation);
+            this.save(drugReservation);
             DrugInPharmacy drugInPharmacy = this.drugInPharmacyRepository.findDrugInPharmacy(drugReservation.getDrug().getDrugId(), drugReservation.getPharmacy().getId());
             int returnQuantity = drugReservation.getQuantity();
             int currentQuantity = drugInPharmacy.getQuantity();
             int saveQuantity = currentQuantity + returnQuantity;
             drugInPharmacy.setQuantity(saveQuantity);
-            this.drugInPharmacyRepository.save(drugInPharmacy);
+            this.drugInPharmacyService.save(drugInPharmacy);
             return drugReservation;
         } else {
             throw new IllegalArgumentException("You cant cancel reservation 24h before deadline");
@@ -186,6 +194,12 @@ public class DrugReservationServiceImpl implements DrugReservationService {
     @Override
     public List<DrugReservation> findAllBefore(Date today) {
         return this.drugReservationRepository.findAllBefore(today);
+    }
+
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public DrugReservation save(DrugReservation drugReservation) {
+        return this.drugReservationRepository.save(drugReservation);
     }
 
 }
