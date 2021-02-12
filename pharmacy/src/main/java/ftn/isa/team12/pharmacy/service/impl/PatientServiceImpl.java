@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -58,6 +59,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Patient save(Patient patient) {
         return this.patientRepository.save(patient);
     }
@@ -122,6 +124,7 @@ public class PatientServiceImpl implements PatientService {
 
 
     @Override
+    @Transactional(readOnly = false)
     public Patient findByEmail(String email) {
         return this.patientRepository.findByEmail(email);
     }
