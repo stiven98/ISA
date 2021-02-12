@@ -4,6 +4,12 @@
 # ISA
 Project in the subject of internet software architecture
 
+# Link to HerokuApp
+https://pharmacy-isa.herokuapp.com/index.html
+
+# Note
+Password for all users is: 123
+
 # Instructions for starting the project
 
 * Database setup:
