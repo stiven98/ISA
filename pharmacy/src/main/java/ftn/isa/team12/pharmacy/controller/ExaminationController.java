@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -291,6 +292,7 @@ public class ExaminationController {
         int discount = lp.getDiscountByCategory(patient.getCategory().getCategory());
         List<Examination> examinations = this.examinationService.findAllByPatient(patient);
         Examination examination = this.examinationService.findByEmployeePharmacyTimeDate(dto.getUserId(), dto.getPharmacyName(), dto.getDate(), dto.getTime());
+        MedicalStuff pharmacist = medicalStuffService.findById(examination.getEmployee().getUserId());
         for(Examination ex : examinations) {
             if(ex.getDateOfExamination().equals(examination.getDateOfExamination()) && ex.getExaminationType() == ExaminationType.pharmacistConsultations){
                 throw new IllegalArgumentException("You cant schedule more than 1 consultations for same day");
@@ -310,7 +312,7 @@ public class ExaminationController {
         this.examinationService.save(examination);
         try {
             sender.sendPharmacistConsultationsMail(examination.getExaminationId(),dto.getPatientEmail(),dto.getPharmacyName(),examination.getDateOfExamination().toString(),
-                   examination.getEmployee().getAccountInfo().getName(), examination.getEmployee().getAccountInfo().getLastName(), examination.getTimeOfExamination().toString());
+                   pharmacist.getAccountInfo().getName(), examination.getEmployee().getAccountInfo().getLastName(), examination.getTimeOfExamination().toString());
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -320,6 +322,7 @@ public class ExaminationController {
 
     @PreAuthorize("hasAnyRole('ROLE_PATIENT')")
     @PostMapping("/newExamination/")
+    @Transactional(readOnly = false)
     public ResponseEntity<Examination> scheduleExamination(@RequestBody DermatologistExamScheduleDTO dto)  {
         Patient patient = this.patientService.findByEmail(dto.getPatientEmail());
         LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();
