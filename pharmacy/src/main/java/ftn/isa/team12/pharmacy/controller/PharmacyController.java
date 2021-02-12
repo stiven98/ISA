@@ -5,6 +5,7 @@ import ftn.isa.team12.pharmacy.domain.common.Location;
 import ftn.isa.team12.pharmacy.domain.enums.ExaminationType;
 import ftn.isa.team12.pharmacy.domain.pharmacy.ExaminationPrice;
 import ftn.isa.team12.pharmacy.domain.pharmacy.Pharmacy;
+
 import ftn.isa.team12.pharmacy.domain.users.PharmacyAdministrator;
 import ftn.isa.team12.pharmacy.dto.PharmacyChangeDTO;
 import ftn.isa.team12.pharmacy.dto.PharmacySearchDTO;
@@ -113,6 +114,7 @@ public class PharmacyController {
         List<Pharmacy> searched =  this.pharmacyService.searchPharmacies(pharmacies, dto);
         return new ResponseEntity<>(searched, HttpStatus.OK);
     }
+
 
 
 

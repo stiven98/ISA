@@ -67,6 +67,7 @@ import { EmployeeGuard } from './guard/employee.guard';
 import { ReportsComponent } from './ph-admin/reports/reports.component';
 import { ChartsModule } from 'ng2-charts';
 import { MedicamentIssuingComponent } from './medicament-issuing/medicament-issuing.component';
+import { QrCodeComponent } from './qr-code/qr-code.component';
 
 const appRoutes: Routes = [
   { path: '', component: PharmacyComponent },
@@ -109,6 +110,7 @@ const appRoutes: Routes = [
   { path: 'subscribedPharmacy', component: SubscribedPharmacyComponent },
   { path: 'myOffers', component: MyOffersComponent},
   { path: 'drugs', component: DrugsComponent},
+  { path: 'QRcode', component: QrCodeComponent},
   { path: 'complaint', component: ComplaintComponent },
   { path: '404', component: NotFoundComponent},
   { path: '403', component: ForbiddenComponent},
@@ -194,7 +196,8 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     MedicamentIssuingComponent,
     VacationComponent,
     PharmacistHomeComponent,
-    ReportsComponent
+    ReportsComponent,
+    QrCodeComponent
   ],
   imports: [
     BrowserModule,
@@ -208,7 +211,7 @@ const ngxLoadingXConfig: NgxLoadingXConfig = {
     NgbModule,
     ChartsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-    
+
   ],
   providers: [
     {
