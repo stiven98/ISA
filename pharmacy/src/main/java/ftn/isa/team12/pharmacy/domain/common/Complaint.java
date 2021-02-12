@@ -42,4 +42,7 @@ public class Complaint {
 
     @Column(name = "name", nullable = false)
     private StatusOfComplaint statusOfComplaint;
+
+    @Version
+    private Integer version;
 }

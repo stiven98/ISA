@@ -46,6 +46,9 @@ public class LoyaltyProgram {
     @Column(name = "discount_for_gold", nullable = false)
     public int discountForGold;
 
+    @Version
+    private Integer version;
+
 
     public UserCategory getCategory(int points) {
         if (points < minRegular) {

@@ -16,6 +16,7 @@ import ftn.isa.team12.pharmacy.repository.PatientRepository;
 import ftn.isa.team12.pharmacy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -59,6 +60,7 @@ public class ERecipeServiceImpl implements ERecipeService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ERecipe addERecipe(ERecipeFromQrCodeDTO eRecipeFromQrCodeDTO) {
         Patient patient = this.patientService.findByEmail(eRecipeFromQrCodeDTO.getEmail());
         LoyaltyProgram lp = this.loyaltyProgramService.getLoyaltyProgram();

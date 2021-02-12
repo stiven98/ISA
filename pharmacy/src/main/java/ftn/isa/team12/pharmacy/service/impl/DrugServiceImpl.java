@@ -10,6 +10,7 @@ import ftn.isa.team12.pharmacy.repository.PatientRepository;
 import ftn.isa.team12.pharmacy.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -33,6 +34,7 @@ public class DrugServiceImpl implements DrugService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Drug findDrugByName(String drugName) {
         return drugRepository.findDrugByName(drugName);
     }

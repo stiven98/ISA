@@ -26,7 +26,7 @@ public class LoyaltyProgramController {
 
     @PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
     @PostMapping("/update")
-    public ResponseEntity<LoyaltyProgram> getLoyaltyProgram(@RequestBody LoyaltyProgram loyaltyProgramRequest) {
+    public ResponseEntity<LoyaltyProgram> updateLoyaltyProgram(@RequestBody LoyaltyProgram loyaltyProgramRequest) {
         return new ResponseEntity<>(this.loyaltyProgramService.saveAndFlush(loyaltyProgramRequest), HttpStatus.OK);
     }
 
