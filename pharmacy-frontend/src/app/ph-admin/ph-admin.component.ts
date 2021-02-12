@@ -395,7 +395,8 @@ export class PhAdminComponent implements OnInit {
       geographicalLength: this.yCoordinate
     }
     
-    this.pharmacyService.changeLocationMap(dto).subscribe((res) => {alert(res.result);})
+    this.pharmacyService.changeLocationMap(dto).subscribe((res) => {alert(res.result);
+    })
   }
 
 
