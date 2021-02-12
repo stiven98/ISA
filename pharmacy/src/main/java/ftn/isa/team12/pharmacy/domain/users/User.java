@@ -102,4 +102,8 @@ public abstract class User implements UserDetails {
    public boolean isEnabled() {
       return accountInfo.isActive();
    }
+
+   @Version
+   private Long version;
+
 }
