@@ -92,4 +92,7 @@ public class Pharmacy implements Serializable {
    @JsonIdentityReference(alwaysAsId = true)
    private Set<PharmacyAdministrator> phAdmins = new HashSet<PharmacyAdministrator>();
 
+   @Version
+   private Long version;
+
 }
